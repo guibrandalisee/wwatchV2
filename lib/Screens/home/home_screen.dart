@@ -8,6 +8,8 @@ import 'package:wwatch/Screens/settings/settings_screen.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/Widgets/custom_fab.dart';
+import 'package:wwatch/Shared/Widgets/horizontal_movie_list.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  MovieStore movieStore = GetIt.I<MovieStore>();
+
   StyleStore styleStore = GetIt.I<StyleStore>();
   @override
   Widget build(BuildContext context) {
@@ -85,14 +89,45 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                PageSelection(),
-              ],
-            ),
-          ),
+          body: Observer(builder: (context) {
+            if (movieStore.error) {
+              return Center(
+                child: Container(
+                  child: Text('Ocorreu um erro!'),
+                ),
+              );
+            }
+            return ListView.builder(
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: PageSelection(),
+                    );
+                  }
+                  if (index == 1) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: HorizontalMovieList(
+                        movieType: MovieType.POPULAR,
+                        title: 'Popular',
+                      ),
+                    );
+                  }
+                  if (index == 2) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: HorizontalMovieList(
+                        movieType: MovieType.TOPRATED,
+                        title: 'Popular',
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                });
+          }),
         );
       },
     );

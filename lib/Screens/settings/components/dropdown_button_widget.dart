@@ -8,7 +8,7 @@ class DropDownButtonWidget extends StatefulWidget {
     required this.items,
     required this.value,
     required this.onChanged,
-  }) {}
+  });
   final List<String> items;
   final String value;
   final void Function(String?) onChanged;
