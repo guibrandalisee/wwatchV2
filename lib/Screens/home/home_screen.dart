@@ -8,7 +8,7 @@ import 'package:wwatch/Screens/settings/settings_screen.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/Widgets/custom_fab.dart';
-import 'package:wwatch/Shared/Widgets/horizontal_movie_list.dart';
+import 'package:wwatch/Shared/Widgets/movie_tile.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -20,6 +20,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    movieStore.getPopularMovies();
+  }
+
   MovieStore movieStore = GetIt.I<MovieStore>();
 
   StyleStore styleStore = GetIt.I<StyleStore>();
@@ -96,37 +102,37 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text('Ocorreu um erro!'),
                 ),
               );
-            }
-            return ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: PageSelection(),
-                    );
-                  }
-                  if (index == 1) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: HorizontalMovieList(
-                        movieType: MovieType.POPULAR,
-                        title: 'Popular',
-                      ),
-                    );
-                  }
-                  if (index == 2) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: HorizontalMovieList(
-                        movieType: MovieType.TOPRATED,
-                        title: 'Popular',
-                      ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                });
+            } else
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: movieStore.popularMovies.length + 2,
+                        itemBuilder: (context, index) {
+                          if (index == 0)
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: PageSelection(),
+                            );
+                          else if (index < movieStore.popularMovies.length + 1)
+                            return MovieTile(
+                                movie: movieStore.popularMovies[index - 1]);
+                          else {
+                            return LinearProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(
+                                styleStore.primaryColor,
+                              ),
+                              backgroundColor:
+                                  styleStore.primaryColor!.withAlpha(100),
+                            );
+                          }
+                        }),
+                  )
+                ],
+              );
           }),
         );
       },

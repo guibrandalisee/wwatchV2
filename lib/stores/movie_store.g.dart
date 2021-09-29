@@ -84,35 +84,12 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$topRatedMoviesAtom = Atom(name: '_MovieStoreBase.topRatedMovies');
-
-  @override
-  List<Movie> get topRatedMovies {
-    _$topRatedMoviesAtom.reportRead();
-    return super.topRatedMovies;
-  }
-
-  @override
-  set topRatedMovies(List<Movie> value) {
-    _$topRatedMoviesAtom.reportWrite(value, super.topRatedMovies, () {
-      super.topRatedMovies = value;
-    });
-  }
-
   final _$getPopularMoviesAsyncAction =
       AsyncAction('_MovieStoreBase.getPopularMovies');
 
   @override
   Future<void> getPopularMovies() {
     return _$getPopularMoviesAsyncAction.run(() => super.getPopularMovies());
-  }
-
-  final _$getTopRatedMoviesAsyncAction =
-      AsyncAction('_MovieStoreBase.getTopRatedMovies');
-
-  @override
-  Future<void> getTopRatedMovies() {
-    return _$getTopRatedMoviesAsyncAction.run(() => super.getTopRatedMovies());
   }
 
   @override
@@ -122,8 +99,7 @@ page: ${page},
 language: ${language},
 includeAdult: ${includeAdult},
 popularMovies: ${popularMovies},
-error: ${error},
-topRatedMovies: ${topRatedMovies}
+error: ${error}
     ''';
   }
 }

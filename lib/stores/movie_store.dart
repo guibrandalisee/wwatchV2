@@ -68,38 +68,4 @@ abstract class _MovieStoreBase with Store {
       error = true;
     }
   }
-
-  @observable
-  List<Movie> topRatedMovies = [];
-
-  @action
-  Future<void> getTopRatedMovies() async {
-    final response =
-        await getMovies(path: '/discover/movie', page: page, parameters: {
-      'api_key': apiKey,
-      'language': language,
-      'sort_by': 'vote_average.desc',
-      'include_adult': includeAdult,
-      'vote_average.gte': 6,
-      'vote_count.gte': 100
-    });
-    error = false;
-    try {
-      topRatedMovies = response.data['results'].map<Movie>((e) {
-        return Movie(
-            genreIds: e['genre_ids'],
-            id: e['id'],
-            popularity: e['popularity'],
-            voteAverage: e['vote_average'] + 0.0,
-            originalLanguage: e['original_language'],
-            title: e['title'],
-            overview: e['overview'],
-            releaseDate: e['release_date'],
-            backdropPath: e['backdrop_path'],
-            posterPath: e['poster_path']);
-      }).toList();
-    } catch (e) {
-      error = true;
-    }
-  }
 }
