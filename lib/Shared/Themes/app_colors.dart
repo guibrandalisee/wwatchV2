@@ -7,6 +7,7 @@ class AppColors {
   static final text = Color(0xffE5E5E5);
   static final logo = Color(0xff332532);
   static final button = Color(0xff646464);
+  static final divider = Color(0xff585858);
 
   static final dropdownButton = Color(0xff646464);
 

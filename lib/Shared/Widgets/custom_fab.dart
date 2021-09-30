@@ -32,6 +32,7 @@ class CustomFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     StyleStore styleStore = GetIt.I<StyleStore>();
     return SpeedDial(
+      tooltip: 'Navigation Menu',
       switchLabelPosition: styleStore.fabPosition == 0 ? true : false,
       spaceBetweenChildren: 16,
       overlayColor: Colors.black.withOpacity(0.1),

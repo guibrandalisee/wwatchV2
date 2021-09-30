@@ -9,6 +9,36 @@ part of 'movie_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MovieStore on _MovieStoreBase, Store {
+  final _$movieGenresAtom = Atom(name: '_MovieStoreBase.movieGenres');
+
+  @override
+  Map<String, dynamic> get movieGenres {
+    _$movieGenresAtom.reportRead();
+    return super.movieGenres;
+  }
+
+  @override
+  set movieGenres(Map<String, dynamic> value) {
+    _$movieGenresAtom.reportWrite(value, super.movieGenres, () {
+      super.movieGenres = value;
+    });
+  }
+
+  final _$tvGenresAtom = Atom(name: '_MovieStoreBase.tvGenres');
+
+  @override
+  Map<String, dynamic> get tvGenres {
+    _$tvGenresAtom.reportRead();
+    return super.tvGenres;
+  }
+
+  @override
+  set tvGenres(Map<String, dynamic> value) {
+    _$tvGenresAtom.reportWrite(value, super.tvGenres, () {
+      super.tvGenres = value;
+    });
+  }
+
   final _$pageAtom = Atom(name: '_MovieStoreBase.page');
 
   @override
@@ -57,13 +87,13 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   final _$popularMoviesAtom = Atom(name: '_MovieStoreBase.popularMovies');
 
   @override
-  List<Movie> get popularMovies {
+  List<SimpleMovie> get popularMovies {
     _$popularMoviesAtom.reportRead();
     return super.popularMovies;
   }
 
   @override
-  set popularMovies(List<Movie> value) {
+  set popularMovies(List<SimpleMovie> value) {
     _$popularMoviesAtom.reportWrite(value, super.popularMovies, () {
       super.popularMovies = value;
     });
@@ -84,6 +114,13 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$getGenresAsyncAction = AsyncAction('_MovieStoreBase.getGenres');
+
+  @override
+  Future<dynamic> getGenres(ContentType type) {
+    return _$getGenresAsyncAction.run(() => super.getGenres(type));
+  }
+
   final _$getPopularMoviesAsyncAction =
       AsyncAction('_MovieStoreBase.getPopularMovies');
 
@@ -95,6 +132,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   @override
   String toString() {
     return '''
+movieGenres: ${movieGenres},
+tvGenres: ${tvGenres},
 page: ${page},
 language: ${language},
 includeAdult: ${includeAdult},

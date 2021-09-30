@@ -147,12 +147,10 @@ class _SsttingsStateScreen extends State<SettingsScreen> {
                   SizedBox(
                     height: 16,
                   ),
-
                   ColorSelector(),
                   SizedBox(
                     height: 32,
                   ),
-                  //TODO arrumar dropdown, não mudam o valor default
                   GeneralSettings(),
                   SizedBox(
                     height: 72,
