@@ -11,6 +11,7 @@ import 'package:wwatch/Shared/Widgets/custom_fab.dart';
 import 'package:wwatch/Shared/Widgets/movie_tile.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:mobx/mobx.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,125 +32,126 @@ class _HomeScreenState extends State<HomeScreen> {
   StyleStore styleStore = GetIt.I<StyleStore>();
   @override
   Widget build(BuildContext context) {
+    final dispose1 = reaction((_) => styleStore.fabPosition, (value) {
+      setState(() {});
+    });
+    final dispose2 = reaction((_) => styleStore.primaryColor, (value) {
+      setState(() {});
+    });
+
     //TODO make back to the top button
     //it should only be visible when scrolling back up
-    return Observer(
-      builder: (_) {
-        return Scaffold(
-            floatingActionButtonLocation: styleStore.fabPosition == 0
-                ? FloatingActionButtonLocation.startFloat
-                : FloatingActionButtonLocation.endFloat,
-            floatingActionButton: CustomFAB(
-              search: true,
-              popular: true,
-              genres: true,
-              upcoming: true,
-              tvshows: true,
-              movies: true,
-              people: true,
-            ),
-            backgroundColor: AppColors.background,
-            appBar: AppBar(
-              backgroundColor: styleStore.primaryColor,
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WelcomeScreen(),
-                    ),
-                  );
-                },
-                child: Ink(
-                  child: Hero(
-                    tag: "logo",
-                    child: Image.asset(
-                      "assets/images/WWatch2-png.png",
-                      filterQuality: FilterQuality.medium,
-                    ),
-                  ),
+
+    return Scaffold(
+        floatingActionButtonLocation: styleStore.fabPosition == 0
+            ? FloatingActionButtonLocation.startFloat
+            : FloatingActionButtonLocation.endFloat,
+        floatingActionButton: CustomFAB(
+          search: true,
+          popular: true,
+          genres: true,
+          upcoming: true,
+          tvshows: true,
+          movies: true,
+          people: true,
+        ),
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          backgroundColor: styleStore.primaryColor,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WelcomeScreen(),
+                ),
+              );
+            },
+            child: Ink(
+              child: Hero(
+                tag: "logo",
+                child: Image.asset(
+                  "assets/images/WWatch2-png.png",
+                  filterQuality: FilterQuality.medium,
                 ),
               ),
-              actions: [
-                IconButton(
-                  tooltip: 'Settings',
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SettingsScreen()));
-                  },
-                  icon: Icon(
-                    LineIcons.cog,
-                    color: AppColors.logo,
-                    size: 28,
-                  ),
-                ),
-                IconButton(
-                  tooltip: 'User Profile',
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  },
-                  icon: Icon(
-                    LineIcons.user,
-                    color: AppColors.logo,
-                    size: 28,
-                  ),
-                ),
-              ],
             ),
-            body: Observer(
-              builder: (context) {
-                if (movieStore.error)
-                  return Center(
-                    child: Container(
-                      child: Text('Ocorreu um erro!'),
-                    ),
-                  );
-
-                if (movieStore.popularMovies.length == 0)
-                  return LinearProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(
-                      styleStore.primaryColor,
-                    ),
-                    backgroundColor: styleStore.primaryColor!.withAlpha(100),
-                  );
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: movieStore.popularMovies.length + 2,
-                          itemBuilder: (context, index) {
-                            if (index == 0)
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                child: PageSelection(),
-                              );
-                            else if (index <
-                                movieStore.popularMovies.length + 1)
-                              return MovieTile(
-                                  movie: movieStore.popularMovies[index - 1]);
-                            else {
-                              return LinearProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation(
-                                  styleStore.primaryColor,
-                                ),
-                                backgroundColor:
-                                    styleStore.primaryColor!.withAlpha(100),
-                              );
-                            }
-                          }),
-                    )
-                  ],
-                );
+          ),
+          actions: [
+            IconButton(
+              tooltip: 'Settings',
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsScreen()));
               },
-            ));
-      },
-    );
+              icon: Icon(
+                LineIcons.cog,
+                color: AppColors.logo,
+                size: 28,
+              ),
+            ),
+            IconButton(
+              tooltip: 'User Profile',
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+              icon: Icon(
+                LineIcons.user,
+                color: AppColors.logo,
+                size: 28,
+              ),
+            ),
+          ],
+        ),
+        body: Observer(
+          builder: (context) {
+            if (movieStore.error)
+              //TODO make a cool locking error page
+              return Center(
+                child: Container(
+                  child: Text('Ocorreu um erro!'),
+                ),
+              );
+
+            if (movieStore.popularMovies.length == 0)
+              return LinearProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(
+                  styleStore.primaryColor,
+                ),
+                backgroundColor: styleStore.primaryColor!.withAlpha(100),
+              );
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: movieStore.popularMovies.length + 2,
+                      itemBuilder: (context, index) {
+                        if (index == 0)
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: PageSelection(),
+                          );
+                        else if (index < movieStore.popularMovies.length + 1)
+                          return MovieTile(
+                              movie: movieStore.popularMovies[index - 1]);
+                        else {
+                          return LinearProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(
+                              styleStore.primaryColor,
+                            ),
+                            backgroundColor:
+                                styleStore.primaryColor!.withAlpha(100),
+                          );
+                        }
+                      }),
+                )
+              ],
+            );
+          },
+        ));
   }
 }

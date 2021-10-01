@@ -38,7 +38,7 @@ class MovieTile extends StatelessWidget {
               height: 550,
               child: Image.network(
                 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                filterQuality: FilterQuality.none,
+                filterQuality: FilterQuality.medium,
                 fit: BoxFit.cover,
               ),
             ),

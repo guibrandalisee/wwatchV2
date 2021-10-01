@@ -109,10 +109,11 @@ class DescriptionWidget extends StatelessWidget {
                 fontWeight: FontWeight.w300),
             dropCapPadding: EdgeInsets.only(right: 16, bottom: 8),
             dropCap: DropCap(
+                //TODO add a gesture detector arround the image to view in full screen
                 child: movie.posterPath!.isNotEmpty
                     ? Image.network(
                         'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                        filterQuality: FilterQuality.none,
+                        filterQuality: FilterQuality.medium,
                         fit: BoxFit.cover,
                       )
                     : Container(

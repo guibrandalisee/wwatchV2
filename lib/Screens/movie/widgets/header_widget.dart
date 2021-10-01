@@ -30,7 +30,7 @@ class HeaderWidget extends StatelessWidget {
               movie.backdropPath!.isNotEmpty
                   ? 'https://image.tmdb.org/t/p/w500${movie.backdropPath}'
                   : 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-              filterQuality: FilterQuality.none,
+              filterQuality: FilterQuality.medium,
               fit: BoxFit.cover,
             ),
           ),
@@ -88,6 +88,7 @@ class HeaderWidget extends StatelessWidget {
             height: 30,
             child: Observer(builder: (context) {
               if (movieStore.movieGenres['genres'] == null) {
+                //TODO add a gesturedetector to send user to genre screen
                 return ListView.builder(
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
