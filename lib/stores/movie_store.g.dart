@@ -114,11 +114,49 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$getGenresAsyncAction = AsyncAction('_MovieStoreBase.getGenres');
+  final _$totalPagesAtom = Atom(name: '_MovieStoreBase.totalPages');
 
   @override
-  Future<dynamic> getGenres(ContentType type) {
-    return _$getGenresAsyncAction.run(() => super.getGenres(type));
+  int? get totalPages {
+    _$totalPagesAtom.reportRead();
+    return super.totalPages;
+  }
+
+  @override
+  set totalPages(int? value) {
+    _$totalPagesAtom.reportWrite(value, super.totalPages, () {
+      super.totalPages = value;
+    });
+  }
+
+  final _$countryAtom = Atom(name: '_MovieStoreBase.country');
+
+  @override
+  String get country {
+    _$countryAtom.reportRead();
+    return super.country;
+  }
+
+  @override
+  set country(String value) {
+    _$countryAtom.reportWrite(value, super.country, () {
+      super.country = value;
+    });
+  }
+
+  final _$movieAtom = Atom(name: '_MovieStoreBase.movie');
+
+  @override
+  CompleteMovie? get movie {
+    _$movieAtom.reportRead();
+    return super.movie;
+  }
+
+  @override
+  set movie(CompleteMovie? value) {
+    _$movieAtom.reportWrite(value, super.movie, () {
+      super.movie = value;
+    });
   }
 
   final _$getPopularMoviesAsyncAction =
@@ -127,6 +165,21 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   @override
   Future<void> getPopularMovies() {
     return _$getPopularMoviesAsyncAction.run(() => super.getPopularMovies());
+  }
+
+  final _$getGenresAsyncAction = AsyncAction('_MovieStoreBase.getGenres');
+
+  @override
+  Future<void> getGenres(ContentType type) {
+    return _$getGenresAsyncAction.run(() => super.getGenres(type));
+  }
+
+  final _$getSingleMovieAsyncAction =
+      AsyncAction('_MovieStoreBase.getSingleMovie');
+
+  @override
+  Future<void> getSingleMovie(int id) {
+    return _$getSingleMovieAsyncAction.run(() => super.getSingleMovie(id));
   }
 
   @override
@@ -138,7 +191,10 @@ page: ${page},
 language: ${language},
 includeAdult: ${includeAdult},
 popularMovies: ${popularMovies},
-error: ${error}
+error: ${error},
+totalPages: ${totalPages},
+country: ${country},
+movie: ${movie}
     ''';
   }
 }

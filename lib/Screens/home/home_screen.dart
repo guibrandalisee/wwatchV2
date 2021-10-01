@@ -32,10 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
   StyleStore styleStore = GetIt.I<StyleStore>();
   @override
   Widget build(BuildContext context) {
-    final dispose1 = reaction((_) => styleStore.fabPosition, (value) {
+    reaction((_) => styleStore.fabPosition, (value) {
       setState(() {});
     });
-    final dispose2 = reaction((_) => styleStore.primaryColor, (value) {
+    reaction((_) => styleStore.primaryColor, (value) {
       setState(() {});
     });
 
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Observer(
           builder: (context) {
             if (movieStore.error)
-              //TODO make a cool locking error page
+              //TODO make a cool looking error page
               return Center(
                 child: Container(
                   child: Text('Ocorreu um erro!'),
@@ -131,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: movieStore.popularMovies.length + 2,
                       itemBuilder: (context, index) {
                         if (index == 0)
+                          //TODO change this a selector where the user can select if they want to see movies or TVShows
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: PageSelection(),

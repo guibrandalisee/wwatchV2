@@ -57,10 +57,9 @@ class CompleteMovie {
     this.cast,
     this.recomendations,
     this.reviews,
-    this.translations,
     this.watchProviders,
   });
-  final Map<String, dynamic> genres;
+  final List genres;
   final int id;
   final bool adult;
   final String? posterPath;
@@ -74,9 +73,9 @@ class CompleteMovie {
   final int budget;
   final String? imdbId;
   final String originalTitle;
-  final Map<String, dynamic> productionCompanies;
-  final Map<String, dynamic> productionCountries;
-  final Map<String, dynamic> spokenLanguages;
+  final List productionCompanies;
+  final List productionCountries;
+  final List spokenLanguages;
   final int revenue;
   final int? runtime;
   final String launchStatus;
@@ -86,7 +85,6 @@ class CompleteMovie {
   //TODO try to speak with TMDB to get direct link to movies in the Watch Providers;
   final List<MovieWatchProvider>? watchProviders;
   final Map<String, dynamic>? recomendations;
-  final Map<String, dynamic>? translations;
   final Map<String, dynamic>? reviews;
   final Map<String, dynamic>? cast;
 }

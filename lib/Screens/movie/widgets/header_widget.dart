@@ -14,8 +14,7 @@ class HeaderWidget extends StatelessWidget {
     Key? key,
     required this.movie,
   }) : super(key: key);
-  final MovieStore movieStore = GetIt.I<MovieStore>();
-  final SimpleMovie movie;
+  final CompleteMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   @override
   Widget build(BuildContext context) {
@@ -86,35 +85,13 @@ class HeaderWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 8),
             height: 30,
-            child: Observer(builder: (context) {
-              if (movieStore.movieGenres['genres'] == null) {
+            child:
                 //TODO add a gesturedetector to send user to genre screen
-                return ListView.builder(
+                ListView.builder(
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    itemCount: movie.genreIds.length,
-                    itemBuilder: (context, snapshot) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black54),
-                        clipBehavior: Clip.antiAlias,
-                        width: 80,
-                        margin: EdgeInsets.all(8),
-                        child: Shimmer(
-                          child: Container(color: Colors.black54),
-                        ),
-                      );
-                    });
-              }
-              if (movieStore.error) return Container();
-              return ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: movieStore.movieGenres['genres']?.length,
-                  itemBuilder: (context, index) {
-                    if (movie.genreIds.contains(
-                        movieStore.movieGenres['genres'][index]['id']))
+                    itemCount: movie.genres.length,
+                    itemBuilder: (context, index) {
                       return Container(
                           padding:
                               EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -125,17 +102,14 @@ class HeaderWidget extends StatelessWidget {
                           margin: EdgeInsets.symmetric(horizontal: 8),
                           child: Center(
                             child: Text(
-                              movieStore.movieGenres['genres'][index]['name'],
+                              movie.genres[index]['name'],
                               style: GoogleFonts.getFont('Mitr',
                                   color: AppColors.text,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w300),
                             ),
                           ));
-                    else
-                      return Container();
-                  });
-            }),
+                    }),
           )
         ],
       ),

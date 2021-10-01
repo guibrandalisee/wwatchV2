@@ -26,7 +26,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dispose = reaction((_) => styleStore.primaryColor, (value) {
+    reaction((_) => styleStore.primaryColor, (value) {
       setState(() {});
     });
 

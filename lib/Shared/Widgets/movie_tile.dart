@@ -27,7 +27,9 @@ class MovieTile extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MovieScreen(movie: movie),
+              builder: (context) => MovieScreen(
+                movieId: movie.id,
+              ),
             ),
           );
         },

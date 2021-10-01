@@ -1,9 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/header_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/posters_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/watch_providers_widget.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 
@@ -11,98 +17,167 @@ import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
-class MovieScreen extends StatelessWidget {
-  final SimpleMovie movie;
+class MovieScreen extends StatefulWidget {
+  final int movieId;
 
   MovieScreen({
     Key? key,
-    required this.movie,
+    required this.movieId,
   }) : super(key: key);
+
+  @override
+  State<MovieScreen> createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends State<MovieScreen> {
+  @override
+  void initState() {
+    movieStore.getSingleMovie(widget.movieId);
+    super.initState();
+  }
+
   final StyleStore styleStore = GetIt.I<StyleStore>();
-  final MovieStore movieStore = GetIt.I<MovieStore>();
+
+  final MovieStore movieStore = MovieStore();
 
   @override
   Widget build(BuildContext context) {
-    if (movieStore.movieGenres.isEmpty) movieStore.getGenres(ContentType.MOVIE);
-
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.logo),
-        backgroundColor: styleStore.primaryColor,
-        title: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WelcomeScreen(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: SpeedDial(
+          child: Icon(LineIcons.angleDown),
+          elevation: 0,
+          direction: SpeedDialDirection.down,
+          overlayColor: Colors.black,
+          backgroundColor: styleStore.primaryColor,
+          spaceBetweenChildren: 16,
+          children: [
+            SpeedDialChild(
+              backgroundColor: styleStore.primaryColor,
+              child: Icon(LineIcons.list, color: Colors.white),
+              labelWidget: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Add to a list',
+                  style: GoogleFonts.getFont('Mitr',
+                      color: AppColors.text,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300),
+                ),
               ),
-            );
-          },
-          child: Ink(
-            child: Hero(
-              tag: "logo",
-              child: SizedBox(
-                height: 56,
-                child: Image.asset(
-                  "assets/images/WWatch2-png.png",
-                  fit: BoxFit.fitHeight,
-                  filterQuality: FilterQuality.medium,
+            ),
+            SpeedDialChild(
+              backgroundColor: styleStore.primaryColor,
+              child: Icon(LineIcons.bookmark, color: Colors.white),
+              labelWidget: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Add to your watchlist',
+                  style: GoogleFonts.getFont('Mitr',
+                      color: AppColors.text,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+            ),
+            SpeedDialChild(
+              backgroundColor: styleStore.primaryColor,
+              child: Icon(LineIcons.star, color: Colors.white),
+              labelWidget: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Rate it!',
+                  style: GoogleFonts.getFont('Mitr',
+                      color: AppColors.text,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+            ),
+            SpeedDialChild(
+              backgroundColor: styleStore.primaryColor,
+              child: Icon(LineIcons.heart, color: Colors.white),
+              labelWidget: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Mark as favorite',
+                  style: GoogleFonts.getFont('Mitr',
+                      color: AppColors.text,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: AppColors.logo),
+          backgroundColor: styleStore.primaryColor,
+          title: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WelcomeScreen(),
+                ),
+              );
+            },
+            child: Ink(
+              child: Hero(
+                tag: "logo",
+                child: SizedBox(
+                  height: 56,
+                  child: Image.asset(
+                    "assets/images/WWatch2-png.png",
+                    fit: BoxFit.fitHeight,
+                    filterQuality: FilterQuality.medium,
+                  ),
                 ),
               ),
             ),
           ),
+          actions: [],
         ),
-        actions: [],
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            HeaderWidget(movie: movie),
-            SizedBox(
-              height: 16,
-            ),
-            DescriptionWidget(movie: movie),
-            Divider(
-              color: AppColors.divider,
-              thickness: 1,
-              endIndent: 24,
-              indent: 24,
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              'Movie Posters',
-              style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              child: CarouselSlider.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index, realIdx) {
-                    return Container(
-                      color: styleStore.primaryColor,
-                    );
-                  },
-                  options: CarouselOptions(
-                      scrollPhysics: BouncingScrollPhysics(),
-                      enableInfiniteScroll: false,
-                      scrollDirection: Axis.horizontal,
-                      aspectRatio: 7 / 8,
-                      autoPlay: false,
-                      enlargeCenterPage: true)),
-            )
-          ],
-        ),
-      ),
-    );
+        body: Observer(
+          builder: (_) {
+            if (movieStore.error)
+              //TODO create a error screen
+
+              return Center(
+                child: Text(
+                  'Ocorreu um Erro',
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            if (movieStore.movie == null)
+              return LinearProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(
+                  styleStore.primaryColor,
+                ),
+                backgroundColor: styleStore.primaryColor!.withAlpha(100),
+              );
+            else
+              return SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: HeaderWidget(movie: movieStore.movie!),
+                    ),
+                    DescriptionWidget(movie: movieStore.movie!),
+                    PostersWidget(movie: movieStore.movie!),
+                    TrailersWidget(),
+                    WatchProvidersWidget(),
+                    SizedBox(
+                      height: 64,
+                    )
+                  ],
+                ),
+              );
+          },
+        ));
   }
 }
