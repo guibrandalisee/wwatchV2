@@ -1,3 +1,7 @@
+import 'package:wwatch/Shared/models/movie_images_model.dart';
+import 'package:wwatch/Shared/models/movie_video_model.dart';
+import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
+
 class SimpleMovie {
   final List genreIds;
   final int id;
@@ -77,10 +81,10 @@ class CompleteMovie {
   final int? runtime;
   final String launchStatus;
   final String? tagline;
-  //TODO Create a model to images, videos, watch providers and reviews;
-  final Map<String, dynamic>? images;
-  final Map<String, dynamic>? videos;
-  final Map<String, dynamic>? watchProviders;
+  final List<MovieImage>? images;
+  final List<MovieVideo>? videos;
+  //TODO try to speak with TMDB to get direct link to movies in the Watch Providers;
+  final List<MovieWatchProvider>? watchProviders;
   final Map<String, dynamic>? recomendations;
   final Map<String, dynamic>? translations;
   final Map<String, dynamic>? reviews;
