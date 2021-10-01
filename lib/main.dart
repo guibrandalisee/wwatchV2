@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
-import 'package:wwatch/stores/genres_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -16,7 +15,6 @@ Future<void> main() async {
 void setupLocators(SharedPreferences preferences) {
   GetIt.I.registerSingleton(StyleStore(prefs: preferences));
   GetIt.I.registerSingleton(SettingsStore());
-  GetIt.I.registerSingleton(GenreStore());
 }
 
 class MyApp extends StatelessWidget {
