@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
-import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 import 'package:wwatch/api.dart';
 part 'movie_store.g.dart';
 
@@ -52,9 +49,6 @@ abstract class _MovieStoreBase with Store {
   @observable
   int? totalPages;
 
-  //TODO use the path '/movie/popular' instead of '/discover/movie' - See API Documentation
-  //https://developers.themoviedb.org/3/movies/get-popular-movies
-  //you can also add filter by option on top of the page and get top rated, upcoming, and now playing movies
   @action
   Future<void> getPopularMovies() async {
     final response = await fetchData(path: '/movie/popular', parameters: {
@@ -81,6 +75,40 @@ abstract class _MovieStoreBase with Store {
             posterPath: e['poster_path'],
             adult: e['adult']);
       }).toList();
+      page++;
+    } catch (e) {
+      print(e);
+      error = true;
+    }
+  }
+
+  @action
+  Future<void> getMorePopularMovies() async {
+    final response = await fetchData(path: '/movie/popular', parameters: {
+      'api_key': apiKey,
+      'language': language,
+      'page': page,
+      'sort_by': 'popularity.desc',
+      'include_adult': includeAdult,
+    });
+    error = false;
+    try {
+      final newMovies = response.data['results'].map<SimpleMovie>((e) {
+        return SimpleMovie(
+            genreIds: e['genre_ids'],
+            id: e['id'],
+            popularity: e['popularity'],
+            voteAverage: e['vote_average'] + 0.0,
+            originalLanguage: e['original_language'],
+            title: e['title'],
+            overview: e['overview'],
+            releaseDate: e['release_date'],
+            backdropPath: e['backdrop_path'],
+            posterPath: e['poster_path'],
+            adult: e['adult']);
+      }).toList();
+      popularMovies.addAll(newMovies);
+      page++;
     } catch (e) {
       print(e);
       error = true;

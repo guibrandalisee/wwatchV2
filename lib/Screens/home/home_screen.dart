@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: movieStore.popularMovies.length + 2,
                       itemBuilder: (context, index) {
                         if (index == 0)
-                          //TODO change this a selector where the user can select if they want to see movies or TVShows
+                          //TODO change this to a selector where the user can select if they want to see movies or TVShows
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: PageSelection(),
@@ -139,7 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         else if (index < movieStore.popularMovies.length + 1)
                           return MovieTile(
                               movie: movieStore.popularMovies[index - 1]);
-                        else {
+                        else if (movieStore.totalPages != null &&
+                            movieStore.page < movieStore.totalPages!) {
+                          movieStore.getMorePopularMovies();
                           return LinearProgressIndicator(
                             valueColor: AlwaysStoppedAnimation(
                               styleStore.primaryColor,
@@ -147,6 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             backgroundColor:
                                 styleStore.primaryColor!.withAlpha(100),
                           );
+                        } else {
+                          return Container();
                         }
                       }),
                 )

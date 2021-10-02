@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 
 import 'package:wwatch/Shared/models/movie_model.dart';
-import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -23,23 +20,32 @@ class HeaderWidget extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
-          Container(
-            height: 300,
-            child: Image.network(
-              movie.backdropPath!.isNotEmpty
-                  ? 'https://image.tmdb.org/t/p/w500${movie.backdropPath}'
-                  : 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-              filterQuality: FilterQuality.medium,
-              fit: BoxFit.cover,
+          Positioned(
+            top: 0,
+            right: 0,
+            left: 0,
+            bottom: 1,
+            child: Container(
+              child: Image.network(
+                movie.backdropPath != null && movie.backdropPath!.isNotEmpty
+                    ? 'https://image.tmdb.org/t/p/w1280${movie.backdropPath}'
+                    : 'https://image.tmdb.org/t/p/w780${movie.posterPath}',
+                filterQuality: FilterQuality.medium,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                AppColors.background,
-                Colors.transparent,
-              ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.background,
+                  Colors.transparent,
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
             ),
           ),
           Positioned(

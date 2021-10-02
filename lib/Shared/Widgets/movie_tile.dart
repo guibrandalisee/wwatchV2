@@ -105,7 +105,7 @@ class MovieTile extends StatelessWidget {
               bottom: 130,
               left: 16,
               child: Container(
-                width: 340,
+                width: 320,
                 child: Wrap(
                   children: [
                     Text(
@@ -151,7 +151,7 @@ class MovieTile extends StatelessWidget {
                 child: Wrap(
                   children: [
                     Text(
-                      movie.releaseDate,
+                      movie.releaseDate ?? '',
                       style: GoogleFonts.getFont(
                         'Kodchasan',
                         color: AppColors.text,

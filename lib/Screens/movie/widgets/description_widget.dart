@@ -1,8 +1,6 @@
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';

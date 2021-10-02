@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -13,7 +12,6 @@ import 'package:wwatch/Screens/movie/widgets/watch_providers_widget.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 
-import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -46,7 +44,7 @@ class _MovieScreenState extends State<MovieScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         floatingActionButton: SpeedDial(
           child: Icon(LineIcons.angleDown),
-          elevation: 0,
+          elevation: 8,
           direction: SpeedDialDirection.down,
           overlayColor: Colors.black,
           backgroundColor: styleStore.primaryColor,
@@ -168,9 +166,19 @@ class _MovieScreenState extends State<MovieScreen> {
                       child: HeaderWidget(movie: movieStore.movie!),
                     ),
                     DescriptionWidget(movie: movieStore.movie!),
-                    PostersWidget(movie: movieStore.movie!),
-                    TrailersWidget(),
-                    WatchProvidersWidget(),
+                    movieStore.movie!.images != null &&
+                            movieStore.movie!.images!.length > 0
+                        ? PostersWidget(movie: movieStore.movie!)
+                        : Container(),
+                    movieStore.movie!.videos != null &&
+                            movieStore.movie!.videos!.length > 0
+                        ? TrailersWidget(
+                            movie: movieStore.movie!,
+                          )
+                        : Container(),
+                    movieStore.movie!.watchProviders != null
+                        ? WatchProvidersWidget()
+                        : Container(),
                     SizedBox(
                       height: 64,
                     )

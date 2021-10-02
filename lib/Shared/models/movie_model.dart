@@ -12,7 +12,7 @@ class SimpleMovie {
   final String originalLanguage;
   final String title;
   final String overview;
-  final String releaseDate;
+  final String? releaseDate;
   final String? backdropPath;
   SimpleMovie({
     required this.genreIds,

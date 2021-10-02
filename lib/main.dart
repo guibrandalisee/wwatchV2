@@ -5,11 +5,12 @@ import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
+//TODO recreate the project with flutter create because of issues after updating to flutter 2.5
+
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupLocators(prefs);
-  runApp(MyApp());
 }
 
 void setupLocators(SharedPreferences preferences) {
