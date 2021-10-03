@@ -69,7 +69,9 @@ class _TrailersWidgetState extends State<TrailersWidget> {
         SizedBox(
           height: 16,
         ),
-        CarouselSlider.builder(
+        Container(
+          width: double.infinity,
+          child: CarouselSlider.builder(
             carouselController: carouselController,
             itemCount: widget.movie.videos?.length,
             itemBuilder: (context, index, realIdx) {
@@ -80,17 +82,22 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                   showFullscreenButton: true,
                 ),
               );
-              return YoutubePlayerIFrame(
-                controller: _controller,
+              return Container(
+                child: YoutubePlayerIFrame(
+                  controller: _controller,
+                ),
               );
             },
             options: CarouselOptions(
-                scrollPhysics: NeverScrollableScrollPhysics(),
-                enableInfiniteScroll: false,
-                scrollDirection: Axis.horizontal,
-                aspectRatio: 16 / 9,
-                autoPlay: false,
-                enlargeCenterPage: true))
+              scrollPhysics: NeverScrollableScrollPhysics(),
+              enableInfiniteScroll: false,
+              scrollDirection: Axis.horizontal,
+              aspectRatio: 16 / 9,
+              autoPlay: false,
+              enlargeCenterPage: true,
+            ),
+          ),
+        )
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -40,27 +41,19 @@ class PostersWidget extends StatelessWidget {
           child: CarouselSlider.builder(
             itemCount: movie.images!.length,
             itemBuilder: (context, index, realIdx) {
-              return Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.shape,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  clipBehavior: Clip.antiAlias,
+              return ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.network(
-                        'https://image.tmdb.org/t/p/w500${movie.images![index].filePath}',
+                      CachedNetworkImage(
+                        imageUrl:
+                            'https://image.tmdb.org/t/p/w500${movie.images![index].filePath}',
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.medium,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                              child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          ));
-                        },
+                        
                       ),
+                      
                       Positioned(
                         right: 16,
                         top: 16,

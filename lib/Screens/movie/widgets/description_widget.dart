@@ -42,10 +42,8 @@ class DescriptionWidget extends StatelessWidget {
             dropCap: DropCap(
                 //TODO add a gesture detector arround the image to view in full screen
                 child: movie.posterPath!.isNotEmpty
-                    ? Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8)),
-                        clipBehavior: Clip.antiAlias,
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
                         child: Image.network(
                           'https://image.tmdb.org/t/p/w500${movie.posterPath}',
                           filterQuality: FilterQuality.medium,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,6 @@ class MovieTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
       margin: EdgeInsets.all(16),
       width: 500,
@@ -38,20 +38,26 @@ class MovieTile extends StatelessWidget {
             Container(
               width: 500,
               height: 550,
-              child: Image.network(
-                'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                filterQuality: FilterQuality.medium,
-                fit: BoxFit.cover,
-              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                    filterQuality: FilterQuality.medium,
+                    fit: BoxFit.cover,
+                  )),
             ),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Colors.black.withOpacity(0.8),
-                  Colors.black.withOpacity(0.6),
-                  Colors.transparent,
-                ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.black.withOpacity(0.8),
+                    Colors.black.withOpacity(0.6),
+                    Colors.transparent,
+                  ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+                ),
               ),
             ),
             Positioned(
@@ -92,13 +98,6 @@ class MovieTile extends StatelessWidget {
                         )
                       ],
                     ),
-                    /*Text(
-                                        'User Rating ${(movieStore.popularMovies[index - 1].voteAverage * 10).toInt()}%',
-                                        style: GoogleFonts.getFont('Mitr',
-                                            color: AppColors.text,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400),
-                                      ),*/
                   )),
             ),
             Positioned(

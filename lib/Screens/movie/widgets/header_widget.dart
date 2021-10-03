@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,12 +27,13 @@ class HeaderWidget extends StatelessWidget {
             left: 0,
             bottom: 1,
             child: Container(
-              child: Image.network(
-                movie.backdropPath != null && movie.backdropPath!.isNotEmpty
+              child: CachedNetworkImage(
+                imageUrl: movie.backdropPath != null &&
+                        movie.backdropPath!.isNotEmpty
                     ? 'https://image.tmdb.org/t/p/w1280${movie.backdropPath}'
                     : 'https://image.tmdb.org/t/p/w780${movie.posterPath}',
-                filterQuality: FilterQuality.medium,
                 fit: BoxFit.cover,
+                filterQuality: FilterQuality.medium,
               ),
             ),
           ),
@@ -104,7 +106,6 @@ class HeaderWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: Colors.black54),
-                          clipBehavior: Clip.antiAlias,
                           margin: EdgeInsets.symmetric(horizontal: 8),
                           child: Center(
                             child: Text(
