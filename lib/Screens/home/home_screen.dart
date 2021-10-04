@@ -10,6 +10,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/Widgets/custom_fab.dart';
 import 'package:wwatch/Shared/Widgets/movie_tile.dart';
 import 'package:wwatch/stores/movie_store.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -30,12 +31,17 @@ class _HomeScreenState extends State<HomeScreen> {
   MovieStore movieStore = MovieStore();
 
   StyleStore styleStore = GetIt.I<StyleStore>();
+  SettingsStore settingsStore = GetIt.I<SettingsStore>();
+
   @override
   Widget build(BuildContext context) {
     reaction((_) => styleStore.fabPosition, (value) {
       setState(() {});
     });
     reaction((_) => styleStore.primaryColor, (value) {
+      setState(() {});
+    });
+    reaction((_) => settingsStore.dateFormat, (value) {
       setState(() {});
     });
 
@@ -126,37 +132,48 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: movieStore.popularMovies.length + 2,
-                      itemBuilder: (context, index) {
-                        if (index == 0)
-                          //TODO change this to a selector where the user can select if they want to see movies or TVShows
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: PageSelection(),
-                          );
-                        else if (index < movieStore.popularMovies.length + 1)
-                          return MovieTile(
-                              movie: movieStore.popularMovies[index - 1]);
-                        else if (movieStore.totalPages != null &&
-                            movieStore.page < movieStore.totalPages!) {
-                          movieStore.getMorePopularMovies();
-                          return LinearProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(
-                              styleStore.primaryColor,
-                            ),
-                            backgroundColor:
-                                styleStore.primaryColor!.withAlpha(100),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
+                  child: RefreshIndicator(
+                    strokeWidth: 2,
+                    color: styleStore.primaryColor,
+                    onRefresh: _onRefresh,
+                    child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: movieStore.popularMovies.length + 2,
+                        itemBuilder: (context, index) {
+                          if (index == 0)
+                            //TODO change this to a selector where the user can select if they want to see movies or TVShows
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: PageSelection(),
+                            );
+                          else if (index < movieStore.popularMovies.length + 1)
+                            return MovieTile(
+                                movie: movieStore.popularMovies[index - 1]);
+                          else if (movieStore.totalPages != null &&
+                              movieStore.page < movieStore.totalPages!) {
+                            movieStore.getMorePopularMovies();
+                            return LinearProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(
+                                styleStore.primaryColor,
+                              ),
+                              backgroundColor:
+                                  styleStore.primaryColor!.withAlpha(100),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
+                  ),
                 )
               ],
             );
           },
         ));
+  }
+
+  Future<void> _onRefresh() async {
+    movieStore.page = 1;
+    movieStore.popularMovies = [];
+    await movieStore.getPopularMovies();
   }
 }

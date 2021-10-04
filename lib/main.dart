@@ -15,7 +15,7 @@ Future<void> main() async {
 
 void setupLocators(SharedPreferences preferences) {
   GetIt.I.registerSingleton(StyleStore(prefs: preferences));
-  GetIt.I.registerSingleton(SettingsStore());
+  GetIt.I.registerSingleton(SettingsStore(prefs: preferences));
 }
 
 class MyApp extends StatelessWidget {

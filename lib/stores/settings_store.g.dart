@@ -9,6 +9,21 @@ part of 'settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingsStore on _SettingsStoreBase, Store {
+  final _$dateFormatAtom = Atom(name: '_SettingsStoreBase.dateFormat');
+
+  @override
+  String get dateFormat {
+    _$dateFormatAtom.reportRead();
+    return super.dateFormat;
+  }
+
+  @override
+  set dateFormat(String value) {
+    _$dateFormatAtom.reportWrite(value, super.dateFormat, () {
+      super.dateFormat = value;
+    });
+  }
+
   final _$languageAtom = Atom(name: '_SettingsStoreBase.language');
 
   @override
@@ -166,6 +181,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
       ActionController(name: '_SettingsStoreBase');
 
   @override
+  void setdateFormat(String value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setdateFormat');
+    try {
+      return super.setdateFormat(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setLanguage(String value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.setLanguage');
@@ -245,6 +271,7 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   @override
   String toString() {
     return '''
+dateFormat: ${dateFormat},
 language: ${language},
 secondaryLanguage: ${secondaryLanguage},
 languages: ${languages},

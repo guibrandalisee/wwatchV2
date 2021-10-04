@@ -6,17 +6,38 @@ import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class MovieTile extends StatelessWidget {
   final SimpleMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+
   MovieTile({
     Key? key,
     required this.movie,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    String formattedData = '';
+    if (movie.releaseDate != null && movie.releaseDate!.length == 10) {
+      switch (settingsStore.dateFormat) {
+        case 'dd/mm/yyyy':
+          formattedData =
+              '${movie.releaseDate!.substring(8, 10)}/${movie.releaseDate!.substring(5, 7)}/${movie.releaseDate!.substring(0, 4)}';
+          break;
+        case 'mm/dd/yyyy':
+          formattedData =
+              '${movie.releaseDate!.substring(5, 7)}/${movie.releaseDate!.substring(8, 10)}/${movie.releaseDate!.substring(0, 4)}';
+          break;
+        case 'yyyy/mm/dd':
+          formattedData = movie.releaseDate!.replaceAll('-', '/');
+          break;
+        default:
+      }
+    }
+
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
       margin: EdgeInsets.all(16),
@@ -141,7 +162,6 @@ class MovieTile extends StatelessWidget {
                 ),
               ),
             ),
-            //TODO formatar data
             Positioned(
               bottom: 106,
               left: 16,
@@ -150,7 +170,7 @@ class MovieTile extends StatelessWidget {
                 child: Wrap(
                   children: [
                     Text(
-                      movie.releaseDate ?? '',
+                      formattedData,
                       style: GoogleFonts.getFont(
                         'Kodchasan',
                         color: AppColors.text,

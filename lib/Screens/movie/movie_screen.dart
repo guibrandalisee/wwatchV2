@@ -8,21 +8,19 @@ import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/header_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/posters_widget.dart';
-import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
-import 'package:wwatch/Screens/movie/widgets/watch_providers_widget.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class MovieScreen extends StatelessWidget {
-  int movieId;
+  final int movieId;
   MovieScreen({
     Key? key,
     required this.movieId,
   }) : super(key: key);
-  MovieStore movieStore = MovieStore();
-  StyleStore styleStore = GetIt.I<StyleStore>();
+  final MovieStore movieStore = MovieStore();
+  final StyleStore styleStore = GetIt.I<StyleStore>();
   @override
   Widget build(BuildContext context) {
     movieStore.getSingleMovie(movieId);

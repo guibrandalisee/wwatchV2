@@ -167,6 +167,15 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     return _$getPopularMoviesAsyncAction.run(() => super.getPopularMovies());
   }
 
+  final _$getMorePopularMoviesAsyncAction =
+      AsyncAction('_MovieStoreBase.getMorePopularMovies');
+
+  @override
+  Future<void> getMorePopularMovies() {
+    return _$getMorePopularMoviesAsyncAction
+        .run(() => super.getMorePopularMovies());
+  }
+
   final _$getGenresAsyncAction = AsyncAction('_MovieStoreBase.getGenres');
 
   @override

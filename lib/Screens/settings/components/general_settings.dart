@@ -21,6 +21,31 @@ class GeneralSettings extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Text(
+                "Date Format",
+                style: GoogleFonts.getFont('Mitr',
+                    color: AppColors.text,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            DropDownButtonWidget(
+              items: ['dd/mm/yyyy', 'mm/dd/yyyy', 'yyyy/mm/dd'],
+              value: settingsStore.dateFormat,
+              onChanged: (value) {
+                if (value != null) {
+                  settingsStore.setdateFormat(value);
+                }
+              },
+            ),
+            SizedBox(
+              height: 32,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
                 "Primary Language",
                 style: GoogleFonts.getFont('Mitr',
                     color: AppColors.text,

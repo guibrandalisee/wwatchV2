@@ -1,10 +1,34 @@
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'settings_store.g.dart';
 
 class SettingsStore = _SettingsStoreBase with _$SettingsStore;
 
 abstract class _SettingsStoreBase with Store {
+  final SharedPreferences? prefs;
+  _SettingsStoreBase({
+    this.prefs,
+  }) {
+    if (prefs != null) {
+      if (prefs!.containsKey('dateFormat')) {
+        dateFormat = prefs!.getString('dateFormat')!;
+      } else {
+        dateFormat = 'dd/mm/yyyy';
+      }
+    } else {
+      dateFormat = 'dd/mm/yyyy';
+    }
+  }
+
+  @observable
+  String dateFormat = 'dd/mm/yyyy';
+  @action
+  void setdateFormat(String value) {
+    prefs?.setString('dateFormat', value);
+    dateFormat = value;
+  }
+
   //TODO get list itens from API
   //or just set suported languages manually
   @observable
