@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:wwatch/Screens/home/components/page_selection.dart';
 import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/settings/settings_screen.dart';
@@ -121,59 +122,109 @@ class _HomeScreenState extends State<HomeScreen> {
               );
 
             if (movieStore.popularMovies.length == 0)
-              return LinearProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(
-                  styleStore.primaryColor,
+              return SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    LinearProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(
+                        styleStore.primaryColor,
+                      ),
+                      backgroundColor: styleStore.primaryColor!.withAlpha(100),
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Shimmer(
+                        child: Container(
+                          height: 75,
+                          width: 340,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Shimmer(
+                        child: Container(
+                          height: 75,
+                          width: 340,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(16),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Shimmer(
+                        child: Container(
+                          height: 550,
+                          width: 500,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(16),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Shimmer(
+                        child: Container(
+                          height: 550,
+                          width: 500,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                backgroundColor: styleStore.primaryColor!.withAlpha(100),
               );
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: RefreshIndicator(
-                    strokeWidth: 2,
-                    color: styleStore.primaryColor,
-                    onRefresh: _onRefresh,
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: movieStore.popularMovies.length + 2,
-                        itemBuilder: (context, index) {
-                          if (index == 0)
-                            //TODO change this to a selector where the user can select if they want to see movies or TVShows
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              child: PageSelection(),
-                            );
-                          else if (index < movieStore.popularMovies.length + 1)
-                            return MovieTile(
-                                movie: movieStore.popularMovies[index - 1]);
-                          else if (movieStore.totalPages != null &&
-                              movieStore.page < movieStore.totalPages!) {
-                            movieStore.getMorePopularMovies();
-                            return LinearProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(
-                                styleStore.primaryColor,
-                              ),
-                              backgroundColor:
-                                  styleStore.primaryColor!.withAlpha(100),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        }),
-                  ),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: movieStore.popularMovies.length + 2,
+                      itemBuilder: (context, index) {
+                        if (index == 0)
+                          //TODO change this to a selector where the user can select if they want to see movies or TVShows
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: PageSelection(),
+                          );
+                        else if (index < movieStore.popularMovies.length + 1)
+                          return MovieTile(
+                              movie: movieStore.popularMovies[index - 1]);
+                        else if (movieStore.totalPages != null &&
+                            movieStore.page < movieStore.totalPages!) {
+                          movieStore.getMorePopularMovies();
+                          return LinearProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(
+                              styleStore.primaryColor,
+                            ),
+                            backgroundColor:
+                                styleStore.primaryColor!.withAlpha(100),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
                 )
               ],
             );
           },
         ));
-  }
-
-  Future<void> _onRefresh() async {
-    movieStore.page = 1;
-    movieStore.popularMovies = [];
-    await movieStore.getPopularMovies();
   }
 }

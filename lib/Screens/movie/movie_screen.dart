@@ -1,9 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/header_widget.dart';
@@ -134,11 +136,119 @@ class MovieScreen extends StatelessWidget {
                 ),
               );
             if (movieStore.movie == null)
-              return LinearProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(
-                  styleStore.primaryColor,
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    LinearProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(
+                        styleStore.primaryColor,
+                      ),
+                      backgroundColor: styleStore.primaryColor!.withAlpha(100),
+                    ),
+                    Container(
+                      height: 300,
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: [
+                          Positioned(
+                            bottom: 56,
+                            left: 8,
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Shimmer(
+                                child: Container(
+                                  height: 40,
+                                  width: 180,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 8),
+                            height: 30,
+                            child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: 5,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    clipBehavior: Clip.antiAlias,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8)),
+                                    child: Shimmer(
+                                      child: Container(
+                                        height: 18,
+                                        width: 96,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 16),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Shimmer(
+                        child: Container(
+                          height: 32,
+                          width: 180,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 16, top: 16),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Shimmer(
+                        child: Container(
+                          height: 190,
+                          width: 128,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    Divider(
+                      color: AppColors.divider,
+                      thickness: 1,
+                      endIndent: 24,
+                      indent: 24,
+                    ),
+                    SizedBox(
+                      height: 45,
+                    ),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          width: 400,
+                          height: 450,
+                          margin: EdgeInsets.symmetric(horizontal: 36),
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Shimmer(
+                            child: Container(),
+                          ),
+                        )),
+                    SizedBox(
+                      height: 32,
+                    ),
+                  ],
                 ),
-                backgroundColor: styleStore.primaryColor!.withAlpha(100),
               );
             else
               return ListView.builder(
@@ -173,32 +283,6 @@ class MovieScreen extends StatelessWidget {
                       default:
                         return Container();
                     }
-                    //   Column(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   children: [
-                    //     Padding(
-                    //       padding: const EdgeInsets.only(bottom: 16),
-                    //       child: HeaderWidget(movie: movieStore.movie!),
-                    //     ),
-                    //     DescriptionWidget(movie: movieStore.movie!),
-                    //     movieStore.movie!.images != null &&
-                    //             movieStore.movie!.images!.length > 0
-                    //         ? PostersWidget(movie: movieStore.movie!)
-                    //         : Container(),
-                    //      movieStore.movie!.videos != null &&
-                    //              movieStore.movie!.videos!.length > 0
-                    //        ? TrailersWidget(
-                    //              movie: movieStore.movie!,
-                    //            )
-                    //          : Container(),
-                    //     movieStore.movie!.watchProviders != null
-                    //         ? WatchProvidersWidget()
-                    //         : Container(),
-                    //     const SizedBox(
-                    //       height: 64,
-                    //     )
-                    //   ],
-                    // );
                   });
           },
         ));
