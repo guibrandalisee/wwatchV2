@@ -10,6 +10,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/header_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/posters_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -137,6 +138,7 @@ class MovieScreen extends StatelessWidget {
               );
             if (movieStore.movie == null)
               return SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -268,14 +270,14 @@ class MovieScreen extends StatelessWidget {
                                 movieStore.movie!.images!.length > 0
                             ? PostersWidget(movie: movieStore.movie!)
                             : Container();
-                      //TODO find a better way to display videos (this one is too performance heavy)
-                      // case 3:
-                      //   return movieStore.movie!.videos != null &&
-                      //           movieStore.movie!.videos!.length > 0
-                      //       ? TrailersWidget(
-                      //           movie: movieStore.movie!,
-                      //         )
-                      //       : Container();
+
+                      case 3:
+                        return movieStore.movie!.videos != null &&
+                                movieStore.movie!.videos!.length > 0
+                            ? TrailersWidget(
+                                movie: movieStore.movie!,
+                              )
+                            : Container();
                       case 4:
                         return const SizedBox(
                           height: 64,

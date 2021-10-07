@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Shared/models/movie_video_model.dart';
+import 'package:wwatch/main.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -23,10 +26,16 @@ class _TrailersWidgetState extends State<TrailersWidget> {
 
   @override
   Widget build(BuildContext context) {
+    List<MovieVideo> videos = [];
+    for (var item in widget.movie.videos!) {
+      if (item.official) {
+        videos.add(item);
+      }
+    }
     return Column(
       children: [
         SizedBox(
-          height: 16,
+          height: 45,
         ),
         Divider(
           color: AppColors.divider,
@@ -37,67 +46,95 @@ class _TrailersWidgetState extends State<TrailersWidget> {
         SizedBox(
           height: 16,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                splashRadius: 20,
-                onPressed: () {
-                  carouselController.previousPage();
-                },
-                icon: Icon(LineIcons.arrowLeft, color: Colors.white),
-              ),
-              Text(
-                'Movie Trailers',
-                style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400),
-              ),
-              IconButton(
-                splashRadius: 20,
-                onPressed: () {
-                  carouselController.nextPage();
-                },
-                icon: Icon(LineIcons.arrowRight, color: Colors.white),
-              ),
-            ],
-          ),
+        Text(
+          'Movie Trailers',
+          style: GoogleFonts.getFont('Mitr',
+              color: AppColors.text, fontSize: 22, fontWeight: FontWeight.w400),
         ),
         SizedBox(
           height: 16,
         ),
         Container(
-          width: double.infinity,
-          child: CarouselSlider.builder(
-            carouselController: carouselController,
-            itemCount: widget.movie.videos?.length,
-            itemBuilder: (context, index, realIdx) {
-              YoutubePlayerController _controller = YoutubePlayerController(
-                initialVideoId: widget.movie.videos![index].key,
-                params: YoutubePlayerParams(
-                  showControls: true,
-                  showFullscreenButton: true,
-                ),
-              );
-              return Container(
-                child: YoutubePlayerIFrame(
-                  controller: _controller,
-                ),
-              );
-            },
-            options: CarouselOptions(
-              scrollPhysics: NeverScrollableScrollPhysics(),
-              enableInfiniteScroll: false,
-              scrollDirection: Axis.horizontal,
-              aspectRatio: 16 / 9,
-              autoPlay: false,
-              enlargeCenterPage: true,
-            ),
-          ),
-        )
+            height: 250,
+            child: CarouselSlider.builder(
+              itemCount: videos.length,
+              itemBuilder: ((context, index, realIDX) {
+                return GestureDetector(
+                  onTap: () {
+                    launchInBrowser(
+                        'https://www.youtube.com/watch?v=${videos[index].key}');
+                  },
+                  child: Container(
+                    height: 200,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://img.youtube.com/vi/${videos[index].key}/0.jpg',
+                            fit: BoxFit.cover,
+                            filterQuality: FilterQuality.medium,
+                          ),
+                        ),
+                        Container(
+                          height: 200,
+                          decoration: BoxDecoration(
+                              gradient: RadialGradient(colors: [
+                            Colors.black.withAlpha(150),
+                            Colors.transparent
+                          ])),
+                        ),
+                        Icon(
+                          LineIcons.youtube,
+                          color: Colors.white,
+                          size: 45,
+                        ),
+                        Positioned(
+                          left: 16,
+                          top: 4,
+                          right: 16,
+                          child: Text(
+                            videos[index].name,
+                            style: GoogleFonts.getFont('Mitr',
+                                color: AppColors.text,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        Positioned(
+                          left: 16,
+                          bottom: 8,
+                          right: 16,
+                          child: Text(
+                            'Watch on YouTube',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.getFont('Mitr',
+                                color: AppColors.text,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w200),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+              options: CarouselOptions(
+                  scrollPhysics: BouncingScrollPhysics(),
+                  aspectRatio: 16 / 10,
+                  autoPlay: false,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: false),
+            )),
       ],
     );
   }

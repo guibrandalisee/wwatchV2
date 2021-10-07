@@ -90,10 +90,11 @@ class MovieTile extends StatelessWidget {
                   height: 40,
                   width: 180,
                   decoration: BoxDecoration(
-                      color: AppColors.shape,
-                      borderRadius: BorderRadius.circular(32),
-                      border: Border.all(
-                          color: styleStore.primaryColor!, width: 2)),
+                    color: AppColors.shape,
+                    borderRadius: BorderRadius.circular(32),
+                    border:
+                        Border.all(color: styleStore.primaryColor!, width: 2),
+                  ),
                   child: RichText(
                     text: TextSpan(
                       text: 'User Rating ',

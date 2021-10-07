@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -16,6 +17,18 @@ Future<void> main() async {
 void setupLocators(SharedPreferences preferences) {
   GetIt.I.registerSingleton(StyleStore(prefs: preferences));
   GetIt.I.registerSingleton(SettingsStore(prefs: preferences));
+}
+
+Future<void> launchInBrowser(String url) async {
+  if (await canLaunch(url)) {
+    await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+    );
+  } else {
+    throw 'Could not launch $url';
+  }
 }
 
 class MyApp extends StatelessWidget {

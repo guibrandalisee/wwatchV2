@@ -4,21 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);
-  Future<void> _launchInBrowser(String url) async {
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-      );
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +125,7 @@ class AboutScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      _launchInBrowser(
+                                      launchInBrowser(
                                           "https://github.com/guibrandalisee");
                                     },
                                     child: Ink(
@@ -150,7 +140,7 @@ class AboutScreen extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      _launchInBrowser(
+                                      launchInBrowser(
                                           "https://www.linkedin.com/in/guibrandalisee/");
                                     },
                                     child: Ink(
@@ -268,7 +258,7 @@ class AboutScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        _launchInBrowser("https://www.google.com");
+                        launchInBrowser("https://www.google.com");
                       },
                       child: Ink(
                         child: SizedBox(
@@ -289,7 +279,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        _launchInBrowser("https://www.google.com");
+                        launchInBrowser("https://www.google.com");
                       },
                       child: Ink(
                         child: SizedBox(
