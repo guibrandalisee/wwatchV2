@@ -4,6 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Screens/full_image/full_image_screen.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
@@ -41,42 +43,69 @@ class PostersWidget extends StatelessWidget {
           child: CarouselSlider.builder(
             itemCount: movie.images!.length,
             itemBuilder: (context, index, realIdx) {
-              return ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl:
-                            'https://image.tmdb.org/t/p/w500${movie.images![index].filePath}',
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.medium,
-                        
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FullImageScreen(
+                        imgs: movie.images!,
+                        posterIndex: index,
                       ),
-                      
-                      Positioned(
-                        right: 16,
-                        top: 16,
-                        child: Container(
+                    ),
+                  );
+                },
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w500${movie.images![index].filePath}',
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                        Positioned(
+                          left: 8,
+                          top: 8,
+                          child: Container(
                             padding: EdgeInsets.all(4),
-                            alignment: Alignment.center,
-                            height: 30,
-                            width: 80,
                             decoration: BoxDecoration(
-                                color: AppColors.shape,
-                                borderRadius: BorderRadius.circular(32),
-                                border: Border.all(
-                                    color: styleStore.primaryColor!, width: 2)),
-                            child: Text(
-                              '${index + 1} / ${movie.images!.length}',
-                              style: GoogleFonts.getFont('Kodchasan',
-                                  color: AppColors.text,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w300),
-                            )),
-                      )
-                    ],
-                  ));
+                                borderRadius: BorderRadius.circular(4),
+                                color: AppColors.shape.withAlpha(100)),
+                            child: Icon(
+                              LineIcons.alternateExpandArrows,
+                              size: 22,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 16,
+                          top: 16,
+                          child: Container(
+                              padding: EdgeInsets.all(4),
+                              alignment: Alignment.center,
+                              height: 30,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  color: AppColors.shape,
+                                  borderRadius: BorderRadius.circular(32),
+                                  border: Border.all(
+                                      color: styleStore.primaryColor!,
+                                      width: 2)),
+                              child: Text(
+                                '${index + 1} / ${movie.images!.length}',
+                                style: GoogleFonts.getFont('Kodchasan',
+                                    color: AppColors.text,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300),
+                              )),
+                        )
+                      ],
+                    )),
+              );
             },
             options: CarouselOptions(
                 scrollPhysics: BouncingScrollPhysics(),

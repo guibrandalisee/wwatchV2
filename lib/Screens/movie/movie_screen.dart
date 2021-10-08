@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -100,26 +99,14 @@ class MovieScreen extends StatelessWidget {
         appBar: AppBar(
           iconTheme: IconThemeData(color: AppColors.logo),
           backgroundColor: styleStore.primaryColor,
-          title: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WelcomeScreen(),
-                ),
-              );
-            },
-            child: Ink(
-              child: Hero(
-                tag: "logo",
-                child: SizedBox(
-                  height: 56,
-                  child: Image.asset(
-                    "assets/images/WWatch2-png.png",
-                    fit: BoxFit.fitHeight,
-                    filterQuality: FilterQuality.medium,
-                  ),
-                ),
+          title: Hero(
+            tag: "logo",
+            child: SizedBox(
+              height: 56,
+              child: Image.asset(
+                "assets/images/WWatch2-png.png",
+                fit: BoxFit.fitHeight,
+                filterQuality: FilterQuality.medium,
               ),
             ),
           ),
