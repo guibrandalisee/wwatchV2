@@ -12,6 +12,7 @@ class WelcomeScreen extends StatelessWidget {
     return Container(
       color: AppColors.background,
       child: SafeArea(
+        bottom: false,
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [

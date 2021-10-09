@@ -145,6 +145,9 @@ abstract class _MovieStoreBase with Store {
   @observable
   CompleteMovie? movie;
 
+  @observable
+  bool backToTheTopVisible = false;
+
   @action
   Future<void> getSingleMovie(int id) async {
     final mainResponse = await fetchData(path: '/movie/$id', parameters: {

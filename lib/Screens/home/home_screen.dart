@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+
 import 'package:line_icons/line_icons.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:wwatch/Screens/home/components/page_selection.dart';
@@ -33,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   StyleStore styleStore = GetIt.I<StyleStore>();
   SettingsStore settingsStore = GetIt.I<SettingsStore>();
-
+  late ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     reaction((_) => styleStore.fabPosition, (value) {
@@ -45,6 +48,23 @@ class _HomeScreenState extends State<HomeScreen> {
     reaction((_) => settingsStore.dateFormat, (value) {
       setState(() {});
     });
+    scrollController = ScrollController()
+      ..addListener(() {
+        if (scrollController.position.userScrollDirection ==
+            ScrollDirection.reverse) {
+          if (movieStore.backToTheTopVisible) {
+            setState(() {
+              movieStore.backToTheTopVisible = false;
+            });
+          }
+        } else {
+          if (!movieStore.backToTheTopVisible) {
+            setState(() {
+              movieStore.backToTheTopVisible = true;
+            });
+          }
+        }
+      });
 
     //TODO make back to the top button
     //it should only be visible when scrolling back up
@@ -189,39 +209,64 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               );
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            return Stack(
               children: [
-                Expanded(
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: movieStore.popularMovies.length + 2,
-                      itemBuilder: (context, index) {
-                        if (index == 0)
-                          //TODO change this to a selector where the user can select if they want to see movies or TVShows
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: PageSelection(),
-                          );
-                        else if (index < movieStore.popularMovies.length + 1)
-                          return MovieTile(
-                              movie: movieStore.popularMovies[index - 1]);
-                        else if (movieStore.totalPages != null &&
-                            movieStore.page < movieStore.totalPages!) {
-                          movieStore.getMorePopularMovies();
-                          return LinearProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(
-                              styleStore.primaryColor,
-                            ),
-                            backgroundColor:
-                                styleStore.primaryColor!.withAlpha(100),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
-                )
+                ListView.builder(
+                    controller: scrollController,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: movieStore.popularMovies.length + 2,
+                    itemBuilder: (context, index) {
+                      if (index == 0)
+                        //TODO change this to a selector where the user can select if they want to see movies or TVShows
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: PageSelection(),
+                        );
+                      else if (index < movieStore.popularMovies.length + 1)
+                        return MovieTile(
+                            movie: movieStore.popularMovies[index - 1]);
+                      else if (movieStore.totalPages != null &&
+                          movieStore.page < movieStore.totalPages!) {
+                        movieStore.getMorePopularMovies();
+                        return LinearProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            styleStore.primaryColor,
+                          ),
+                          backgroundColor:
+                              styleStore.primaryColor!.withAlpha(100),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }),
+                Visibility(
+                  visible: movieStore.backToTheTopVisible,
+                  child: Positioned(
+                      right: styleStore.fabPosition == 0 ? 16 : null,
+                      left: styleStore.fabPosition == 1 ? 16 : null,
+                      bottom: 35,
+                      child: InkWell(
+                        onTap: () {
+                          //TODO add an animation to this button
+                          scrollController.animateTo(0,
+                              duration: Duration(milliseconds: 1000),
+                              curve: Curves.easeInOut);
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                          decoration: BoxDecoration(
+                              color: AppColors.shape,
+                              borderRadius: BorderRadius.circular(32),
+                              border: Border.all(
+                                  color: styleStore.primaryColor!, width: 2)),
+                          child: Icon(
+                            LineIcons.arrowUp,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )),
+                ),
               ],
             );
           },

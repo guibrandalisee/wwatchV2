@@ -44,6 +44,7 @@ dependencies:
   carousel_slider: ^4.0.0
   flutter_native_splash: ^1.2.4
   cached_network_image: ^3.1.0
+  pinch_zoom_image_last: ^0.4.1
 
 dev_dependencies:
   flutter_test:

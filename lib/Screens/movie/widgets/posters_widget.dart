@@ -49,8 +49,7 @@ class PostersWidget extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => FullImageScreen(
-                        imgs: movie.images!,
-                        posterIndex: index,
+                        imgPath: movie.images![index].filePath,
                       ),
                     ),
                   );
