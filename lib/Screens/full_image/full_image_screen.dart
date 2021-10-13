@@ -23,16 +23,18 @@ class FullImageScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Center(
-          child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: PinchZoomImage(
-                image: CachedNetworkImage(
-                  imageUrl: 'https://image.tmdb.org/t/p/original${imgPath!}',
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              )),
+                child: PinchZoomImage(
+                  image: CachedNetworkImage(
+                    imageUrl: 'https://image.tmdb.org/t/p/original${imgPath!}',
+                  ),
+                )),
+          ),
         ),
       ),
     );

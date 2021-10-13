@@ -17,7 +17,7 @@ abstract class _MovieStoreBase with Store {
   Map<String, dynamic> movieGenres = {};
   @observable
   Map<String, dynamic> tvGenres = {};
-
+  @action
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
@@ -25,10 +25,15 @@ abstract class _MovieStoreBase with Store {
       connectTimeout: 5000,
       receiveTimeout: 3000,
     );
-    Dio dio = Dio(options);
 
-    final response = await dio.get(path, queryParameters: parameters);
-    return response;
+    try {
+      Dio dio = Dio(options);
+
+      final response = await dio.get(path, queryParameters: parameters);
+      return response;
+    } on DioError catch (e) {
+      error = true;
+    }
   }
 
   @observable
@@ -51,6 +56,7 @@ abstract class _MovieStoreBase with Store {
 
   @action
   Future<void> getPopularMovies() async {
+    page = 1;
     final response = await fetchData(path: '/movie/popular', parameters: {
       'api_key': apiKey,
       'language': language,
@@ -75,7 +81,6 @@ abstract class _MovieStoreBase with Store {
             posterPath: e['poster_path'],
             adult: e['adult']);
       }).toList();
-      page++;
     } catch (e) {
       print(e);
       error = true;
@@ -84,6 +89,7 @@ abstract class _MovieStoreBase with Store {
 
   @action
   Future<void> getMorePopularMovies() async {
+    page++;
     final response = await fetchData(path: '/movie/popular', parameters: {
       'api_key': apiKey,
       'language': language,
@@ -108,7 +114,6 @@ abstract class _MovieStoreBase with Store {
             adult: e['adult']);
       }).toList();
       popularMovies.addAll(newMovies);
-      page++;
     } catch (e) {
       print(e);
       error = true;

@@ -45,6 +45,7 @@ dependencies:
   flutter_native_splash: ^1.2.4
   cached_network_image: ^3.1.0
   pinch_zoom_image_last: ^0.4.1
+  flutter_svg: ^0.23.0+1
 
 dev_dependencies:
   flutter_test:
