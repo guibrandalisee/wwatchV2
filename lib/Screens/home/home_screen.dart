@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:line_icons/line_icons.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-import 'package:wwatch/Screens/home/components/page_selection.dart';
 import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/settings/settings_screen.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
@@ -64,6 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
               movieStore.backToTheTopVisible = true;
             });
           }
+        }
+        if (scrollController.position.pixels < 1000) {
+          movieStore.backToTheTopVisible = false;
         }
       });
     return Scaffold(
@@ -153,12 +155,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 32,
                       ),
-                      //TODO get one image to every color
-                      //not gonna impact app size cause its an svg that has a file size of just a few kbs
                       Container(
                         height: 120,
                         child: SvgPicture.asset(
-                          'assets/images/noConnection.svg',
+                          styleStore.errorImage!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -277,10 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, index) {
                       if (index == 0)
                         //TODO change this to a selector where the user can select if they want to see movies or TVShows
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: PageSelection(),
-                        );
+                        return Container();
                       else if (index < movieStore.popularMovies.length + 1)
                         return MovieTile(
                             movie: movieStore.popularMovies[index - 1]);

@@ -2,8 +2,8 @@
     package="com.example.wwatch">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="wwatch"
-        android:icon="@mipmap/ic_launcher">
+        android:label="WWatch"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

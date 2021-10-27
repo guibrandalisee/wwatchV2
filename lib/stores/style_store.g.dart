@@ -54,6 +54,21 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
+  final _$errorImageAtom = Atom(name: '_StyleStoreBase.errorImage');
+
+  @override
+  String? get errorImage {
+    _$errorImageAtom.reportRead();
+    return super.errorImage;
+  }
+
+  @override
+  set errorImage(String? value) {
+    _$errorImageAtom.reportWrite(value, super.errorImage, () {
+      super.errorImage = value;
+    });
+  }
+
   final _$_StyleStoreBaseActionController =
       ActionController(name: '_StyleStoreBase');
 
@@ -84,7 +99,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     return '''
 primaryColor: ${primaryColor},
 colorIndex: ${colorIndex},
-fabPosition: ${fabPosition}
+fabPosition: ${fabPosition},
+errorImage: ${errorImage}
     ''';
   }
 }

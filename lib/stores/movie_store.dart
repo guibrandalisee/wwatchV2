@@ -32,6 +32,7 @@ abstract class _MovieStoreBase with Store {
       final response = await dio.get(path, queryParameters: parameters);
       return response;
     } on DioError catch (e) {
+      print(e);
       error = true;
     }
   }

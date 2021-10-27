@@ -137,12 +137,10 @@ class MovieScreen extends StatelessWidget {
                       SizedBox(
                         height: 32,
                       ),
-                      //TODO get one image to every color
-                      //not gonna impact app size cause its an svg that has a file size of just a few kbs
                       Container(
                         height: 120,
                         child: SvgPicture.asset(
-                          'assets/images/noConnection.svg',
+                          styleStore.errorImage!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),

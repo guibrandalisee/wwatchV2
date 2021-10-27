@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:wwatch/Screens/full_image/full_image_screen.dart';
-
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -45,13 +44,12 @@ class PostersWidget extends StatelessWidget {
             itemBuilder: (context, index, realIdx) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  final imageProvider = Image.network(
+                          "https://image.tmdb.org/t/p/original${movie.images![index].filePath}")
+                      .image;
+                  showImageViewer(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => FullImageScreen(
-                        imgPath: movie.images![index].filePath,
-                      ),
-                    ),
+                    imageProvider,
                   );
                 },
                 child: ClipRRect(

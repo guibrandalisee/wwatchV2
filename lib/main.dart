@@ -8,7 +8,9 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 //TODO recreate the project with flutter create because of issues after updating to flutter 2.5
+//TODO add a better contrast system for the diferent app colors
 
+//TODO add routes 2.0
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

@@ -159,6 +159,31 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$backToTheTopVisibleAtom =
+      Atom(name: '_MovieStoreBase.backToTheTopVisible');
+
+  @override
+  bool get backToTheTopVisible {
+    _$backToTheTopVisibleAtom.reportRead();
+    return super.backToTheTopVisible;
+  }
+
+  @override
+  set backToTheTopVisible(bool value) {
+    _$backToTheTopVisibleAtom.reportWrite(value, super.backToTheTopVisible, () {
+      super.backToTheTopVisible = value;
+    });
+  }
+
+  final _$fetchDataAsyncAction = AsyncAction('_MovieStoreBase.fetchData');
+
+  @override
+  Future<dynamic> fetchData(
+      {required String path, required Map<String, dynamic> parameters}) {
+    return _$fetchDataAsyncAction
+        .run(() => super.fetchData(path: path, parameters: parameters));
+  }
+
   final _$getPopularMoviesAsyncAction =
       AsyncAction('_MovieStoreBase.getPopularMovies');
 
@@ -203,7 +228,8 @@ popularMovies: ${popularMovies},
 error: ${error},
 totalPages: ${totalPages},
 country: ${country},
-movie: ${movie}
+movie: ${movie},
+backToTheTopVisible: ${backToTheTopVisible}
     ''';
   }
 }
