@@ -56,18 +56,32 @@ class MovieTile extends StatelessWidget {
         },
         child: Stack(
           children: [
-            Container(
-              width: 500,
-              height: 550,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                    filterQuality: FilterQuality.medium,
-                    fit: BoxFit.cover,
-                  )),
-            ),
+            movie.posterPath != null
+                ? Container(
+                    width: 500,
+                    height: 550,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                          filterQuality: FilterQuality.medium,
+                          fit: BoxFit.cover,
+                        )),
+                  )
+                : Center(
+                    child: Container(
+                      child: Text(
+                        'No Image :(',
+                        style: GoogleFonts.getFont('Mitr',
+                            color: AppColors.text,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Container(

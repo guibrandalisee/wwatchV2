@@ -44,6 +44,8 @@ class PostersWidget extends StatelessWidget {
             itemBuilder: (context, index, realIdx) {
               return GestureDetector(
                 onTap: () {
+                  //TODO make it possible to do double tap do zoom in and out
+                  //https://pub.dev/packages/extended_image#zoom-pan
                   final imageProvider = Image.network(
                           "https://image.tmdb.org/t/p/original${movie.images![index].filePath}")
                       .image;

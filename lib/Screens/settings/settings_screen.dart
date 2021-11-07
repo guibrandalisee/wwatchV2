@@ -8,7 +8,6 @@ import 'package:wwatch/Screens/about/about_screen.dart';
 import 'package:wwatch/Screens/settings/components/color_selector.dart';
 import 'package:wwatch/Screens/settings/components/fab_position.dart';
 import 'package:wwatch/Screens/settings/components/general_settings.dart';
-import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
@@ -35,25 +34,15 @@ class _SettingsStateScreen extends State<SettingsScreen> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.logo),
         backgroundColor: styleStore.primaryColor,
-        title: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WelcomeScreen(),
-              ),
-            );
-          },
-          child: Ink(
-            child: Hero(
-              tag: "logo",
-              child: SizedBox(
-                height: 56,
-                child: Image.asset(
-                  "assets/images/WWatch2-png.png",
-                  fit: BoxFit.fitHeight,
-                  filterQuality: FilterQuality.medium,
-                ),
+        title: Container(
+          child: Hero(
+            tag: "logo",
+            child: SizedBox(
+              height: 56,
+              child: Image.asset(
+                "assets/images/WWatch2-png.png",
+                fit: BoxFit.fitHeight,
+                filterQuality: FilterQuality.medium,
               ),
             ),
           ),

@@ -11,6 +11,10 @@ import 'package:wwatch/stores/style_store.dart';
 //TODO add a better contrast system for the diferent app colors
 
 //TODO add routes 2.0
+//TODO change way to get movies to https://developers.themoviedb.org/3/discover/movie-discover
+//this way we can filter better the results
+
+//TODO Fix TV shows filter not working
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

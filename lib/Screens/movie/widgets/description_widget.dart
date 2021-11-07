@@ -44,6 +44,8 @@ class DescriptionWidget extends StatelessWidget {
                 child: movie.posterPath!.isNotEmpty
                     ? GestureDetector(
                         onTap: () {
+                          //TODO make it possible to do double tap do zoom in and out
+                          //https://pub.dev/packages/extended_image#zoom-pan
                           final imageProvider = Image.network(
                                   "https://image.tmdb.org/t/p/w500${movie.posterPath}")
                               .image;

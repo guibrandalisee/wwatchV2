@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transition/transition.dart';
 import 'package:wwatch/Screens/login/login_screen.dart';
-import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -19,25 +18,15 @@ class SignupScreen extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.logo),
         backgroundColor: styleStore.primaryColor,
-        title: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WelcomeScreen(),
-              ),
-            );
-          },
-          child: Ink(
-            child: Hero(
-              tag: "logo",
-              child: SizedBox(
-                height: 56,
-                child: Image.asset(
-                  "assets/images/WWatch2-png.png",
-                  fit: BoxFit.fitHeight,
-                  filterQuality: FilterQuality.medium,
-                ),
+        title: Container(
+          child: Hero(
+            tag: "logo",
+            child: SizedBox(
+              height: 56,
+              child: Image.asset(
+                "assets/images/WWatch2-png.png",
+                fit: BoxFit.fitHeight,
+                filterQuality: FilterQuality.medium,
               ),
             ),
           ),
@@ -192,6 +181,9 @@ class SignupScreen extends StatelessWidget {
                             hintText: "E-Mail..."),
                       ),
                     ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     Container(
                       width: inputWidth,
                       alignment: Alignment.centerRight,
@@ -207,6 +199,9 @@ class SignupScreen extends StatelessWidget {
                           "already have an account? Login!",
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 8,
                     ),
                     Container(
                       width: inputWidth,

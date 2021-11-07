@@ -93,30 +93,28 @@ class HeaderWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 8),
             height: 30,
-            child:
-                //TODO add a gesturedetector to send user to genre screen
-                ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: movie.genres.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.black54),
-                          margin: EdgeInsets.symmetric(horizontal: 8),
-                          child: Center(
-                            child: Text(
-                              movie.genres[index]['name'],
-                              style: GoogleFonts.getFont('Mitr',
-                                  color: AppColors.text,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          ));
-                    }),
+            child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: movie.genres.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black54),
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      child: Center(
+                        child: Text(
+                          movie.genres[index]['name'],
+                          style: GoogleFonts.getFont('Mitr',
+                              color: AppColors.text,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ));
+                }),
           )
         ],
       ),

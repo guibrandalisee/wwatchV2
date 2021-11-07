@@ -47,7 +47,7 @@ abstract class _MovieStoreBase with Store {
   bool includeAdult = false;
 
   @observable
-  List<SimpleMovie> popularMovies = [];
+  List<SimpleMovie> movies = [];
 
   @observable
   bool error = false;
@@ -58,17 +58,18 @@ abstract class _MovieStoreBase with Store {
   @action
   Future<void> getPopularMovies() async {
     page = 1;
-    final response = await fetchData(path: '/movie/popular', parameters: {
+    final response = await fetchData(path: '/discover/movie', parameters: {
       'api_key': apiKey,
       'language': language,
       'page': page,
       'sort_by': 'popularity.desc',
       'include_adult': includeAdult,
+      'include_video': false,
     });
     error = false;
     try {
       totalPages = response.data['total_pages'];
-      popularMovies = response.data['results'].map<SimpleMovie>((e) {
+      movies = response.data['results'].map<SimpleMovie>((e) {
         return SimpleMovie(
             genreIds: e['genre_ids'],
             id: e['id'],
@@ -91,33 +92,68 @@ abstract class _MovieStoreBase with Store {
   @action
   Future<void> getMorePopularMovies() async {
     page++;
-    final response = await fetchData(path: '/movie/popular', parameters: {
-      'api_key': apiKey,
-      'language': language,
-      'page': page,
-      'sort_by': 'popularity.desc',
-      'include_adult': includeAdult,
-    });
-    error = false;
-    try {
-      final newMovies = response.data['results'].map<SimpleMovie>((e) {
-        return SimpleMovie(
-            genreIds: e['genre_ids'],
-            id: e['id'],
-            popularity: e['popularity'],
-            voteAverage: e['vote_average'] + 0.0,
-            originalLanguage: e['original_language'],
-            title: e['title'],
-            overview: e['overview'],
-            releaseDate: e['release_date'],
-            backdropPath: e['backdrop_path'],
-            posterPath: e['poster_path'],
-            adult: e['adult']);
-      }).toList();
-      popularMovies.addAll(newMovies);
-    } catch (e) {
-      print(e);
-      error = true;
+    if (searchString.isEmpty) {
+      final response = await fetchData(
+          path: selectedContentType == 0 ? '/search/movie' : '/search/tv',
+          parameters: {
+            'api_key': apiKey,
+            'language': language,
+            'page': page,
+            'sort_by': 'popularity.desc',
+            'include_adult': includeAdult,
+          });
+      error = false;
+      try {
+        final newMovies = response.data['results'].map<SimpleMovie>((e) {
+          return SimpleMovie(
+              genreIds: e['genre_ids'],
+              id: e['id'],
+              popularity: e['popularity'],
+              voteAverage: e['vote_average'] + 0.0,
+              originalLanguage: e['original_language'],
+              title: e['title'],
+              overview: e['overview'],
+              releaseDate: e['release_date'],
+              backdropPath: e['backdrop_path'],
+              posterPath: e['poster_path'],
+              adult: e['adult']);
+        }).toList();
+        movies.addAll(newMovies);
+      } catch (e) {
+        print(e);
+        error = true;
+      }
+    } else {
+      final response = await fetchData(
+          path: selectedContentType == 0 ? '/search/movie' : '/search/tv',
+          parameters: {
+            'api_key': apiKey,
+            'language': language,
+            'page': page,
+            'query': searchString,
+            'include_adult': includeAdult,
+          });
+      error = false;
+      try {
+        final newMovies = response.data['results'].map<SimpleMovie>((e) {
+          return SimpleMovie(
+              genreIds: e['genre_ids'],
+              id: e['id'],
+              popularity: e['popularity'],
+              voteAverage: e['vote_average'] + 0.0,
+              originalLanguage: e['original_language'],
+              title: e['title'],
+              overview: e['overview'],
+              releaseDate: e['release_date'],
+              backdropPath: e['backdrop_path'],
+              posterPath: e['poster_path'],
+              adult: e['adult']);
+        }).toList();
+        movies.addAll(newMovies);
+      } catch (e) {
+        print(e);
+        error = true;
+      }
     }
   }
 
@@ -218,4 +254,77 @@ abstract class _MovieStoreBase with Store {
       print(e);
     }
   }
+
+  @observable
+  String searchString = '';
+
+  @observable
+  bool empty = false;
+
+  @action
+  Future<void> search() async {
+    empty = false;
+    if (searchString.isEmpty) {
+      movies = [];
+      page = 1;
+      getPopularMovies();
+      return;
+    }
+    movies = [];
+    page = 1;
+    final response = await fetchData(
+        path: selectedContentType == 0 ? '/search/movie' : '/search/tv',
+        parameters: {
+          'api_key': apiKey,
+          'language': language,
+          'query': searchString,
+          'page': page,
+          'include_adult': includeAdult,
+        });
+    error = false;
+    try {
+      totalPages = response.data['total_pages'];
+      movies = response.data['results'].map<SimpleMovie>((e) {
+        return SimpleMovie(
+            genreIds: e['genre_ids'],
+            id: e['id'],
+            popularity: e['popularity'],
+            voteAverage: e['vote_average'] + 0.0,
+            originalLanguage: e['original_language'],
+            title: e['title'],
+            overview: e['overview'],
+            releaseDate: e['release_date'],
+            backdropPath: e['backdrop_path'],
+            posterPath: e['poster_path'],
+            adult: e['adult']);
+      }).toList();
+      if (movies.length == 0) {
+        empty = true;
+      }
+    } catch (e) {
+      print(e);
+      error = true;
+    }
+  }
+
+  @action
+  void setSearch(String value) => searchString = value;
+
+  @observable
+  List genres = ['Genres'];
+
+  @observable
+  String selectedGenre = 'Genres';
+
+  @observable
+  List sortBy = ['Popularity'];
+
+  @observable
+  String selectedSortBy = 'Popularity';
+
+  @observable
+  int selectedContentType = 0;
+
+  @action
+  void setSelectedContentType(int value) => selectedContentType = value;
 }

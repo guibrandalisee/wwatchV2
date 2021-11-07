@@ -84,18 +84,18 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$popularMoviesAtom = Atom(name: '_MovieStoreBase.popularMovies');
+  final _$moviesAtom = Atom(name: '_MovieStoreBase.movies');
 
   @override
-  List<SimpleMovie> get popularMovies {
-    _$popularMoviesAtom.reportRead();
-    return super.popularMovies;
+  List<SimpleMovie> get movies {
+    _$moviesAtom.reportRead();
+    return super.movies;
   }
 
   @override
-  set popularMovies(List<SimpleMovie> value) {
-    _$popularMoviesAtom.reportWrite(value, super.popularMovies, () {
-      super.popularMovies = value;
+  set movies(List<SimpleMovie> value) {
+    _$moviesAtom.reportWrite(value, super.movies, () {
+      super.movies = value;
     });
   }
 
@@ -175,6 +175,112 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$searchStringAtom = Atom(name: '_MovieStoreBase.searchString');
+
+  @override
+  String get searchString {
+    _$searchStringAtom.reportRead();
+    return super.searchString;
+  }
+
+  @override
+  set searchString(String value) {
+    _$searchStringAtom.reportWrite(value, super.searchString, () {
+      super.searchString = value;
+    });
+  }
+
+  final _$emptyAtom = Atom(name: '_MovieStoreBase.empty');
+
+  @override
+  bool get empty {
+    _$emptyAtom.reportRead();
+    return super.empty;
+  }
+
+  @override
+  set empty(bool value) {
+    _$emptyAtom.reportWrite(value, super.empty, () {
+      super.empty = value;
+    });
+  }
+
+  final _$genresAtom = Atom(name: '_MovieStoreBase.genres');
+
+  @override
+  List<dynamic> get genres {
+    _$genresAtom.reportRead();
+    return super.genres;
+  }
+
+  @override
+  set genres(List<dynamic> value) {
+    _$genresAtom.reportWrite(value, super.genres, () {
+      super.genres = value;
+    });
+  }
+
+  final _$selectedGenreAtom = Atom(name: '_MovieStoreBase.selectedGenre');
+
+  @override
+  String get selectedGenre {
+    _$selectedGenreAtom.reportRead();
+    return super.selectedGenre;
+  }
+
+  @override
+  set selectedGenre(String value) {
+    _$selectedGenreAtom.reportWrite(value, super.selectedGenre, () {
+      super.selectedGenre = value;
+    });
+  }
+
+  final _$sortByAtom = Atom(name: '_MovieStoreBase.sortBy');
+
+  @override
+  List<dynamic> get sortBy {
+    _$sortByAtom.reportRead();
+    return super.sortBy;
+  }
+
+  @override
+  set sortBy(List<dynamic> value) {
+    _$sortByAtom.reportWrite(value, super.sortBy, () {
+      super.sortBy = value;
+    });
+  }
+
+  final _$selectedSortByAtom = Atom(name: '_MovieStoreBase.selectedSortBy');
+
+  @override
+  String get selectedSortBy {
+    _$selectedSortByAtom.reportRead();
+    return super.selectedSortBy;
+  }
+
+  @override
+  set selectedSortBy(String value) {
+    _$selectedSortByAtom.reportWrite(value, super.selectedSortBy, () {
+      super.selectedSortBy = value;
+    });
+  }
+
+  final _$selectedContentTypeAtom =
+      Atom(name: '_MovieStoreBase.selectedContentType');
+
+  @override
+  int get selectedContentType {
+    _$selectedContentTypeAtom.reportRead();
+    return super.selectedContentType;
+  }
+
+  @override
+  set selectedContentType(int value) {
+    _$selectedContentTypeAtom.reportWrite(value, super.selectedContentType, () {
+      super.selectedContentType = value;
+    });
+  }
+
   final _$fetchDataAsyncAction = AsyncAction('_MovieStoreBase.fetchData');
 
   @override
@@ -216,6 +322,38 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     return _$getSingleMovieAsyncAction.run(() => super.getSingleMovie(id));
   }
 
+  final _$searchAsyncAction = AsyncAction('_MovieStoreBase.search');
+
+  @override
+  Future<void> search() {
+    return _$searchAsyncAction.run(() => super.search());
+  }
+
+  final _$_MovieStoreBaseActionController =
+      ActionController(name: '_MovieStoreBase');
+
+  @override
+  void setSearch(String value) {
+    final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
+        name: '_MovieStoreBase.setSearch');
+    try {
+      return super.setSearch(value);
+    } finally {
+      _$_MovieStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSelectedContentType(int value) {
+    final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
+        name: '_MovieStoreBase.setSelectedContentType');
+    try {
+      return super.setSelectedContentType(value);
+    } finally {
+      _$_MovieStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
@@ -224,12 +362,19 @@ tvGenres: ${tvGenres},
 page: ${page},
 language: ${language},
 includeAdult: ${includeAdult},
-popularMovies: ${popularMovies},
+movies: ${movies},
 error: ${error},
 totalPages: ${totalPages},
 country: ${country},
 movie: ${movie},
-backToTheTopVisible: ${backToTheTopVisible}
+backToTheTopVisible: ${backToTheTopVisible},
+searchString: ${searchString},
+empty: ${empty},
+genres: ${genres},
+selectedGenre: ${selectedGenre},
+sortBy: ${sortBy},
+selectedSortBy: ${selectedSortBy},
+selectedContentType: ${selectedContentType}
     ''';
   }
 }

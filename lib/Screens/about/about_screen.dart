@@ -402,6 +402,38 @@ class AboutScreen extends StatelessWidget {
                 height: 32,
               ),
               SizedBox(
+                width: double.infinity,
+                child: Text(
+                  "DISCLAIMER",
+                  style: GoogleFonts.getFont(
+                    'Mitr',
+                    color: AppColors.text,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  "We don't have any sort of affiliation with TMDB, any content related issues must be reported on their website",
+                  style: GoogleFonts.getFont(
+                    'Mitr',
+                    color: AppColors.text,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w100,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              SizedBox(
                 height: 56,
                 child: Image.asset("assets/images/MovieDB.png"),
               ),
