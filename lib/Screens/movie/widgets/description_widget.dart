@@ -1,8 +1,8 @@
 import 'package:drop_cap_text/drop_cap_text.dart';
-import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 
@@ -41,18 +41,13 @@ class DescriptionWidget extends StatelessWidget {
                 fontWeight: FontWeight.w300),
             dropCapPadding: EdgeInsets.only(right: 16, bottom: 8),
             dropCap: DropCap(
-                child: movie.posterPath!.isNotEmpty
+                child: movie.posterPath != null
                     ? GestureDetector(
                         onTap: () {
-                          //TODO make it possible to do double tap do zoom in and out
-                          //https://pub.dev/packages/extended_image#zoom-pan
-                          final imageProvider = Image.network(
-                                  "https://image.tmdb.org/t/p/w500${movie.posterPath}")
-                              .image;
-                          showImageViewer(
-                            context,
-                            imageProvider,
-                          );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => FullScreenImage(
+                                  path:
+                                      "https://image.tmdb.org/t/p/original${movie.posterPath}")));
                         },
                         child: Stack(
                           children: [

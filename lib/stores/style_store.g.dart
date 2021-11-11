@@ -69,6 +69,22 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
+  final _$nothingFoundImageAtom =
+      Atom(name: '_StyleStoreBase.nothingFoundImage');
+
+  @override
+  String? get nothingFoundImage {
+    _$nothingFoundImageAtom.reportRead();
+    return super.nothingFoundImage;
+  }
+
+  @override
+  set nothingFoundImage(String? value) {
+    _$nothingFoundImageAtom.reportWrite(value, super.nothingFoundImage, () {
+      super.nothingFoundImage = value;
+    });
+  }
+
   final _$_StyleStoreBaseActionController =
       ActionController(name: '_StyleStoreBase');
 
@@ -100,7 +116,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
 primaryColor: ${primaryColor},
 colorIndex: ${colorIndex},
 fabPosition: ${fabPosition},
-errorImage: ${errorImage}
+errorImage: ${errorImage},
+nothingFoundImage: ${nothingFoundImage}
     ''';
   }
 }

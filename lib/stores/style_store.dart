@@ -17,11 +17,13 @@ abstract class _StyleStoreBase with Store {
       if (prefs!.containsKey('primaryColor')) {
         primaryColor = AppColors.primaries[prefs!.getInt('primaryColor')!];
         colorIndex = prefs!.getInt('primaryColor');
-        errorImage = AppColors.images[colorIndex!];
+        errorImage = AppColors.imagesNoConnection[colorIndex!];
+        nothingFoundImage = AppColors.imagesNothingFound[colorIndex!];
       } else {
         primaryColor = AppColors.primary;
         colorIndex = 0;
-        errorImage = AppColors.images[0];
+        errorImage = AppColors.imagesNoConnection[0];
+        nothingFoundImage = AppColors.imagesNothingFound[0];
       }
 
       if (prefs!.containsKey('fabPosition')) {
@@ -46,13 +48,16 @@ abstract class _StyleStoreBase with Store {
 
   @observable
   String? errorImage;
+  @observable
+  String? nothingFoundImage;
 
   @action
   void setPrimaryColor(Color value, int index) {
     prefs?.setInt('primaryColor', index);
     colorIndex = index;
     primaryColor = value;
-    errorImage = AppColors.images[colorIndex!];
+    errorImage = AppColors.imagesNoConnection[colorIndex!];
+    nothingFoundImage = AppColors.imagesNothingFound[colorIndex!];
   }
 
   @action

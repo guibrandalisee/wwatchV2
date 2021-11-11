@@ -53,13 +53,37 @@ class ContentFilter extends StatelessWidget {
                     color: AppColors.text,
                     fontSize: 16,
                     fontWeight: FontWeight.w100),
-                suffix: GestureDetector(
-                  onTap: movieStore.search,
-                  child: Icon(
-                    LineIcons.search,
-                    color: AppColors.text,
-                    size: 18,
-                  ),
+                suffix: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Observer(builder: (_) {
+                      if (movieStore.searchString.isNotEmpty) {
+                        return GestureDetector(
+                          onTap: () {
+                            movieStore.setSearch('');
+                            movieStore.search();
+                          },
+                          child: Icon(
+                            Icons.close,
+                            color: AppColors.text,
+                            size: 18,
+                          ),
+                        );
+                      }
+                      return Container();
+                    }),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    GestureDetector(
+                      onTap: movieStore.search,
+                      child: Icon(
+                        LineIcons.search,
+                        color: AppColors.text,
+                        size: 18,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -83,6 +107,9 @@ class ContentFilter extends StatelessWidget {
                         child: TextButton(
                           onPressed: () {
                             movieStore.setSelectedContentType(0);
+                            if (movieStore.searchString.isEmpty) {
+                              movieStore.getPopularMovies();
+                            }
                           },
                           child: Text(
                             "Movies",
@@ -112,6 +139,9 @@ class ContentFilter extends StatelessWidget {
                         child: TextButton(
                           onPressed: () {
                             movieStore.setSelectedContentType(1);
+                            if (movieStore.searchString.isEmpty) {
+                              movieStore.getPopularMovies();
+                            }
                           },
                           child: Text(
                             "TV Shows",

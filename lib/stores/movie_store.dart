@@ -63,8 +63,6 @@ abstract class _MovieStoreBase with Store {
       'language': language,
       'page': page,
       'sort_by': 'popularity.desc',
-      'include_adult': includeAdult,
-      'include_video': false,
     });
     error = false;
     try {
@@ -89,19 +87,18 @@ abstract class _MovieStoreBase with Store {
     }
   }
 
+  //TODO not working
   @action
   Future<void> getMorePopularMovies() async {
     page++;
     if (searchString.isEmpty) {
-      final response = await fetchData(
-          path: selectedContentType == 0 ? '/search/movie' : '/search/tv',
-          parameters: {
-            'api_key': apiKey,
-            'language': language,
-            'page': page,
-            'sort_by': 'popularity.desc',
-            'include_adult': includeAdult,
-          });
+      final response = await fetchData(path: '/discover/movie', parameters: {
+        'api_key': apiKey,
+        'language': language,
+        'page': page,
+        'sort_by': 'popularity.desc',
+        'include_adult': includeAdult,
+      });
       error = false;
       try {
         final newMovies = response.data['results'].map<SimpleMovie>((e) {
@@ -124,15 +121,13 @@ abstract class _MovieStoreBase with Store {
         error = true;
       }
     } else {
-      final response = await fetchData(
-          path: selectedContentType == 0 ? '/search/movie' : '/search/tv',
-          parameters: {
-            'api_key': apiKey,
-            'language': language,
-            'page': page,
-            'query': searchString,
-            'include_adult': includeAdult,
-          });
+      final response = await fetchData(path: '/search/movie', parameters: {
+        'api_key': apiKey,
+        'language': language,
+        'page': page,
+        'query': searchString,
+        'include_adult': includeAdult,
+      });
       error = false;
       try {
         final newMovies = response.data['results'].map<SimpleMovie>((e) {
@@ -272,15 +267,13 @@ abstract class _MovieStoreBase with Store {
     }
     movies = [];
     page = 1;
-    final response = await fetchData(
-        path: selectedContentType == 0 ? '/search/movie' : '/search/tv',
-        parameters: {
-          'api_key': apiKey,
-          'language': language,
-          'query': searchString,
-          'page': page,
-          'include_adult': includeAdult,
-        });
+    final response = await fetchData(path: '/search/movie', parameters: {
+      'api_key': apiKey,
+      'language': language,
+      'query': searchString,
+      'page': page,
+      'include_adult': includeAdult,
+    });
     error = false;
     try {
       totalPages = response.data['total_pages'];

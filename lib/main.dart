@@ -15,6 +15,7 @@ import 'package:wwatch/stores/style_store.dart';
 //this way we can filter better the results
 
 //TODO Fix TV shows filter not working
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -23,7 +24,6 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
   );
-  runApp(MyApp());
   runApp(MyApp());
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupLocators(prefs);

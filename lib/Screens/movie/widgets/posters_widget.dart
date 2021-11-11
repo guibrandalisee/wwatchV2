@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -46,13 +47,11 @@ class PostersWidget extends StatelessWidget {
                 onTap: () {
                   //TODO make it possible to do double tap do zoom in and out
                   //https://pub.dev/packages/extended_image#zoom-pan
-                  final imageProvider = Image.network(
-                          "https://image.tmdb.org/t/p/original${movie.images![index].filePath}")
-                      .image;
-                  showImageViewer(
-                    context,
-                    imageProvider,
-                  );
+
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => FullScreenImage(
+                          path:
+                              "https://image.tmdb.org/t/p/original${movie.images![index].filePath}")));
                 },
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),

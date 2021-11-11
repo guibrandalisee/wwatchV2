@@ -84,11 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: Icons.menu,
           activeIcon: Icons.close,
           children: [
+            //TODO if the textinputfield is already on focus but with the keyboard closed it doesn't open it
             SpeedDialChild(
               onTap: () {
                 focusNode.requestFocus();
                 scrollController.animateTo(0,
-                    duration: Duration(seconds: 1), curve: Curves.bounceInOut);
+                    duration: Duration(seconds: 1), curve: Curves.ease);
               },
               labelWidget: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -360,20 +361,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              "ERROR",
-                              style: GoogleFonts.getFont('Mitr',
-                                  color: AppColors.text,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400),
-                            ),
                             SizedBox(
                               height: 32,
                             ),
                             Container(
                               height: 120,
                               child: SvgPicture.asset(
-                                styleStore.errorImage!,
+                                styleStore.nothingFoundImage!,
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -381,10 +375,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 32,
                             ),
                             Text(
-                              "Couldn't find any movies",
+                              "Couldn't find any movies with the especified filters :(",
                               style: GoogleFonts.getFont('Mitr',
                                   color: AppColors.text,
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w300),
                               textAlign: TextAlign.center,
                             ),

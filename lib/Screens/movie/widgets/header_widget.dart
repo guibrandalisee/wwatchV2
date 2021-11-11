@@ -27,15 +27,31 @@ class HeaderWidget extends StatelessWidget {
             left: 0,
             bottom: 1,
             child: Container(
-              child: CachedNetworkImage(
-                imageUrl: movie.backdropPath != null &&
+                child: movie.backdropPath != null &&
                         movie.backdropPath!.isNotEmpty
-                    ? 'https://image.tmdb.org/t/p/w1280${movie.backdropPath}'
-                    : 'https://image.tmdb.org/t/p/w780${movie.posterPath}',
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.medium,
-              ),
-            ),
+                    ? CachedNetworkImage(
+                        imageUrl:
+                            'https://image.tmdb.org/t/p/w1280${movie.backdropPath}',
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.medium,
+                      )
+                    : movie.posterPath != null && movie.posterPath!.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl:
+                                'https://image.tmdb.org/t/p/w780${movie.posterPath}',
+                            fit: BoxFit.cover,
+                            filterQuality: FilterQuality.medium,
+                          )
+                        : Center(
+                            child: Container(
+                            child: Text(
+                              'No Image :(',
+                              style: GoogleFonts.getFont('Mitr',
+                                  color: AppColors.text,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                          ))),
           ),
           Container(
             width: double.infinity,

@@ -22,7 +22,7 @@ class AppColors {
     Color(0xff8a05bf), //primaryDarkPurple
   ];
 
-  static List<String> images = [
+  static List<String> imagesNoConnection = [
     'assets/noConnection/noConnection1.svg',
     'assets/noConnection/noConnection2.svg',
     'assets/noConnection/noConnection3.svg',
@@ -31,5 +31,16 @@ class AppColors {
     'assets/noConnection/noConnection6.svg',
     'assets/noConnection/noConnection7.svg',
     'assets/noConnection/noConnection8.svg',
+  ];
+
+  static List<String> imagesNothingFound = [
+    'assets/nothingFound/nothingFound1.svg',
+    'assets/nothingFound/nothingFound2.svg',
+    'assets/nothingFound/nothingFound3.svg',
+    'assets/nothingFound/nothingFound4.svg',
+    'assets/nothingFound/nothingFound5.svg',
+    'assets/nothingFound/nothingFound6.svg',
+    'assets/nothingFound/nothingFound7.svg',
+    'assets/nothingFound/nothingFound8.svg',
   ];
 }
