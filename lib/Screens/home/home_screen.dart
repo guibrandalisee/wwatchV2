@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,10 +87,18 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             //TODO if the textinputfield is already on focus but with the keyboard closed it doesn't open it
             SpeedDialChild(
-              onTap: () {
-                focusNode.requestFocus();
-                scrollController.animateTo(0,
-                    duration: Duration(seconds: 1), curve: Curves.ease);
+              onTap: () async {
+                // focusNode.requestFocus();
+                FocusScope.of(context).unfocus();
+
+                try {
+                  await scrollController.animateTo(0,
+                      duration: Duration(seconds: 1), curve: Curves.ease);
+                } catch (e) {
+                  print('noScroll');
+                }
+
+                FocusScope.of(context).requestFocus(focusNode);
               },
               labelWidget: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -340,56 +349,58 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               if (movieStore.empty)
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: 28,
-                    ),
-                    ContentFilter(
-                      focusNode: focusNode,
-                      movieStore: movieStore,
-                    ),
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.all(32),
-                        padding: EdgeInsets.all(16),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.shape,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: 32,
-                            ),
-                            Container(
-                              height: 120,
-                              child: SvgPicture.asset(
-                                styleStore.nothingFoundImage!,
-                                fit: BoxFit.fitHeight,
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 28,
+                      ),
+                      ContentFilter(
+                        focusNode: focusNode,
+                        movieStore: movieStore,
+                      ),
+                      Center(
+                        child: Container(
+                          margin: EdgeInsets.all(32),
+                          padding: EdgeInsets.all(16),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: AppColors.shape,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                height: 32,
                               ),
-                            ),
-                            SizedBox(
-                              height: 32,
-                            ),
-                            Text(
-                              "Couldn't find any movies with the especified filters :(",
-                              style: GoogleFonts.getFont('Mitr',
-                                  color: AppColors.text,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                          ],
+                              Container(
+                                height: 120,
+                                child: SvgPicture.asset(
+                                  styleStore.nothingFoundImage!,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 32,
+                              ),
+                              Text(
+                                "Couldn't find any movies with the especified filters :(",
+                                style: GoogleFonts.getFont('Mitr',
+                                    color: AppColors.text,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               if (movieStore.movies.length == 0)
                 return SingleChildScrollView(
@@ -465,9 +476,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Visibility(
                     visible: movieStore.backToTheTopVisible,
                     child: Positioned(
-                        right: styleStore.fabPosition == 0 ? 16 : null,
-                        left: styleStore.fabPosition == 1 ? 16 : null,
-                        bottom: 32,
+                        right: styleStore.fabPosition == 1 ? 20 : null,
+                        left: styleStore.fabPosition == 0 ? 20 : null,
+                        bottom: 128,
                         child: InkWell(
                           onTap: () {
                             //TODO add an animation to this button

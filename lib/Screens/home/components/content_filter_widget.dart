@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -10,14 +11,22 @@ import 'package:wwatch/stores/style_store.dart';
 class ContentFilter extends StatelessWidget {
   final FocusNode focusNode;
   final MovieStore movieStore;
-  ContentFilter({Key? key, required this.focusNode, required this.movieStore})
-      : super(key: key);
+
+  ContentFilter({
+    Key? key,
+    required this.focusNode,
+    required this.movieStore,
+  }) : super(key: key);
+
   final StyleStore styleStore = GetIt.I<StyleStore>();
-  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final controller = TextEditingController();
+
     controller.text = movieStore.searchString;
+    controller.selection =
+        TextSelection.collapsed(offset: movieStore.searchString.length);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

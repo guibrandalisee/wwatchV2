@@ -79,7 +79,7 @@ abstract class _SettingsStoreBase with Store {
   void setTimeZone(String value) => timeZone = value;
 
   @observable
-  List<String> timeZones = ["America - São Paulo", "Mexico - Mato Grosso"];
+  List<String> timeZones = ["Brasil - São Paulo", "Brasil - Belo Horizonte"];
 
   @observable
   bool autoDetectTimeZone = true;
