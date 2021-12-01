@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'settings_store.g.dart';
 
 class SettingsStore = _SettingsStoreBase with _$SettingsStore;
+enum CustomBrightness { dark, amoled, light }
 
 abstract class _SettingsStoreBase with Store {
   final SharedPreferences? prefs;
@@ -16,9 +18,23 @@ abstract class _SettingsStoreBase with Store {
       } else {
         dateFormat = 'dd/mm/yyyy';
       }
+      if (prefs!.containsKey('brightness')) {
+        brightness = CustomBrightness.values[prefs!.getInt('brightness')!];
+      } else {
+        brightness = CustomBrightness.dark;
+      }
     } else {
       dateFormat = 'dd/mm/yyyy';
+      brightness = CustomBrightness.dark;
     }
+  }
+
+  @observable
+  CustomBrightness brightness = CustomBrightness.dark;
+  @action
+  setBrightness(CustomBrightness value) {
+    prefs!.setInt('brightness', value.index);
+    brightness = value;
   }
 
   @observable
@@ -74,7 +90,7 @@ abstract class _SettingsStoreBase with Store {
   ];
 
   @observable
-  String timeZone = 'America - São Paulo';
+  String timeZone = "Brasil - São Paulo";
   @action
   void setTimeZone(String value) => timeZone = value;
 
@@ -86,4 +102,14 @@ abstract class _SettingsStoreBase with Store {
 
   @action
   void setAutoDetectTimeZone(bool value) => autoDetectTimeZone = value;
+
+  @observable
+  var selectedWatchProviders = ObservableList<int>();
+
+  @action
+  void addSelectedWatchProvider(int value) => selectedWatchProviders.add(value);
+
+  @action
+  void removeSelectedWatchProvider(int value) =>
+      selectedWatchProviders.remove(value);
 }

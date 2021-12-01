@@ -14,7 +14,7 @@ class SignupScreen extends StatelessWidget {
     StyleStore styleStore = GetIt.I<StyleStore>();
     final double inputWidth = 260;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.logo),
         backgroundColor: styleStore.primaryColor,
@@ -46,7 +46,7 @@ class SignupScreen extends StatelessWidget {
             Text(
               "SIGN UP",
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 48,
                   fontWeight: FontWeight.w300),
             ),
@@ -65,7 +65,7 @@ class SignupScreen extends StatelessWidget {
                       child: Text(
                         "Username",
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w100),
                         textAlign: TextAlign.start,
@@ -96,7 +96,7 @@ class SignupScreen extends StatelessWidget {
                       child: Text(
                         "Password",
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w100),
                         textAlign: TextAlign.start,
@@ -127,7 +127,7 @@ class SignupScreen extends StatelessWidget {
                       child: Text(
                         "Repeat Password",
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w100),
                         textAlign: TextAlign.start,
@@ -158,7 +158,7 @@ class SignupScreen extends StatelessWidget {
                       child: Text(
                         "E-Mail",
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w100),
                         textAlign: TextAlign.start,
@@ -217,7 +217,7 @@ class SignupScreen extends StatelessWidget {
                           child: Text(
                             "Sign Up",
                             style: GoogleFonts.getFont('Mitr',
-                                color: AppColors.text,
+                                color: styleStore.textColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300),
                           ),

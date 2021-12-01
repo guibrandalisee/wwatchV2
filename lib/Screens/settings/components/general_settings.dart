@@ -23,7 +23,7 @@ class GeneralSettings extends StatelessWidget {
               child: Text(
                 "Date Format",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300),
               ),
@@ -48,7 +48,7 @@ class GeneralSettings extends StatelessWidget {
               child: Text(
                 "Primary Language",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300),
               ),
@@ -73,7 +73,7 @@ class GeneralSettings extends StatelessWidget {
               child: Text(
                 "Secondary Language",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300),
               ),
@@ -98,7 +98,7 @@ class GeneralSettings extends StatelessWidget {
               child: Text(
                 "Include Adult Content",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300),
               ),
@@ -123,7 +123,7 @@ class GeneralSettings extends StatelessWidget {
               child: Text(
                 "Filter Bad Language",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300),
               ),
@@ -148,7 +148,7 @@ class GeneralSettings extends StatelessWidget {
               child: Text(
                 "Country",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300),
               ),
@@ -175,7 +175,7 @@ class GeneralSettings extends StatelessWidget {
                   Text(
                     "Time Zone",
                     style: GoogleFonts.getFont('Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w300),
                   ),
@@ -194,7 +194,7 @@ class GeneralSettings extends StatelessWidget {
                   Text(
                     "Auto Detect",
                     style: GoogleFonts.getFont('Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w100),
                   ),

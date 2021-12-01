@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
     final double inputWidth = 340;
     StyleStore styleStore = GetIt.I<StyleStore>();
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.logo),
         backgroundColor: styleStore.primaryColor,
@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                 Text(
                   "LOGIN",
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 48,
                       fontWeight: FontWeight.w300),
                 ),
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                   child: Text(
                     "Username",
                     style: GoogleFonts.getFont('Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w100),
                     textAlign: TextAlign.start,
@@ -103,7 +103,7 @@ class LoginScreen extends StatelessWidget {
                   child: Text(
                     "Password",
                     style: GoogleFonts.getFont('Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w100),
                     textAlign: TextAlign.start,
@@ -157,7 +157,7 @@ class LoginScreen extends StatelessWidget {
                     child: Text(
                       "Login",
                       style: GoogleFonts.getFont('Mitr',
-                          color: AppColors.text,
+                          color: styleStore.textColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w300),
                     ),

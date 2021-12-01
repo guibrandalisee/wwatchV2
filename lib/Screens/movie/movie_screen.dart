@@ -13,6 +13,7 @@ import 'package:wwatch/Screens/movie/widgets/posters_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class MovieScreen extends StatelessWidget {
@@ -23,15 +24,16 @@ class MovieScreen extends StatelessWidget {
   }) : super(key: key);
   final MovieStore movieStore = MovieStore();
   final StyleStore styleStore = GetIt.I<StyleStore>();
+  SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
     movieStore.getSingleMovie(movieId);
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: SpeedDial(
           child: Icon(LineIcons.plus),
           elevation: 8,
-          direction: SpeedDialDirection.down,
+          direction: SpeedDialDirection.up,
           overlayColor: Colors.black,
           backgroundColor: styleStore.primaryColor,
           foregroundColor: AppColors.logo,
@@ -45,7 +47,7 @@ class MovieScreen extends StatelessWidget {
                 child: Text(
                   'Add to a list',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -59,7 +61,7 @@ class MovieScreen extends StatelessWidget {
                 child: Text(
                   'Add to your watchlist',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -73,7 +75,7 @@ class MovieScreen extends StatelessWidget {
                 child: Text(
                   'Rate it!',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -87,7 +89,7 @@ class MovieScreen extends StatelessWidget {
                 child: Text(
                   'Mark as favorite',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -95,10 +97,12 @@ class MovieScreen extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: styleStore.backgroundColor,
         appBar: AppBar(
           iconTheme: IconThemeData(color: AppColors.logo),
-          backgroundColor: styleStore.primaryColor,
+          backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+              ? styleStore.backgroundColor
+              : styleStore.primaryColor,
           title: Hero(
             tag: "logo",
             child: SizedBox(
@@ -121,7 +125,7 @@ class MovieScreen extends StatelessWidget {
                   padding: EdgeInsets.all(16),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: AppColors.shape,
+                    color: styleStore.shapeColor,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -130,7 +134,7 @@ class MovieScreen extends StatelessWidget {
                       Text(
                         'ERROR',
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 24,
                             fontWeight: FontWeight.w400),
                       ),
@@ -150,7 +154,7 @@ class MovieScreen extends StatelessWidget {
                       Text(
                         "We couldn't connect you to the TMDB servers",
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w300),
                         textAlign: TextAlign.center,
@@ -161,7 +165,7 @@ class MovieScreen extends StatelessWidget {
                       Text(
                         "verify your internet connection and try again",
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 12,
                             fontWeight: FontWeight.w100),
                         textAlign: TextAlign.center,
@@ -183,7 +187,7 @@ class MovieScreen extends StatelessWidget {
                           child: Text(
                             "Try Again",
                             style: GoogleFonts.getFont('Mitr',
-                                color: AppColors.text,
+                                color: styleStore.textColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w300),
                             textAlign: TextAlign.center,

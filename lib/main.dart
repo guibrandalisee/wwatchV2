@@ -30,8 +30,9 @@ Future<void> main() async {
 }
 
 void setupLocators(SharedPreferences preferences) {
-  GetIt.I.registerSingleton(StyleStore(prefs: preferences));
   GetIt.I.registerSingleton(SettingsStore(prefs: preferences));
+
+  GetIt.I.registerSingleton(StyleStore(prefs: preferences));
 }
 
 Future<void> launchInBrowser(String url) async {

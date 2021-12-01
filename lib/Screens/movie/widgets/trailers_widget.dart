@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
@@ -8,6 +9,7 @@ import 'package:wwatch/main.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/style_store.dart';
 
 class TrailersWidget extends StatefulWidget {
   final CompleteMovie movie;
@@ -22,6 +24,7 @@ class TrailersWidget extends StatefulWidget {
 
 class _TrailersWidgetState extends State<TrailersWidget> {
   CarouselController carouselController = CarouselController();
+  final styleStore = GetIt.I<StyleStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class _TrailersWidgetState extends State<TrailersWidget> {
           Text(
             'Movie Trailers',
             style: GoogleFonts.getFont('Mitr',
-                color: AppColors.text,
+                color: styleStore.textColor,
                 fontSize: 22,
                 fontWeight: FontWeight.w400),
           ),

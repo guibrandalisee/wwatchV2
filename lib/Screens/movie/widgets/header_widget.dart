@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -14,6 +15,7 @@ class HeaderWidget extends StatelessWidget {
   }) : super(key: key);
   final CompleteMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
+  SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +49,7 @@ class HeaderWidget extends StatelessWidget {
                             child: Text(
                               'No Image :(',
                               style: GoogleFonts.getFont('Mitr',
-                                  color: AppColors.text,
+                                  color: styleStore.textColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w300),
                             ),
@@ -58,7 +60,7 @@ class HeaderWidget extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.background,
+                  styleStore.backgroundColor!,
                   Colors.transparent,
                 ],
                 begin: Alignment.bottomCenter,
@@ -119,7 +121,10 @@ class HeaderWidget extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.black54),
+                          color: settingsStore.brightness ==
+                                  CustomBrightness.amoled
+                              ? AppColors.background
+                              : Colors.black54),
                       margin: EdgeInsets.symmetric(horizontal: 8),
                       child: Center(
                         child: Text(

@@ -9,6 +9,21 @@ part of 'settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingsStore on _SettingsStoreBase, Store {
+  final _$brightnessAtom = Atom(name: '_SettingsStoreBase.brightness');
+
+  @override
+  CustomBrightness get brightness {
+    _$brightnessAtom.reportRead();
+    return super.brightness;
+  }
+
+  @override
+  set brightness(CustomBrightness value) {
+    _$brightnessAtom.reportWrite(value, super.brightness, () {
+      super.brightness = value;
+    });
+  }
+
   final _$dateFormatAtom = Atom(name: '_SettingsStoreBase.dateFormat');
 
   @override
@@ -177,8 +192,36 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
+  final _$selectedWatchProvidersAtom =
+      Atom(name: '_SettingsStoreBase.selectedWatchProviders');
+
+  @override
+  ObservableList<int> get selectedWatchProviders {
+    _$selectedWatchProvidersAtom.reportRead();
+    return super.selectedWatchProviders;
+  }
+
+  @override
+  set selectedWatchProviders(ObservableList<int> value) {
+    _$selectedWatchProvidersAtom
+        .reportWrite(value, super.selectedWatchProviders, () {
+      super.selectedWatchProviders = value;
+    });
+  }
+
   final _$_SettingsStoreBaseActionController =
       ActionController(name: '_SettingsStoreBase');
+
+  @override
+  dynamic setBrightness(CustomBrightness value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setBrightness');
+    try {
+      return super.setBrightness(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setdateFormat(String value) {
@@ -269,8 +312,31 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
+  void addSelectedWatchProvider(int value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.addSelectedWatchProvider');
+    try {
+      return super.addSelectedWatchProvider(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeSelectedWatchProvider(int value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.removeSelectedWatchProvider');
+    try {
+      return super.removeSelectedWatchProvider(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+brightness: ${brightness},
 dateFormat: ${dateFormat},
 language: ${language},
 secondaryLanguage: ${secondaryLanguage},
@@ -281,7 +347,8 @@ country: ${country},
 countries: ${countries},
 timeZone: ${timeZone},
 timeZones: ${timeZones},
-autoDetectTimeZone: ${autoDetectTimeZone}
+autoDetectTimeZone: ${autoDetectTimeZone},
+selectedWatchProviders: ${selectedWatchProviders}
     ''';
   }
 }

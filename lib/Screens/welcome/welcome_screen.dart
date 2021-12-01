@@ -1,12 +1,12 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Screens/home/home_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,7 +63,14 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen(
+                                  contentType: type.movie,
+                                )));
+                  },
                   child: SizedBox(
                     width: 340,
                     child: AnimatedCard(
@@ -111,7 +118,14 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen(
+                                  contentType: type.tvShows,
+                                )));
+                  },
                   child: SizedBox(
                     width: 340,
                     child: AnimatedCard(
@@ -155,23 +169,6 @@ class WelcomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  borderRadius: BorderRadius.circular(4),
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
-                  },
-                  child: Ink(
-                    padding: EdgeInsets.all(4),
-                    child: Text(
-                      "Just take me to Home Screen",
-                      style: GoogleFonts.getFont('Mitr',
-                          color: Colors.blue[300],
-                          fontSize: 14,
-                          fontWeight: FontWeight.w200),
                     ),
                   ),
                 ),

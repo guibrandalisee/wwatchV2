@@ -1,10 +1,12 @@
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/style_store.dart';
 
 class DescriptionWidget extends StatelessWidget {
   DescriptionWidget({
@@ -15,6 +17,7 @@ class DescriptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final styleStore = GetIt.I<StyleStore>();
     return Column(
       children: [
         //TODO find out how to get movie Age Certifications
@@ -25,7 +28,7 @@ class DescriptionWidget extends StatelessWidget {
             child: Text(
               movie.title,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 22,
                   fontWeight: FontWeight.w600),
             ),
@@ -36,7 +39,7 @@ class DescriptionWidget extends StatelessWidget {
           child: DropCapText(
             movie.overview,
             style: GoogleFonts.getFont('Mitr',
-                color: AppColors.text,
+                color: styleStore.textColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w300),
             dropCapPadding: EdgeInsets.only(right: 16, bottom: 8),
@@ -82,7 +85,7 @@ class DescriptionWidget extends StatelessWidget {
                         child: Text(
                           'No Image :(',
                           style: GoogleFonts.getFont('Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 18,
                               fontWeight: FontWeight.w600),
                         ),

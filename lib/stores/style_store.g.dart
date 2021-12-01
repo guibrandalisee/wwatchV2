@@ -24,6 +24,82 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
+  final _$dropdownColorAtom = Atom(name: '_StyleStoreBase.dropdownColor');
+
+  @override
+  Color? get dropdownColor {
+    _$dropdownColorAtom.reportRead();
+    return super.dropdownColor;
+  }
+
+  @override
+  set dropdownColor(Color? value) {
+    _$dropdownColorAtom.reportWrite(value, super.dropdownColor, () {
+      super.dropdownColor = value;
+    });
+  }
+
+  final _$backgroundColorAtom = Atom(name: '_StyleStoreBase.backgroundColor');
+
+  @override
+  Color? get backgroundColor {
+    _$backgroundColorAtom.reportRead();
+    return super.backgroundColor;
+  }
+
+  @override
+  set backgroundColor(Color? value) {
+    _$backgroundColorAtom.reportWrite(value, super.backgroundColor, () {
+      super.backgroundColor = value;
+    });
+  }
+
+  final _$textColorAtom = Atom(name: '_StyleStoreBase.textColor');
+
+  @override
+  Color? get textColor {
+    _$textColorAtom.reportRead();
+    return super.textColor;
+  }
+
+  @override
+  set textColor(Color? value) {
+    _$textColorAtom.reportWrite(value, super.textColor, () {
+      super.textColor = value;
+    });
+  }
+
+  final _$textOnPrimaryColorAtom =
+      Atom(name: '_StyleStoreBase.textOnPrimaryColor');
+
+  @override
+  Color? get textOnPrimaryColor {
+    _$textOnPrimaryColorAtom.reportRead();
+    return super.textOnPrimaryColor;
+  }
+
+  @override
+  set textOnPrimaryColor(Color? value) {
+    _$textOnPrimaryColorAtom.reportWrite(value, super.textOnPrimaryColor, () {
+      super.textOnPrimaryColor = value;
+    });
+  }
+
+  final _$shapeColorAtom = Atom(name: '_StyleStoreBase.shapeColor');
+
+  @override
+  Color? get shapeColor {
+    _$shapeColorAtom.reportRead();
+    return super.shapeColor;
+  }
+
+  @override
+  set shapeColor(Color? value) {
+    _$shapeColorAtom.reportWrite(value, super.shapeColor, () {
+      super.shapeColor = value;
+    });
+  }
+
   final _$colorIndexAtom = Atom(name: '_StyleStoreBase.colorIndex');
 
   @override
@@ -111,9 +187,25 @@ mixin _$StyleStore on _StyleStoreBase, Store {
   }
 
   @override
+  dynamic changeBrihtness() {
+    final _$actionInfo = _$_StyleStoreBaseActionController.startAction(
+        name: '_StyleStoreBase.changeBrihtness');
+    try {
+      return super.changeBrihtness();
+    } finally {
+      _$_StyleStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 primaryColor: ${primaryColor},
+dropdownColor: ${dropdownColor},
+backgroundColor: ${backgroundColor},
+textColor: ${textColor},
+textOnPrimaryColor: ${textOnPrimaryColor},
+shapeColor: ${shapeColor},
 colorIndex: ${colorIndex},
 fabPosition: ${fabPosition},
 errorImage: ${errorImage},

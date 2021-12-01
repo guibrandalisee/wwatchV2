@@ -5,10 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:transition/transition.dart';
 import 'package:wwatch/Screens/about/about_screen.dart';
+import 'package:wwatch/Screens/settings/components/brightness_selector.dart';
 import 'package:wwatch/Screens/settings/components/color_selector.dart';
 import 'package:wwatch/Screens/settings/components/fab_position.dart';
 import 'package:wwatch/Screens/settings/components/general_settings.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -28,12 +30,17 @@ class _SettingsStateScreen extends State<SettingsScreen> {
     reaction((_) => styleStore.primaryColor, (value) {
       setState(() {});
     });
-
+    reaction((_) => styleStore.backgroundColor, (value) {
+      setState(() {});
+    });
+    final SettingsStore settingsStore = GetIt.I<SettingsStore>();
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.logo),
-        backgroundColor: styleStore.primaryColor,
+        backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+            ? styleStore.backgroundColor
+            : styleStore.primaryColor,
         title: Container(
           child: Hero(
             tag: "logo",
@@ -64,14 +71,14 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               Text(
                 "SETTINGS",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 48,
                     fontWeight: FontWeight.w300),
               ),
               Text(
                 "Configure your APP",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w100),
               ),
@@ -81,7 +88,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(AppColors.button)),
+                        MaterialStateProperty.all(styleStore.dropdownColor)),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -92,7 +99,10 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(LineIcons.infoCircle),
+                    Icon(
+                      LineIcons.infoCircle,
+                      color: styleStore.textColor,
+                    ),
                     SizedBox(
                       height: 56,
                       width: 8,
@@ -100,7 +110,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                     Text(
                       "About the app",
                       style: GoogleFonts.getFont('Mitr',
-                          color: AppColors.text,
+                          color: styleStore.textColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w100),
                     ),
@@ -115,7 +125,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 child: Text(
                   "Floating Action Button Position",
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w300),
                 ),
@@ -130,9 +140,9 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "App Color",
+                  "App Main Color",
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w300),
                 ),
@@ -141,6 +151,23 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 height: 16,
               ),
               ColorSelector(),
+              SizedBox(
+                height: 32,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  "App Brightness",
+                  style: GoogleFonts.getFont('Mitr',
+                      color: styleStore.textColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              BrightnessSelector(),
               SizedBox(
                 height: 32,
               ),
@@ -153,7 +180,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 child: Text(
                   "Think there are any account settings missing?",
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w300),
                   textAlign: TextAlign.center,
@@ -168,7 +195,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   "You can probably find them on the official website",
                   style: GoogleFonts.getFont(
                     'Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300,
                   ),
@@ -187,7 +214,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       "You can go there by clicking here",
                       style: GoogleFonts.getFont(
                         'Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w200,
                       ),
@@ -209,7 +236,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   "Or give us feedback on our playstore page, we will be glad to implement it",
                   style: GoogleFonts.getFont(
                     'Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300,
                   ),

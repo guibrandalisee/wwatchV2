@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class FullScreenImage extends StatelessWidget {
@@ -11,13 +12,16 @@ class FullScreenImage extends StatelessWidget {
   }) : super(key: key);
   final String path;
   final StyleStore styleStore = GetIt.I<StyleStore>();
+  SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.logo),
-        backgroundColor: styleStore.primaryColor,
+        backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+            ? styleStore.backgroundColor
+            : styleStore.primaryColor,
         title: Hero(
           tag: "logo",
           child: SizedBox(

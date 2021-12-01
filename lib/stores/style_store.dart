@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/stores/settings_store.dart';
 
 part 'style_store.g.dart';
 
@@ -9,7 +11,7 @@ class StyleStore = _StyleStoreBase with _$StyleStore;
 
 abstract class _StyleStoreBase with Store {
   final SharedPreferences? prefs;
-
+  final settingsStore = GetIt.I<SettingsStore>();
   _StyleStoreBase({
     this.prefs,
   }) {
@@ -35,10 +37,26 @@ abstract class _StyleStoreBase with Store {
       primaryColor = AppColors.primary;
       colorIndex = 0;
     }
+    changeBrihtness();
   }
 
   @observable
   Color? primaryColor;
+
+  @observable
+  Color? dropdownColor;
+
+  @observable
+  Color? backgroundColor;
+
+  @observable
+  Color? textColor;
+
+  @observable
+  Color? textOnPrimaryColor;
+
+  @observable
+  Color? shapeColor;
 
   @observable
   int? colorIndex;
@@ -64,5 +82,29 @@ abstract class _StyleStoreBase with Store {
   void setFabPosition(int value) {
     prefs!.setInt('fabPosition', value);
     fabPosition = value;
+  }
+
+  @action
+  changeBrihtness() {
+    switch (settingsStore.brightness) {
+      case CustomBrightness.dark:
+        backgroundColor = AppColors.background;
+        textColor = AppColors.text;
+        shapeColor = AppColors.shape;
+        dropdownColor = AppColors.dropdownButton;
+        break;
+      case CustomBrightness.amoled:
+        backgroundColor = Colors.black;
+        textColor = AppColors.text;
+        shapeColor = Color(0xff16161D);
+        dropdownColor = Color(0xff16161D);
+        break;
+      case CustomBrightness.light:
+        backgroundColor = Colors.white;
+        textColor = AppColors.shape;
+        shapeColor = Color(0xffCBCBCB);
+        dropdownColor = Color(0xffCBCBCB);
+        break;
+    }
   }
 }

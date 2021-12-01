@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/main.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -12,11 +13,14 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StyleStore styleStore = GetIt.I<StyleStore>();
+    SettingsStore settingsStore = GetIt.I<SettingsStore>();
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.logo),
-        backgroundColor: styleStore.primaryColor,
+        backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+            ? styleStore.backgroundColor
+            : styleStore.primaryColor,
         title: InkWell(
           onTap: () {
             Navigator.push(
@@ -53,14 +57,14 @@ class AboutScreen extends StatelessWidget {
               Text(
                 "ABOUT",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 48,
                     fontWeight: FontWeight.w300),
               ),
               Text(
                 "Information about the APP",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w100),
               ),
@@ -72,7 +76,7 @@ class AboutScreen extends StatelessWidget {
                 child: Text(
                   "Made by:",
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w300),
                 ),
@@ -82,7 +86,7 @@ class AboutScreen extends StatelessWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: AppColors.shape,
+                    color: styleStore.shapeColor,
                     borderRadius: BorderRadius.circular(16)),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 height: 96,
@@ -101,7 +105,7 @@ class AboutScreen extends StatelessWidget {
                           Text(
                             "Guilherme Brandalise",
                             style: GoogleFonts.getFont('Mitr',
-                                color: AppColors.text,
+                                color: styleStore.textColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300),
                           ),
@@ -135,7 +139,7 @@ class AboutScreen extends StatelessWidget {
                                   Container(
                                     width: 2,
                                     height: 18,
-                                    color: AppColors.text,
+                                    color: styleStore.textColor,
                                   ),
                                   InkWell(
                                     onTap: () {
@@ -165,7 +169,7 @@ class AboutScreen extends StatelessWidget {
                 child: Text(
                   "Made by:",
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w300),
                 ),
@@ -175,7 +179,7 @@ class AboutScreen extends StatelessWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: AppColors.shape,
+                    color: styleStore.shapeColor,
                     borderRadius: BorderRadius.circular(16)),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 height: 96,
@@ -204,7 +208,7 @@ class AboutScreen extends StatelessWidget {
                           Text(
                             "G22 Technologies",
                             style: GoogleFonts.getFont('Mitr',
-                                color: AppColors.text,
+                                color: styleStore.textColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300),
                           ),
@@ -237,7 +241,7 @@ class AboutScreen extends StatelessWidget {
                 child: Text(
                   "Buy me a coffee:",
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w300),
                 ),
@@ -250,7 +254,7 @@ class AboutScreen extends StatelessWidget {
                 width: 340,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: Colors.white,
+                  color: styleStore.shapeColor,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -273,7 +277,7 @@ class AboutScreen extends StatelessWidget {
                       width: 3,
                       height: 36,
                       decoration: BoxDecoration(
-                          color: AppColors.text,
+                          color: styleStore.textColor,
                           borderRadius: BorderRadius.circular(16)),
                     ),
                     InkWell(
@@ -299,7 +303,7 @@ class AboutScreen extends StatelessWidget {
                   "Dont forget to review the app on the PlayStore",
                   style: GoogleFonts.getFont(
                     'Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300,
                   ),
@@ -330,7 +334,7 @@ class AboutScreen extends StatelessWidget {
                   "This way we can keep improving it",
                   style: GoogleFonts.getFont(
                     'Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w300,
                   ),
@@ -341,7 +345,7 @@ class AboutScreen extends StatelessWidget {
                 height: 56,
               ),
               Divider(
-                color: AppColors.text,
+                color: styleStore.textColor,
                 endIndent: 16,
                 indent: 16,
               ),
@@ -356,7 +360,7 @@ class AboutScreen extends StatelessWidget {
                       text: "App made using ",
                       style: GoogleFonts.getFont(
                         'Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w300,
                       ),
@@ -391,7 +395,7 @@ class AboutScreen extends StatelessWidget {
                     "Go to their WebSite",
                     style: GoogleFonts.getFont(
                       'Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w200,
                     ),
@@ -407,7 +411,7 @@ class AboutScreen extends StatelessWidget {
                   "DISCLAIMER",
                   style: GoogleFonts.getFont(
                     'Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
@@ -423,7 +427,7 @@ class AboutScreen extends StatelessWidget {
                   "We don't have any sort of affiliation with TMDB, any content related issues must be reported on their website",
                   style: GoogleFonts.getFont(
                     'Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w100,
                   ),

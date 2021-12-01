@@ -18,7 +18,7 @@ class FabPosition extends StatelessWidget {
             return Container(
               height: 56,
               decoration: BoxDecoration(
-                  color: AppColors.button,
+                  color: styleStore.dropdownColor,
                   borderRadius: BorderRadius.circular(8)),
               child: Row(
                 children: [
@@ -33,7 +33,7 @@ class FabPosition extends StatelessWidget {
                         child: Text(
                           "Left",
                           style: GoogleFonts.getFont('Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 18,
                               fontWeight: FontWeight.w100),
                         ),
@@ -48,7 +48,7 @@ class FabPosition extends StatelessWidget {
                   Container(
                     width: 1,
                     height: 36,
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                   ),
                   Expanded(
                     flex: 1,
@@ -61,7 +61,7 @@ class FabPosition extends StatelessWidget {
                         child: Text(
                           "Right",
                           style: GoogleFonts.getFont('Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 18,
                               fontWeight: FontWeight.w100),
                         ),

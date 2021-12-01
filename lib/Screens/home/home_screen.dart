@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,9 +19,11 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+enum type { movie, tvShows }
 
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key, required this.contentType}) : super(key: key);
+  final contentType;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -31,6 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.contentType != type.movie) {
+      movieStore.setSelectedContentType(1);
+    }
     movieStore.getPopularMovies();
   }
 
@@ -39,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   StyleStore styleStore = GetIt.I<StyleStore>();
   SettingsStore settingsStore = GetIt.I<SettingsStore>();
+
   late ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
     });
     reaction((_) => settingsStore.dateFormat, (value) {
+      setState(() {});
+    });
+    reaction((_) => styleStore.backgroundColor, (value) {
       setState(() {});
     });
     scrollController = ScrollController()
@@ -105,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'Search',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -123,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'Movies',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -141,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'TV Shows',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -159,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'Popular',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -177,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'Upcoming',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -195,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'People',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                 ),
@@ -208,9 +216,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: styleStore.backgroundColor,
         appBar: AppBar(
-          backgroundColor: styleStore.primaryColor,
+          backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+              ? styleStore.backgroundColor
+              : styleStore.primaryColor,
           leading: InkWell(
             onTap: () {
               Navigator.pushReplacement(
@@ -275,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.all(16),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.shape,
+                      color: styleStore.shapeColor,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
@@ -284,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           'ERROR',
                           style: GoogleFonts.getFont('Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 24,
                               fontWeight: FontWeight.w400),
                         ),
@@ -304,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           "We couldn't connect you to the TMDB servers",
                           style: GoogleFonts.getFont('Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 14,
                               fontWeight: FontWeight.w300),
                           textAlign: TextAlign.center,
@@ -315,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           "verify your internet connection and try again",
                           style: GoogleFonts.getFont('Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w100),
                           textAlign: TextAlign.center,
@@ -337,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               "Try Again",
                               style: GoogleFonts.getFont('Mitr',
-                                  color: AppColors.text,
+                                  color: styleStore.textColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w300),
                               textAlign: TextAlign.center,
@@ -365,7 +375,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.all(16),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: AppColors.shape,
+                            color: styleStore.shapeColor,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
@@ -387,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 "Couldn't find any movies with the especified filters :(",
                                 style: GoogleFonts.getFont('Mitr',
-                                    color: AppColors.text,
+                                    color: styleStore.textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300),
                                 textAlign: TextAlign.center,

@@ -33,7 +33,9 @@ class PostersWidget extends StatelessWidget {
         Text(
           'Movie Posters',
           style: GoogleFonts.getFont('Mitr',
-              color: AppColors.text, fontSize: 22, fontWeight: FontWeight.w400),
+              color: styleStore.textColor,
+              fontSize: 22,
+              fontWeight: FontWeight.w400),
         ),
         SizedBox(
           height: 16,
