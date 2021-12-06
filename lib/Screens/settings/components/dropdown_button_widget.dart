@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class DropDownButtonWidget extends StatefulWidget {
@@ -34,11 +35,11 @@ class _DropDownButtonWidgetState extends State<DropDownButtonWidget> {
             dropdownColor: styleStore.backgroundColor,
             icon: Icon(
               Icons.keyboard_arrow_down_outlined,
-              color: styleStore.textColor,
+              color: AppColors.text,
             ),
             isExpanded: true,
             style: GoogleFonts.getFont('Mitr',
-                color: styleStore.textColor,
+                color: AppColors.text,
                 fontSize: 18,
                 fontWeight: FontWeight.w300),
             underline: Container(),

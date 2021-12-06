@@ -19,6 +19,8 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
 
+//TODO add custom widgets to reduce number of lines
+
 enum type { movie, tvShows }
 
 class HomeScreen extends StatefulWidget {
@@ -90,10 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
           spaceBetweenChildren: 16,
           overlayColor: Colors.black.withOpacity(0.1),
           backgroundColor: styleStore.primaryColor,
+          iconTheme: IconThemeData(
+            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+          ),
           icon: Icons.menu,
           activeIcon: Icons.close,
           children: [
-            //TODO if the textinputfield is already on focus but with the keyboard closed it doesn't open it
             SpeedDialChild(
               onTap: () async {
                 // focusNode.requestFocus();
@@ -120,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Icon(
                 LineIcons.search,
-                color: Colors.white,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
               ),
               backgroundColor: styleStore.primaryColor,
             ),
@@ -138,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Icon(
                 LineIcons.video,
-                color: Colors.white,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
               ),
               backgroundColor: styleStore.primaryColor,
             ),
@@ -156,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Icon(
                 LineIcons.television,
-                color: Colors.white,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
               ),
               backgroundColor: styleStore.primaryColor,
             ),
@@ -174,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Icon(
                 LineIcons.lineChart,
-                color: Colors.white,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
               ),
               backgroundColor: styleStore.primaryColor,
             ),
@@ -192,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Icon(
                 LineIcons.clock,
-                color: Colors.white,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
               ),
               backgroundColor: styleStore.primaryColor,
             ),
@@ -210,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Icon(
                 LineIcons.users,
-                color: Colors.white,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
               ),
               backgroundColor: styleStore.primaryColor,
             ),
@@ -236,12 +240,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Image.asset(
                   "assets/images/WWatch2-png.png",
                   filterQuality: FilterQuality.medium,
+                  color: settingsStore.brightness != CustomBrightness.amoled
+                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                      : AppColors.text,
                 ),
               ),
             ),
           ),
           actions: [
             IconButton(
+              splashRadius: 20,
               tooltip: 'Settings',
               onPressed: () {
                 Navigator.push(context,
@@ -249,11 +257,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Icon(
                 LineIcons.cog,
-                color: AppColors.logo,
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : AppColors.text,
                 size: 28,
               ),
             ),
             IconButton(
+              splashRadius: 20,
               tooltip: 'User Profile',
               onPressed: () {
                 Navigator.push(context,
@@ -261,7 +272,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Icon(
                 LineIcons.user,
-                color: AppColors.logo,
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : AppColors.text,
                 size: 28,
               ),
             ),

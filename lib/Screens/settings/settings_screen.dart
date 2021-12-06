@@ -37,7 +37,11 @@ class _SettingsStateScreen extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.logo),
+        iconTheme: IconThemeData(
+          color: settingsStore.brightness != CustomBrightness.amoled
+              ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+              : AppColors.text,
+        ),
         backgroundColor: settingsStore.brightness == CustomBrightness.amoled
             ? styleStore.backgroundColor
             : styleStore.primaryColor,
@@ -48,6 +52,9 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               height: 56,
               child: Image.asset(
                 "assets/images/WWatch2-png.png",
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : AppColors.text,
                 fit: BoxFit.fitHeight,
                 filterQuality: FilterQuality.medium,
               ),
@@ -101,7 +108,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   children: [
                     Icon(
                       LineIcons.infoCircle,
-                      color: styleStore.textColor,
+                      color: AppColors.text,
                     ),
                     SizedBox(
                       height: 56,
@@ -110,7 +117,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                     Text(
                       "About the app",
                       style: GoogleFonts.getFont('Mitr',
-                          color: styleStore.textColor,
+                          color: AppColors.text,
                           fontSize: 18,
                           fontWeight: FontWeight.w100),
                     ),
@@ -214,7 +221,8 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       "You can go there by clicking here",
                       style: GoogleFonts.getFont(
                         'Mitr',
-                        color: styleStore.textColor,
+                        color:
+                            AppColors.textOnPrimaries[styleStore.colorIndex!],
                         fontSize: 18,
                         fontWeight: FontWeight.w200,
                       ),

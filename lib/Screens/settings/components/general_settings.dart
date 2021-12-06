@@ -183,6 +183,8 @@ class GeneralSettings extends StatelessWidget {
                     width: 16,
                   ),
                   Checkbox(
+                      checkColor:
+                          AppColors.textOnPrimaries[styleStore.colorIndex!],
                       fillColor:
                           MaterialStateProperty.all(styleStore.primaryColor),
                       value: settingsStore.autoDetectTimeZone,

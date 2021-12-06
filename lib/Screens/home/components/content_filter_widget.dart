@@ -52,7 +52,7 @@ class ContentFilter extends StatelessWidget {
               onChanged: movieStore.setSearch,
               focusNode: focusNode,
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w100),
               decoration: InputDecoration(
@@ -60,7 +60,7 @@ class ContentFilter extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: "Search",
                 hintStyle: GoogleFonts.getFont('Mitr',
-                    color: styleStore.textColor,
+                    color: AppColors.text,
                     fontSize: 16,
                     fontWeight: FontWeight.w100),
                 suffix: Row(
@@ -75,7 +75,7 @@ class ContentFilter extends StatelessWidget {
                           },
                           child: Icon(
                             Icons.close,
-                            color: styleStore.textColor,
+                            color: AppColors.text,
                             size: 18,
                           ),
                         );
@@ -89,7 +89,7 @@ class ContentFilter extends StatelessWidget {
                       onTap: movieStore.search,
                       child: Icon(
                         LineIcons.search,
-                        color: styleStore.textColor,
+                        color: AppColors.text,
                         size: 18,
                       ),
                     ),
@@ -124,9 +124,14 @@ class ContentFilter extends StatelessWidget {
                           child: Text(
                             "Movies",
                             style: GoogleFonts.getFont('Mitr',
-                                color: styleStore.textColor,
+                                color: movieStore.selectedContentType == 1
+                                    ? AppColors.text
+                                    : AppColors.textOnPrimaries[
+                                        styleStore.colorIndex!],
                                 fontSize: 16,
-                                fontWeight: FontWeight.w100),
+                                fontWeight: movieStore.selectedContentType == 1
+                                    ? FontWeight.w100
+                                    : FontWeight.w400),
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
@@ -140,7 +145,7 @@ class ContentFilter extends StatelessWidget {
                     Container(
                       width: 1,
                       height: 36,
-                      color: styleStore.textColor,
+                      color: AppColors.text,
                     ),
                     Expanded(
                       flex: 1,
@@ -156,9 +161,14 @@ class ContentFilter extends StatelessWidget {
                           child: Text(
                             "TV Shows",
                             style: GoogleFonts.getFont('Mitr',
-                                color: styleStore.textColor,
+                                color: movieStore.selectedContentType == 0
+                                    ? AppColors.text
+                                    : AppColors.textOnPrimaries[
+                                        styleStore.colorIndex!],
                                 fontSize: 16,
-                                fontWeight: FontWeight.w100),
+                                fontWeight: movieStore.selectedContentType == 0
+                                    ? FontWeight.w100
+                                    : FontWeight.w400),
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
@@ -195,11 +205,11 @@ class ContentFilter extends StatelessWidget {
                             dropdownColor: styleStore.backgroundColor,
                             icon: Icon(
                               Icons.keyboard_arrow_down_outlined,
-                              color: styleStore.textColor,
+                              color: AppColors.text,
                             ),
                             isExpanded: true,
                             style: GoogleFonts.getFont('Mitr',
-                                color: styleStore.textColor,
+                                color: AppColors.text,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w100),
                             underline: Container(),
@@ -232,11 +242,11 @@ class ContentFilter extends StatelessWidget {
                             dropdownColor: styleStore.backgroundColor,
                             icon: Icon(
                               Icons.keyboard_arrow_down_outlined,
-                              color: styleStore.textColor,
+                              color: AppColors.text,
                             ),
                             isExpanded: true,
                             style: GoogleFonts.getFont('Mitr',
-                                color: styleStore.textColor,
+                                color: AppColors.text,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w100),
                             underline: Container(),

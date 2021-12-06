@@ -33,9 +33,14 @@ class FabPosition extends StatelessWidget {
                         child: Text(
                           "Left",
                           style: GoogleFonts.getFont('Mitr',
-                              color: styleStore.textColor,
+                              color: styleStore.fabPosition == 1
+                                  ? AppColors.text
+                                  : AppColors
+                                      .textOnPrimaries[styleStore.colorIndex!],
                               fontSize: 18,
-                              fontWeight: FontWeight.w100),
+                              fontWeight: styleStore.fabPosition == 1
+                                  ? FontWeight.w100
+                                  : FontWeight.w400),
                         ),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
@@ -48,7 +53,7 @@ class FabPosition extends StatelessWidget {
                   Container(
                     width: 1,
                     height: 36,
-                    color: styleStore.textColor,
+                    color: AppColors.text,
                   ),
                   Expanded(
                     flex: 1,
@@ -61,9 +66,14 @@ class FabPosition extends StatelessWidget {
                         child: Text(
                           "Right",
                           style: GoogleFonts.getFont('Mitr',
-                              color: styleStore.textColor,
+                              color: styleStore.fabPosition == 0
+                                  ? AppColors.text
+                                  : AppColors
+                                      .textOnPrimaries[styleStore.colorIndex!],
                               fontSize: 18,
-                              fontWeight: FontWeight.w100),
+                              fontWeight: styleStore.fabPosition == 0
+                                  ? FontWeight.w100
+                                  : FontWeight.w400),
                         ),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(

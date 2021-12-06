@@ -8,11 +8,9 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 //TODO recreate the project with flutter create because of issues after updating to flutter 2.5
-//TODO add a better contrast system for the diferent app colors
 
 //TODO add routes 2.0
-//TODO change way to get movies to https://developers.themoviedb.org/3/discover/movie-discover
-//this way we can filter better the results
+//TODO reduce the number of lines in all build methods
 
 //TODO Fix TV shows filter not working
 

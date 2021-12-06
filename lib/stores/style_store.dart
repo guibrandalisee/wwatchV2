@@ -19,11 +19,13 @@ abstract class _StyleStoreBase with Store {
       if (prefs!.containsKey('primaryColor')) {
         primaryColor = AppColors.primaries[prefs!.getInt('primaryColor')!];
         colorIndex = prefs!.getInt('primaryColor');
+
         errorImage = AppColors.imagesNoConnection[colorIndex!];
         nothingFoundImage = AppColors.imagesNothingFound[colorIndex!];
       } else {
         primaryColor = AppColors.primary;
         colorIndex = 0;
+
         errorImage = AppColors.imagesNoConnection[0];
         nothingFoundImage = AppColors.imagesNothingFound[0];
       }
@@ -100,10 +102,10 @@ abstract class _StyleStoreBase with Store {
         dropdownColor = Color(0xff16161D);
         break;
       case CustomBrightness.light:
-        backgroundColor = Colors.white;
-        textColor = AppColors.shape;
-        shapeColor = Color(0xffCBCBCB);
-        dropdownColor = Color(0xffCBCBCB);
+        backgroundColor = Color(0xffD9D9D9);
+        textColor = Color(0xff252525);
+        shapeColor = Color(0xff16161D);
+        dropdownColor = Color(0xff16161D);
         break;
     }
   }

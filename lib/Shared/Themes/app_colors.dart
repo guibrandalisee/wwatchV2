@@ -22,6 +22,17 @@ class AppColors {
     Color(0xff8a05bf), //primaryDarkPurple
   ];
 
+  static List<Color> textOnPrimaries = [
+    Color(0xff332532), //primaryOrange
+    Color(0xff332532), //primaryGreen
+    Color(0xffE5E5E5), //primaryPurple
+    Color(0xff332532), //primaryBlue
+    Color(0xffE5E5E5), //primaryRed
+    Color(0xff332532), // primaryPink
+    Color(0xff332532), //primaryDarkBlue
+    Color(0xffE5E5E5), //primaryDarkPurple
+  ];
+
   static List<String> imagesNoConnection = [
     'assets/noConnection/noConnection1.svg',
     'assets/noConnection/noConnection2.svg',

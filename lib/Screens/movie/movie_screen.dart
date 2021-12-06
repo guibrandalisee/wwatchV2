@@ -24,24 +24,30 @@ class MovieScreen extends StatelessWidget {
   }) : super(key: key);
   final MovieStore movieStore = MovieStore();
   final StyleStore styleStore = GetIt.I<StyleStore>();
-  SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
     movieStore.getSingleMovie(movieId);
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: SpeedDial(
-          child: Icon(LineIcons.plus),
           elevation: 8,
           direction: SpeedDialDirection.up,
           overlayColor: Colors.black,
           backgroundColor: styleStore.primaryColor,
-          foregroundColor: AppColors.logo,
+          iconTheme: IconThemeData(
+            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+          ),
+          icon: Icons.add,
+          activeIcon: Icons.close,
           spaceBetweenChildren: 16,
           children: [
             SpeedDialChild(
               backgroundColor: styleStore.primaryColor,
-              child: Icon(LineIcons.list, color: AppColors.logo),
+              child: Icon(
+                LineIcons.list,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+              ),
               labelWidget: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -55,7 +61,10 @@ class MovieScreen extends StatelessWidget {
             ),
             SpeedDialChild(
               backgroundColor: styleStore.primaryColor,
-              child: Icon(LineIcons.bookmark, color: AppColors.logo),
+              child: Icon(
+                LineIcons.bookmark,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+              ),
               labelWidget: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -69,7 +78,10 @@ class MovieScreen extends StatelessWidget {
             ),
             SpeedDialChild(
               backgroundColor: styleStore.primaryColor,
-              child: Icon(LineIcons.star, color: AppColors.logo),
+              child: Icon(
+                LineIcons.star,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+              ),
               labelWidget: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -83,7 +95,10 @@ class MovieScreen extends StatelessWidget {
             ),
             SpeedDialChild(
               backgroundColor: styleStore.primaryColor,
-              child: Icon(LineIcons.heart, color: AppColors.logo),
+              child: Icon(
+                LineIcons.heart,
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+              ),
               labelWidget: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -99,7 +114,11 @@ class MovieScreen extends StatelessWidget {
         ),
         backgroundColor: styleStore.backgroundColor,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: AppColors.logo),
+          iconTheme: IconThemeData(
+            color: settingsStore.brightness != CustomBrightness.amoled
+                ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                : AppColors.text,
+          ),
           backgroundColor: settingsStore.brightness == CustomBrightness.amoled
               ? styleStore.backgroundColor
               : styleStore.primaryColor,
@@ -109,6 +128,9 @@ class MovieScreen extends StatelessWidget {
               height: 56,
               child: Image.asset(
                 "assets/images/WWatch2-png.png",
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : AppColors.text,
                 fit: BoxFit.fitHeight,
                 filterQuality: FilterQuality.medium,
               ),

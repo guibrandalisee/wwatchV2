@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:transition/transition.dart';
 import 'package:wwatch/Screens/signup/signup_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -13,11 +14,19 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final double inputWidth = 340;
     StyleStore styleStore = GetIt.I<StyleStore>();
+
+    SettingsStore settingsStore = GetIt.I<SettingsStore>();
     return Scaffold(
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.logo),
-        backgroundColor: styleStore.primaryColor,
+        iconTheme: IconThemeData(
+          color: settingsStore.brightness != CustomBrightness.amoled
+              ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+              : AppColors.text,
+        ),
+        backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+            ? styleStore.backgroundColor
+            : styleStore.primaryColor,
         title: Container(
           child: Hero(
             tag: "logo",
@@ -26,6 +35,9 @@ class LoginScreen extends StatelessWidget {
               child: Image.asset(
                 "assets/images/WWatch2-png.png",
                 fit: BoxFit.fitHeight,
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : AppColors.text,
                 filterQuality: FilterQuality.medium,
               ),
             ),

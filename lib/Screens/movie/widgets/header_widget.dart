@@ -15,7 +15,7 @@ class HeaderWidget extends StatelessWidget {
   }) : super(key: key);
   final CompleteMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
-  SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
     return Container(

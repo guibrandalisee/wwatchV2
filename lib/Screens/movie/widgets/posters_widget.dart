@@ -46,9 +46,6 @@ class PostersWidget extends StatelessWidget {
             itemBuilder: (context, index, realIdx) {
               return GestureDetector(
                 onTap: () {
-                  //TODO make it possible to do double tap do zoom in and out
-                  //https://pub.dev/packages/extended_image#zoom-pan
-
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => FullScreenImage(
                           path:

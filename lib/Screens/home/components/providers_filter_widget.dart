@@ -23,19 +23,18 @@ class ProvidersFilterWidget extends StatelessWidget {
           "Watch Providers",
           style: GoogleFonts.getFont(
             'Mitr',
-            color: styleStore.textColor,
+            color: AppColors.text,
             fontSize: 16,
             fontWeight: FontWeight.w100,
           ),
         ),
         backgroundColor: styleStore.shapeColor,
-        collapsedIconColor: styleStore.textColor,
+        collapsedIconColor: AppColors.text,
         iconColor: styleStore.primaryColor,
         children: [
-          //TODO make it change color when clicked
           //TODO make the filter work
           //TODO add reamining watch providers
-          //TODO
+          //TODO Make a custom widget to reduce lines
           //#1 Netflix
           //#2 Amazon Prime Video
           //#2 Disney+
@@ -77,9 +76,17 @@ class ProvidersFilterWidget extends StatelessWidget {
                                 "Netflix",
                                 style: GoogleFonts.getFont(
                                   'Mitr',
-                                  color: styleStore.textColor,
+                                  color: settingsStore.selectedWatchProviders
+                                          .contains(1)
+                                      ? AppColors.textOnPrimaries[
+                                          styleStore.colorIndex!]
+                                      : styleStore.textColor,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: settingsStore
+                                          .selectedWatchProviders
+                                          .contains(1)
+                                      ? FontWeight.w400
+                                      : FontWeight.w200,
                                 ),
                               ),
                             ),
@@ -112,9 +119,17 @@ class ProvidersFilterWidget extends StatelessWidget {
                                 "Prime Video",
                                 style: GoogleFonts.getFont(
                                   'Mitr',
-                                  color: styleStore.textColor,
+                                  color: settingsStore.selectedWatchProviders
+                                          .contains(2)
+                                      ? AppColors.textOnPrimaries[
+                                          styleStore.colorIndex!]
+                                      : styleStore.textColor,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: settingsStore
+                                          .selectedWatchProviders
+                                          .contains(2)
+                                      ? FontWeight.w400
+                                      : FontWeight.w200,
                                 ),
                               ),
                             ),
@@ -151,9 +166,17 @@ class ProvidersFilterWidget extends StatelessWidget {
                                 "HBO Max",
                                 style: GoogleFonts.getFont(
                                   'Mitr',
-                                  color: styleStore.textColor,
+                                  color: settingsStore.selectedWatchProviders
+                                          .contains(3)
+                                      ? AppColors.textOnPrimaries[
+                                          styleStore.colorIndex!]
+                                      : styleStore.textColor,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: settingsStore
+                                          .selectedWatchProviders
+                                          .contains(3)
+                                      ? FontWeight.w400
+                                      : FontWeight.w200,
                                 ),
                               ),
                             ),
@@ -186,9 +209,17 @@ class ProvidersFilterWidget extends StatelessWidget {
                                 "Disney Plus",
                                 style: GoogleFonts.getFont(
                                   'Mitr',
-                                  color: styleStore.textColor,
+                                  color: settingsStore.selectedWatchProviders
+                                          .contains(4)
+                                      ? AppColors.textOnPrimaries[
+                                          styleStore.colorIndex!]
+                                      : styleStore.textColor,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: settingsStore
+                                          .selectedWatchProviders
+                                          .contains(4)
+                                      ? FontWeight.w400
+                                      : FontWeight.w200,
                                 ),
                               ),
                             ),
@@ -225,9 +256,17 @@ class ProvidersFilterWidget extends StatelessWidget {
                                 "Star+",
                                 style: GoogleFonts.getFont(
                                   'Mitr',
-                                  color: styleStore.textColor,
+                                  color: settingsStore.selectedWatchProviders
+                                          .contains(5)
+                                      ? AppColors.textOnPrimaries[
+                                          styleStore.colorIndex!]
+                                      : styleStore.textColor,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: settingsStore
+                                          .selectedWatchProviders
+                                          .contains(5)
+                                      ? FontWeight.w400
+                                      : FontWeight.w200,
                                 ),
                               ),
                             ),
@@ -260,9 +299,17 @@ class ProvidersFilterWidget extends StatelessWidget {
                                 "Apple TV",
                                 style: GoogleFonts.getFont(
                                   'Mitr',
-                                  color: styleStore.textColor,
+                                  color: settingsStore.selectedWatchProviders
+                                          .contains(6)
+                                      ? AppColors.textOnPrimaries[
+                                          styleStore.colorIndex!]
+                                      : styleStore.textColor,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: settingsStore
+                                          .selectedWatchProviders
+                                          .contains(6)
+                                      ? FontWeight.w400
+                                      : FontWeight.w200,
                                 ),
                               ),
                             ),

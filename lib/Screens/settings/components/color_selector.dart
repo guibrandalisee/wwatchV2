@@ -29,7 +29,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 0
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
@@ -50,7 +51,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 1
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
@@ -71,7 +73,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 2
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
@@ -92,7 +95,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 3
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
@@ -121,7 +125,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 4
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
@@ -142,7 +147,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 5
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
@@ -163,7 +169,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 6
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
@@ -184,7 +191,8 @@ class ColorSelector extends StatelessWidget {
                       child: styleStore.colorIndex == 7
                           ? Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!],
                             )
                           : Container(),
                     ),
