@@ -117,7 +117,7 @@ class MovieScreen extends StatelessWidget {
           iconTheme: IconThemeData(
             color: settingsStore.brightness != CustomBrightness.amoled
                 ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                : AppColors.text,
+                : styleStore.primaryColor,
           ),
           backgroundColor: settingsStore.brightness == CustomBrightness.amoled
               ? styleStore.backgroundColor
@@ -130,7 +130,7 @@ class MovieScreen extends StatelessWidget {
                 "assets/images/WWatch2-png.png",
                 color: settingsStore.brightness != CustomBrightness.amoled
                     ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : AppColors.text,
+                    : styleStore.primaryColor,
                 fit: BoxFit.fitHeight,
                 filterQuality: FilterQuality.medium,
               ),

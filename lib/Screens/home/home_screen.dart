@@ -242,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   filterQuality: FilterQuality.medium,
                   color: settingsStore.brightness != CustomBrightness.amoled
                       ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                      : AppColors.text,
+                      : styleStore.primaryColor,
                 ),
               ),
             ),
@@ -259,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 LineIcons.cog,
                 color: settingsStore.brightness != CustomBrightness.amoled
                     ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : AppColors.text,
+                    : styleStore.primaryColor,
                 size: 28,
               ),
             ),
@@ -274,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 LineIcons.user,
                 color: settingsStore.brightness != CustomBrightness.amoled
                     ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : AppColors.text,
+                    : styleStore.primaryColor,
                 size: 28,
               ),
             ),

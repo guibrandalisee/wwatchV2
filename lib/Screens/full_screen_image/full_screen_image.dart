@@ -12,13 +12,17 @@ class FullScreenImage extends StatelessWidget {
   }) : super(key: key);
   final String path;
   final StyleStore styleStore = GetIt.I<StyleStore>();
-  SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.logo),
+        iconTheme: IconThemeData(
+          color: settingsStore.brightness != CustomBrightness.amoled
+              ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+              : styleStore.primaryColor,
+        ),
         backgroundColor: settingsStore.brightness == CustomBrightness.amoled
             ? styleStore.backgroundColor
             : styleStore.primaryColor,
@@ -28,6 +32,9 @@ class FullScreenImage extends StatelessWidget {
             height: 56,
             child: Image.asset(
               "assets/images/WWatch2-png.png",
+              color: settingsStore.brightness != CustomBrightness.amoled
+                  ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                  : styleStore.primaryColor,
               fit: BoxFit.fitHeight,
               filterQuality: FilterQuality.medium,
             ),

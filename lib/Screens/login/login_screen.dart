@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
         iconTheme: IconThemeData(
           color: settingsStore.brightness != CustomBrightness.amoled
               ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-              : AppColors.text,
+              : styleStore.primaryColor,
         ),
         backgroundColor: settingsStore.brightness == CustomBrightness.amoled
             ? styleStore.backgroundColor
@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                 fit: BoxFit.fitHeight,
                 color: settingsStore.brightness != CustomBrightness.amoled
                     ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : AppColors.text,
+                    : styleStore.primaryColor,
                 filterQuality: FilterQuality.medium,
               ),
             ),
