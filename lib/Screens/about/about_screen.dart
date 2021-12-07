@@ -12,8 +12,8 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StyleStore styleStore = GetIt.I<StyleStore>();
-    SettingsStore settingsStore = GetIt.I<SettingsStore>();
+    final StyleStore styleStore = GetIt.I<StyleStore>();
+    final SettingsStore settingsStore = GetIt.I<SettingsStore>();
     return Scaffold(
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
@@ -81,14 +81,14 @@ class AboutScreen extends StatelessWidget {
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
                 decoration: BoxDecoration(
                     color: styleStore.shapeColor,
                     borderRadius: BorderRadius.circular(16)),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 height: 96,
                 child: Row(
                   children: [
@@ -109,7 +109,7 @@ class AboutScreen extends StatelessWidget {
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 4,
                           ),
                           Container(
@@ -161,7 +161,7 @@ class AboutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
@@ -174,20 +174,20 @@ class AboutScreen extends StatelessWidget {
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
                 decoration: BoxDecoration(
                     color: styleStore.shapeColor,
                     borderRadius: BorderRadius.circular(16)),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 height: 96,
                 child: Row(
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
                       height: 56,
                       width: 96,
                       decoration: BoxDecoration(
@@ -212,7 +212,7 @@ class AboutScreen extends StatelessWidget {
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 4,
                           ),
                           Container(
@@ -233,7 +233,7 @@ class AboutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
@@ -246,7 +246,7 @@ class AboutScreen extends StatelessWidget {
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
@@ -294,7 +294,7 @@ class AboutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
@@ -310,7 +310,7 @@ class AboutScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Container(
@@ -325,7 +325,7 @@ class AboutScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               SizedBox(
@@ -341,7 +341,7 @@ class AboutScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 56,
               ),
               Divider(
@@ -349,7 +349,7 @@ class AboutScreen extends StatelessWidget {
                 endIndent: 16,
                 indent: 16,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
@@ -377,7 +377,7 @@ class AboutScreen extends StatelessWidget {
                       ]),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               ElevatedButton(
@@ -402,7 +402,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
@@ -418,7 +418,7 @@ class AboutScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               SizedBox(
@@ -434,14 +434,14 @@ class AboutScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
                 height: 56,
                 child: Image.asset("assets/images/MovieDB.png"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
             ],

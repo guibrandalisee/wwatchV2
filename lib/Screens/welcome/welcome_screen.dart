@@ -13,8 +13,8 @@ class WelcomeScreen extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
+          decoration: const BoxDecoration(
+            gradient: const LinearGradient(colors: [
               Color(0xff282828),
               Color(0xff121212),
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
@@ -66,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HomeScreen(
+                            builder: (context) => const HomeScreen(
                                   contentType: type.movie,
                                 )));
                   },
@@ -78,7 +78,7 @@ class WelcomeScreen extends StatelessWidget {
                           width: 340,
                           height: 125,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                                 colors: [Color(0xff134E5E), Color(0xff71B280)],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight),
@@ -121,7 +121,7 @@ class WelcomeScreen extends StatelessWidget {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HomeScreen(
+                            builder: (context) => const HomeScreen(
                                   contentType: type.tvShows,
                                 )));
                   },
@@ -133,7 +133,7 @@ class WelcomeScreen extends StatelessWidget {
                         width: 340,
                         height: 125,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                               colors: [Color(0xff89216B), Color(0xffCE546D)],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight),
@@ -179,10 +179,10 @@ class WelcomeScreen extends StatelessWidget {
                   child: SizedBox(
                     width: 256,
                     child: AnimatedCard(
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                       direction: AnimatedCardDirection.bottom,
                       child: Ink(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
                           color: Color(0xff1B1B1B),
                           borderRadius: BorderRadius.circular(16),

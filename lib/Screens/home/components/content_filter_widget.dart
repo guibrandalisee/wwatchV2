@@ -35,7 +35,7 @@ class ContentFilter extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 8,
               horizontal: 16,
             ),
@@ -82,7 +82,7 @@ class ContentFilter extends StatelessWidget {
                       }
                       return Container();
                     }),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     GestureDetector(
@@ -98,7 +98,7 @@ class ContentFilter extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Observer(
@@ -184,7 +184,7 @@ class ContentFilter extends StatelessWidget {
               );
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Observer(builder: (_) {
@@ -227,7 +227,7 @@ class ContentFilter extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Expanded(
@@ -268,7 +268,7 @@ class ContentFilter extends StatelessWidget {
               );
             return Container();
           }),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Observer(builder: (_) {

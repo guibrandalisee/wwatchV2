@@ -40,7 +40,7 @@ class MovieTile extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-      margin: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
       width: 500,
       height: 550,
       child: GestureDetector(
@@ -99,7 +99,7 @@ class MovieTile extends StatelessWidget {
               right: 8,
               top: 8,
               child: Container(
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   alignment: Alignment.center,
                   height: 40,
                   width: 180,

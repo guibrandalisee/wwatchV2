@@ -37,7 +37,7 @@ class _TrailersWidgetState extends State<TrailersWidget> {
     if (videos.length > 0)
       return Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 45,
           ),
           Divider(
@@ -46,7 +46,7 @@ class _TrailersWidgetState extends State<TrailersWidget> {
             endIndent: 24,
             indent: 24,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Text(
@@ -56,12 +56,13 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                 fontSize: 22,
                 fontWeight: FontWeight.w400),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Container(
               height: 250,
               child: CarouselSlider.builder(
+                key: GlobalKey(),
                 itemCount: videos.length,
                 itemBuilder: ((context, index, realIDX) {
                   return GestureDetector(

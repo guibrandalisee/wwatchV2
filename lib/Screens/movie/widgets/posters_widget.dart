@@ -27,7 +27,7 @@ class PostersWidget extends StatelessWidget {
           endIndent: 24,
           indent: 24,
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Text(
@@ -37,11 +37,12 @@ class PostersWidget extends StatelessWidget {
               fontSize: 22,
               fontWeight: FontWeight.w400),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Container(
           child: CarouselSlider.builder(
+            key: GlobalKey(),
             itemCount: movie.images!.length,
             itemBuilder: (context, index, realIdx) {
               return GestureDetector(
@@ -104,7 +105,7 @@ class PostersWidget extends StatelessWidget {
               );
             },
             options: CarouselOptions(
-                scrollPhysics: BouncingScrollPhysics(),
+                scrollPhysics: const BouncingScrollPhysics(),
                 enableInfiniteScroll: false,
                 scrollDirection: Axis.horizontal,
                 aspectRatio: 7 / 9,

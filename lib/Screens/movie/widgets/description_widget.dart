@@ -42,7 +42,7 @@ class DescriptionWidget extends StatelessWidget {
                 color: styleStore.textColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w300),
-            dropCapPadding: EdgeInsets.only(right: 16, bottom: 8),
+            dropCapPadding: const EdgeInsets.only(right: 16, bottom: 8),
             dropCap: DropCap(
                 child: movie.posterPath != null
                     ? GestureDetector(
@@ -66,7 +66,7 @@ class DescriptionWidget extends StatelessWidget {
                               left: 8,
                               top: 8,
                               child: Container(
-                                padding: EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
                                     color: AppColors.shape.withAlpha(100)),

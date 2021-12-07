@@ -109,7 +109,7 @@ class HeaderWidget extends StatelessWidget {
                 )),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 8),
+            margin: const EdgeInsets.only(bottom: 8),
             height: 30,
             child: ListView.builder(
                 physics: BouncingScrollPhysics(),
@@ -117,15 +117,15 @@ class HeaderWidget extends StatelessWidget {
                 itemCount: movie.genres.length,
                 itemBuilder: (context, index) {
                   return Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: settingsStore.brightness ==
                                   CustomBrightness.amoled
                               ? AppColors.background
                               : Colors.black54),
-                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                       child: Center(
                         child: Text(
                           movie.genres[index]['name'],

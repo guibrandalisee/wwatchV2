@@ -71,7 +71,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: double.infinity,
                 height: 120,
               ),
@@ -89,7 +89,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                     fontSize: 18,
                     fontWeight: FontWeight.w100),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 120,
               ),
               ElevatedButton(
@@ -100,7 +100,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   Navigator.push(
                       context,
                       Transition(
-                          child: AboutScreen(),
+                          child: const AboutScreen(),
                           transitionEffect: TransitionEffect.FADE));
                 },
                 child: Row(
@@ -110,7 +110,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       LineIcons.infoCircle,
                       color: AppColors.text,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 56,
                       width: 8,
                     ),
@@ -124,7 +124,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 56,
               ),
               SizedBox(
@@ -137,11 +137,11 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              FabPosition(),
-              SizedBox(
+              const FabPosition(),
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
@@ -154,11 +154,11 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              ColorSelector(),
-              SizedBox(
+              const ColorSelector(),
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
@@ -171,15 +171,15 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              BrightnessSelector(),
-              SizedBox(
+              const BrightnessSelector(),
+              const SizedBox(
                 height: 32,
               ),
-              GeneralSettings(),
-              SizedBox(
+              const GeneralSettings(),
+              const SizedBox(
                 height: 72,
               ),
               SizedBox(
@@ -193,7 +193,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               SizedBox(
@@ -209,7 +209,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Observer(builder: (_) {
@@ -235,7 +235,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   ),
                 );
               }),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               SizedBox(
@@ -251,14 +251,14 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               SizedBox(
                 height: 56,
                 child: Image.asset("assets/images/MovieDB.png"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
             ],
