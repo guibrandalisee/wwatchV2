@@ -62,10 +62,10 @@ class _TrailersWidgetState extends State<TrailersWidget> {
           Container(
               height: 250,
               child: CarouselSlider.builder(
-                key: GlobalKey(),
+                key: UniqueKey(),
                 itemCount: videos.length,
                 itemBuilder: ((context, index, realIDX) {
-                  return GestureDetector(
+                  return InkWell(
                     onTap: () {
                       launchInBrowser(
                           'https://www.youtube.com/watch?v=${videos[index].key}');

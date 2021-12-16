@@ -19,7 +19,36 @@ class DescriptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final styleStore = GetIt.I<StyleStore>();
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Container(
+            margin: EdgeInsets.only(left: 32, right: 32, bottom: 16),
+            padding: EdgeInsets.all(4),
+            alignment: Alignment.center,
+            height: 32,
+            decoration: BoxDecoration(
+              color: styleStore.shapeColor,
+              borderRadius: BorderRadius.circular(32),
+            ),
+            child: RichText(
+              text: TextSpan(
+                text: 'Status: ',
+                style: GoogleFonts.getFont('Mitr',
+                    color: AppColors.text,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '${movie.launchStatus}',
+                    style: GoogleFonts.getFont('Kodchasan',
+                        color: AppColors.text,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            )),
+
         //TODO find out how to get movie Age Certifications
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -45,7 +74,7 @@ class DescriptionWidget extends StatelessWidget {
             dropCapPadding: const EdgeInsets.only(right: 16, bottom: 8),
             dropCap: DropCap(
                 child: movie.posterPath != null
-                    ? GestureDetector(
+                    ? InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => FullScreenImage(

@@ -68,7 +68,7 @@ class ContentFilter extends StatelessWidget {
                   children: [
                     Observer(builder: (_) {
                       if (movieStore.searchString.isNotEmpty) {
-                        return GestureDetector(
+                        return InkWell(
                           onTap: () {
                             movieStore.setSearch('');
                             movieStore.search();
@@ -85,7 +85,7 @@ class ContentFilter extends StatelessWidget {
                     const SizedBox(
                       width: 16,
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: movieStore.search,
                       child: Icon(
                         LineIcons.search,

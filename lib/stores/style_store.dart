@@ -97,7 +97,7 @@ abstract class _StyleStoreBase with Store {
         break;
       case CustomBrightness.amoled:
         backgroundColor = Colors.black;
-        textColor = AppColors.text;
+        textColor = Color(0xffc4c4c4);
         shapeColor = Color(0xff16161D);
         dropdownColor = Color(0xff16161D);
         break;

@@ -43,7 +43,7 @@ class MovieTile extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       width: 500,
       height: 550,
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           Navigator.push(
             context,

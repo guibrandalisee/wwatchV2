@@ -42,10 +42,10 @@ class PostersWidget extends StatelessWidget {
         ),
         Container(
           child: CarouselSlider.builder(
-            key: GlobalKey(),
+            key: UniqueKey(),
             itemCount: movie.images!.length,
             itemBuilder: (context, index, realIdx) {
-              return GestureDetector(
+              return InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => FullScreenImage(
