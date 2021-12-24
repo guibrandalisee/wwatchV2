@@ -10,6 +10,7 @@ import 'package:wwatch/Screens/settings/components/color_selector.dart';
 import 'package:wwatch/Screens/settings/components/fab_position.dart';
 import 'package:wwatch/Screens/settings/components/general_settings.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
@@ -199,7 +200,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "You can probably find them on the official website",
+                  "You can probably find them on the official TMDB website",
                   style: GoogleFonts.getFont(
                     'Mitr',
                     color: styleStore.textColor,
@@ -216,7 +217,9 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 return SizedBox(
                   height: 56,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      launchInBrowser('https://www.themoviedb.org/');
+                    },
                     child: Text(
                       "You can go there by clicking here",
                       style: GoogleFonts.getFont(
@@ -238,25 +241,12 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               const SizedBox(
                 height: 16,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  "Or give us feedback on our playstore page, we will be glad to implement it",
-                  style: GoogleFonts.getFont(
-                    'Mitr',
-                    color: styleStore.textColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              SizedBox(
-                height: 56,
-                child: Image.asset("assets/images/MovieDB.png"),
+              Text(
+                "This is not an official TMDB APP",
+                style: GoogleFonts.getFont('Mitr',
+                    color: AppColors.text,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w200),
               ),
               const SizedBox(
                 height: 32,

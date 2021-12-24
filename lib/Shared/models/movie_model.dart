@@ -2,6 +2,15 @@ import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
 import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 
+class Genre {
+  final int id;
+  final String name;
+  Genre({
+    required this.id,
+    required this.name,
+  });
+}
+
 class SimpleMovie {
   final List genreIds;
   final int id;

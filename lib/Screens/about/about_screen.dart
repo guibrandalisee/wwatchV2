@@ -17,7 +17,11 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.logo),
+        iconTheme: IconThemeData(
+          color: settingsStore.brightness != CustomBrightness.amoled
+              ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+              : styleStore.primaryColor,
+        ),
         backgroundColor: settingsStore.brightness == CustomBrightness.amoled
             ? styleStore.backgroundColor
             : styleStore.primaryColor,
@@ -38,6 +42,10 @@ class AboutScreen extends StatelessWidget {
                 child: Image.asset(
                   "assets/images/WWatch2-png.png",
                   fit: BoxFit.fitHeight,
+                  filterQuality: FilterQuality.medium,
+                  color: settingsStore.brightness != CustomBrightness.amoled
+                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                      : styleStore.primaryColor,
                 ),
               ),
             ),
@@ -380,6 +388,13 @@ class AboutScreen extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
+              SizedBox(
+                height: 56,
+                child: Image.asset("assets/images/MovieDB.png"),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:
@@ -388,14 +403,16 @@ class AboutScreen extends StatelessWidget {
                     Size.fromWidth(280),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  launchInBrowser('https://www.themoviedb.org/');
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Text(
                     "Go to their WebSite",
                     style: GoogleFonts.getFont(
                       'Mitr',
-                      color: styleStore.textColor,
+                      color: AppColors.textOnPrimaries[styleStore.colorIndex!],
                       fontSize: 20,
                       fontWeight: FontWeight.w200,
                     ),
@@ -424,7 +441,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "We don't have any sort of affiliation with TMDB, any content related issues must be reported on their website",
+                  "We don't have any sort of affiliation with TMDB, this is just an app made using their API, any content related issues must be reported on their website",
                   style: GoogleFonts.getFont(
                     'Mitr',
                     color: styleStore.textColor,
@@ -433,13 +450,6 @@ class AboutScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              SizedBox(
-                height: 56,
-                child: Image.asset("assets/images/MovieDB.png"),
               ),
               const SizedBox(
                 height: 32,

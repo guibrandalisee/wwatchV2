@@ -1,8 +1,10 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wwatch/Screens/home/home_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/main.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -11,7 +13,6 @@ class WelcomeScreen extends StatelessWidget {
     return Container(
       color: AppColors.background,
       child: SafeArea(
-        
         child: Container(
           decoration: const BoxDecoration(
             gradient: const LinearGradient(colors: [
@@ -171,49 +172,64 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () {
-                    //Url launcher to go to MovieDB website
-                  },
-                  child: SizedBox(
-                    width: 256,
-                    child: AnimatedCard(
-                      duration: const Duration(milliseconds: 200),
-                      direction: AnimatedCardDirection.bottom,
-                      child: Ink(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: Color(0xff1B1B1B),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        height: 64,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      borderRadius: BorderRadius.circular(16),
+                      onTap: () {
+                        launchInBrowser('https://www.themoviedb.org/');
+                      },
+                      child: SizedBox(
                         width: 256,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "POWERED BY",
-                              style: GoogleFonts.getFont('Kodchasan',
-                                  color: AppColors.text,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w300),
+                        child: AnimatedCard(
+                          duration: const Duration(milliseconds: 200),
+                          direction: AnimatedCardDirection.bottom,
+                          child: Ink(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: Color(0xff1B1B1B),
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            Container(
-                              height: 56,
-                              width: 56,
-                              child: Image.asset(
-                                "assets/images/MovieDB.png",
-                                fit: BoxFit.contain,
-                                filterQuality: FilterQuality.medium,
-                              ),
-                            )
-                          ],
+                            height: 64,
+                            width: 256,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "POWERED BY",
+                                  style: GoogleFonts.getFont('Kodchasan',
+                                      color: AppColors.text,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                                Container(
+                                  height: 56,
+                                  width: 56,
+                                  child: Image.asset(
+                                    "assets/images/MovieDB.png",
+                                    fit: BoxFit.contain,
+                                    filterQuality: FilterQuality.medium,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "Not an official APP",
+                      style: GoogleFonts.getFont('Mitr',
+                          color: AppColors.text,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w200),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

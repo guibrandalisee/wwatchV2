@@ -1,22 +1,20 @@
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
 import 'package:wwatch/api.dart';
+import 'package:wwatch/stores/settings_store.dart';
 part 'movie_store.g.dart';
 
 enum ContentType { TVSHOW, MOVIE }
 
 class MovieStore = _MovieStoreBase with _$MovieStore;
+final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
 abstract class _MovieStoreBase with Store {
   String apiKey = API().apiKey;
-
-  @observable
-  Map<String, dynamic> movieGenres = {};
-  @observable
-  Map<String, dynamic> tvGenres = {};
   @action
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
@@ -58,12 +56,35 @@ abstract class _MovieStoreBase with Store {
   @action
   Future<void> getPopularMovies() async {
     page = 1;
-    final response = await fetchData(path: '/discover/movie', parameters: {
-      'api_key': apiKey,
-      'language': language,
-      'page': page,
-      'sort_by': 'popularity.desc',
-    });
+    Map<String, dynamic> parameters = {};
+    if (settingsStore.selectedGenre != 'Genres') {
+      parameters = {
+        'api_key': apiKey,
+        'language': language,
+        'page': page,
+        'sort_by': 'popularity.desc',
+        'include_adult': includeAdult,
+        'with_genres': settingsStore.movieGenres
+            .firstWhere(
+                (element) => element.name == settingsStore.selectedGenre)
+            .id
+            .toString()
+      };
+      print(settingsStore.movieGenres
+          .firstWhere((element) => element.name == settingsStore.selectedGenre)
+          .id
+          .toString());
+    } else {
+      parameters = {
+        'api_key': apiKey,
+        'language': language,
+        'page': page,
+        'sort_by': 'popularity.desc',
+        'include_adult': includeAdult,
+      };
+    }
+    final response =
+        await fetchData(path: '/discover/movie', parameters: parameters);
     error = false;
     try {
       totalPages = response.data['total_pages'];
@@ -92,13 +113,32 @@ abstract class _MovieStoreBase with Store {
   Future<void> getMorePopularMovies() async {
     page++;
     if (searchString.isEmpty) {
-      final response = await fetchData(path: '/discover/movie', parameters: {
-        'api_key': apiKey,
-        'language': language,
-        'page': page,
-        'sort_by': 'popularity.desc',
-        'include_adult': includeAdult,
-      });
+      Map<String, dynamic> parameters = {};
+      if (settingsStore.selectedGenre != 'Genres') {
+        parameters = {
+          'api_key': apiKey,
+          'language': language,
+          'page': page,
+          'sort_by': 'popularity.desc',
+          'include_adult': includeAdult,
+          'with_genres': settingsStore.movieGenres
+              .firstWhere(
+                  (element) => element.name == settingsStore.selectedGenre)
+              .id
+              .toString()
+        };
+      } else {
+        parameters = {
+          'api_key': apiKey,
+          'language': language,
+          'page': page,
+          'sort_by': 'popularity.desc',
+          'include_adult': includeAdult,
+        };
+      }
+
+      final response =
+          await fetchData(path: '/discover/movie', parameters: parameters);
       error = false;
       try {
         final newMovies = response.data['results'].map<SimpleMovie>((e) {
@@ -149,30 +189,6 @@ abstract class _MovieStoreBase with Store {
         print(e);
         error = true;
       }
-    }
-  }
-
-  @action
-  Future<void> getGenres(ContentType type) async {
-    String t = '';
-    if (type == ContentType.MOVIE) {
-      t = 'movie';
-    } else {
-      t = 'tv';
-    }
-    String path = '/genre/$t/list';
-    Map<String, dynamic> parameters = {
-      'api_key': apiKey,
-      'language': language,
-    };
-    final response = await fetchData(path: path, parameters: parameters);
-    if (response.data != null) {
-      if (type == ContentType.MOVIE) {
-        movieGenres = response.data;
-      } else {
-        tvGenres = response.data;
-      }
-      return Future.value('success');
     }
   }
 
@@ -302,12 +318,6 @@ abstract class _MovieStoreBase with Store {
 
   @action
   void setSearch(String value) => searchString = value;
-
-  @observable
-  List genres = ['Genres'];
-
-  @observable
-  String selectedGenre = 'Genres';
 
   @observable
   List sortBy = ['Popularity'];

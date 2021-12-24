@@ -9,36 +9,6 @@ part of 'movie_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MovieStore on _MovieStoreBase, Store {
-  final _$movieGenresAtom = Atom(name: '_MovieStoreBase.movieGenres');
-
-  @override
-  Map<String, dynamic> get movieGenres {
-    _$movieGenresAtom.reportRead();
-    return super.movieGenres;
-  }
-
-  @override
-  set movieGenres(Map<String, dynamic> value) {
-    _$movieGenresAtom.reportWrite(value, super.movieGenres, () {
-      super.movieGenres = value;
-    });
-  }
-
-  final _$tvGenresAtom = Atom(name: '_MovieStoreBase.tvGenres');
-
-  @override
-  Map<String, dynamic> get tvGenres {
-    _$tvGenresAtom.reportRead();
-    return super.tvGenres;
-  }
-
-  @override
-  set tvGenres(Map<String, dynamic> value) {
-    _$tvGenresAtom.reportWrite(value, super.tvGenres, () {
-      super.tvGenres = value;
-    });
-  }
-
   final _$pageAtom = Atom(name: '_MovieStoreBase.page');
 
   @override
@@ -205,36 +175,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$genresAtom = Atom(name: '_MovieStoreBase.genres');
-
-  @override
-  List<dynamic> get genres {
-    _$genresAtom.reportRead();
-    return super.genres;
-  }
-
-  @override
-  set genres(List<dynamic> value) {
-    _$genresAtom.reportWrite(value, super.genres, () {
-      super.genres = value;
-    });
-  }
-
-  final _$selectedGenreAtom = Atom(name: '_MovieStoreBase.selectedGenre');
-
-  @override
-  String get selectedGenre {
-    _$selectedGenreAtom.reportRead();
-    return super.selectedGenre;
-  }
-
-  @override
-  set selectedGenre(String value) {
-    _$selectedGenreAtom.reportWrite(value, super.selectedGenre, () {
-      super.selectedGenre = value;
-    });
-  }
-
   final _$sortByAtom = Atom(name: '_MovieStoreBase.sortBy');
 
   @override
@@ -307,13 +247,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.getMorePopularMovies());
   }
 
-  final _$getGenresAsyncAction = AsyncAction('_MovieStoreBase.getGenres');
-
-  @override
-  Future<void> getGenres(ContentType type) {
-    return _$getGenresAsyncAction.run(() => super.getGenres(type));
-  }
-
   final _$getSingleMovieAsyncAction =
       AsyncAction('_MovieStoreBase.getSingleMovie');
 
@@ -357,8 +290,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   @override
   String toString() {
     return '''
-movieGenres: ${movieGenres},
-tvGenres: ${tvGenres},
 page: ${page},
 language: ${language},
 includeAdult: ${includeAdult},
@@ -370,8 +301,6 @@ movie: ${movie},
 backToTheTopVisible: ${backToTheTopVisible},
 searchString: ${searchString},
 empty: ${empty},
-genres: ${genres},
-selectedGenre: ${selectedGenre},
 sortBy: ${sortBy},
 selectedSortBy: ${selectedSortBy},
 selectedContentType: ${selectedContentType}

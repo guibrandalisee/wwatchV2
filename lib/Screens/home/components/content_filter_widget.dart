@@ -7,6 +7,7 @@ import 'package:wwatch/Screens/home/components/providers_filter_widget.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class ContentFilter extends StatelessWidget {
@@ -20,10 +21,22 @@ class ContentFilter extends StatelessWidget {
   }) : super(key: key);
 
   final StyleStore styleStore = GetIt.I<StyleStore>();
-
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
     final controller = TextEditingController();
+    final genres = [
+      DropdownMenuItem<String>(
+        value: 'Genres',
+        child: Text('Genres'),
+      )
+    ];
+    genres.addAll(settingsStore.movieGenres.map((e) {
+      return DropdownMenuItem<String>(
+        value: e.name,
+        child: Text(e.name),
+      );
+    }).toList());
 
     controller.text = movieStore.searchString;
     controller.selection =
@@ -188,8 +201,8 @@ class ContentFilter extends StatelessWidget {
             height: 8,
           ),
           Observer(builder: (_) {
-            List<String> items = ['Genres', 'Comedy'];
             List<String> items2 = ['Popularity', 'Release Date'];
+
             if (movieStore.searchString.isEmpty)
               return Row(
                 children: [
@@ -237,8 +250,8 @@ class ContentFilter extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4)),
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: SizedBox(
-                        width: 340,
-                        child: DropdownButton<String>(
+                          width: 340,
+                          child: DropdownButton<String>(
                             dropdownColor: styleStore.backgroundColor,
                             icon: Icon(
                               Icons.keyboard_arrow_down_outlined,
@@ -250,18 +263,18 @@ class ContentFilter extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w100),
                             underline: Container(),
-                            value: 'Genres',
-                            onChanged: (text) {},
+                            value: settingsStore.selectedGenre,
+                            onChanged: (text) {
+                              if (text != null) {
+                                settingsStore.setSelectedGenre(text);
+                                movieStore.getPopularMovies();
+                              }
+                            },
                             iconSize: 16,
                             elevation: 16,
                             //TODO change this to a variable in a Store
-                            items: items.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList()),
-                      ),
+                            items: genres,
+                          )),
                     ),
                   ),
                 ],

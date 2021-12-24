@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/api.dart';
 
 part 'settings_store.g.dart';
 
@@ -7,6 +10,7 @@ class SettingsStore = _SettingsStoreBase with _$SettingsStore;
 enum CustomBrightness { dark, amoled, light }
 
 abstract class _SettingsStoreBase with Store {
+  String apiKey = API().apiKey;
   final SharedPreferences? prefs;
   _SettingsStoreBase({
     this.prefs,
@@ -25,6 +29,23 @@ abstract class _SettingsStoreBase with Store {
     } else {
       dateFormat = 'dd/mm/yyyy';
       brightness = CustomBrightness.dark;
+    }
+  }
+  Future fetchData(
+      {required String path, required Map<String, dynamic> parameters}) async {
+    var options = BaseOptions(
+      baseUrl: 'https://api.themoviedb.org/3',
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+    );
+
+    try {
+      Dio dio = Dio(options);
+
+      final response = await dio.get(path, queryParameters: parameters);
+      return response;
+    } on DioError catch (e) {
+      print(e);
     }
   }
 
@@ -111,4 +132,25 @@ abstract class _SettingsStoreBase with Store {
   @action
   void removeSelectedWatchProvider(int value) =>
       selectedWatchProviders.remove(value);
+
+  @observable
+  List<Genre> movieGenres = [];
+
+  @observable
+  String selectedGenre = "Genres";
+
+  @action
+  void setSelectedGenre(String value) => selectedGenre = value;
+
+  @action
+  Future<void> getMovieGenres() async {
+    final response = await fetchData(path: '/genre/movie/list', parameters: {
+      'api_key': apiKey,
+      'language': language,
+    });
+
+    movieGenres = response.data['genres'].map<Genre>((e) {
+      return Genre(id: e['id'], name: e['name']);
+    }).toList();
+  }
 }

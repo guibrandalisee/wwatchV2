@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       movieStore.setSelectedContentType(1);
     }
     movieStore.getPopularMovies();
+    settingsStore.getMovieGenres();
   }
 
   final FocusNode focusNode = FocusNode();

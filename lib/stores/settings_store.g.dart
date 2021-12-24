@@ -209,6 +209,44 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
+  final _$movieGenresAtom = Atom(name: '_SettingsStoreBase.movieGenres');
+
+  @override
+  List<Genre> get movieGenres {
+    _$movieGenresAtom.reportRead();
+    return super.movieGenres;
+  }
+
+  @override
+  set movieGenres(List<Genre> value) {
+    _$movieGenresAtom.reportWrite(value, super.movieGenres, () {
+      super.movieGenres = value;
+    });
+  }
+
+  final _$selectedGenreAtom = Atom(name: '_SettingsStoreBase.selectedGenre');
+
+  @override
+  String get selectedGenre {
+    _$selectedGenreAtom.reportRead();
+    return super.selectedGenre;
+  }
+
+  @override
+  set selectedGenre(String value) {
+    _$selectedGenreAtom.reportWrite(value, super.selectedGenre, () {
+      super.selectedGenre = value;
+    });
+  }
+
+  final _$getMovieGenresAsyncAction =
+      AsyncAction('_SettingsStoreBase.getMovieGenres');
+
+  @override
+  Future<void> getMovieGenres() {
+    return _$getMovieGenresAsyncAction.run(() => super.getMovieGenres());
+  }
+
   final _$_SettingsStoreBaseActionController =
       ActionController(name: '_SettingsStoreBase');
 
@@ -334,6 +372,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
+  void setSelectedGenre(String value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setSelectedGenre');
+    try {
+      return super.setSelectedGenre(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 brightness: ${brightness},
@@ -348,7 +397,9 @@ countries: ${countries},
 timeZone: ${timeZone},
 timeZones: ${timeZones},
 autoDetectTimeZone: ${autoDetectTimeZone},
-selectedWatchProviders: ${selectedWatchProviders}
+selectedWatchProviders: ${selectedWatchProviders},
+movieGenres: ${movieGenres},
+selectedGenre: ${selectedGenre}
     ''';
   }
 }
