@@ -224,18 +224,18 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedGenreAtom = Atom(name: '_SettingsStoreBase.selectedGenre');
+  final _$selectedGenresAtom = Atom(name: '_SettingsStoreBase.selectedGenres');
 
   @override
-  String get selectedGenre {
-    _$selectedGenreAtom.reportRead();
-    return super.selectedGenre;
+  ObservableList<int> get selectedGenres {
+    _$selectedGenresAtom.reportRead();
+    return super.selectedGenres;
   }
 
   @override
-  set selectedGenre(String value) {
-    _$selectedGenreAtom.reportWrite(value, super.selectedGenre, () {
-      super.selectedGenre = value;
+  set selectedGenres(ObservableList<int> value) {
+    _$selectedGenresAtom.reportWrite(value, super.selectedGenres, () {
+      super.selectedGenres = value;
     });
   }
 
@@ -372,11 +372,22 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
-  void setSelectedGenre(String value) {
+  void addSelectedGenre(int value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.setSelectedGenre');
+        name: '_SettingsStoreBase.addSelectedGenre');
     try {
-      return super.setSelectedGenre(value);
+      return super.addSelectedGenre(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeSelectedGenre(int value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.removeSelectedGenre');
+    try {
+      return super.removeSelectedGenre(value);
     } finally {
       _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -399,7 +410,7 @@ timeZones: ${timeZones},
 autoDetectTimeZone: ${autoDetectTimeZone},
 selectedWatchProviders: ${selectedWatchProviders},
 movieGenres: ${movieGenres},
-selectedGenre: ${selectedGenre}
+selectedGenres: ${selectedGenres}
     ''';
   }
 }

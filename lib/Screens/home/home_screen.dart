@@ -106,15 +106,12 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
             child: Ink(
-              child: Hero(
-                tag: "logo",
-                child: Image.asset(
-                  "assets/images/WWatch2-png.png",
-                  filterQuality: FilterQuality.medium,
-                  color: settingsStore.brightness != CustomBrightness.amoled
-                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                      : styleStore.primaryColor,
-                ),
+              child: Image.asset(
+                "assets/images/WWatch2-png.png",
+                filterQuality: FilterQuality.medium,
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : styleStore.primaryColor,
               ),
             ),
           ),
@@ -141,12 +138,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               },
-              icon: Icon(
-                LineIcons.user,
-                color: settingsStore.brightness != CustomBrightness.amoled
-                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : styleStore.primaryColor,
-                size: 28,
+              icon: Hero(
+                tag: 'User Profile',
+                child: Icon(
+                  LineIcons.user,
+                  color: settingsStore.brightness != CustomBrightness.amoled
+                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                      : styleStore.primaryColor,
+                  size: 28,
+                ),
               ),
             ),
           ],

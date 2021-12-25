@@ -137,10 +137,17 @@ abstract class _SettingsStoreBase with Store {
   List<Genre> movieGenres = [];
 
   @observable
-  String selectedGenre = "Genres";
+  ObservableList<int> selectedGenres = ObservableList<int>();
 
   @action
-  void setSelectedGenre(String value) => selectedGenre = value;
+  void addSelectedGenre(int value) {
+    selectedGenres.add(value);
+  }
+
+  @action
+  void removeSelectedGenre(int value) {
+    selectedGenres.remove(value);
+  }
 
   @action
   Future<void> getMovieGenres() async {

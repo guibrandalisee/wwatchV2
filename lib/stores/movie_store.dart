@@ -11,7 +11,6 @@ part 'movie_store.g.dart';
 enum ContentType { TVSHOW, MOVIE }
 
 class MovieStore = _MovieStoreBase with _$MovieStore;
-final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
 abstract class _MovieStoreBase with Store {
   String apiKey = API().apiKey;
@@ -55,25 +54,23 @@ abstract class _MovieStoreBase with Store {
 
   @action
   Future<void> getPopularMovies() async {
+    final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
+    empty = false;
     page = 1;
     Map<String, dynamic> parameters = {};
-    if (settingsStore.selectedGenre != 'Genres') {
+    if (_settingsStore.selectedGenres.isNotEmpty) {
+      String genres = '';
+      for (var item in _settingsStore.selectedGenres) {
+        genres += item.toString() + ',';
+      }
       parameters = {
         'api_key': apiKey,
         'language': language,
         'page': page,
         'sort_by': 'popularity.desc',
         'include_adult': includeAdult,
-        'with_genres': settingsStore.movieGenres
-            .firstWhere(
-                (element) => element.name == settingsStore.selectedGenre)
-            .id
-            .toString()
+        'with_genres': genres
       };
-      print(settingsStore.movieGenres
-          .firstWhere((element) => element.name == settingsStore.selectedGenre)
-          .id
-          .toString());
     } else {
       parameters = {
         'api_key': apiKey,
@@ -102,6 +99,9 @@ abstract class _MovieStoreBase with Store {
             posterPath: e['poster_path'],
             adult: e['adult']);
       }).toList();
+      if (movies.length == 0) {
+        empty = true;
+      }
     } catch (e) {
       print(e);
       error = true;
@@ -111,21 +111,22 @@ abstract class _MovieStoreBase with Store {
   //TODO not working
   @action
   Future<void> getMorePopularMovies() async {
+    final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
     page++;
     if (searchString.isEmpty) {
       Map<String, dynamic> parameters = {};
-      if (settingsStore.selectedGenre != 'Genres') {
+      if (_settingsStore.selectedGenres.isNotEmpty) {
+        String genres = '';
+        for (var item in _settingsStore.selectedGenres) {
+          genres += item.toString() + ',';
+        }
         parameters = {
           'api_key': apiKey,
           'language': language,
           'page': page,
           'sort_by': 'popularity.desc',
           'include_adult': includeAdult,
-          'with_genres': settingsStore.movieGenres
-              .firstWhere(
-                  (element) => element.name == settingsStore.selectedGenre)
-              .id
-              .toString()
+          'with_genres': genres
         };
       } else {
         parameters = {

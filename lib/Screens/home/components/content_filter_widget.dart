@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Screens/genres/genres_screen.dart';
 import 'package:wwatch/Screens/home/components/providers_filter_widget.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -205,6 +206,7 @@ class ContentFilter extends StatelessWidget {
 
             if (movieStore.searchString.isEmpty)
               return Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
                     child: Container(
@@ -214,6 +216,7 @@ class ContentFilter extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: SizedBox(
                         width: 340,
+                        height: 48,
                         child: DropdownButton<String>(
                             dropdownColor: styleStore.backgroundColor,
                             icon: Icon(
@@ -244,39 +247,78 @@ class ContentFilter extends StatelessWidget {
                     width: 8,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: styleStore.shapeColor,
-                          borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: SizedBox(
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(4),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GenresScreen(
+                                      movieStore: movieStore,
+                                    )));
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            color: styleStore.shapeColor,
+                            borderRadius: BorderRadius.circular(4)),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: SizedBox(
                           width: 340,
-                          child: DropdownButton<String>(
-                            dropdownColor: styleStore.backgroundColor,
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: AppColors.text,
-                            ),
-                            isExpanded: true,
-                            style: GoogleFonts.getFont('Mitr',
+                          height: 48,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Genres",
+                                style: GoogleFonts.getFont('Mitr',
+                                    color: AppColors.text,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w100),
+                              ),
+                              Icon(
+                                LineIcons.angleDoubleRight,
                                 color: AppColors.text,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100),
-                            underline: Container(),
-                            value: settingsStore.selectedGenre,
-                            onChanged: (text) {
-                              if (text != null) {
-                                settingsStore.setSelectedGenre(text);
-                                movieStore.getPopularMovies();
-                              }
-                            },
-                            iconSize: 16,
-                            elevation: 16,
-                            //TODO change this to a variable in a Store
-                            items: genres,
-                          )),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
+                  // Expanded(
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         color: styleStore.shapeColor,
+                  //         borderRadius: BorderRadius.circular(4)),
+                  //     padding: EdgeInsets.symmetric(horizontal: 16),
+                  //     child: SizedBox(
+                  //         width: 340,
+                  //         child: DropdownButton<String>(
+                  //           dropdownColor: styleStore.backgroundColor,
+                  //           icon: Icon(
+                  //             Icons.keyboard_arrow_down_outlined,
+                  //             color: AppColors.text,
+                  //           ),
+                  //           isExpanded: true,
+                  //           style: GoogleFonts.getFont('Mitr',
+                  //               color: AppColors.text,
+                  //               fontSize: 16,
+                  //               fontWeight: FontWeight.w100),
+                  //           underline: Container(),
+                  //           value: settingsStore.selectedGenre,
+                  //           onChanged: (text) {
+                  //             if (text != null) {
+                  //               settingsStore.setSelectedGenre(text);
+                  //               movieStore.getPopularMovies();
+                  //             }
+                  //           },
+                  //           iconSize: 16,
+                  //           elevation: 16,
+
+                  //           items: genres,
+                  //         )),
+                  //   ),
+                  // ),
                 ],
               );
             return Container();
