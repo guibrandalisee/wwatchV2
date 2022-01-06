@@ -88,13 +88,13 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   final _$adultContentAtom = Atom(name: '_SettingsStoreBase.adultContent');
 
   @override
-  String get adultContent {
+  bool get adultContent {
     _$adultContentAtom.reportRead();
     return super.adultContent;
   }
 
   @override
-  set adultContent(String value) {
+  set adultContent(bool value) {
     _$adultContentAtom.reportWrite(value, super.adultContent, () {
       super.adultContent = value;
     });
@@ -236,6 +236,21 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   set selectedGenres(ObservableList<int> value) {
     _$selectedGenresAtom.reportWrite(value, super.selectedGenres, () {
       super.selectedGenres = value;
+    });
+  }
+
+  final _$selectedSortByAtom = Atom(name: '_SettingsStoreBase.selectedSortBy');
+
+  @override
+  String get selectedSortBy {
+    _$selectedSortByAtom.reportRead();
+    return super.selectedSortBy;
+  }
+
+  @override
+  set selectedSortBy(String value) {
+    _$selectedSortByAtom.reportWrite(value, super.selectedSortBy, () {
+      super.selectedSortBy = value;
     });
   }
 
@@ -394,6 +409,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
+  void setSortBy(String value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setSortBy');
+    try {
+      return super.setSortBy(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 brightness: ${brightness},
@@ -410,7 +436,8 @@ timeZones: ${timeZones},
 autoDetectTimeZone: ${autoDetectTimeZone},
 selectedWatchProviders: ${selectedWatchProviders},
 movieGenres: ${movieGenres},
-selectedGenres: ${selectedGenres}
+selectedGenres: ${selectedGenres},
+selectedSortBy: ${selectedSortBy}
     ''';
   }
 }

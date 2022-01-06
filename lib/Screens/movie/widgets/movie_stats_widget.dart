@@ -55,8 +55,7 @@ class MovieStatsWidget extends StatelessWidget {
               !movie.runtime!.isNaN &&
               movie.runtime! > 1)
             CustomStatWidget(
-                title: 'Runtime',
-                content: movie.runtime.toString() + ' minutes'),
+                title: 'Runtime', content: FormatTime(movie.runtime!)),
           if (movie.releaseDate != '0000-00-00' && movie.releaseDate.isNotEmpty)
             CustomStatWidget(
                 title: 'Release Date',
@@ -72,6 +71,12 @@ class MovieStatsWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+String FormatTime(int value) {
+  if (value < 60) return "$value minutes";
+  print(value);
+  return '${(value / 60).truncate()} hours and ${value - ((value / 60).truncate() * 60)} minutes';
 }
 
 String formatDate(CompleteMovie movie) {

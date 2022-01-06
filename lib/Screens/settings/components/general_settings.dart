@@ -108,7 +108,7 @@ class GeneralSettings extends StatelessWidget {
             ),
             DropDownButtonWidget(
               items: ["Yes", "No"],
-              value: settingsStore.adultContent,
+              value: settingsStore.adultContent ? "Yes" : "No",
               onChanged: (value) {
                 if (value != null) {
                   settingsStore.setAdultContent(value);

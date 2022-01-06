@@ -39,21 +39,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$includeAdultAtom = Atom(name: '_MovieStoreBase.includeAdult');
-
-  @override
-  bool get includeAdult {
-    _$includeAdultAtom.reportRead();
-    return super.includeAdult;
-  }
-
-  @override
-  set includeAdult(bool value) {
-    _$includeAdultAtom.reportWrite(value, super.includeAdult, () {
-      super.includeAdult = value;
-    });
-  }
-
   final _$moviesAtom = Atom(name: '_MovieStoreBase.movies');
 
   @override
@@ -175,36 +160,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$sortByAtom = Atom(name: '_MovieStoreBase.sortBy');
-
-  @override
-  List<dynamic> get sortBy {
-    _$sortByAtom.reportRead();
-    return super.sortBy;
-  }
-
-  @override
-  set sortBy(List<dynamic> value) {
-    _$sortByAtom.reportWrite(value, super.sortBy, () {
-      super.sortBy = value;
-    });
-  }
-
-  final _$selectedSortByAtom = Atom(name: '_MovieStoreBase.selectedSortBy');
-
-  @override
-  String get selectedSortBy {
-    _$selectedSortByAtom.reportRead();
-    return super.selectedSortBy;
-  }
-
-  @override
-  set selectedSortBy(String value) {
-    _$selectedSortByAtom.reportWrite(value, super.selectedSortBy, () {
-      super.selectedSortBy = value;
-    });
-  }
-
   final _$selectedContentTypeAtom =
       Atom(name: '_MovieStoreBase.selectedContentType');
 
@@ -292,7 +247,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     return '''
 page: ${page},
 language: ${language},
-includeAdult: ${includeAdult},
 movies: ${movies},
 error: ${error},
 totalPages: ${totalPages},
@@ -301,8 +255,6 @@ movie: ${movie},
 backToTheTopVisible: ${backToTheTopVisible},
 searchString: ${searchString},
 empty: ${empty},
-sortBy: ${sortBy},
-selectedSortBy: ${selectedSortBy},
 selectedContentType: ${selectedContentType}
     ''';
   }

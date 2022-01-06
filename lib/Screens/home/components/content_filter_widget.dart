@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/genres/genres_screen.dart';
 import 'package:wwatch/Screens/home/components/providers_filter_widget.dart';
+import 'package:wwatch/Screens/sort_by/sort_by_screen.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -26,18 +27,6 @@ class ContentFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = TextEditingController();
-    final genres = [
-      DropdownMenuItem<String>(
-        value: 'Genres',
-        child: Text('Genres'),
-      )
-    ];
-    genres.addAll(settingsStore.movieGenres.map((e) {
-      return DropdownMenuItem<String>(
-        value: e.name,
-        child: Text(e.name),
-      );
-    }).toList());
 
     controller.text = movieStore.searchString;
     controller.selection =
@@ -202,44 +191,46 @@ class ContentFilter extends StatelessWidget {
             height: 8,
           ),
           Observer(builder: (_) {
-            List<String> items2 = ['Popularity', 'Release Date'];
-
             if (movieStore.searchString.isEmpty)
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: styleStore.shapeColor,
-                          borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: SizedBox(
-                        width: 340,
-                        height: 48,
-                        child: DropdownButton<String>(
-                            dropdownColor: styleStore.backgroundColor,
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: AppColors.text,
-                            ),
-                            isExpanded: true,
-                            style: GoogleFonts.getFont('Mitr',
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(4),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SortByScreen(
+                                      movieStore: movieStore,
+                                    )));
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            color: styleStore.shapeColor,
+                            borderRadius: BorderRadius.circular(4)),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: SizedBox(
+                          width: 340,
+                          height: 48,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Sort By",
+                                style: GoogleFonts.getFont('Mitr',
+                                    color: AppColors.text,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w100),
+                              ),
+                              Icon(
+                                LineIcons.angleDoubleRight,
                                 color: AppColors.text,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100),
-                            underline: Container(),
-                            value: 'Popularity',
-                            onChanged: (text) {},
-                            iconSize: 16,
-                            elevation: 16,
-                            //TODO change this to a variable in a Store
-                            items: items2.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList()),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -285,40 +276,6 @@ class ContentFilter extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Expanded(
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //         color: styleStore.shapeColor,
-                  //         borderRadius: BorderRadius.circular(4)),
-                  //     padding: EdgeInsets.symmetric(horizontal: 16),
-                  //     child: SizedBox(
-                  //         width: 340,
-                  //         child: DropdownButton<String>(
-                  //           dropdownColor: styleStore.backgroundColor,
-                  //           icon: Icon(
-                  //             Icons.keyboard_arrow_down_outlined,
-                  //             color: AppColors.text,
-                  //           ),
-                  //           isExpanded: true,
-                  //           style: GoogleFonts.getFont('Mitr',
-                  //               color: AppColors.text,
-                  //               fontSize: 16,
-                  //               fontWeight: FontWeight.w100),
-                  //           underline: Container(),
-                  //           value: settingsStore.selectedGenre,
-                  //           onChanged: (text) {
-                  //             if (text != null) {
-                  //               settingsStore.setSelectedGenre(text);
-                  //               movieStore.getPopularMovies();
-                  //             }
-                  //           },
-                  //           iconSize: 16,
-                  //           elevation: 16,
-
-                  //           items: genres,
-                  //         )),
-                  //   ),
-                  // ),
                 ],
               );
             return Container();

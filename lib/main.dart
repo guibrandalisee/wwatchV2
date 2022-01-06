@@ -14,6 +14,8 @@ import 'package:wwatch/stores/style_store.dart';
 
 //TODO Fix TV shows filter not working
 
+
+//TODO get this shit organized
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

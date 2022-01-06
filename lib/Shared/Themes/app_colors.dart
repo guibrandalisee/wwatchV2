@@ -14,12 +14,12 @@ class AppColors {
   static List<Color> primaries = [
     Color(0xffFF8500), //primaryOrange
     Color(0xff01D277), //primaryGreen
-    Color(0xff805BE7), //primaryPurple
+    Color(0xff8a05bf), //primaryPurple
     Color(0xff22AACE), //primaryBlue
     Color(0xffD40242), //primaryRed
     Color(0xffEA148C), // primaryPink
     Color(0xff0177D2), //primaryDarkBlue
-    Color(0xff8a05bf), //primaryDarkPurple
+    Color(0xFF522BBB), //primaryDarkPurple
   ];
 
   static List<Color> textOnPrimaries = [

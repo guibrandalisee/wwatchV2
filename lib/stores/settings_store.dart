@@ -11,6 +11,7 @@ enum CustomBrightness { dark, amoled, light }
 
 abstract class _SettingsStoreBase with Store {
   String apiKey = API().apiKey;
+  //Check if user has changed any settings before
   final SharedPreferences? prefs;
   _SettingsStoreBase({
     this.prefs,
@@ -26,11 +27,16 @@ abstract class _SettingsStoreBase with Store {
       } else {
         brightness = CustomBrightness.dark;
       }
+      if (prefs!.containsKey('adultContent')) {
+        adultContent = prefs!.getBool('adultContent')!;
+      }
     } else {
       dateFormat = 'dd/mm/yyyy';
       brightness = CustomBrightness.dark;
+      adultContent = false;
     }
   }
+  //Default http request function
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
@@ -49,6 +55,7 @@ abstract class _SettingsStoreBase with Store {
     }
   }
 
+  //Change Brightness settigns (Dark|Light|AMOLED)
   @observable
   CustomBrightness brightness = CustomBrightness.dark;
   @action
@@ -57,6 +64,7 @@ abstract class _SettingsStoreBase with Store {
     brightness = value;
   }
 
+  //Change date format
   @observable
   String dateFormat = 'dd/mm/yyyy';
   @action
@@ -65,13 +73,14 @@ abstract class _SettingsStoreBase with Store {
     dateFormat = value;
   }
 
+  //WIP change app language
   //TODO get list itens from API
   //or just set suported languages manually
   @observable
   String language = 'English - US';
   @action
   void setLanguage(String value) => language = value;
-
+  //WIP change app secondary language
   @observable
   String secondaryLanguage = 'English - US';
   @action
@@ -85,16 +94,27 @@ abstract class _SettingsStoreBase with Store {
     "Spanish - ES",
   ];
 
+  //Change if the app will display adult content
   @observable
-  String adultContent = 'No';
+  bool adultContent = false;
   @action
-  void setAdultContent(String value) => adultContent = value;
+  void setAdultContent(String value) {
+    if (value == 'No') {
+      adultContent = false;
+      prefs!.setBool('adultContent', false);
+    } else {
+      adultContent = true;
+      prefs!.setBool('adultContent', true);
+    }
+  }
 
+  //WIP Change if app will diplay bad language
   @observable
   String filterBadLanguage = 'Yes';
   @action
   void setFilterBadLanguage(String value) => filterBadLanguage = value;
 
+  //WIP Change app country to filter movie watch providers results
   @observable
   String country = 'Brazil';
   @action
@@ -109,6 +129,7 @@ abstract class _SettingsStoreBase with Store {
     "France"
   ];
 
+  //WIP Change app timezone
   @observable
   String timeZone = "Brasil - São Paulo";
   @action
@@ -123,6 +144,7 @@ abstract class _SettingsStoreBase with Store {
   @action
   void setAutoDetectTimeZone(bool value) => autoDetectTimeZone = value;
 
+  //WIP Watch Providers Filter
   @observable
   var selectedWatchProviders = ObservableList<int>();
 
@@ -133,6 +155,7 @@ abstract class _SettingsStoreBase with Store {
   void removeSelectedWatchProvider(int value) =>
       selectedWatchProviders.remove(value);
 
+  //Movie Genres Filter
   @observable
   List<Genre> movieGenres = [];
 
@@ -160,4 +183,27 @@ abstract class _SettingsStoreBase with Store {
       return Genre(id: e['id'], name: e['name']);
     }).toList();
   }
+
+  @observable
+  String selectedSortBy = "popularity.desc";
+
+  @action
+  void setSortBy(String value) => selectedSortBy = value;
+
+  List<String> possibleSortBy = [
+    "popularity.asc",
+    "popularity.desc",
+    "release_date.asc",
+    " release_date.desc",
+    "revenue.asc",
+    "revenue.desc",
+    "primary_release_date.asc",
+    "primary_release_date.desc",
+    "original_title.asc",
+    "original_title.desc",
+    "vote_average.asc",
+    "vote_average.desc",
+    "vote_count.asc",
+    "vote_count.desc"
+  ];
 }

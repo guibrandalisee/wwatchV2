@@ -11,9 +11,12 @@ part 'movie_store.g.dart';
 enum ContentType { TVSHOW, MOVIE }
 
 class MovieStore = _MovieStoreBase with _$MovieStore;
+final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
 abstract class _MovieStoreBase with Store {
   String apiKey = API().apiKey;
+
+  //Default http request function
   @action
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
@@ -40,9 +43,7 @@ abstract class _MovieStoreBase with Store {
   @observable
   String language = 'en-US';
 
-  @observable
-  bool includeAdult = false;
-
+  //List of movies that will be displayed on front page
   @observable
   List<SimpleMovie> movies = [];
 
@@ -67,17 +68,18 @@ abstract class _MovieStoreBase with Store {
         'api_key': apiKey,
         'language': language,
         'page': page,
-        'sort_by': 'popularity.desc',
-        'include_adult': includeAdult,
+        'sort_by': settingsStore.selectedSortBy,
+        'include_adult': settingsStore.adultContent,
         'with_genres': genres
       };
+      print("Genres: $genres");
     } else {
       parameters = {
         'api_key': apiKey,
         'language': language,
         'page': page,
-        'sort_by': 'popularity.desc',
-        'include_adult': includeAdult,
+        'sort_by': settingsStore.selectedSortBy,
+        'include_adult': settingsStore.adultContent,
       };
     }
     final response =
@@ -89,7 +91,7 @@ abstract class _MovieStoreBase with Store {
         return SimpleMovie(
             genreIds: e['genre_ids'],
             id: e['id'],
-            popularity: e['popularity'],
+            popularity: e['popularity'] + 0.0,
             voteAverage: e['vote_average'] + 0.0,
             originalLanguage: e['original_language'],
             title: e['title'],
@@ -106,6 +108,13 @@ abstract class _MovieStoreBase with Store {
       print(e);
       error = true;
     }
+    print("Include adult: ${settingsStore.adultContent}");
+    print("Page: $page");
+    print("Query: $searchString");
+    print("Language: $language");
+    print("Error: $error");
+    print("Results: ${movies.length}");
+    print("Sort By: ${settingsStore.selectedSortBy}");
   }
 
   //TODO not working
@@ -114,18 +123,20 @@ abstract class _MovieStoreBase with Store {
     final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
     page++;
     if (searchString.isEmpty) {
+      print("More Results-----------------------");
       Map<String, dynamic> parameters = {};
       if (_settingsStore.selectedGenres.isNotEmpty) {
         String genres = '';
         for (var item in _settingsStore.selectedGenres) {
           genres += item.toString() + ',';
         }
+        print("Genres: $genres");
         parameters = {
           'api_key': apiKey,
           'language': language,
           'page': page,
-          'sort_by': 'popularity.desc',
-          'include_adult': includeAdult,
+          'sort_by': settingsStore.selectedSortBy,
+          'include_adult': settingsStore.adultContent,
           'with_genres': genres
         };
       } else {
@@ -133,8 +144,8 @@ abstract class _MovieStoreBase with Store {
           'api_key': apiKey,
           'language': language,
           'page': page,
-          'sort_by': 'popularity.desc',
-          'include_adult': includeAdult,
+          'sort_by': settingsStore.selectedSortBy,
+          'include_adult': settingsStore.adultContent,
         };
       }
 
@@ -161,13 +172,20 @@ abstract class _MovieStoreBase with Store {
         print(e);
         error = true;
       }
+      print("Include adult: ${settingsStore.adultContent}");
+      print("Page: $page");
+      print("Query: $searchString");
+      print("Language: $language");
+      print("Error: $error");
+      print("Total Results: ${movies.length}");
+      print("Sort By: ${settingsStore.selectedSortBy}");
     } else {
       final response = await fetchData(path: '/search/movie', parameters: {
         'api_key': apiKey,
         'language': language,
         'page': page,
         'query': searchString,
-        'include_adult': includeAdult,
+        'include_adult': settingsStore.adultContent,
       });
       error = false;
       try {
@@ -190,6 +208,13 @@ abstract class _MovieStoreBase with Store {
         print(e);
         error = true;
       }
+      print("More Results-----------------------");
+      print("Include adult: ${settingsStore.adultContent}");
+      print("Page: $page");
+      print("Query: $searchString");
+      print("Language: $language");
+      print("Error: $error");
+      print("Total Results: ${movies.length}");
     }
   }
 
@@ -282,6 +307,7 @@ abstract class _MovieStoreBase with Store {
       getPopularMovies();
       return;
     }
+
     movies = [];
     page = 1;
     final response = await fetchData(path: '/search/movie', parameters: {
@@ -289,8 +315,9 @@ abstract class _MovieStoreBase with Store {
       'language': language,
       'query': searchString,
       'page': page,
-      'include_adult': includeAdult,
+      'include_adult': settingsStore.adultContent,
     });
+
     error = false;
     try {
       totalPages = response.data['total_pages'];
@@ -315,16 +342,16 @@ abstract class _MovieStoreBase with Store {
       print(e);
       error = true;
     }
+    print("Include adult: ${settingsStore.adultContent}");
+    print("Page: $page");
+    print("Query: $searchString");
+    print("Language: $language");
+    print("Error: $error");
+    print("Results: ${movies.length}");
   }
 
   @action
   void setSearch(String value) => searchString = value;
-
-  @observable
-  List sortBy = ['Popularity'];
-
-  @observable
-  String selectedSortBy = 'Popularity';
 
   @observable
   int selectedContentType = 0;
