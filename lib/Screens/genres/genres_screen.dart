@@ -61,18 +61,47 @@ class GenresScreen extends StatelessWidget {
               itemCount: settingsStore.movieGenres.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return Container(
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                      "This filter works by showing only movies with all selected genres",
-                      style: GoogleFonts.getFont(
-                        'Mitr',
-                        color: styleStore.textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w100,
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: 80,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(50),
+                            blurRadius: 32,
+                            spreadRadius: 0,
+                          )
+                        ]),
+                        height: 140,
+                        child: Image.asset(
+                          "assets/images/WWatch2-png.png",
+                          color: styleStore.primaryColor,
+                          fit: BoxFit.fitHeight,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        child: Text(
+                          "This filter works by showing only movies with all selected genres",
+                          style: GoogleFonts.getFont(
+                            'Mitr',
+                            color: styleStore.textColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w100,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                    ],
                   );
                 } else {
                   return GenreTile(

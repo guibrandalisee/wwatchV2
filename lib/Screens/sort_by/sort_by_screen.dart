@@ -29,39 +29,68 @@ class SortByScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-          backgroundColor: styleStore.backgroundColor,
-          appBar: AppBar(
-            iconTheme: IconThemeData(
-              color: settingsStore.brightness != CustomBrightness.amoled
-                  ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                  : styleStore.primaryColor,
-            ),
-            backgroundColor: settingsStore.brightness == CustomBrightness.amoled
-                ? styleStore.backgroundColor
+        backgroundColor: styleStore.backgroundColor,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: settingsStore.brightness != CustomBrightness.amoled
+                ? AppColors.textOnPrimaries[styleStore.colorIndex!]
                 : styleStore.primaryColor,
-            title: Hero(
-              tag: "logo",
-              child: SizedBox(
-                height: 56,
-                child: Image.asset(
-                  "assets/images/WWatch2-png.png",
-                  color: settingsStore.brightness != CustomBrightness.amoled
-                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                      : styleStore.primaryColor,
-                  fit: BoxFit.fitHeight,
-                  filterQuality: FilterQuality.medium,
-                ),
+          ),
+          backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+              ? styleStore.backgroundColor
+              : styleStore.primaryColor,
+          title: Hero(
+            tag: "logo",
+            child: SizedBox(
+              height: 56,
+              child: Image.asset(
+                "assets/images/WWatch2-png.png",
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : styleStore.primaryColor,
+                fit: BoxFit.fitHeight,
+                filterQuality: FilterQuality.medium,
               ),
             ),
           ),
-          body: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: settingsStore.possibleSortBy.length,
-              itemBuilder: (context, index) {
-                return SortByTile(
-                  index: index,
+        ),
+        body: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: settingsStore.possibleSortBy.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0)
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 80,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(50),
+                          blurRadius: 32,
+                          spreadRadius: 0,
+                        )
+                      ]),
+                      height: 140,
+                      child: Image.asset(
+                        "assets/images/WWatch2-png.png",
+                        color: styleStore.primaryColor,
+                        fit: BoxFit.fitHeight,
+                        filterQuality: FilterQuality.medium,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 80,
+                    ),
+                  ],
                 );
-              })),
+              return SortByTile(
+                index: index - 1,
+              );
+            }),
+      ),
     );
   }
 }
