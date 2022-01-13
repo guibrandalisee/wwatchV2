@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 
 import 'package:wwatch/Screens/genres/components/genre_tile_widget.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -13,23 +14,41 @@ class GenresScreen extends StatelessWidget {
   const GenresScreen({
     Key? key,
     required this.movieStore,
+    this.fab,
   }) : super(key: key);
   final MovieStore movieStore;
+  final bool? fab;
 //TODO make possible for the user to choose if they want to view only movies that have all selected genres
 //TODO or view all movies that has at least one of these genres
 
 //You can do this using the parameter without_genres, just exclude all genders except the selected ones
   @override
   Widget build(BuildContext context) {
+    bool didChange = false;
     final SettingsStore settingsStore = GetIt.I<SettingsStore>();
     final StyleStore styleStore = GetIt.I<StyleStore>();
 
     return WillPopScope(
       onWillPop: () async {
-        movieStore.getPopularMovies();
+        if (didChange) {
+          movieStore.movies = [];
+          movieStore.getPopularMovies();
+        }
         return true;
       },
       child: Scaffold(
+        floatingActionButton: fab != null && fab!
+            ? FloatingActionButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                backgroundColor: styleStore.primaryColor,
+                child: Icon(
+                  LineIcons.arrowLeft,
+                  color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                ),
+              )
+            : Container(),
         backgroundColor: styleStore.backgroundColor,
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -105,6 +124,28 @@ class GenresScreen extends StatelessWidget {
                   );
                 } else {
                   return GenreTile(
+                    onTap: () {
+                      didChange = true;
+                      if (!settingsStore.selectedGenres
+                          .contains(settingsStore.movieGenres[index - 1].id)) {
+                        settingsStore.addSelectedGenre(
+                            settingsStore.movieGenres[index - 1].id);
+                      } else {
+                        settingsStore.removeSelectedGenre(
+                            settingsStore.movieGenres[index - 1].id);
+                      }
+                    },
+                    onTap2: (a) {
+                      didChange = true;
+                      if (!settingsStore.selectedGenres
+                          .contains(settingsStore.movieGenres[index - 1].id)) {
+                        settingsStore.addSelectedGenre(
+                            settingsStore.movieGenres[index - 1].id);
+                      } else {
+                        settingsStore.removeSelectedGenre(
+                            settingsStore.movieGenres[index - 1].id);
+                      }
+                    },
                     index: index - 1,
                   );
                 }

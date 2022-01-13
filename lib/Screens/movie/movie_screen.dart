@@ -8,6 +8,7 @@ import 'package:wwatch/Screens/movie/widgets/header_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/loading_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/movie_stats_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/posters_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/similar_movies_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/speed_dial_movie_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/tagline_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
@@ -28,6 +29,7 @@ class MovieScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     movieStore.getSingleMovie(movieId);
+    movieStore.getSimilarMovies(movieId);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: const CustomSpeedDialMovieScreen(),
@@ -89,6 +91,8 @@ class MovieScreen extends StatelessWidget {
                     TrailersWidget(
                       movie: movieStore.movie!,
                     ),
+                  if (movieStore.similarMovies.length > 0)
+                    SimilarMoviesWidget(movieStore: movieStore),
                   MovieStatsWidget(
                     movie: movieStore.movie!,
                   ),

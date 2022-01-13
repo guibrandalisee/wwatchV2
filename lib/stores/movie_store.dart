@@ -55,6 +55,7 @@ abstract class _MovieStoreBase with Store {
 
   @action
   Future<void> getPopularMovies() async {
+    movies = [];
     final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
     empty = false;
     page = 1;
@@ -157,7 +158,7 @@ abstract class _MovieStoreBase with Store {
           return SimpleMovie(
               genreIds: e['genre_ids'],
               id: e['id'],
-              popularity: e['popularity'],
+              popularity: e['popularity'] + 0.0,
               voteAverage: e['vote_average'] + 0.0,
               originalLanguage: e['original_language'],
               title: e['title'],
@@ -358,4 +359,41 @@ abstract class _MovieStoreBase with Store {
 
   @action
   void setSelectedContentType(int value) => selectedContentType = value;
+
+  @observable
+  List<SimpleMovie> similarMovies = [];
+
+  @action
+  Future<void> getSimilarMovies(int id) async {
+    similarMovies = [];
+    Map<String, dynamic> parameters = {};
+    parameters = {
+      'api_key': apiKey,
+      'language': language,
+      'page': page,
+    };
+
+    final response =
+        await fetchData(path: '/movie/$id/similar', parameters: parameters);
+    error = false;
+    try {
+      similarMovies = response.data['results'].map<SimpleMovie>((e) {
+        return SimpleMovie(
+            genreIds: e['genre_ids'],
+            id: e['id'],
+            popularity: e['popularity'] + 0.0,
+            voteAverage: e['vote_average'] + 0.0,
+            originalLanguage: e['original_language'],
+            title: e['title'],
+            overview: e['overview'],
+            releaseDate: e['release_date'],
+            backdropPath: e['backdrop_path'],
+            posterPath: e['poster_path'],
+            adult: e['adult']);
+      }).toList();
+    } catch (e) {
+      print("Similar Movies Error");
+      print(e);
+    }
+  }
 }

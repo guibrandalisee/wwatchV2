@@ -3,16 +3,21 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Screens/genres/genres_screen.dart';
+import 'package:wwatch/Screens/sort_by/sort_by_screen.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class CustomSpeedDialHomeScreen extends StatelessWidget {
   const CustomSpeedDialHomeScreen({
     Key? key,
+    required this.movieStore,
     required this.scrollController,
     required this.focusNode,
   }) : super(key: key);
+  final MovieStore movieStore;
   final ScrollController scrollController;
   final FocusNode focusNode;
   @override
@@ -61,7 +66,13 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           backgroundColor: styleStore.primaryColor,
         ),
         SpeedDialChild(
-          onTap: () {},
+          onTap: () {
+            if (movieStore.selectedContentType != 0) {
+              movieStore.setSelectedContentType(0);
+
+              movieStore.getPopularMovies();
+            }
+          },
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
@@ -79,7 +90,13 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           backgroundColor: styleStore.primaryColor,
         ),
         SpeedDialChild(
-          onTap: () {},
+          onTap: () {
+            if (movieStore.selectedContentType != 1) {
+              movieStore.setSelectedContentType(1);
+
+              movieStore.getPopularMovies();
+            }
+          },
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
@@ -97,11 +114,19 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           backgroundColor: styleStore.primaryColor,
         ),
         SpeedDialChild(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => GenresScreen(
+                          movieStore: movieStore,
+                          fab: true,
+                        )));
+          },
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'Popular',
+              'Genres',
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 16,
@@ -109,17 +134,25 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             ),
           ),
           child: Icon(
-            LineIcons.lineChart,
+            LineIcons.hashtag,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
           backgroundColor: styleStore.primaryColor,
         ),
         SpeedDialChild(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SortByScreen(
+                          movieStore: movieStore,
+                          fab: true,
+                        )));
+          },
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'Upcoming',
+              'Sort By',
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 16,
@@ -127,25 +160,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             ),
           ),
           child: Icon(
-            LineIcons.clock,
-            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
-          ),
-          backgroundColor: styleStore.primaryColor,
-        ),
-        SpeedDialChild(
-          onTap: () {},
-          labelWidget: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'People',
-              style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300),
-            ),
-          ),
-          child: Icon(
-            LineIcons.users,
+            LineIcons.sort,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
           backgroundColor: styleStore.primaryColor,

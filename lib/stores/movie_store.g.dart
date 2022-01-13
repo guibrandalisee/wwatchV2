@@ -176,6 +176,21 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$similarMoviesAtom = Atom(name: '_MovieStoreBase.similarMovies');
+
+  @override
+  List<SimpleMovie> get similarMovies {
+    _$similarMoviesAtom.reportRead();
+    return super.similarMovies;
+  }
+
+  @override
+  set similarMovies(List<SimpleMovie> value) {
+    _$similarMoviesAtom.reportWrite(value, super.similarMovies, () {
+      super.similarMovies = value;
+    });
+  }
+
   final _$fetchDataAsyncAction = AsyncAction('_MovieStoreBase.fetchData');
 
   @override
@@ -217,6 +232,14 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     return _$searchAsyncAction.run(() => super.search());
   }
 
+  final _$getSimilarMoviesAsyncAction =
+      AsyncAction('_MovieStoreBase.getSimilarMovies');
+
+  @override
+  Future<void> getSimilarMovies(int id) {
+    return _$getSimilarMoviesAsyncAction.run(() => super.getSimilarMovies(id));
+  }
+
   final _$_MovieStoreBaseActionController =
       ActionController(name: '_MovieStoreBase');
 
@@ -255,7 +278,8 @@ movie: ${movie},
 backToTheTopVisible: ${backToTheTopVisible},
 searchString: ${searchString},
 empty: ${empty},
-selectedContentType: ${selectedContentType}
+selectedContentType: ${selectedContentType},
+similarMovies: ${similarMovies}
     ''';
   }
 }

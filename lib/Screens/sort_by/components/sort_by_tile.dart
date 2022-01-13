@@ -12,10 +12,14 @@ class SortByTile extends StatelessWidget {
   SortByTile({
     Key? key,
     required this.index,
+    required this.onTap,
+    required this.onTap2,
   }) : super(key: key);
   final int index;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final VoidCallback onTap;
+  final void Function(bool?) onTap2;
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
@@ -25,9 +29,7 @@ class SortByTile extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
             child: InkWell(
               borderRadius: BorderRadius.circular(5),
-              onTap: () {
-                settingsStore.setSortBy(settingsStore.possibleSortBy[index]);
-              },
+              onTap: onTap,
               child: Ink(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -60,10 +62,7 @@ class SortByTile extends StatelessWidget {
                             : MaterialStateProperty.all(AppColors.text),
                         value: settingsStore.selectedSortBy ==
                             settingsStore.possibleSortBy[index],
-                        onChanged: (value) {
-                          settingsStore
-                              .setSortBy(settingsStore.possibleSortBy[index]);
-                        })
+                        onChanged: onTap2)
                   ],
                 ),
               ),

@@ -11,25 +11,21 @@ class GenreTile extends StatelessWidget {
   GenreTile({
     Key? key,
     required this.index,
+    required this.onTap,
+    required this.onTap2,
   }) : super(key: key);
   final int index;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final VoidCallback onTap;
+  final void Function(bool?) onTap2;
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       child: InkWell(
         borderRadius: BorderRadius.circular(5),
-        onTap: () {
-          if (!settingsStore.selectedGenres
-              .contains(settingsStore.movieGenres[index].id)) {
-            settingsStore.addSelectedGenre(settingsStore.movieGenres[index].id);
-          } else {
-            settingsStore
-                .removeSelectedGenre(settingsStore.movieGenres[index].id);
-          }
-        },
+        onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -59,16 +55,7 @@ class GenreTile extends StatelessWidget {
                       : null,
                   value: settingsStore.selectedGenres
                       .contains(settingsStore.movieGenres[index].id),
-                  onChanged: (value) {
-                    if (!settingsStore.selectedGenres
-                        .contains(settingsStore.movieGenres[index].id)) {
-                      settingsStore.addSelectedGenre(
-                          settingsStore.movieGenres[index].id);
-                    } else {
-                      settingsStore.removeSelectedGenre(
-                          settingsStore.movieGenres[index].id);
-                    }
-                  },
+                  onChanged: onTap2,
                 );
               })
             ],

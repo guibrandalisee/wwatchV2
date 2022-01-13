@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -7,13 +8,10 @@ import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
-//TODO recreate the project with flutter create because of issues after updating to flutter 2.5
-
 //TODO add routes 2.0
 //TODO reduce the number of lines in all build methods
 
 //TODO Fix TV shows filter not working
-
 
 //TODO get this shit organized
 Future<void> main() async {
@@ -24,7 +22,12 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
   );
-  runApp(MyApp());
+  runApp(
+    DevicePreview(
+      enabled: false,
+      builder: (_) => MyApp(),
+    ),
+  );
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupLocators(prefs);
 }
@@ -52,8 +55,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: DevicePreview.appBuilder,
+      locale: DevicePreview.locale(context),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'WWatch',
       theme: ThemeData(
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(
