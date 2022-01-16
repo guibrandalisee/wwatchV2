@@ -33,7 +33,7 @@ class SimpleMovie {
     required this.originalLanguage,
     required this.title,
     required this.overview,
-    required this.releaseDate,
+    this.releaseDate,
     this.backdropPath,
   });
 }
@@ -49,15 +49,15 @@ class CompleteMovie {
     required this.originalLanguage,
     required this.title,
     required this.overview,
-    required this.releaseDate,
+    this.releaseDate,
     this.backdropPath,
-    required this.budget,
+    this.budget,
     this.imdbId,
     required this.originalTitle,
     required this.productionCompanies,
     required this.productionCountries,
     required this.spokenLanguages,
-    required this.revenue,
+    this.revenue,
     this.runtime,
     required this.launchStatus,
     this.tagline,
@@ -77,15 +77,15 @@ class CompleteMovie {
   final String originalLanguage;
   final String title;
   final String overview;
-  final String releaseDate;
+  final String? releaseDate;
   final String? backdropPath;
-  final int budget;
+  final int? budget;
   final String? imdbId;
   final String originalTitle;
   final List productionCompanies;
   final List productionCountries;
   final List spokenLanguages;
-  final int revenue;
+  final int? revenue;
   final int? runtime;
   final String launchStatus;
   final String? tagline;

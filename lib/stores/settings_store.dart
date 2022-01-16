@@ -206,4 +206,10 @@ abstract class _SettingsStoreBase with Store {
     "vote_count.asc",
     "vote_count.desc"
   ];
+
+  @observable
+  int selectedContentType = 0;
+
+  @action
+  void setSelectedContentType(int value) => selectedContentType = value;
 }

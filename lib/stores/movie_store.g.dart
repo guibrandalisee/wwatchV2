@@ -160,34 +160,18 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$selectedContentTypeAtom =
-      Atom(name: '_MovieStoreBase.selectedContentType');
+  final _$recommendationsAtom = Atom(name: '_MovieStoreBase.recommendations');
 
   @override
-  int get selectedContentType {
-    _$selectedContentTypeAtom.reportRead();
-    return super.selectedContentType;
+  List<SimpleMovie> get recommendations {
+    _$recommendationsAtom.reportRead();
+    return super.recommendations;
   }
 
   @override
-  set selectedContentType(int value) {
-    _$selectedContentTypeAtom.reportWrite(value, super.selectedContentType, () {
-      super.selectedContentType = value;
-    });
-  }
-
-  final _$similarMoviesAtom = Atom(name: '_MovieStoreBase.similarMovies');
-
-  @override
-  List<SimpleMovie> get similarMovies {
-    _$similarMoviesAtom.reportRead();
-    return super.similarMovies;
-  }
-
-  @override
-  set similarMovies(List<SimpleMovie> value) {
-    _$similarMoviesAtom.reportWrite(value, super.similarMovies, () {
-      super.similarMovies = value;
+  set recommendations(List<SimpleMovie> value) {
+    _$recommendationsAtom.reportWrite(value, super.recommendations, () {
+      super.recommendations = value;
     });
   }
 
@@ -221,8 +205,9 @@ mixin _$MovieStore on _MovieStoreBase, Store {
       AsyncAction('_MovieStoreBase.getSingleMovie');
 
   @override
-  Future<void> getSingleMovie(int id) {
-    return _$getSingleMovieAsyncAction.run(() => super.getSingleMovie(id));
+  Future<void> getSingleMovie(int id, int contentType) {
+    return _$getSingleMovieAsyncAction
+        .run(() => super.getSingleMovie(id, contentType));
   }
 
   final _$searchAsyncAction = AsyncAction('_MovieStoreBase.search');
@@ -232,12 +217,13 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     return _$searchAsyncAction.run(() => super.search());
   }
 
-  final _$getSimilarMoviesAsyncAction =
-      AsyncAction('_MovieStoreBase.getSimilarMovies');
+  final _$getRecommendationsAsyncAction =
+      AsyncAction('_MovieStoreBase.getRecommendations');
 
   @override
-  Future<void> getSimilarMovies(int id) {
-    return _$getSimilarMoviesAsyncAction.run(() => super.getSimilarMovies(id));
+  Future<void> getRecommendations(int id) {
+    return _$getRecommendationsAsyncAction
+        .run(() => super.getRecommendations(id));
   }
 
   final _$_MovieStoreBaseActionController =
@@ -249,17 +235,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         name: '_MovieStoreBase.setSearch');
     try {
       return super.setSearch(value);
-    } finally {
-      _$_MovieStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setSelectedContentType(int value) {
-    final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
-        name: '_MovieStoreBase.setSelectedContentType');
-    try {
-      return super.setSelectedContentType(value);
     } finally {
       _$_MovieStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -278,8 +253,7 @@ movie: ${movie},
 backToTheTopVisible: ${backToTheTopVisible},
 searchString: ${searchString},
 empty: ${empty},
-selectedContentType: ${selectedContentType},
-similarMovies: ${similarMovies}
+recommendations: ${recommendations}
     ''';
   }
 }

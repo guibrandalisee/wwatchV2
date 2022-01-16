@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +18,7 @@ class PostersWidget extends StatelessWidget {
   final StyleStore styleStore = GetIt.I<StyleStore>();
   @override
   Widget build(BuildContext context) {
+    CarouselController carouselController = CarouselController();
     return Column(
       children: [
         Divider(
@@ -30,18 +30,46 @@ class PostersWidget extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        Text(
-          'Movie Posters',
-          style: GoogleFonts.getFont('Mitr',
-              color: styleStore.textColor,
-              fontSize: 22,
-              fontWeight: FontWeight.w400),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (movie.images != null && movie.images!.length > 1)
+              IconButton(
+                  splashRadius: 16,
+                  onPressed: () {
+                    carouselController.previousPage();
+                  },
+                  icon: Icon(
+                    Icons.chevron_left_rounded,
+                    color: styleStore.textColor,
+                    size: 22,
+                  )),
+            Text(
+              'Movie Posters',
+              style: GoogleFonts.getFont('Mitr',
+                  color: styleStore.textColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w400),
+            ),
+            if (movie.images != null && movie.images!.length > 1)
+              IconButton(
+                  splashRadius: 16,
+                  onPressed: () {
+                    carouselController.nextPage();
+                  },
+                  icon: Icon(
+                    Icons.chevron_right_rounded,
+                    color: styleStore.textColor,
+                    size: 22,
+                  )),
+          ],
         ),
         const SizedBox(
           height: 16,
         ),
         Container(
           child: CarouselSlider.builder(
+            carouselController: carouselController,
             key: UniqueKey(),
             itemCount: movie.images!.length,
             itemBuilder: (context, index, realIdx) {
@@ -78,28 +106,29 @@ class PostersWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Positioned(
-                          right: 16,
-                          top: 16,
-                          child: Container(
-                              padding: EdgeInsets.all(4),
-                              alignment: Alignment.center,
-                              height: 30,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                  color: AppColors.shape,
-                                  borderRadius: BorderRadius.circular(32),
-                                  border: Border.all(
-                                      color: styleStore.primaryColor!,
-                                      width: 2)),
-                              child: Text(
-                                '${index + 1} / ${movie.images!.length}',
-                                style: GoogleFonts.getFont('Kodchasan',
-                                    color: AppColors.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300),
-                              )),
-                        )
+                        if (movie.images != null && movie.images!.length > 1)
+                          Positioned(
+                            right: 16,
+                            top: 16,
+                            child: Container(
+                                padding: EdgeInsets.all(4),
+                                alignment: Alignment.center,
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                    color: AppColors.shape,
+                                    borderRadius: BorderRadius.circular(32),
+                                    border: Border.all(
+                                        color: styleStore.primaryColor!,
+                                        width: 2)),
+                                child: Text(
+                                  '${index + 1} / ${movie.images!.length}',
+                                  style: GoogleFonts.getFont('Kodchasan',
+                                      color: AppColors.text,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w300),
+                                )),
+                          )
                       ],
                     )),
               );

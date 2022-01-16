@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -18,10 +17,6 @@ class SortByScreen extends StatelessWidget {
   }) : super(key: key);
   final MovieStore movieStore;
   final bool? fab;
-//TODO make possible for the user to choose if they want to view only movies that have all selected genres
-//TODO or view all movies that has at least one of these genres
-
-//You can do this using the parameter without_genres, just exclude all genders except the selected ones
   @override
   Widget build(BuildContext context) {
     bool didChange = false;

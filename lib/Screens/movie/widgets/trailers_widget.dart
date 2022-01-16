@@ -49,20 +49,49 @@ class _TrailersWidgetState extends State<TrailersWidget> {
           const SizedBox(
             height: 16,
           ),
-          Text(
-            'Movie Trailers',
-            style: GoogleFonts.getFont('Mitr',
-                color: styleStore.textColor,
-                fontSize: 22,
-                fontWeight: FontWeight.w400),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (videos.length > 1)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () {
+                      carouselController.previousPage();
+                    },
+                    icon: Icon(
+                      Icons.chevron_left_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+              Text(
+                'Movie Trailers',
+                style: GoogleFonts.getFont('Mitr',
+                    color: styleStore.textColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400),
+              ),
+              if (videos.length > 1)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () {
+                      carouselController.nextPage();
+                    },
+                    icon: Icon(
+                      Icons.chevron_right_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+            ],
           ),
           const SizedBox(
             height: 16,
           ),
           Container(
               height: 250,
+              width: 400,
               child: CarouselSlider.builder(
                 key: UniqueKey(),
+                carouselController: carouselController,
                 itemCount: videos.length,
                 itemBuilder: ((context, index, realIDX) {
                   return InkWell(

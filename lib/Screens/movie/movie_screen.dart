@@ -8,7 +8,7 @@ import 'package:wwatch/Screens/movie/widgets/header_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/loading_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/movie_stats_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/posters_widget.dart';
-import 'package:wwatch/Screens/movie/widgets/similar_movies_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/recommendations_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/speed_dial_movie_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/tagline_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
@@ -17,19 +17,23 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
+//TODO add TV shows seasons and episodes
+
 class MovieScreen extends StatelessWidget {
   final int movieId;
+  final int contentType;
   MovieScreen({
     Key? key,
     required this.movieId,
+    required this.contentType,
   }) : super(key: key);
   final MovieStore movieStore = MovieStore();
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   @override
   Widget build(BuildContext context) {
-    movieStore.getSingleMovie(movieId);
-    movieStore.getSimilarMovies(movieId);
+    movieStore.getSingleMovie(movieId, contentType);
+    movieStore.getRecommendations(movieId);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: const CustomSpeedDialMovieScreen(),
@@ -91,13 +95,13 @@ class MovieScreen extends StatelessWidget {
                     TrailersWidget(
                       movie: movieStore.movie!,
                     ),
-                  if (movieStore.similarMovies.length > 0)
-                    SimilarMoviesWidget(movieStore: movieStore),
+                  if (movieStore.recommendations.length > 0)
+                    RecommendationsWidget(movieStore: movieStore),
                   MovieStatsWidget(
                     movie: movieStore.movie!,
                   ),
                   SizedBox(
-                    height: 256,
+                    height: 56,
                   )
                 ],
               ),

@@ -2,10 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
-
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -13,10 +14,12 @@ class MovieTile extends StatelessWidget {
   final SimpleMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final int contentType;
 
   MovieTile({
     Key? key,
     required this.movie,
+    required this.contentType,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -44,12 +47,14 @@ class MovieTile extends StatelessWidget {
       width: 500,
       height: 550,
       child: InkWell(
+        borderRadius: BorderRadius.circular(16),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => MovieScreen(
                 movieId: movie.id,
+                contentType: contentType,
               ),
             ),
           );
@@ -140,7 +145,7 @@ class MovieTile extends StatelessWidget {
               bottom: 130,
               left: 16,
               child: Container(
-                width: 320,
+                width: MediaQuery.of(context).size.width - 56,
                 child: Wrap(
                   children: [
                     Text(
@@ -160,7 +165,7 @@ class MovieTile extends StatelessWidget {
               bottom: 24,
               left: 16,
               child: Container(
-                width: 340,
+                width: MediaQuery.of(context).size.width - 56,
                 height: 75,
                 child: Wrap(
                   children: [

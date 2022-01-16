@@ -254,6 +254,22 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
+  final _$selectedContentTypeAtom =
+      Atom(name: '_SettingsStoreBase.selectedContentType');
+
+  @override
+  int get selectedContentType {
+    _$selectedContentTypeAtom.reportRead();
+    return super.selectedContentType;
+  }
+
+  @override
+  set selectedContentType(int value) {
+    _$selectedContentTypeAtom.reportWrite(value, super.selectedContentType, () {
+      super.selectedContentType = value;
+    });
+  }
+
   final _$getMovieGenresAsyncAction =
       AsyncAction('_SettingsStoreBase.getMovieGenres');
 
@@ -420,6 +436,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
+  void setSelectedContentType(int value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setSelectedContentType');
+    try {
+      return super.setSelectedContentType(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 brightness: ${brightness},
@@ -437,7 +464,8 @@ autoDetectTimeZone: ${autoDetectTimeZone},
 selectedWatchProviders: ${selectedWatchProviders},
 movieGenres: ${movieGenres},
 selectedGenres: ${selectedGenres},
-selectedSortBy: ${selectedSortBy}
+selectedSortBy: ${selectedSortBy},
+selectedContentType: ${selectedContentType}
     ''';
   }
 }

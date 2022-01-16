@@ -12,8 +12,7 @@ import 'package:wwatch/stores/style_store.dart';
 //TODO reduce the number of lines in all build methods
 
 //TODO Fix TV shows filter not working
-
-//TODO get this shit organized
+//TODO fix error image colors being displayed incorrectly
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

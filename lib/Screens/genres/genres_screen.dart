@@ -19,7 +19,7 @@ class GenresScreen extends StatelessWidget {
   final MovieStore movieStore;
   final bool? fab;
 //TODO make possible for the user to choose if they want to view only movies that have all selected genres
-//TODO or view all movies that has at least one of these genres
+// or view all movies that has at least one of these genres
 
 //You can do this using the parameter without_genres, just exclude all genders except the selected ones
   @override

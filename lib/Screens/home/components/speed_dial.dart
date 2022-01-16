@@ -67,8 +67,8 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
         ),
         SpeedDialChild(
           onTap: () {
-            if (movieStore.selectedContentType != 0) {
-              movieStore.setSelectedContentType(0);
+            if (settingsStore.selectedContentType != 0) {
+              settingsStore.setSelectedContentType(0);
 
               movieStore.getPopularMovies();
             }
@@ -91,8 +91,8 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
         ),
         SpeedDialChild(
           onTap: () {
-            if (movieStore.selectedContentType != 1) {
-              movieStore.setSelectedContentType(1);
+            if (settingsStore.selectedContentType != 1) {
+              settingsStore.setSelectedContentType(1);
 
               movieStore.getPopularMovies();
             }

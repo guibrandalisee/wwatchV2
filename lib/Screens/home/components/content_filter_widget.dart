@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/genres/genres_screen.dart';
-import 'package:wwatch/Screens/home/components/providers_filter_widget.dart';
 import 'package:wwatch/Screens/sort_by/sort_by_screen.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -69,22 +68,18 @@ class ContentFilter extends StatelessWidget {
                 suffix: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Observer(builder: (_) {
-                      if (movieStore.searchString.isNotEmpty) {
-                        return InkWell(
-                          onTap: () {
-                            movieStore.setSearch('');
-                            movieStore.search();
-                          },
-                          child: Icon(
-                            Icons.close,
-                            color: AppColors.text,
-                            size: 18,
-                          ),
-                        );
-                      }
-                      return Container();
-                    }),
+                    if (movieStore.searchString.isNotEmpty)
+                      InkWell(
+                        onTap: () {
+                          movieStore.setSearch('');
+                          movieStore.search();
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: AppColors.text,
+                          size: 18,
+                        ),
+                      ),
                     const SizedBox(
                       width: 16,
                     ),
@@ -104,89 +99,86 @@ class ContentFilter extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          Observer(
-            builder: (_) {
-              return Container(
-                height: 48,
-                decoration: BoxDecoration(
-                    color: styleStore.shapeColor,
-                    borderRadius: BorderRadius.circular(4)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 56,
-                        child: TextButton(
-                          onPressed: () {
-                            movieStore.setSelectedContentType(0);
-                            if (movieStore.searchString.isEmpty) {
-                              movieStore.getPopularMovies();
-                            }
-                          },
-                          child: Text(
-                            "Movies",
-                            style: GoogleFonts.getFont('Mitr',
-                                color: movieStore.selectedContentType == 1
-                                    ? AppColors.text
-                                    : AppColors.textOnPrimaries[
-                                        styleStore.colorIndex!],
-                                fontSize: 16,
-                                fontWeight: movieStore.selectedContentType == 1
-                                    ? FontWeight.w100
-                                    : FontWeight.w400),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                movieStore.selectedContentType == 0
-                                    ? styleStore.primaryColor
-                                    : Colors.transparent),
-                          ),
-                        ),
+          Container(
+            height: 48,
+            decoration: BoxDecoration(
+                color: styleStore.shapeColor,
+                borderRadius: BorderRadius.circular(4)),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 56,
+                    child: TextButton(
+                      onPressed: () {
+                        settingsStore.setSelectedContentType(0);
+                        if (movieStore.searchString.isEmpty) {
+                          movieStore.getPopularMovies();
+                        }
+                      },
+                      child: Text(
+                        "Movies",
+                        style: GoogleFonts.getFont('Mitr',
+                            color: settingsStore.selectedContentType == 1
+                                ? AppColors.text
+                                : AppColors
+                                    .textOnPrimaries[styleStore.colorIndex!],
+                            fontSize: 16,
+                            fontWeight: settingsStore.selectedContentType == 1
+                                ? FontWeight.w100
+                                : FontWeight.w400),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            settingsStore.selectedContentType == 0
+                                ? styleStore.primaryColor
+                                : Colors.transparent),
                       ),
                     ),
-                    Container(
-                      width: 1,
-                      height: 36,
-                      color: AppColors.text,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 56,
-                        child: TextButton(
-                          onPressed: () {
-                            movieStore.setSelectedContentType(1);
-                            if (movieStore.searchString.isEmpty) {
-                              movieStore.getPopularMovies();
-                            }
-                          },
-                          child: Text(
-                            "TV Shows",
-                            style: GoogleFonts.getFont('Mitr',
-                                color: movieStore.selectedContentType == 0
-                                    ? AppColors.text
-                                    : AppColors.textOnPrimaries[
-                                        styleStore.colorIndex!],
-                                fontSize: 16,
-                                fontWeight: movieStore.selectedContentType == 0
-                                    ? FontWeight.w100
-                                    : FontWeight.w400),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                movieStore.selectedContentType == 1
-                                    ? styleStore.primaryColor
-                                    : Colors.transparent),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              );
-            },
+                Container(
+                  width: 1,
+                  height: 36,
+                  color: AppColors.text,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 56,
+                    child: TextButton(
+                      onPressed: () {
+                        settingsStore.setSelectedContentType(1);
+                        if (movieStore.searchString.isEmpty) {
+                          movieStore.getPopularMovies();
+                        }
+                      },
+                      child: Text(
+                        "TV Shows",
+                        style: GoogleFonts.getFont('Mitr',
+                            color: settingsStore.selectedContentType == 0
+                                ? AppColors.text
+                                : AppColors
+                                    .textOnPrimaries[styleStore.colorIndex!],
+                            fontSize: 16,
+                            fontWeight: settingsStore.selectedContentType == 0
+                                ? FontWeight.w100
+                                : FontWeight.w400),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            settingsStore.selectedContentType == 1
+                                ? styleStore.primaryColor
+                                : Colors.transparent),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+
           const SizedBox(
             height: 8,
           ),
@@ -283,12 +275,16 @@ class ContentFilter extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          Observer(builder: (_) {
-            if (movieStore.searchString.isEmpty)
-              return ProvidersFilterWidget();
-            else
-              return Container();
-          })
+          //TODO Make this \/
+
+          // Observer(
+          //   builder: (_) {
+          //     if (movieStore.searchString.isEmpty)
+          //       return ProvidersFilterWidget();
+          //     else
+          //       return Container();
+          //   },
+          // ),
         ],
       ),
     );

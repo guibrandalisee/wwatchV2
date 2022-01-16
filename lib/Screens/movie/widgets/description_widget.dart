@@ -6,6 +6,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class DescriptionWidget extends StatelessWidget {
@@ -21,33 +22,34 @@ class DescriptionWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-            margin: EdgeInsets.only(left: 32, right: 32, bottom: 16),
-            padding: EdgeInsets.all(4),
-            alignment: Alignment.center,
-            height: 32,
-            decoration: BoxDecoration(
-              color: styleStore.shapeColor,
-              borderRadius: BorderRadius.circular(32),
-            ),
-            child: RichText(
-              text: TextSpan(
-                text: 'Status: ',
-                style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: '${movie.launchStatus}',
-                    style: GoogleFonts.getFont('Kodchasan',
-                        color: AppColors.text,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
+        if (settingsStore.selectedContentType == 0)
+          Container(
+              margin: EdgeInsets.only(left: 32, right: 32, bottom: 16),
+              padding: EdgeInsets.all(4),
+              alignment: Alignment.center,
+              height: 32,
+              decoration: BoxDecoration(
+                color: styleStore.shapeColor,
+                borderRadius: BorderRadius.circular(32),
               ),
-            )),
+              child: RichText(
+                text: TextSpan(
+                  text: 'Status: ',
+                  style: GoogleFonts.getFont('Mitr',
+                      color: AppColors.text,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '${movie.launchStatus}',
+                      style: GoogleFonts.getFont('Kodchasan',
+                          color: AppColors.text,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              )),
 
         //TODO find out how to get movie Age Certifications
         Padding(

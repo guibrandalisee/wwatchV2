@@ -1,7 +1,6 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wwatch/Screens/home/home_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/main.dart';

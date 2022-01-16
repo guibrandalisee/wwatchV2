@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:wwatch/Screens/home/components/movie_tile.dart';
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
@@ -13,63 +10,61 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
-class SimilarMoviesWidget extends StatelessWidget {
-  SimilarMoviesWidget({
+class RecommendationsWidget extends StatelessWidget {
+  RecommendationsWidget({
     Key? key,
     required this.movieStore,
   }) : super(key: key);
   final MovieStore movieStore;
+
   final StyleStore styleStore = GetIt.I<StyleStore>();
   @override
   Widget build(BuildContext context) {
-    if (movieStore.similarMovies.length > 0) {
-      return Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 16,
+    if (movieStore.recommendations.length > 0) {
+      return Column(
+        children: [
+          const SizedBox(
+            height: 16,
+          ),
+          Divider(
+            color: AppColors.divider,
+            thickness: 1,
+            endIndent: 24,
+            indent: 24,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(
+            'Recommendations',
+            style: GoogleFonts.getFont('Mitr',
+                color: styleStore.textColor,
+                fontSize: 22,
+                fontWeight: FontWeight.w400),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Container(
+            width: double.infinity,
+            height: 300,
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: movieStore.recommendations.length,
+              itemBuilder: (
+                context,
+                index,
+              ) {
+                return SizedBox(
+                    width: 180,
+                    child: SimilarMovieTile(
+                      movie: movieStore.recommendations[index],
+                    ));
+              },
             ),
-            Divider(
-              color: AppColors.divider,
-              thickness: 1,
-              endIndent: 24,
-              indent: 24,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              'Similar Movies',
-              style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Container(
-              width: double.infinity,
-              height: 300,
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: movieStore.similarMovies.length,
-                itemBuilder: (
-                  context,
-                  index,
-                ) {
-                  return SizedBox(
-                      width: 180,
-                      child: SimilarMovieTile(
-                        movie: movieStore.similarMovies[index],
-                      ));
-                },
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       );
     } else {
       return Container();
@@ -111,13 +106,14 @@ class SimilarMovieTile extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       width: 500,
       height: 550,
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => MovieScreen(
                 movieId: movie.id,
+                contentType: settingsStore.selectedContentType,
               ),
             ),
           );

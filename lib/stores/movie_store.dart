@@ -83,8 +83,13 @@ abstract class _MovieStoreBase with Store {
         'include_adult': settingsStore.adultContent,
       };
     }
-    final response =
-        await fetchData(path: '/discover/movie', parameters: parameters);
+    final response;
+    if (settingsStore.selectedContentType == 0) {
+      response =
+          await fetchData(path: '/discover/movie', parameters: parameters);
+    } else {
+      response = await fetchData(path: '/discover/tv', parameters: parameters);
+    }
     error = false;
     try {
       totalPages = response.data['total_pages'];
@@ -95,12 +100,12 @@ abstract class _MovieStoreBase with Store {
             popularity: e['popularity'] + 0.0,
             voteAverage: e['vote_average'] + 0.0,
             originalLanguage: e['original_language'],
-            title: e['title'],
+            title: e['title'] != null ? e['title'] : e['name'],
             overview: e['overview'],
             releaseDate: e['release_date'],
             backdropPath: e['backdrop_path'],
             posterPath: e['poster_path'],
-            adult: e['adult']);
+            adult: e['adult'] != null ? e['adult'] : false);
       }).toList();
       if (movies.length == 0) {
         empty = true;
@@ -118,7 +123,6 @@ abstract class _MovieStoreBase with Store {
     print("Sort By: ${settingsStore.selectedSortBy}");
   }
 
-  //TODO not working
   @action
   Future<void> getMorePopularMovies() async {
     final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
@@ -149,9 +153,14 @@ abstract class _MovieStoreBase with Store {
           'include_adult': settingsStore.adultContent,
         };
       }
-
-      final response =
-          await fetchData(path: '/discover/movie', parameters: parameters);
+      final response;
+      if (settingsStore.selectedContentType == 0) {
+        response =
+            await fetchData(path: '/discover/movie', parameters: parameters);
+      } else {
+        response =
+            await fetchData(path: '/discover/tv', parameters: parameters);
+      }
       error = false;
       try {
         final newMovies = response.data['results'].map<SimpleMovie>((e) {
@@ -161,12 +170,12 @@ abstract class _MovieStoreBase with Store {
               popularity: e['popularity'] + 0.0,
               voteAverage: e['vote_average'] + 0.0,
               originalLanguage: e['original_language'],
-              title: e['title'],
+              title: e['title'] != null ? e['title'] : e['name'],
               overview: e['overview'],
               releaseDate: e['release_date'],
               backdropPath: e['backdrop_path'],
               posterPath: e['poster_path'],
-              adult: e['adult']);
+              adult: e['adult'] != null ? e['adult'] : false);
         }).toList();
         movies.addAll(newMovies);
       } catch (e) {
@@ -181,13 +190,24 @@ abstract class _MovieStoreBase with Store {
       print("Total Results: ${movies.length}");
       print("Sort By: ${settingsStore.selectedSortBy}");
     } else {
-      final response = await fetchData(path: '/search/movie', parameters: {
-        'api_key': apiKey,
-        'language': language,
-        'page': page,
-        'query': searchString,
-        'include_adult': settingsStore.adultContent,
-      });
+      final response;
+      if (settingsStore.selectedContentType == 0) {
+        response = await fetchData(path: '/search/movie', parameters: {
+          'api_key': apiKey,
+          'language': language,
+          'page': page,
+          'query': searchString,
+          'include_adult': settingsStore.adultContent,
+        });
+      } else {
+        response = await fetchData(path: '/search/tv', parameters: {
+          'api_key': apiKey,
+          'language': language,
+          'page': page,
+          'query': searchString,
+          'include_adult': settingsStore.adultContent,
+        });
+      }
       error = false;
       try {
         final newMovies = response.data['results'].map<SimpleMovie>((e) {
@@ -229,24 +249,42 @@ abstract class _MovieStoreBase with Store {
   bool backToTheTopVisible = false;
 
   @action
-  Future<void> getSingleMovie(int id) async {
-    final mainResponse = await fetchData(path: '/movie/$id', parameters: {
-      'api_key': apiKey,
-      'language': language,
-    });
-    final videoResponse =
-        await fetchData(path: '/movie/$id/videos', parameters: {
-      'api_key': apiKey,
-      'language': language,
-    });
-    final imageResponse =
-        await fetchData(path: '/movie/$id/images', parameters: {
-      'api_key': apiKey,
-      'language': language.substring(0, 2),
-    });
+  Future<void> getSingleMovie(int id, int contentType) async {
+    final mainResponse;
+    final videoResponse;
+    final imageResponse;
+    print("ID: $id");
+    print("Selected Content Type: $contentType");
+    if (contentType == 0) {
+      mainResponse = await fetchData(path: '/movie/$id', parameters: {
+        'api_key': apiKey,
+        'language': language,
+      });
+      videoResponse = await fetchData(path: '/movie/$id/videos', parameters: {
+        'api_key': apiKey,
+        'language': language,
+      });
+      imageResponse = await fetchData(path: '/movie/$id/images', parameters: {
+        'api_key': apiKey,
+        'language': language.substring(0, 2),
+      });
+    } else {
+      mainResponse = await fetchData(path: '/tv/$id', parameters: {
+        'api_key': apiKey,
+        'language': language,
+      });
+      videoResponse = await fetchData(path: '/tv/$id/videos', parameters: {
+        'api_key': apiKey,
+        'language': language,
+      });
+      imageResponse = await fetchData(path: '/tv/$id/images', parameters: {
+        'api_key': apiKey,
+        'language': language.substring(0, 2),
+      });
+    }
 
     try {
-      //TODO get watchProviders, cast, recomendations and reviews
+      //TODO get watchProviders, cast and reviews
       final data = mainResponse.data;
       final videos = videoResponse.data['results'].map<MovieVideo>((e) {
         return MovieVideo(
@@ -271,11 +309,15 @@ abstract class _MovieStoreBase with Store {
         popularity: data['popularity'],
         voteAverage: data['vote_average'],
         originalLanguage: data['original_language'],
-        title: data['title'],
+        title: data['title'] != null ? data['title'] : data['name'],
         overview: data['overview'],
-        releaseDate: data['release_date'],
+        releaseDate: data['release_date'] != null
+            ? data['release_date']
+            : data['first_air_date'],
         budget: data['budget'],
-        originalTitle: data['original_title'],
+        originalTitle: data['original_title'] != null
+            ? data['original_title']
+            : data['original_name'],
         productionCompanies: data['production_companies'],
         productionCountries: data['production_countries'],
         spokenLanguages: data['spoken_languages'],
@@ -302,22 +344,30 @@ abstract class _MovieStoreBase with Store {
   @action
   Future<void> search() async {
     empty = false;
+    movies = [];
+    page = 1;
     if (searchString.isEmpty) {
-      movies = [];
-      page = 1;
       getPopularMovies();
       return;
     }
-
-    movies = [];
-    page = 1;
-    final response = await fetchData(path: '/search/movie', parameters: {
-      'api_key': apiKey,
-      'language': language,
-      'query': searchString,
-      'page': page,
-      'include_adult': settingsStore.adultContent,
-    });
+    final response;
+    if (settingsStore.selectedContentType == 0) {
+      response = await fetchData(path: '/search/movie', parameters: {
+        'api_key': apiKey,
+        'language': language,
+        'query': searchString,
+        'page': page,
+        'include_adult': settingsStore.adultContent,
+      });
+    } else {
+      response = await fetchData(path: '/search/tv', parameters: {
+        'api_key': apiKey,
+        'language': language,
+        'query': searchString,
+        'page': page,
+        'include_adult': settingsStore.adultContent,
+      });
+    }
 
     error = false;
     try {
@@ -355,38 +405,39 @@ abstract class _MovieStoreBase with Store {
   void setSearch(String value) => searchString = value;
 
   @observable
-  int selectedContentType = 0;
+  List<SimpleMovie> recommendations = [];
 
   @action
-  void setSelectedContentType(int value) => selectedContentType = value;
-
-  @observable
-  List<SimpleMovie> similarMovies = [];
-
-  @action
-  Future<void> getSimilarMovies(int id) async {
-    similarMovies = [];
+  Future<void> getRecommendations(int id) async {
+    recommendations = [];
     Map<String, dynamic> parameters = {};
     parameters = {
       'api_key': apiKey,
       'language': language,
-      'page': page,
+      'page': 1,
     };
-
-    final response =
-        await fetchData(path: '/movie/$id/similar', parameters: parameters);
+    final response;
+    if (settingsStore.selectedContentType == 0) {
+      response = await fetchData(
+          path: '/movie/$id/recommendations', parameters: parameters);
+    } else {
+      response = await fetchData(
+          path: '/tv/$id/recommendations', parameters: parameters);
+    }
     error = false;
     try {
-      similarMovies = response.data['results'].map<SimpleMovie>((e) {
+      recommendations = response.data['results'].map<SimpleMovie>((e) {
         return SimpleMovie(
             genreIds: e['genre_ids'],
             id: e['id'],
             popularity: e['popularity'] + 0.0,
             voteAverage: e['vote_average'] + 0.0,
             originalLanguage: e['original_language'],
-            title: e['title'],
+            title: e['title'] != null ? e['title'] : e['name'],
             overview: e['overview'],
-            releaseDate: e['release_date'],
+            releaseDate: e['release_date'] != null
+                ? e['release_date']
+                : e['first_air_date'],
             backdropPath: e['backdrop_path'],
             posterPath: e['poster_path'],
             adult: e['adult']);

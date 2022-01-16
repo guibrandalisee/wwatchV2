@@ -7,12 +7,13 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class CustomErrorMovieScreen extends StatelessWidget {
-  const CustomErrorMovieScreen({
+  CustomErrorMovieScreen({
     Key? key,
     required this.movieStore,
     required this.movieId,
   }) : super(key: key);
   final MovieStore movieStore;
+
   final int movieId;
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,8 @@ class CustomErrorMovieScreen extends StatelessWidget {
                         MaterialStateProperty.all(styleStore.primaryColor)),
                 onPressed: () {
                   movieStore.error = false;
-                  movieStore.getSingleMovie(movieId);
+                  movieStore.getSingleMovie(
+                      movieId, settingsStore.selectedContentType);
                 },
                 child: Text(
                   "Try Again",

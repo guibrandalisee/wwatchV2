@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     if (widget.contentType != type.movie) {
-      movieStore.setSelectedContentType(1);
+      settingsStore.setSelectedContentType(1);
     }
     movieStore.getPopularMovies();
     settingsStore.getMovieGenres();
@@ -82,174 +82,173 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
 
-    return SafeArea(
-      child: Scaffold(
-          floatingActionButtonLocation: styleStore.fabPosition == 0
-              ? FloatingActionButtonLocation.startFloat
-              : FloatingActionButtonLocation.endFloat,
-          floatingActionButton: CustomSpeedDialHomeScreen(
-            movieStore: movieStore,
-            focusNode: focusNode,
-            scrollController: scrollController,
-          ),
-          backgroundColor: styleStore.backgroundColor,
-          appBar: AppBar(
-            backgroundColor: settingsStore.brightness == CustomBrightness.amoled
-                ? styleStore.backgroundColor
-                : styleStore.primaryColor,
-            leading: InkWell(
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WelcomeScreen(),
-                  ),
-                );
-              },
-              child: Ink(
-                child: Image.asset(
-                  "assets/images/WWatch2-png.png",
-                  filterQuality: FilterQuality.medium,
-                  color: settingsStore.brightness != CustomBrightness.amoled
-                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                      : styleStore.primaryColor,
-                ),
+    return Scaffold(
+      floatingActionButtonLocation: styleStore.fabPosition == 0
+          ? FloatingActionButtonLocation.startFloat
+          : FloatingActionButtonLocation.endFloat,
+      floatingActionButton: CustomSpeedDialHomeScreen(
+        movieStore: movieStore,
+        focusNode: focusNode,
+        scrollController: scrollController,
+      ),
+      backgroundColor: styleStore.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+            ? styleStore.backgroundColor
+            : styleStore.primaryColor,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WelcomeScreen(),
               ),
+            );
+          },
+          child: Ink(
+            child: Image.asset(
+              "assets/images/WWatch2-png.png",
+              filterQuality: FilterQuality.medium,
+              color: settingsStore.brightness != CustomBrightness.amoled
+                  ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                  : styleStore.primaryColor,
             ),
-            actions: [
-              IconButton(
-                splashRadius: 20,
-                tooltip: 'Settings',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SettingsScreen()));
-                },
-                icon: Icon(
-                  LineIcons.cog,
-                  color: settingsStore.brightness != CustomBrightness.amoled
-                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                      : styleStore.primaryColor,
-                  size: 28,
-                ),
-              ),
-              IconButton(
-                splashRadius: 20,
-                tooltip: 'User Profile',
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
-                },
-                icon: Hero(
-                  tag: 'User Profile',
-                  child: Icon(
-                    LineIcons.user,
-                    color: settingsStore.brightness != CustomBrightness.amoled
-                        ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                        : styleStore.primaryColor,
-                    size: 28,
-                  ),
-                ),
-              ),
-            ],
           ),
-          body: WillPopScope(
-            onWillPop: () async {
-              if (movieStore.searchString.isNotEmpty) {
-                movieStore.setSearch('');
-                movieStore.search();
-                return false;
-              }
-              return true;
+        ),
+        actions: [
+          IconButton(
+            splashRadius: 20,
+            tooltip: 'Settings',
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
-            child: Observer(
-              builder: (context) {
-                if (movieStore.error)
-                  return CustomErrorScree(
-                    movieStore: movieStore,
-                  );
-                if (movieStore.empty)
-                  return CustomNothingFoundErrorScreen(
-                    movieStore: movieStore,
-                    focusNode: focusNode,
-                  );
-                if (movieStore.movies.length == 0)
-                  return CustomLoadingScreen(
-                    movieStore: movieStore,
-                    focusNode: focusNode,
-                  );
-                return Stack(
-                  children: [
-                    ListView.builder(
-                        controller: scrollController,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: movieStore.movies.length + 2,
-                        itemBuilder: (context, index) {
-                          if (index == 0)
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox(
-                                  height: 28,
-                                ),
-                                ContentFilter(
-                                  focusNode: focusNode,
-                                  movieStore: movieStore,
-                                ),
-                              ],
-                            );
-                          else if (index < movieStore.movies.length + 1)
-                            return MovieTile(
-                                movie: movieStore.movies[index - 1]);
-                          else if (movieStore.totalPages != null &&
-                              movieStore.page < movieStore.totalPages!) {
-                            movieStore.getMorePopularMovies();
-                            return LinearProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(
-                                styleStore.primaryColor,
-                              ),
-                              backgroundColor:
-                                  styleStore.primaryColor!.withAlpha(100),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        }),
-                    Visibility(
-                      visible: movieStore.backToTheTopVisible,
-                      child: Positioned(
-                          right: styleStore.fabPosition == 1 ? 20 : null,
-                          left: styleStore.fabPosition == 0 ? 20 : null,
-                          bottom: 128,
-                          child: InkWell(
-                            onTap: () {
-                              //TODO add an animation to this button
-                              scrollController.animateTo(0,
-                                  duration: Duration(milliseconds: 1000),
-                                  curve: Curves.easeInOut);
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 8),
-                              decoration: BoxDecoration(
-                                  color: AppColors.shape,
-                                  borderRadius: BorderRadius.circular(32),
-                                  border: Border.all(
-                                      color: styleStore.primaryColor!,
-                                      width: 2)),
-                              child: Icon(
-                                LineIcons.arrowUp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )),
-                    ),
-                  ],
-                );
-              },
+            icon: Icon(
+              LineIcons.cog,
+              color: settingsStore.brightness != CustomBrightness.amoled
+                  ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                  : styleStore.primaryColor,
+              size: 28,
             ),
-          )),
+          ),
+          IconButton(
+            splashRadius: 20,
+            tooltip: 'User Profile',
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            },
+            icon: Hero(
+              tag: 'User Profile',
+              child: Icon(
+                LineIcons.user,
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : styleStore.primaryColor,
+                size: 28,
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: WillPopScope(
+        onWillPop: () async {
+          if (movieStore.searchString.isNotEmpty) {
+            movieStore.setSearch('');
+            movieStore.search();
+            return false;
+          }
+          return true;
+        },
+        child: Observer(
+          builder: (context) {
+            if (movieStore.error)
+              return CustomErrorScree(
+                movieStore: movieStore,
+              );
+            if (movieStore.empty)
+              return CustomNothingFoundErrorScreen(
+                movieStore: movieStore,
+                focusNode: focusNode,
+              );
+            if (movieStore.movies.length == 0)
+              return CustomLoadingScreen(
+                movieStore: movieStore,
+                focusNode: focusNode,
+              );
+            return Stack(
+              children: [
+                ListView.builder(
+                    controller: scrollController,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: movieStore.movies.length + 2,
+                    itemBuilder: (context, index) {
+                      if (index == 0)
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(
+                              height: 28,
+                            ),
+                            ContentFilter(
+                              focusNode: focusNode,
+                              movieStore: movieStore,
+                            ),
+                          ],
+                        );
+                      else if (index < movieStore.movies.length + 1)
+                        return MovieTile(
+                          movie: movieStore.movies[index - 1],
+                          contentType: settingsStore.selectedContentType,
+                        );
+                      else if (movieStore.totalPages != null &&
+                          movieStore.page < movieStore.totalPages!) {
+                        movieStore.getMorePopularMovies();
+                        return LinearProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            styleStore.primaryColor,
+                          ),
+                          backgroundColor:
+                              styleStore.primaryColor!.withAlpha(100),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }),
+                Visibility(
+                  visible: movieStore.backToTheTopVisible,
+                  child: Positioned(
+                    right: styleStore.fabPosition == 1 ? 20 : null,
+                    left: styleStore.fabPosition == 0 ? 20 : null,
+                    bottom: 128,
+                    child: InkWell(
+                      onTap: () {
+                        //TODO add an animation to this button
+                        scrollController.animateTo(0,
+                            duration: Duration(milliseconds: 1000),
+                            curve: Curves.easeInOut);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 8),
+                        decoration: BoxDecoration(
+                            color: AppColors.shape,
+                            borderRadius: BorderRadius.circular(32),
+                            border: Border.all(
+                                color: styleStore.primaryColor!, width: 2)),
+                        child: Icon(
+                          LineIcons.arrowUp,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
