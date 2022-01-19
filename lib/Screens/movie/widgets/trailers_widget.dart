@@ -9,6 +9,7 @@ import 'package:wwatch/main.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class TrailersWidget extends StatefulWidget {
@@ -25,6 +26,7 @@ class TrailersWidget extends StatefulWidget {
 class _TrailersWidgetState extends State<TrailersWidget> {
   CarouselController carouselController = CarouselController();
   final styleStore = GetIt.I<StyleStore>();
+  final settingsStore = GetIt.I<SettingsStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,9 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                       size: 22,
                     )),
               Text(
-                'Movie Trailers',
+                settingsStore.selectedContentType == 0
+                    ? 'Movie Trailers'
+                    : 'Trailers',
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 22,

@@ -7,6 +7,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class PostersWidget extends StatelessWidget {
@@ -45,7 +46,9 @@ class PostersWidget extends StatelessWidget {
                     size: 22,
                   )),
             Text(
-              'Movie Posters',
+              settingsStore.selectedContentType == 0
+                  ? 'Movie Posters'
+                  : 'Posters',
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 22,

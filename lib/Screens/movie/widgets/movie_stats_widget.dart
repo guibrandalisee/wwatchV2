@@ -36,7 +36,9 @@ class MovieStatsWidget extends StatelessWidget {
             height: 32,
           ),
           Text(
-            'Movie Information',
+            settingsStore.selectedContentType == 0
+                ? 'Movie Information'
+                : 'Information',
             style: GoogleFonts.getFont('Mitr',
                 color: styleStore.textColor,
                 fontSize: 22,

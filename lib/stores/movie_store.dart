@@ -102,7 +102,9 @@ abstract class _MovieStoreBase with Store {
             originalLanguage: e['original_language'],
             title: e['title'] != null ? e['title'] : e['name'],
             overview: e['overview'],
-            releaseDate: e['release_date'],
+            releaseDate: e['release_date'] != null
+                ? e['release_date']
+                : e['first_air_date'],
             backdropPath: e['backdrop_path'],
             posterPath: e['poster_path'],
             adult: e['adult'] != null ? e['adult'] : false);
@@ -172,7 +174,9 @@ abstract class _MovieStoreBase with Store {
               originalLanguage: e['original_language'],
               title: e['title'] != null ? e['title'] : e['name'],
               overview: e['overview'],
-              releaseDate: e['release_date'],
+              releaseDate: e['release_date'] != null
+                  ? e['release_date']
+                  : e['first_air_date'],
               backdropPath: e['backdrop_path'],
               posterPath: e['poster_path'],
               adult: e['adult'] != null ? e['adult'] : false);
@@ -214,15 +218,17 @@ abstract class _MovieStoreBase with Store {
           return SimpleMovie(
               genreIds: e['genre_ids'],
               id: e['id'],
-              popularity: e['popularity'],
+              popularity: e['popularity'] + 0.0,
               voteAverage: e['vote_average'] + 0.0,
               originalLanguage: e['original_language'],
-              title: e['title'],
+              title: e['title'] != null ? e['title'] : e['name'],
               overview: e['overview'],
-              releaseDate: e['release_date'],
+              releaseDate: e['release_date'] != null
+                  ? e['release_date']
+                  : e['first_air_date'],
               backdropPath: e['backdrop_path'],
               posterPath: e['poster_path'],
-              adult: e['adult']);
+              adult: e['adult'] != null ? e['adult'] : false);
         }).toList();
         movies.addAll(newMovies);
       } catch (e) {
@@ -306,8 +312,8 @@ abstract class _MovieStoreBase with Store {
         genres: data['genres'],
         id: id,
         adult: data['adult'],
-        popularity: data['popularity'],
-        voteAverage: data['vote_average'],
+        popularity: data['popularity'] + 0.0,
+        voteAverage: data['vote_average'] + 0.0,
         originalLanguage: data['original_language'],
         title: data['title'] != null ? data['title'] : data['name'],
         overview: data['overview'],
@@ -376,15 +382,17 @@ abstract class _MovieStoreBase with Store {
         return SimpleMovie(
             genreIds: e['genre_ids'],
             id: e['id'],
-            popularity: e['popularity'],
+            popularity: e['popularity'] + 0.0,
             voteAverage: e['vote_average'] + 0.0,
             originalLanguage: e['original_language'],
-            title: e['title'],
+            title: e['title'] != null ? e['title'] : e['name'],
             overview: e['overview'],
-            releaseDate: e['release_date'],
+            releaseDate: e['release_date'] != null
+                ? e['release_date']
+                : e['first_air_date'],
             backdropPath: e['backdrop_path'],
             posterPath: e['poster_path'],
-            adult: e['adult']);
+            adult: e['adult'] != null ? e['adult'] : false);
       }).toList();
       if (movies.length == 0) {
         empty = true;
