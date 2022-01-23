@@ -175,6 +175,21 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$seasonAtom = Atom(name: '_MovieStoreBase.season');
+
+  @override
+  TvSeason? get season {
+    _$seasonAtom.reportRead();
+    return super.season;
+  }
+
+  @override
+  set season(TvSeason? value) {
+    _$seasonAtom.reportWrite(value, super.season, () {
+      super.season = value;
+    });
+  }
+
   final _$fetchDataAsyncAction = AsyncAction('_MovieStoreBase.fetchData');
 
   @override
@@ -226,6 +241,16 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.getRecommendations(id));
   }
 
+  final _$getSeasonEpisodesAsyncAction =
+      AsyncAction('_MovieStoreBase.getSeasonEpisodes');
+
+  @override
+  Future<void> getSeasonEpisodes(
+      {required int tvId, required int seasonNumber}) {
+    return _$getSeasonEpisodesAsyncAction.run(
+        () => super.getSeasonEpisodes(tvId: tvId, seasonNumber: seasonNumber));
+  }
+
   final _$_MovieStoreBaseActionController =
       ActionController(name: '_MovieStoreBase');
 
@@ -253,7 +278,8 @@ movie: ${movie},
 backToTheTopVisible: ${backToTheTopVisible},
 searchString: ${searchString},
 empty: ${empty},
-recommendations: ${recommendations}
+recommendations: ${recommendations},
+season: ${season}
     ''';
   }
 }

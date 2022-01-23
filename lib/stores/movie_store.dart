@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
+import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:wwatch/api.dart';
 import 'package:wwatch/stores/settings_store.dart';
 part 'movie_store.g.dart';
@@ -95,19 +96,20 @@ abstract class _MovieStoreBase with Store {
       totalPages = response.data['total_pages'];
       movies = response.data['results'].map<SimpleMovie>((e) {
         return SimpleMovie(
-            genreIds: e['genre_ids'],
-            id: e['id'],
-            popularity: e['popularity'] + 0.0,
-            voteAverage: e['vote_average'] + 0.0,
-            originalLanguage: e['original_language'],
-            title: e['title'] != null ? e['title'] : e['name'],
-            overview: e['overview'],
-            releaseDate: e['release_date'] != null
-                ? e['release_date']
-                : e['first_air_date'],
-            backdropPath: e['backdrop_path'],
-            posterPath: e['poster_path'],
-            adult: e['adult'] != null ? e['adult'] : false);
+          genreIds: e['genre_ids'],
+          id: e['id'],
+          popularity: e['popularity'] + 0.0,
+          voteAverage: e['vote_average'] + 0.0,
+          originalLanguage: e['original_language'],
+          title: e['title'] != null ? e['title'] : e['name'],
+          overview: e['overview'],
+          releaseDate: e['release_date'] != null
+              ? e['release_date']
+              : e['first_air_date'],
+          backdropPath: e['backdrop_path'],
+          posterPath: e['poster_path'],
+          adult: e['adult'] != null ? e['adult'] : false,
+        );
       }).toList();
       if (movies.length == 0) {
         empty = true;
@@ -305,7 +307,17 @@ abstract class _MovieStoreBase with Store {
       final images = imageResponse.data['posters'].map<MovieImage>((e) {
         return MovieImage(filePath: e['file_path'], language: e['iso_639_1']);
       }).toList();
-
+      final List<TvSeason> seasons = data['seasons'].map<TvSeason>((e) {
+        return TvSeason(
+          episodeCount: e['episode_count'],
+          airDate: e['air_date'],
+          name: e['name'],
+          posterPath: e['poster_path'],
+          id: e['id'],
+          seasonNumber: e['season_number'],
+          overview: e['overview'],
+        );
+      }).toList();
       movie = CompleteMovie(
         images: images,
         videos: videos,
@@ -334,6 +346,13 @@ abstract class _MovieStoreBase with Store {
         posterPath: data['poster_path'],
         runtime: data['runtime'],
         tagline: data['tagline'],
+        numberOfEpisodes: data['number_of_episodes'] != null
+            ? data['number_of_episodes']
+            : null,
+        numberOfSeasons: data['number_of_seasons'] != null
+            ? data['number_of_seasons']
+            : null,
+        seasons: seasons,
       );
     } catch (e) {
       error = true;
@@ -452,6 +471,53 @@ abstract class _MovieStoreBase with Store {
       }).toList();
     } catch (e) {
       print("Similar Movies Error");
+      print(e);
+    }
+  }
+
+  @observable
+  TvSeason? season;
+
+  @action
+  Future<void> getSeasonEpisodes(
+      {required int tvId, required int seasonNumber}) async {
+    Map<String, dynamic> parameters = {};
+    parameters = {
+      'api_key': apiKey,
+      'language': language,
+      'page': 1,
+    };
+    final response = await fetchData(
+        path: '/tv/$tvId/season/$seasonNumber', parameters: parameters);
+
+    error = false;
+    try {
+      //TODO finish this
+      List<Episode> episodes = response.data['episodes'].map<Episode>((e) {
+        return Episode(
+            airDate: e['air_date'],
+            episodeNumber: e['episode_number'],
+            id: e['id'],
+            name: e['name'],
+            overview: e['overview'],
+            productionCode: e['production_code'],
+            seasonNumber: e['season_number'],
+            stillPath: e['still_path'],
+            voteAverage: e['vote_average'],
+            voteCount: e['vote_count']);
+      }).toList();
+      season = TvSeason(
+        airDate: response.data['air_date'],
+        episodes: episodes,
+        id: response.data['id'],
+        idstr: response.data['_id'],
+        name: response.data['name'],
+        overview: response.data['overview'],
+        posterPath: response.data['poster_path'],
+        seasonNumber: response.data['season_number'],
+      );
+    } catch (e) {
+      print("Tv Sesons Error");
       print(e);
     }
   }

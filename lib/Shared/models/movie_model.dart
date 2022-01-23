@@ -1,6 +1,7 @@
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
 import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
+import 'package:wwatch/Shared/models/tv_season_model.dart';
 
 class Genre {
   final int id;
@@ -63,10 +64,13 @@ class CompleteMovie {
     this.tagline,
     this.images,
     this.videos,
-    this.cast,
+    this.numberOfSeasons,
+    this.numberOfEpisodes,
+    this.seasons,
+    this.watchProviders,
     this.recomendations,
     this.reviews,
-    this.watchProviders,
+    this.cast,
   });
   final List genres;
   final int id;
@@ -91,6 +95,9 @@ class CompleteMovie {
   final String? tagline;
   final List<MovieImage>? images;
   final List<MovieVideo>? videos;
+  final int? numberOfSeasons;
+  final int? numberOfEpisodes;
+  final List<TvSeason>? seasons;
   //TODO try to speak with TMDB to get direct link to movies in the Watch Providers;
   final List<MovieWatchProvider>? watchProviders;
   final Map<String, dynamic>? recomendations;

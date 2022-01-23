@@ -9,6 +9,8 @@ import 'package:wwatch/Screens/movie/widgets/loading_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/movie_stats_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/posters_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/recommendations_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/season_and_episode_count_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/season_and_episode_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/speed_dial_movie_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/tagline_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
@@ -82,6 +84,28 @@ class MovieScreen extends StatelessWidget {
                     child: HeaderWidget(movie: movieStore.movie!),
                   ),
                   DescriptionWidget(movie: movieStore.movie!),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        if (movieStore.movie!.numberOfSeasons != null &&
+                            movieStore.movie!.numberOfSeasons! > 0)
+                          SeasonEpisodeCount(
+                            title: 'Seasons',
+                            value: movieStore.movie!.numberOfSeasons!,
+                          ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        if (movieStore.movie!.numberOfEpisodes != null &&
+                            movieStore.movie!.numberOfEpisodes! > 0)
+                          SeasonEpisodeCount(
+                            title: 'Episodes',
+                            value: movieStore.movie!.numberOfEpisodes!,
+                          ),
+                      ],
+                    ),
+                  ),
                   if (movieStore.movie!.tagline != null &&
                       movieStore.movie!.tagline!.isNotEmpty)
                     TaglineWidget(
@@ -94,6 +118,11 @@ class MovieScreen extends StatelessWidget {
                       movieStore.movie!.videos!.length > 0)
                     TrailersWidget(
                       movie: movieStore.movie!,
+                    ),
+                  if (movieStore.movie!.numberOfSeasons != null &&
+                      movieStore.movie!.numberOfSeasons! > 0)
+                    SeasonEpisodeWidget(
+                      movieStore: movieStore,
                     ),
                   if (movieStore.recommendations.length > 0)
                     RecommendationsWidget(movieStore: movieStore),
