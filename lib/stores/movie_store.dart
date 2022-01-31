@@ -307,17 +307,20 @@ abstract class _MovieStoreBase with Store {
       final images = imageResponse.data['posters'].map<MovieImage>((e) {
         return MovieImage(filePath: e['file_path'], language: e['iso_639_1']);
       }).toList();
-      final List<TvSeason> seasons = data['seasons'].map<TvSeason>((e) {
-        return TvSeason(
-          episodeCount: e['episode_count'],
-          airDate: e['air_date'],
-          name: e['name'],
-          posterPath: e['poster_path'],
-          id: e['id'],
-          seasonNumber: e['season_number'],
-          overview: e['overview'],
-        );
-      }).toList();
+      List<TvSeason>? seasons;
+      seasons = data['seasons'] != null
+          ? data['seasons'].map<TvSeason>((e) {
+              return TvSeason(
+                episodeCount: e['episode_count'],
+                airDate: e['air_date'],
+                name: e['name'],
+                posterPath: e['poster_path'],
+                id: e['id'],
+                seasonNumber: e['season_number'],
+                overview: e['overview'],
+              );
+            }).toList()
+          : null;
       movie = CompleteMovie(
         images: images,
         videos: videos,
@@ -478,9 +481,13 @@ abstract class _MovieStoreBase with Store {
   @observable
   TvSeason? season;
 
+  @observable
+  bool loadingSeason = false;
+
   @action
   Future<void> getSeasonEpisodes(
       {required int tvId, required int seasonNumber}) async {
+    loadingSeason = true;
     Map<String, dynamic> parameters = {};
     parameters = {
       'api_key': apiKey,
@@ -516,7 +523,10 @@ abstract class _MovieStoreBase with Store {
         posterPath: response.data['poster_path'],
         seasonNumber: response.data['season_number'],
       );
+      loadingSeason = false;
     } catch (e) {
+      error = true;
+      loadingSeason = false;
       print("Tv Sesons Error");
       print(e);
     }

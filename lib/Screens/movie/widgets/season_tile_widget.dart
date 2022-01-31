@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:wwatch/Screens/season/season_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:wwatch/stores/settings_store.dart';
@@ -11,9 +12,11 @@ class SeasonTileWidget extends StatelessWidget {
   SeasonTileWidget({
     Key? key,
     required this.season,
+    required this.tvId,
   }) : super(key: key);
   final TvSeason season;
-  SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final int tvId;
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   String formatDate(TvSeason season) {
     switch (settingsStore.dateFormat) {
       case 'dd/mm/yyyy':
@@ -31,7 +34,13 @@ class SeasonTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => SeasonScreen(
+                  tvId: tvId,
+                  seasonNumber: season.seasonNumber,
+                )));
+      },
       child: Container(
         height: 130,
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -73,36 +82,39 @@ class SeasonTileWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      season.name,
-                      style: GoogleFonts.getFont('Mitr',
-                          color: AppColors.text,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w200),
-                    ),
-                    if (season.airDate != null)
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 328,
+                Container(
+                  width: MediaQuery.of(context).size.width - 168,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        season.name,
+                        style: GoogleFonts.getFont('Mitr',
+                            color: AppColors.text,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w200),
                       ),
-                    if (season.airDate != null && season.name != 'Specials')
-                      Container(
-                        padding: EdgeInsets.only(
-                          top: 4,
-                        ),
-                        child: Text(
-                          formatDate(season),
-                          style: GoogleFonts.getFont('Mitr',
+                      if (season.airDate != null) Expanded(child: SizedBox()),
+                      if (season.airDate != null && season.name != 'Specials')
+                        Container(
+                          padding: EdgeInsets.only(
+                            top: 4,
+                          ),
+                          child: Text(
+                            formatDate(season).trim(),
+                            textAlign: TextAlign.end,
+                            style: GoogleFonts.getFont(
+                              'Mitr',
                               color: AppColors.text,
                               fontSize: 12,
-                              fontWeight: FontWeight.w100),
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
                 Text(
                   '${season.episodeCount} Episodes',

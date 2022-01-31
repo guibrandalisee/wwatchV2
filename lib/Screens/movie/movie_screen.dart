@@ -21,7 +21,7 @@ import 'package:wwatch/stores/style_store.dart';
 
 //TODO add TV shows seasons and episodes
 
-class MovieScreen extends StatelessWidget {
+class MovieScreen extends StatefulWidget {
   final int movieId;
   final int contentType;
   MovieScreen({
@@ -29,13 +29,27 @@ class MovieScreen extends StatelessWidget {
     required this.movieId,
     required this.contentType,
   }) : super(key: key);
+
+  @override
+  State<MovieScreen> createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends State<MovieScreen> {
+  @override
+  void initState() {
+    super.initState();
+    movieStore.getSingleMovie(widget.movieId, widget.contentType);
+    movieStore.getRecommendations(widget.movieId);
+  }
+
   final MovieStore movieStore = MovieStore();
+
   final StyleStore styleStore = GetIt.I<StyleStore>();
+
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+
   @override
   Widget build(BuildContext context) {
-    movieStore.getSingleMovie(movieId, contentType);
-    movieStore.getRecommendations(movieId);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: const CustomSpeedDialMovieScreen(),
@@ -69,7 +83,7 @@ class MovieScreen extends StatelessWidget {
         builder: (_) {
           if (movieStore.error)
             return CustomErrorMovieScreen(
-              movieId: movieId,
+              movieId: widget.movieId,
               movieStore: movieStore,
             );
           if (movieStore.movie == null)

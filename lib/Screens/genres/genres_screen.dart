@@ -40,6 +40,10 @@ class GenresScreen extends StatelessWidget {
         floatingActionButton: fab != null && fab!
             ? FloatingActionButton(
                 onPressed: () {
+                  if (didChange) {
+                    movieStore.movies = [];
+                    movieStore.getPopularMovies();
+                  }
                   Navigator.pop(context);
                 },
                 backgroundColor: styleStore.primaryColor,
@@ -123,6 +127,7 @@ class GenresScreen extends StatelessWidget {
                     ],
                   );
                 } else {
+                  //TODO implement TV Shows genres
                   return GenreTile(
                     onTap: () {
                       didChange = true;

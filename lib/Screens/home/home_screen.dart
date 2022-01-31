@@ -208,8 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           valueColor: AlwaysStoppedAnimation(
                             styleStore.primaryColor,
                           ),
-                          backgroundColor:
-                              styleStore.primaryColor!.withAlpha(100),
+                          backgroundColor: styleStore.backgroundColor,
                         );
                       } else {
                         return Container();

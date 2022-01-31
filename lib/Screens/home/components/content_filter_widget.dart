@@ -23,10 +23,9 @@ class ContentFilter extends StatelessWidget {
 
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
-
     controller.text = movieStore.searchString;
     controller.selection =
         TextSelection.collapsed(offset: movieStore.searchString.length);

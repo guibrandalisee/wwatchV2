@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobx/mobx.dart';
 import 'package:wwatch/Screens/movie/widgets/season_tile_widget.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -58,6 +56,7 @@ class SeasonEpisodeWidget extends StatelessWidget {
                 //TODO finish this widget
                 return SeasonTileWidget(
                   season: e,
+                  tvId: movieStore.movie!.id,
                 );
               }).toList(),
             ),

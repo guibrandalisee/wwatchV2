@@ -22,7 +22,7 @@ class SortByScreen extends StatelessWidget {
     bool didChange = false;
     final SettingsStore settingsStore = GetIt.I<SettingsStore>();
     final StyleStore styleStore = GetIt.I<StyleStore>();
-
+    //TODO change options based on which content type is selected
     return WillPopScope(
       onWillPop: () async {
         if (didChange) {
@@ -35,6 +35,10 @@ class SortByScreen extends StatelessWidget {
         floatingActionButton: fab != null && fab!
             ? FloatingActionButton(
                 onPressed: () {
+                  if (didChange) {
+                    movieStore.movies = [];
+                    movieStore.getPopularMovies();
+                  }
                   Navigator.pop(context);
                 },
                 backgroundColor: styleStore.primaryColor,

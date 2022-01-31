@@ -25,7 +25,7 @@ class CustomLoadingScreen extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation(
               styleStore.primaryColor,
             ),
-            backgroundColor: styleStore.primaryColor!.withAlpha(100),
+            backgroundColor: styleStore.backgroundColor,
           ),
           const SizedBox(
             height: 24,

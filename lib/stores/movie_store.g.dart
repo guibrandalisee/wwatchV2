@@ -190,6 +190,21 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$loadingSeasonAtom = Atom(name: '_MovieStoreBase.loadingSeason');
+
+  @override
+  bool get loadingSeason {
+    _$loadingSeasonAtom.reportRead();
+    return super.loadingSeason;
+  }
+
+  @override
+  set loadingSeason(bool value) {
+    _$loadingSeasonAtom.reportWrite(value, super.loadingSeason, () {
+      super.loadingSeason = value;
+    });
+  }
+
   final _$fetchDataAsyncAction = AsyncAction('_MovieStoreBase.fetchData');
 
   @override
@@ -279,7 +294,8 @@ backToTheTopVisible: ${backToTheTopVisible},
 searchString: ${searchString},
 empty: ${empty},
 recommendations: ${recommendations},
-season: ${season}
+season: ${season},
+loadingSeason: ${loadingSeason}
     ''';
   }
 }

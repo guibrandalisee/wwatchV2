@@ -19,7 +19,7 @@ class CustomLoadingMovieScreen extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation(
               styleStore.primaryColor,
             ),
-            backgroundColor: styleStore.primaryColor!.withAlpha(100),
+            backgroundColor: styleStore.backgroundColor,
           ),
           Container(
             height: 300,
