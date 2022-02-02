@@ -35,11 +35,11 @@ class _DropDownButtonWidgetState extends State<DropDownButtonWidget> {
             dropdownColor: styleStore.backgroundColor,
             icon: Icon(
               Icons.keyboard_arrow_down_outlined,
-              color: AppColors.text,
+              color: styleStore.textColor,
             ),
             isExpanded: true,
             style: GoogleFonts.getFont('Mitr',
-                color: AppColors.text,
+                color: styleStore.textColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w300),
             underline: Container(),

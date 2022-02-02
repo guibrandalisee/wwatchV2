@@ -35,7 +35,7 @@ class CustomSpeedDialMovieScreen extends StatelessWidget {
             child: Text(
               'Add to a list',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),
@@ -52,7 +52,7 @@ class CustomSpeedDialMovieScreen extends StatelessWidget {
             child: Text(
               'Add to your watchlist',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),
@@ -69,7 +69,7 @@ class CustomSpeedDialMovieScreen extends StatelessWidget {
             child: Text(
               'Rate it!',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),
@@ -86,7 +86,7 @@ class CustomSpeedDialMovieScreen extends StatelessWidget {
             child: Text(
               'Mark as favorite',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),

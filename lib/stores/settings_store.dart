@@ -30,6 +30,9 @@ abstract class _SettingsStoreBase with Store {
       if (prefs!.containsKey('adultContent')) {
         adultContent = prefs!.getBool('adultContent')!;
       }
+      if (prefs!.containsKey('tileMode')) {
+        tileDisplayMode = prefs!.getInt('tileMode')!;
+      }
     } else {
       dateFormat = 'dd/mm/yyyy';
       brightness = CustomBrightness.dark;
@@ -53,6 +56,18 @@ abstract class _SettingsStoreBase with Store {
     } on DioError catch (e) {
       print(e);
     }
+  }
+
+  //Change tiles mode on home screen
+  @observable
+  int tileDisplayMode = 0;
+  //0 = Card
+  //1 = Tile
+  //2 = maybe on the future
+  @action
+  void setTileMode(int value) {
+    prefs?.setInt('tileMode', value);
+    tileDisplayMode = value;
   }
 
   //Change Brightness settigns (Dark|Light|AMOLED)

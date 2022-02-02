@@ -53,7 +53,7 @@ class ContentFilter extends StatelessWidget {
               onChanged: movieStore.setSearch,
               focusNode: focusNode,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w100),
               decoration: InputDecoration(
@@ -61,7 +61,7 @@ class ContentFilter extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: "Search",
                 hintStyle: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w100),
                 suffix: Row(
@@ -75,7 +75,7 @@ class ContentFilter extends StatelessWidget {
                         },
                         child: Icon(
                           Icons.close,
-                          color: AppColors.text,
+                          color: styleStore.textColor,
                           size: 18,
                         ),
                       ),
@@ -86,7 +86,7 @@ class ContentFilter extends StatelessWidget {
                       onTap: movieStore.search,
                       child: Icon(
                         LineIcons.search,
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         size: 18,
                       ),
                     ),
@@ -120,7 +120,7 @@ class ContentFilter extends StatelessWidget {
                         "Movies",
                         style: GoogleFonts.getFont('Mitr',
                             color: settingsStore.selectedContentType == 1
-                                ? AppColors.text
+                                ? styleStore.textColor
                                 : AppColors
                                     .textOnPrimaries[styleStore.colorIndex!],
                             fontSize: 16,
@@ -140,7 +140,7 @@ class ContentFilter extends StatelessWidget {
                 Container(
                   width: 1,
                   height: 36,
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                 ),
                 Expanded(
                   flex: 1,
@@ -157,7 +157,7 @@ class ContentFilter extends StatelessWidget {
                         "TV Shows",
                         style: GoogleFonts.getFont('Mitr',
                             color: settingsStore.selectedContentType == 0
-                                ? AppColors.text
+                                ? styleStore.textColor
                                 : AppColors
                                     .textOnPrimaries[styleStore.colorIndex!],
                             fontSize: 16,
@@ -211,13 +211,13 @@ class ContentFilter extends StatelessWidget {
                               Text(
                                 "Sort By",
                                 style: GoogleFonts.getFont('Mitr',
-                                    color: AppColors.text,
+                                    color: styleStore.textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w100),
                               ),
                               Icon(
                                 LineIcons.angleDoubleRight,
-                                color: AppColors.text,
+                                color: styleStore.textColor,
                               )
                             ],
                           ),
@@ -253,13 +253,13 @@ class ContentFilter extends StatelessWidget {
                               Text(
                                 "Genres",
                                 style: GoogleFonts.getFont('Mitr',
-                                    color: AppColors.text,
+                                    color: styleStore.textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w100),
                               ),
                               Icon(
                                 LineIcons.angleDoubleRight,
-                                color: AppColors.text,
+                                color: styleStore.textColor,
                               )
                             ],
                           ),

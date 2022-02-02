@@ -36,14 +36,14 @@ class DescriptionWidget extends StatelessWidget {
                 text: TextSpan(
                   text: 'Status: ',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                   children: <TextSpan>[
                     TextSpan(
                       text: '${movie.launchStatus}',
                       style: GoogleFonts.getFont('Kodchasan',
-                          color: AppColors.text,
+                          color: styleStore.textColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
                     ),

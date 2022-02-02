@@ -34,7 +34,7 @@ class FabPosition extends StatelessWidget {
                           "Left",
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.fabPosition == 1
-                                  ? AppColors.text
+                                  ? styleStore.textColor
                                   : AppColors
                                       .textOnPrimaries[styleStore.colorIndex!],
                               fontSize: 18,
@@ -67,7 +67,7 @@ class FabPosition extends StatelessWidget {
                           "Right",
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.fabPosition == 0
-                                  ? AppColors.text
+                                  ? styleStore.textColor
                                   : AppColors
                                       .textOnPrimaries[styleStore.colorIndex!],
                               fontSize: 18,

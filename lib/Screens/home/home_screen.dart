@@ -7,6 +7,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/home/components/content_filter_widget.dart';
 import 'package:wwatch/Screens/home/components/loading_screen.dart';
 import 'package:wwatch/Screens/home/components/error_screen.dart';
+import 'package:wwatch/Screens/home/components/movie_tile_list.dart';
 import 'package:wwatch/Screens/home/components/nothing_found_error_screen.dart';
 import 'package:wwatch/Screens/home/components/speed_dial.dart';
 import 'package:wwatch/Screens/login/login_screen.dart';
@@ -59,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
     });
     reaction((_) => styleStore.backgroundColor, (value) {
+      setState(() {});
+    });
+    reaction((_) => settingsStore.tileDisplayMode, (value) {
       setState(() {});
     });
     scrollController = ScrollController()
@@ -171,11 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 movieStore: movieStore,
                 focusNode: focusNode,
               );
-            if (movieStore.movies.length == 0)
-              return CustomLoadingScreen(
-                movieStore: movieStore,
-                focusNode: focusNode,
-              );
+            if (movieStore.movies.length == 0) return CustomLoadingScreen();
             return Stack(
               children: [
                 ListView.builder(
@@ -197,10 +197,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         );
                       else if (index < movieStore.movies.length + 1)
-                        return MovieTile(
-                          movie: movieStore.movies[index - 1],
-                          contentType: settingsStore.selectedContentType,
-                        );
+                        return settingsStore.tileDisplayMode == 0
+                            ? MovieTile(
+                                movie: movieStore.movies[index - 1],
+                                contentType: settingsStore.selectedContentType,
+                              )
+                            : MovieTileList(
+                                movie: movieStore.movies[index - 1],
+                                contentType: settingsStore.selectedContentType);
                       else if (movieStore.totalPages != null &&
                           movieStore.page < movieStore.totalPages!) {
                         movieStore.getMorePopularMovies();

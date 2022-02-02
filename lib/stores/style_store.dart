@@ -102,10 +102,10 @@ abstract class _StyleStoreBase with Store {
         dropdownColor = Color(0xff16161D);
         break;
       case CustomBrightness.light:
-        backgroundColor = Color(0xffD9D9D9);
+        backgroundColor = Color(0xffFFFFFF);
         textColor = Color(0xff252525);
-        shapeColor = Color(0xff16161D);
-        dropdownColor = Color(0xff16161D);
+        shapeColor = Color(0xFFF3F3F3);
+        dropdownColor = Color(0xffe4e4e4);
         break;
     }
   }

@@ -44,7 +44,7 @@ class SortByTile extends StatelessWidget {
                           .replaceAll('_', ' ')
                           .trim()),
                       style: GoogleFonts.getFont('Mitr',
-                          color: AppColors.text,
+                          color: styleStore.textColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w200),
                     ),
@@ -58,7 +58,7 @@ class SortByTile extends StatelessWidget {
                         fillColor: settingsStore.selectedSortBy ==
                                 settingsStore.possibleSortBy[index]
                             ? null
-                            : MaterialStateProperty.all(AppColors.text),
+                            : MaterialStateProperty.all(styleStore.textColor),
                         value: settingsStore.selectedSortBy ==
                             settingsStore.possibleSortBy[index],
                         onChanged: onTap2)

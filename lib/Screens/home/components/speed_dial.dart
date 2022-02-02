@@ -54,7 +54,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             child: Text(
               'Search',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),
@@ -78,7 +78,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             child: Text(
               'Movies',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),
@@ -102,7 +102,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             child: Text(
               'TV Shows',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),
@@ -128,7 +128,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             child: Text(
               'Genres',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),
@@ -154,7 +154,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             child: Text(
               'Sort By',
               style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
+                  color: AppColors.text,
                   fontSize: 16,
                   fontWeight: FontWeight.w300),
             ),

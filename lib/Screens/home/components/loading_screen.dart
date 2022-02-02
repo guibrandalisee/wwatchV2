@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-import 'package:wwatch/Screens/home/components/content_filter_widget.dart';
-import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class CustomLoadingScreen extends StatelessWidget {
   const CustomLoadingScreen({
     Key? key,
-    required this.movieStore,
-    required this.focusNode,
   }) : super(key: key);
-  final MovieStore movieStore;
-  final FocusNode focusNode;
+
   @override
   Widget build(BuildContext context) {
     final StyleStore styleStore = GetIt.I<StyleStore>();
@@ -28,11 +23,66 @@ class CustomLoadingScreen extends StatelessWidget {
             backgroundColor: styleStore.backgroundColor,
           ),
           const SizedBox(
-            height: 24,
+            height: 48,
           ),
-          ContentFilter(
-            focusNode: focusNode,
-            movieStore: movieStore,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+            clipBehavior: Clip.antiAlias,
+            child: Shimmer(
+              child: Container(height: 48, width: double.infinity),
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+            clipBehavior: Clip.antiAlias,
+            child: Shimmer(
+              child: Container(height: 48, width: double.infinity),
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                    clipBehavior: Clip.antiAlias,
+                    child: Shimmer(
+                      child: Container(
+                        height: 48,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                    clipBehavior: Clip.antiAlias,
+                    child: Shimmer(
+                      child: Container(
+                        height: 48,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 24,
           ),
           Container(
             margin: const EdgeInsets.all(16),

@@ -9,6 +9,7 @@ import 'package:wwatch/Screens/settings/components/brightness_selector.dart';
 import 'package:wwatch/Screens/settings/components/color_selector.dart';
 import 'package:wwatch/Screens/settings/components/fab_position.dart';
 import 'package:wwatch/Screens/settings/components/general_settings.dart';
+import 'package:wwatch/Screens/settings/components/tile_mode_selector.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/settings_store.dart';
@@ -109,7 +110,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   children: [
                     Icon(
                       LineIcons.infoCircle,
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                     ),
                     const SizedBox(
                       height: 56,
@@ -118,7 +119,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                     Text(
                       "About the app",
                       style: GoogleFonts.getFont('Mitr',
-                          color: AppColors.text,
+                          color: styleStore.textColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w100),
                     ),
@@ -176,6 +177,23 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 height: 16,
               ),
               const BrightnessSelector(),
+              const SizedBox(
+                height: 32,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  "Home Screen Content Display",
+                  style: GoogleFonts.getFont('Mitr',
+                      color: styleStore.textColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              TileModeSelectorWidget(),
               const SizedBox(
                 height: 32,
               ),
@@ -244,7 +262,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               Text(
                 "This is not an official TMDB APP",
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w200),
               ),

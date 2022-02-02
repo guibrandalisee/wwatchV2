@@ -9,6 +9,22 @@ part of 'settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingsStore on _SettingsStoreBase, Store {
+  final _$tileDisplayModeAtom =
+      Atom(name: '_SettingsStoreBase.tileDisplayMode');
+
+  @override
+  int get tileDisplayMode {
+    _$tileDisplayModeAtom.reportRead();
+    return super.tileDisplayMode;
+  }
+
+  @override
+  set tileDisplayMode(int value) {
+    _$tileDisplayModeAtom.reportWrite(value, super.tileDisplayMode, () {
+      super.tileDisplayMode = value;
+    });
+  }
+
   final _$brightnessAtom = Atom(name: '_SettingsStoreBase.brightness');
 
   @override
@@ -282,6 +298,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
       ActionController(name: '_SettingsStoreBase');
 
   @override
+  void setTileMode(int value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setTileMode');
+    try {
+      return super.setTileMode(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setBrightness(CustomBrightness value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.setBrightness');
@@ -449,6 +476,7 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   @override
   String toString() {
     return '''
+tileDisplayMode: ${tileDisplayMode},
 brightness: ${brightness},
 dateFormat: ${dateFormat},
 language: ${language},

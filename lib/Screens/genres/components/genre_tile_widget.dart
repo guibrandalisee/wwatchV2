@@ -38,7 +38,7 @@ class GenreTile extends StatelessWidget {
               Text(
                 settingsStore.movieGenres[index].name,
                 style: GoogleFonts.getFont('Mitr',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w200),
               ),
@@ -51,7 +51,7 @@ class GenreTile extends StatelessWidget {
                   checkColor: AppColors.textOnPrimaries[styleStore.colorIndex!],
                   fillColor: !settingsStore.selectedGenres
                           .contains(settingsStore.movieGenres[index].id)
-                      ? MaterialStateProperty.all(AppColors.text)
+                      ? MaterialStateProperty.all(styleStore.textColor)
                       : null,
                   value: settingsStore.selectedGenres
                       .contains(settingsStore.movieGenres[index].id),
