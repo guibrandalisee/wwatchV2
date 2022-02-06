@@ -66,7 +66,7 @@ class EpisodeWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.network(
-                              'https://image.tmdb.org/t/p/w500${movieStore.season!.episodes![index - 1].stillPath}',
+                              'https://image.tmdb.org/t/p/w185${movieStore.season!.episodes![index - 1].stillPath}',
                               filterQuality: FilterQuality.medium,
                               fit: BoxFit.cover,
                             ),
@@ -183,7 +183,7 @@ class EpisodeWidget extends StatelessWidget {
                         color: AppColors.text,
                         fontSize: 12,
                         fontWeight: FontWeight.w300),
-                    maxLines: 6,
+                    maxLines: 99,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

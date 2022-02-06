@@ -28,14 +28,14 @@ class SeasonEpisodeCount extends StatelessWidget {
               text: TextSpan(
                 text: (value).toString(),
                 style: GoogleFonts.getFont('Kodchasan',
-                    color: AppColors.text,
+                    color: styleStore.textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),
                 children: <TextSpan>[
                   TextSpan(
                     text: ' $title',
                     style: GoogleFonts.getFont('Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w100),
                   ),

@@ -88,7 +88,7 @@ class DescriptionWidget extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.network(
-                                'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                'https://image.tmdb.org/t/p/w342${movie.posterPath}',
                                 filterQuality: FilterQuality.medium,
                                 fit: BoxFit.cover,
                               ),

@@ -35,18 +35,18 @@ class AboutScreen extends StatelessWidget {
             );
           },
           child: Ink(
-            child: Hero(
-              tag: "logo",
-              child: SizedBox(
-                height: 56,
-                child: Image.asset(
-                  "assets/images/WWatch2-png.png",
-                  fit: BoxFit.fitHeight,
-                  filterQuality: FilterQuality.medium,
-                  color: settingsStore.brightness != CustomBrightness.amoled
-                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                      : styleStore.primaryColor,
-                ),
+            child: Center(
+              child: Image(
+                image: ResizeImage(
+                    AssetImage(
+                      'assets/images/WWatch2-png.png',
+                    ),
+                    height: 156,
+                    width: 156),
+                filterQuality: FilterQuality.medium,
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : styleStore.primaryColor,
               ),
             ),
           ),

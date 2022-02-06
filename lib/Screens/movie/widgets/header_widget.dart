@@ -33,14 +33,14 @@ class HeaderWidget extends StatelessWidget {
                         movie.backdropPath!.isNotEmpty
                     ? CachedNetworkImage(
                         imageUrl:
-                            'https://image.tmdb.org/t/p/w1280${movie.backdropPath}',
+                            'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.medium,
                       )
                     : movie.posterPath != null && movie.posterPath!.isNotEmpty
                         ? CachedNetworkImage(
                             imageUrl:
-                                'https://image.tmdb.org/t/p/w780${movie.posterPath}',
+                                'https://image.tmdb.org/t/p/w500${movie.posterPath}',
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.medium,
                           )

@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:get_it/get_it.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/home/components/content_filter_widget.dart';
@@ -110,12 +113,19 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
           child: Ink(
-            child: Image.asset(
-              "assets/images/WWatch2-png.png",
-              filterQuality: FilterQuality.medium,
-              color: settingsStore.brightness != CustomBrightness.amoled
-                  ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                  : styleStore.primaryColor,
+            child: Center(
+              child: Image(
+                image: ResizeImage(
+                    AssetImage(
+                      'assets/images/WWatch2-png.png',
+                    ),
+                    height: 156,
+                    width: 156),
+                filterQuality: FilterQuality.medium,
+                color: settingsStore.brightness != CustomBrightness.amoled
+                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                    : styleStore.primaryColor,
+              ),
             ),
           ),
         ),
@@ -162,24 +172,41 @@ class _HomeScreenState extends State<HomeScreen> {
             movieStore.search();
             return false;
           }
+
           return true;
         },
-        child: Observer(
-          builder: (context) {
-            if (movieStore.error)
-              return CustomErrorScree(
-                movieStore: movieStore,
-              );
-            if (movieStore.empty)
-              return CustomNothingFoundErrorScreen(
-                movieStore: movieStore,
-                focusNode: focusNode,
-              );
-            if (movieStore.movies.length == 0) return CustomLoadingScreen();
-            return Stack(
-              children: [
-                ListView.builder(
-                    controller: scrollController,
+        child: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text('Tap back again to leave'),
+          ),
+          child: Observer(
+            builder: (context) {
+              if (movieStore.error)
+                return CustomErrorScree(
+                  movieStore: movieStore,
+                );
+              if (movieStore.empty)
+                return CustomNothingFoundErrorScreen(
+                  movieStore: movieStore,
+                  focusNode: focusNode,
+                );
+              if (movieStore.movies.length == 0) return CustomLoadingScreen();
+              return ScrollWrapper(
+                promptAlignment: styleStore.fabPosition == 1
+                    ? Alignment.bottomRight
+                    : Alignment.bottomLeft,
+                promptAnimationType: PromptAnimation.scale,
+                promptTheme: PromptButtonTheme(
+                    padding: EdgeInsets.symmetric(
+                        vertical:
+                            MediaQuery.of(context).viewPadding.bottom + 128,
+                        horizontal: 24),
+                    color: styleStore.primaryColor,
+                    icon: Icon(
+                      Icons.keyboard_arrow_up_rounded,
+                      color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                    )),
+                builder: (context, properties) => ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemCount: movieStore.movies.length + 2,
                     itemBuilder: (context, index) {
@@ -218,38 +245,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Container();
                       }
                     }),
-                Visibility(
-                  visible: movieStore.backToTheTopVisible,
-                  child: Positioned(
-                    right: styleStore.fabPosition == 1 ? 20 : null,
-                    left: styleStore.fabPosition == 0 ? 20 : null,
-                    bottom: 128,
-                    child: InkWell(
-                      onTap: () {
-                        //TODO add an animation to this button
-                        scrollController.animateTo(0,
-                            duration: Duration(milliseconds: 1000),
-                            curve: Curves.easeInOut);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
-                        decoration: BoxDecoration(
-                            color: AppColors.shape,
-                            borderRadius: BorderRadius.circular(32),
-                            border: Border.all(
-                                color: styleStore.primaryColor!, width: 2)),
-                        child: Icon(
-                          LineIcons.arrowUp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

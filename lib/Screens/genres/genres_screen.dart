@@ -67,13 +67,17 @@ class GenresScreen extends StatelessWidget {
             tag: "logo",
             child: SizedBox(
               height: 56,
-              child: Image.asset(
-                "assets/images/WWatch2-png.png",
+              child: Image(
+                image: ResizeImage(
+                    AssetImage(
+                      'assets/images/WWatch2-png.png',
+                    ),
+                    height: 156,
+                    width: 156),
+                filterQuality: FilterQuality.medium,
                 color: settingsStore.brightness != CustomBrightness.amoled
                     ? AppColors.textOnPrimaries[styleStore.colorIndex!]
                     : styleStore.primaryColor,
-                fit: BoxFit.fitHeight,
-                filterQuality: FilterQuality.medium,
               ),
             ),
           ),
@@ -98,11 +102,19 @@ class GenresScreen extends StatelessWidget {
                           )
                         ]),
                         height: 140,
-                        child: Image.asset(
-                          "assets/images/WWatch2-png.png",
-                          color: styleStore.primaryColor,
-                          fit: BoxFit.fitHeight,
+                        child: Image(
+                          image: ResizeImage(
+                              AssetImage(
+                                'assets/images/WWatch2-png.png',
+                              ),
+                              height: 196,
+                              width: 196),
                           filterQuality: FilterQuality.medium,
+                          color: settingsStore.brightness !=
+                                  CustomBrightness.amoled
+                              ? AppColors
+                                  .textOnPrimaries[styleStore.colorIndex!]
+                              : styleStore.primaryColor,
                         ),
                       ),
                       SizedBox(

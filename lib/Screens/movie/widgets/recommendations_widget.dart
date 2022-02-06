@@ -128,7 +128,7 @@ class SimilarMovieTile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                         child: CachedNetworkImage(
                           imageUrl:
-                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                              'https://image.tmdb.org/t/p/w342${movie.posterPath}',
                           filterQuality: FilterQuality.medium,
                           fit: BoxFit.cover,
                         )),
@@ -163,7 +163,7 @@ class SimilarMovieTile extends StatelessWidget {
               bottom: 45,
               left: 8,
               child: Container(
-                width: 180,
+                width: 154,
                 child: Wrap(
                   children: [
                     Text(

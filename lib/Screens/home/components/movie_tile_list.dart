@@ -71,7 +71,7 @@ class MovieTileList extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                           child: CachedNetworkImage(
                             imageUrl:
-                                'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                'https://image.tmdb.org/t/p/w154${movie.posterPath}',
                             filterQuality: FilterQuality.medium,
                             fit: BoxFit.cover,
                           )),

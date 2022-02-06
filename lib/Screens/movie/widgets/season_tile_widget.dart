@@ -7,6 +7,7 @@ import 'package:wwatch/Screens/season/season_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:wwatch/stores/settings_store.dart';
+import 'package:wwatch/stores/style_store.dart';
 
 class SeasonTileWidget extends StatelessWidget {
   SeasonTileWidget({
@@ -17,6 +18,7 @@ class SeasonTileWidget extends StatelessWidget {
   final TvSeason season;
   final int tvId;
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final StyleStore styleStore = GetIt.I<StyleStore>();
   String formatDate(TvSeason season) {
     switch (settingsStore.dateFormat) {
       case 'dd/mm/yyyy':
@@ -45,7 +47,7 @@ class SeasonTileWidget extends StatelessWidget {
         height: 130,
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.background,
+          color: styleStore.backgroundColor,
           borderRadius: BorderRadius.circular(8),
         ),
         clipBehavior: Clip.antiAlias,
@@ -71,7 +73,7 @@ class SeasonTileWidget extends StatelessWidget {
                       child: Text(
                         'No Image :(',
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 12,
                             fontWeight: FontWeight.w200),
                       ),
@@ -92,7 +94,7 @@ class SeasonTileWidget extends StatelessWidget {
                       Text(
                         season.name,
                         style: GoogleFonts.getFont('Mitr',
-                            color: AppColors.text,
+                            color: styleStore.textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w200),
                       ),
@@ -107,7 +109,7 @@ class SeasonTileWidget extends StatelessWidget {
                             textAlign: TextAlign.end,
                             style: GoogleFonts.getFont(
                               'Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w100,
                             ),
@@ -119,7 +121,7 @@ class SeasonTileWidget extends StatelessWidget {
                 Text(
                   '${season.episodeCount} Episodes',
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.text,
+                      color: styleStore.textColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w100),
                 ),
@@ -135,7 +137,7 @@ class SeasonTileWidget extends StatelessWidget {
                         Text(
                           season.overview,
                           style: GoogleFonts.getFont('Mitr',
-                              color: AppColors.text,
+                              color: styleStore.textColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w300),
                           maxLines: 3,

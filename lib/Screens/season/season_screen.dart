@@ -59,13 +59,17 @@ class _SeasonScreenState extends State<SeasonScreen> {
           tag: "logo",
           child: SizedBox(
             height: 56,
-            child: Image.asset(
-              "assets/images/WWatch2-png.png",
+            child: Image(
+              image: ResizeImage(
+                  AssetImage(
+                    'assets/images/WWatch2-png.png',
+                  ),
+                  height: 156,
+                  width: 156),
+              filterQuality: FilterQuality.medium,
               color: settingsStore.brightness != CustomBrightness.amoled
                   ? AppColors.textOnPrimaries[styleStore.colorIndex!]
                   : styleStore.primaryColor,
-              fit: BoxFit.fitHeight,
-              filterQuality: FilterQuality.medium,
             ),
           ),
         ),
@@ -130,7 +134,7 @@ class _SeasonScreenState extends State<SeasonScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               child: Image.network(
-                                                'https://image.tmdb.org/t/p/w500${movieStore.season!.posterPath}',
+                                                'https://image.tmdb.org/t/p/w342${movieStore.season!.posterPath}',
                                                 filterQuality:
                                                     FilterQuality.medium,
                                                 fit: BoxFit.cover,
