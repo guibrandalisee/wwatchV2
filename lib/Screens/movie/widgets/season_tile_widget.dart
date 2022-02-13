@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wwatch/Screens/season/season_screen.dart';
-import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -128,7 +127,7 @@ class SeasonTileWidget extends StatelessWidget {
                 SizedBox(
                   height: 8,
                 ),
-                if (season.overview != null && season.overview != '')
+                if (season.overview != '')
                   Container(
                     width: MediaQuery.of(context).size.width - 160,
                     height: 75,

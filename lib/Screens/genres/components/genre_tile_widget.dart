@@ -36,27 +36,49 @@ class GenreTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                settingsStore.movieGenres[index].name,
+                settingsStore.selectedContentType == 0
+                    ? settingsStore.movieGenres[index].name
+                    : settingsStore.tvShowGenres[index].name,
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w200),
               ),
               Observer(builder: (context) {
-                return Checkbox(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  activeColor: styleStore.primaryColor,
-                  checkColor: AppColors.textOnPrimaries[styleStore.colorIndex!],
-                  fillColor: !settingsStore.selectedGenres
-                          .contains(settingsStore.movieGenres[index].id)
-                      ? MaterialStateProperty.all(styleStore.textColor)
-                      : null,
-                  value: settingsStore.selectedGenres
-                      .contains(settingsStore.movieGenres[index].id),
-                  onChanged: onTap2,
-                );
+                if (settingsStore.selectedContentType == 0)
+                  return Checkbox(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    activeColor: styleStore.primaryColor,
+                    checkColor:
+                        AppColors.textOnPrimaries[styleStore.colorIndex!],
+                    fillColor: !settingsStore.selectedMovieGenres
+                            .contains(settingsStore.movieGenres[index].id)
+                        ? MaterialStateProperty.all(styleStore.textColor)
+                        : null,
+                    value: settingsStore.selectedMovieGenres
+                        .contains(settingsStore.movieGenres[index].id),
+                    onChanged: onTap2,
+                  );
+                if (settingsStore.selectedContentType == 1)
+                  return Checkbox(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    activeColor: styleStore.primaryColor,
+                    checkColor:
+                        AppColors.textOnPrimaries[styleStore.colorIndex!],
+                    fillColor: !settingsStore.selectedTvShowGenres
+                            .contains(settingsStore.tvShowGenres[index].id)
+                        ? MaterialStateProperty.all(styleStore.textColor)
+                        : null,
+                    value: settingsStore.selectedTvShowGenres
+                        .contains(settingsStore.tvShowGenres[index].id),
+                    onChanged: onTap2,
+                  );
+                else
+                  return Container();
               })
             ],
           ),

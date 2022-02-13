@@ -1,12 +1,10 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:get_it/get_it.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Screens/home/components/back_to_top_button_widget.dart';
 import 'package:wwatch/Screens/home/components/content_filter_widget.dart';
 import 'package:wwatch/Screens/home/components/loading_screen.dart';
 import 'package:wwatch/Screens/home/components/error_screen.dart';
@@ -23,7 +21,6 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
 
-//TODO ask the user if he really wants to leave the app when pressing the back button on home screen
 enum type { movie, tvShows }
 
 class HomeScreen extends StatefulWidget {
@@ -42,7 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     movieStore.getPopularMovies();
     settingsStore.getMovieGenres();
+    settingsStore.getTvShowGenres();
   }
+
+  final ScrollController scrollController = ScrollController();
 
   final FocusNode focusNode = FocusNode();
   final MovieStore movieStore = MovieStore();
@@ -50,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
-  late ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     reaction((_) => styleStore.fabPosition, (value) {
@@ -68,26 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
     reaction((_) => settingsStore.tileDisplayMode, (value) {
       setState(() {});
     });
-    scrollController = ScrollController()
-      ..addListener(() {
-        if (scrollController.position.userScrollDirection ==
-            ScrollDirection.reverse) {
-          if (movieStore.backToTheTopVisible) {
-            setState(() {
-              movieStore.backToTheTopVisible = false;
-            });
-          }
-        } else {
-          if (!movieStore.backToTheTopVisible) {
-            setState(() {
-              movieStore.backToTheTopVisible = true;
-            });
-          }
-        }
-        if (scrollController.position.pixels < 1000) {
-          movieStore.backToTheTopVisible = false;
-        }
-      });
 
     return Scaffold(
       floatingActionButtonLocation: styleStore.fabPosition == 0
@@ -191,60 +170,58 @@ class _HomeScreenState extends State<HomeScreen> {
                   focusNode: focusNode,
                 );
               if (movieStore.movies.length == 0) return CustomLoadingScreen();
-              return ScrollWrapper(
-                promptAlignment: styleStore.fabPosition == 1
-                    ? Alignment.bottomRight
-                    : Alignment.bottomLeft,
-                promptAnimationType: PromptAnimation.scale,
-                promptTheme: PromptButtonTheme(
-                    padding: EdgeInsets.symmetric(
-                        vertical:
-                            MediaQuery.of(context).viewPadding.bottom + 128,
-                        horizontal: 24),
-                    color: styleStore.primaryColor,
-                    icon: Icon(
-                      Icons.keyboard_arrow_up_rounded,
-                      color: AppColors.textOnPrimaries[styleStore.colorIndex!],
-                    )),
-                builder: (context, properties) => ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: movieStore.movies.length + 2,
-                    itemBuilder: (context, index) {
-                      if (index == 0)
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(
-                              height: 28,
+              return Stack(
+                children: [
+                  ListView.builder(
+                      controller: scrollController,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: movieStore.movies.length + 2,
+                      itemBuilder: (context, index) {
+                        if (index == 0)
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(
+                                height: 28,
+                              ),
+                              ContentFilter(
+                                focusNode: focusNode,
+                                movieStore: movieStore,
+                              ),
+                            ],
+                          );
+                        else if (index < movieStore.movies.length + 1)
+                          return settingsStore.tileDisplayMode == 0
+                              ? MovieTile(
+                                  movie: movieStore.movies[index - 1],
+                                  contentType:
+                                      settingsStore.selectedContentType,
+                                )
+                              : MovieTileList(
+                                  movie: movieStore.movies[index - 1],
+                                  contentType:
+                                      settingsStore.selectedContentType);
+                        else if (movieStore.totalPages != null &&
+                            movieStore.page < movieStore.totalPages!) {
+                          movieStore.getMorePopularMovies();
+                          return LinearProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(
+                              styleStore.primaryColor,
                             ),
-                            ContentFilter(
-                              focusNode: focusNode,
-                              movieStore: movieStore,
-                            ),
-                          ],
-                        );
-                      else if (index < movieStore.movies.length + 1)
-                        return settingsStore.tileDisplayMode == 0
-                            ? MovieTile(
-                                movie: movieStore.movies[index - 1],
-                                contentType: settingsStore.selectedContentType,
-                              )
-                            : MovieTileList(
-                                movie: movieStore.movies[index - 1],
-                                contentType: settingsStore.selectedContentType);
-                      else if (movieStore.totalPages != null &&
-                          movieStore.page < movieStore.totalPages!) {
-                        movieStore.getMorePopularMovies();
-                        return LinearProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(
-                            styleStore.primaryColor,
-                          ),
-                          backgroundColor: styleStore.backgroundColor,
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }),
+                            backgroundColor: styleStore.backgroundColor,
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
+                  Positioned(
+                      bottom: MediaQuery.of(context).viewPadding.bottom + 128,
+                      left: styleStore.fabPosition == 0 ? 24 : null,
+                      right: styleStore.fabPosition == 1 ? 24 : null,
+                      child: BackToTopButton(
+                        scrollController: scrollController,
+                      )),
+                ],
               );
             },
           ),

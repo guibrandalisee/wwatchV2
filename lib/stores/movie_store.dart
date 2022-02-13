@@ -61,9 +61,25 @@ abstract class _MovieStoreBase with Store {
     empty = false;
     page = 1;
     Map<String, dynamic> parameters = {};
-    if (_settingsStore.selectedGenres.isNotEmpty) {
+    if (_settingsStore.selectedMovieGenres.isNotEmpty &&
+        _settingsStore.selectedContentType == 0) {
       String genres = '';
-      for (var item in _settingsStore.selectedGenres) {
+      for (var item in _settingsStore.selectedMovieGenres) {
+        genres += item.toString() + ',';
+      }
+      parameters = {
+        'api_key': apiKey,
+        'language': language,
+        'page': page,
+        'sort_by': settingsStore.selectedSortBy,
+        'include_adult': settingsStore.adultContent,
+        'with_genres': genres
+      };
+      print("Genres: $genres");
+    } else if (_settingsStore.selectedTvShowGenres.isNotEmpty &&
+        _settingsStore.selectedContentType == 1) {
+      String genres = '';
+      for (var item in _settingsStore.selectedTvShowGenres) {
         genres += item.toString() + ',';
       }
       parameters = {
@@ -134,9 +150,26 @@ abstract class _MovieStoreBase with Store {
     if (searchString.isEmpty) {
       print("More Results-----------------------");
       Map<String, dynamic> parameters = {};
-      if (_settingsStore.selectedGenres.isNotEmpty) {
+
+      if (_settingsStore.selectedMovieGenres.isNotEmpty &&
+          _settingsStore.selectedContentType == 0) {
         String genres = '';
-        for (var item in _settingsStore.selectedGenres) {
+        for (var item in _settingsStore.selectedMovieGenres) {
+          genres += item.toString() + ',';
+        }
+        print("Genres: $genres");
+        parameters = {
+          'api_key': apiKey,
+          'language': language,
+          'page': page,
+          'sort_by': settingsStore.selectedSortBy,
+          'include_adult': settingsStore.adultContent,
+          'with_genres': genres
+        };
+      } else if (_settingsStore.selectedTvShowGenres.isNotEmpty &&
+          _settingsStore.selectedContentType == 1) {
+        String genres = '';
+        for (var item in _settingsStore.selectedTvShowGenres) {
           genres += item.toString() + ',';
         }
         print("Genres: $genres");
@@ -252,9 +285,6 @@ abstract class _MovieStoreBase with Store {
 
   @observable
   CompleteMovie? movie;
-
-  @observable
-  bool backToTheTopVisible = false;
 
   @action
   Future<void> getSingleMovie(int id, int contentType) async {

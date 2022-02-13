@@ -240,18 +240,51 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedGenresAtom = Atom(name: '_SettingsStoreBase.selectedGenres');
+  final _$tvShowGenresAtom = Atom(name: '_SettingsStoreBase.tvShowGenres');
 
   @override
-  ObservableList<int> get selectedGenres {
-    _$selectedGenresAtom.reportRead();
-    return super.selectedGenres;
+  List<Genre> get tvShowGenres {
+    _$tvShowGenresAtom.reportRead();
+    return super.tvShowGenres;
   }
 
   @override
-  set selectedGenres(ObservableList<int> value) {
-    _$selectedGenresAtom.reportWrite(value, super.selectedGenres, () {
-      super.selectedGenres = value;
+  set tvShowGenres(List<Genre> value) {
+    _$tvShowGenresAtom.reportWrite(value, super.tvShowGenres, () {
+      super.tvShowGenres = value;
+    });
+  }
+
+  final _$selectedMovieGenresAtom =
+      Atom(name: '_SettingsStoreBase.selectedMovieGenres');
+
+  @override
+  ObservableList<int> get selectedMovieGenres {
+    _$selectedMovieGenresAtom.reportRead();
+    return super.selectedMovieGenres;
+  }
+
+  @override
+  set selectedMovieGenres(ObservableList<int> value) {
+    _$selectedMovieGenresAtom.reportWrite(value, super.selectedMovieGenres, () {
+      super.selectedMovieGenres = value;
+    });
+  }
+
+  final _$selectedTvShowGenresAtom =
+      Atom(name: '_SettingsStoreBase.selectedTvShowGenres');
+
+  @override
+  ObservableList<int> get selectedTvShowGenres {
+    _$selectedTvShowGenresAtom.reportRead();
+    return super.selectedTvShowGenres;
+  }
+
+  @override
+  set selectedTvShowGenres(ObservableList<int> value) {
+    _$selectedTvShowGenresAtom.reportWrite(value, super.selectedTvShowGenres,
+        () {
+      super.selectedTvShowGenres = value;
     });
   }
 
@@ -292,6 +325,14 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   @override
   Future<void> getMovieGenres() {
     return _$getMovieGenresAsyncAction.run(() => super.getMovieGenres());
+  }
+
+  final _$getTvShowGenresAsyncAction =
+      AsyncAction('_SettingsStoreBase.getTvShowGenres');
+
+  @override
+  Future<void> getTvShowGenres() {
+    return _$getTvShowGenresAsyncAction.run(() => super.getTvShowGenres());
   }
 
   final _$_SettingsStoreBaseActionController =
@@ -430,22 +471,44 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
-  void addSelectedGenre(int value) {
+  void addSelectedTvShowGenre(int value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.addSelectedGenre');
+        name: '_SettingsStoreBase.addSelectedTvShowGenre');
     try {
-      return super.addSelectedGenre(value);
+      return super.addSelectedTvShowGenre(value);
     } finally {
       _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void removeSelectedGenre(int value) {
+  void removeSelectedTvShowGenre(int value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.removeSelectedGenre');
+        name: '_SettingsStoreBase.removeSelectedTvShowGenre');
     try {
-      return super.removeSelectedGenre(value);
+      return super.removeSelectedTvShowGenre(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addSelectedMovieGenre(int value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.addSelectedMovieGenre');
+    try {
+      return super.addSelectedMovieGenre(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeSelectedMovieGenre(int value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.removeSelectedMovieGenre');
+    try {
+      return super.removeSelectedMovieGenre(value);
     } finally {
       _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -491,7 +554,9 @@ timeZones: ${timeZones},
 autoDetectTimeZone: ${autoDetectTimeZone},
 selectedWatchProviders: ${selectedWatchProviders},
 movieGenres: ${movieGenres},
-selectedGenres: ${selectedGenres},
+tvShowGenres: ${tvShowGenres},
+selectedMovieGenres: ${selectedMovieGenres},
+selectedTvShowGenres: ${selectedTvShowGenres},
 selectedSortBy: ${selectedSortBy},
 selectedContentType: ${selectedContentType}
     ''';

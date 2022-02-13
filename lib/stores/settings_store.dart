@@ -175,16 +175,32 @@ abstract class _SettingsStoreBase with Store {
   List<Genre> movieGenres = [];
 
   @observable
-  ObservableList<int> selectedGenres = ObservableList<int>();
+  List<Genre> tvShowGenres = [];
+
+  @observable
+  ObservableList<int> selectedMovieGenres = ObservableList<int>();
+
+  @observable
+  ObservableList<int> selectedTvShowGenres = ObservableList<int>();
 
   @action
-  void addSelectedGenre(int value) {
-    selectedGenres.add(value);
+  void addSelectedTvShowGenre(int value) {
+    selectedTvShowGenres.add(value);
   }
 
   @action
-  void removeSelectedGenre(int value) {
-    selectedGenres.remove(value);
+  void removeSelectedTvShowGenre(int value) {
+    selectedTvShowGenres.remove(value);
+  }
+
+  @action
+  void addSelectedMovieGenre(int value) {
+    selectedMovieGenres.add(value);
+  }
+
+  @action
+  void removeSelectedMovieGenre(int value) {
+    selectedMovieGenres.remove(value);
   }
 
   @action
@@ -195,6 +211,18 @@ abstract class _SettingsStoreBase with Store {
     });
 
     movieGenres = response.data['genres'].map<Genre>((e) {
+      return Genre(id: e['id'], name: e['name']);
+    }).toList();
+  }
+
+  @action
+  Future<void> getTvShowGenres() async {
+    final response = await fetchData(path: '/genre/tv/list', parameters: {
+      'api_key': apiKey,
+      'language': language,
+    });
+
+    tvShowGenres = response.data['genres'].map<Genre>((e) {
       return Genre(id: e['id'], name: e['name']);
     }).toList();
   }

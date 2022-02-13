@@ -114,22 +114,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$backToTheTopVisibleAtom =
-      Atom(name: '_MovieStoreBase.backToTheTopVisible');
-
-  @override
-  bool get backToTheTopVisible {
-    _$backToTheTopVisibleAtom.reportRead();
-    return super.backToTheTopVisible;
-  }
-
-  @override
-  set backToTheTopVisible(bool value) {
-    _$backToTheTopVisibleAtom.reportWrite(value, super.backToTheTopVisible, () {
-      super.backToTheTopVisible = value;
-    });
-  }
-
   final _$searchStringAtom = Atom(name: '_MovieStoreBase.searchString');
 
   @override
@@ -290,7 +274,6 @@ error: ${error},
 totalPages: ${totalPages},
 country: ${country},
 movie: ${movie},
-backToTheTopVisible: ${backToTheTopVisible},
 searchString: ${searchString},
 empty: ${empty},
 recommendations: ${recommendations},

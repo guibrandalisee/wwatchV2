@@ -83,90 +83,184 @@ class GenresScreen extends StatelessWidget {
           ),
         ),
         body: Observer(builder: (context) {
-          return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: settingsStore.movieGenres.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 80,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withAlpha(50),
-                            blurRadius: 32,
-                            spreadRadius: 0,
-                          )
-                        ]),
-                        height: 140,
-                        child: Image(
-                          image: ResizeImage(
-                              AssetImage(
-                                'assets/images/WWatch2-png.png',
-                              ),
-                              height: 196,
-                              width: 196),
-                          filterQuality: FilterQuality.medium,
-                          color: settingsStore.brightness !=
-                                  CustomBrightness.amoled
-                              ? AppColors
-                                  .textOnPrimaries[styleStore.colorIndex!]
-                              : styleStore.primaryColor,
+          if (settingsStore.selectedContentType == 0)
+            return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: settingsStore.movieGenres.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 80,
                         ),
-                      ),
-                      SizedBox(
-                        height: 80,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          "This filter works by showing only movies with all selected genres",
-                          style: GoogleFonts.getFont(
-                            'Mitr',
-                            color: styleStore.textColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
+                        Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(50),
+                              blurRadius: 32,
+                              spreadRadius: 0,
+                            )
+                          ]),
+                          height: 140,
+                          child: Image(
+                            image: ResizeImage(
+                                AssetImage(
+                                  'assets/images/WWatch2-png.png',
+                                ),
+                                height: 196,
+                                width: 196),
+                            filterQuality: FilterQuality.medium,
+                            color: settingsStore.brightness !=
+                                    CustomBrightness.amoled
+                                ? AppColors
+                                    .textOnPrimaries[styleStore.colorIndex!]
+                                : styleStore.primaryColor,
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                    ],
-                  );
-                } else {
-                  //TODO implement TV Shows genres
-                  return GenreTile(
-                    onTap: () {
-                      didChange = true;
-                      if (!settingsStore.selectedGenres
-                          .contains(settingsStore.movieGenres[index - 1].id)) {
-                        settingsStore.addSelectedGenre(
-                            settingsStore.movieGenres[index - 1].id);
-                      } else {
-                        settingsStore.removeSelectedGenre(
-                            settingsStore.movieGenres[index - 1].id);
-                      }
-                    },
-                    onTap2: (a) {
-                      didChange = true;
-                      if (!settingsStore.selectedGenres
-                          .contains(settingsStore.movieGenres[index - 1].id)) {
-                        settingsStore.addSelectedGenre(
-                            settingsStore.movieGenres[index - 1].id);
-                      } else {
-                        settingsStore.removeSelectedGenre(
-                            settingsStore.movieGenres[index - 1].id);
-                      }
-                    },
-                    index: index - 1,
-                  );
-                }
-              });
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "This filter works by showing only movies with all selected genres",
+                            style: GoogleFonts.getFont(
+                              'Mitr',
+                              color: styleStore.textColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    );
+                  } else {
+                    return GenreTile(
+                      onTap: () {
+                        didChange = true;
+                        if (settingsStore.selectedContentType == 0) {
+                          if (!settingsStore.selectedMovieGenres.contains(
+                              settingsStore.movieGenres[index - 1].id)) {
+                            settingsStore.addSelectedMovieGenre(
+                                settingsStore.movieGenres[index - 1].id);
+                          } else {
+                            settingsStore.removeSelectedMovieGenre(
+                                settingsStore.movieGenres[index - 1].id);
+                          }
+                        }
+                      },
+                      onTap2: (a) {
+                        didChange = true;
+                        if (settingsStore.selectedContentType == 0) {
+                          if (!settingsStore.selectedMovieGenres.contains(
+                              settingsStore.movieGenres[index - 1].id)) {
+                            settingsStore.addSelectedMovieGenre(
+                                settingsStore.movieGenres[index - 1].id);
+                          } else {
+                            settingsStore.removeSelectedMovieGenre(
+                                settingsStore.movieGenres[index - 1].id);
+                          }
+                        }
+                      },
+                      index: index - 1,
+                    );
+                  }
+                });
+          if (settingsStore.selectedContentType == 1)
+            return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: settingsStore.tvShowGenres.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(50),
+                              blurRadius: 32,
+                              spreadRadius: 0,
+                            )
+                          ]),
+                          height: 140,
+                          child: Image(
+                            image: ResizeImage(
+                                AssetImage(
+                                  'assets/images/WWatch2-png.png',
+                                ),
+                                height: 196,
+                                width: 196),
+                            filterQuality: FilterQuality.medium,
+                            color: settingsStore.brightness !=
+                                    CustomBrightness.amoled
+                                ? AppColors
+                                    .textOnPrimaries[styleStore.colorIndex!]
+                                : styleStore.primaryColor,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "This filter works by showing only movies with all selected genres",
+                            style: GoogleFonts.getFont(
+                              'Mitr',
+                              color: styleStore.textColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    );
+                  } else {
+                    return GenreTile(
+                      onTap: () {
+                        didChange = true;
+                        if (settingsStore.selectedContentType == 1) {
+                          if (!settingsStore.selectedTvShowGenres.contains(
+                              settingsStore.tvShowGenres[index - 1].id)) {
+                            settingsStore.addSelectedTvShowGenre(
+                                settingsStore.tvShowGenres[index - 1].id);
+                          } else {
+                            settingsStore.removeSelectedTvShowGenre(
+                                settingsStore.tvShowGenres[index - 1].id);
+                          }
+                        }
+                      },
+                      onTap2: (a) {
+                        didChange = true;
+                        if (settingsStore.selectedContentType == 1) {
+                          if (!settingsStore.selectedTvShowGenres.contains(
+                              settingsStore.tvShowGenres[index - 1].id)) {
+                            settingsStore.addSelectedTvShowGenre(
+                                settingsStore.tvShowGenres[index - 1].id);
+                          } else {
+                            settingsStore.removeSelectedTvShowGenre(
+                                settingsStore.tvShowGenres[index - 1].id);
+                          }
+                        }
+                      },
+                      index: index - 1,
+                    );
+                  }
+                });
+          else
+            return Container();
         }),
       ),
     );
