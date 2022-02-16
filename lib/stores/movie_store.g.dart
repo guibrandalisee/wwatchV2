@@ -129,6 +129,23 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$temporarySearchStringAtom =
+      Atom(name: '_MovieStoreBase.temporarySearchString');
+
+  @override
+  String get temporarySearchString {
+    _$temporarySearchStringAtom.reportRead();
+    return super.temporarySearchString;
+  }
+
+  @override
+  set temporarySearchString(String value) {
+    _$temporarySearchStringAtom.reportWrite(value, super.temporarySearchString,
+        () {
+      super.temporarySearchString = value;
+    });
+  }
+
   final _$emptyAtom = Atom(name: '_MovieStoreBase.empty');
 
   @override
@@ -254,11 +271,11 @@ mixin _$MovieStore on _MovieStoreBase, Store {
       ActionController(name: '_MovieStoreBase');
 
   @override
-  void setSearch(String value) {
+  void setSearch() {
     final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
         name: '_MovieStoreBase.setSearch');
     try {
-      return super.setSearch(value);
+      return super.setSearch();
     } finally {
       _$_MovieStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -275,6 +292,7 @@ totalPages: ${totalPages},
 country: ${country},
 movie: ${movie},
 searchString: ${searchString},
+temporarySearchString: ${temporarySearchString},
 empty: ${empty},
 recommendations: ${recommendations},
 season: ${season},

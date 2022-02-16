@@ -146,8 +146,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: WillPopScope(
         onWillPop: () async {
-          if (movieStore.searchString.isNotEmpty) {
-            movieStore.setSearch('');
+          if (movieStore.temporarySearchString.isNotEmpty &&
+              movieStore.searchString.isNotEmpty) {
+            movieStore.temporarySearchString = '';
+            movieStore.setSearch();
             movieStore.search();
             return false;
           }

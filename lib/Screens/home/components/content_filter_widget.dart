@@ -26,9 +26,9 @@ class ContentFilter extends StatelessWidget {
   final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    controller.text = movieStore.searchString;
-    controller.selection =
-        TextSelection.collapsed(offset: movieStore.searchString.length);
+    controller.text = movieStore.temporarySearchString;
+    controller.selection = TextSelection.collapsed(
+        offset: movieStore.temporarySearchString.length);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -47,10 +47,13 @@ class ContentFilter extends StatelessWidget {
             child: TextField(
               controller: controller,
               onSubmitted: (_) {
+                movieStore.setSearch();
                 movieStore.search();
               },
               textInputAction: TextInputAction.search,
-              onChanged: movieStore.setSearch,
+              onChanged: (a) {
+                movieStore.temporarySearchString = a;
+              },
               focusNode: focusNode,
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
@@ -67,10 +70,11 @@ class ContentFilter extends StatelessWidget {
                 suffix: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (movieStore.searchString.isNotEmpty)
+                    if (movieStore.temporarySearchString.isNotEmpty)
                       InkWell(
                         onTap: () {
-                          movieStore.setSearch('');
+                          movieStore.temporarySearchString = '';
+                          movieStore.setSearch();
                           movieStore.search();
                         },
                         child: Icon(
@@ -83,7 +87,10 @@ class ContentFilter extends StatelessWidget {
                       width: 16,
                     ),
                     InkWell(
-                      onTap: movieStore.search,
+                      onTap: () {
+                        movieStore.setSearch();
+                        movieStore.search();
+                      },
                       child: Icon(
                         LineIcons.search,
                         color: styleStore.textColor,
@@ -112,7 +119,7 @@ class ContentFilter extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         settingsStore.setSelectedContentType(0);
-                        if (movieStore.searchString.isEmpty) {
+                        if (movieStore.temporarySearchString.isEmpty) {
                           movieStore.getPopularMovies();
                         }
                       },
@@ -149,7 +156,7 @@ class ContentFilter extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         settingsStore.setSelectedContentType(1);
-                        if (movieStore.searchString.isEmpty) {
+                        if (movieStore.temporarySearchString.isEmpty) {
                           movieStore.getPopularMovies();
                         }
                       },
@@ -182,7 +189,7 @@ class ContentFilter extends StatelessWidget {
             height: 8,
           ),
           Observer(builder: (_) {
-            if (movieStore.searchString.isEmpty)
+            if (movieStore.temporarySearchString.isEmpty)
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

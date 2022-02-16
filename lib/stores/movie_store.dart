@@ -397,6 +397,14 @@ abstract class _MovieStoreBase with Store {
   String searchString = '';
 
   @observable
+  String temporarySearchString = '';
+
+  @action
+  void setSearch() {
+    searchString = temporarySearchString;
+  }
+
+  @observable
   bool empty = false;
 
   @action
@@ -460,9 +468,6 @@ abstract class _MovieStoreBase with Store {
     print("Error: $error");
     print("Results: ${movies.length}");
   }
-
-  @action
-  void setSearch(String value) => searchString = value;
 
   @observable
   List<SimpleMovie> recommendations = [];
@@ -529,7 +534,6 @@ abstract class _MovieStoreBase with Store {
 
     error = false;
     try {
-      //TODO finish this
       List<Episode> episodes = response.data['episodes'].map<Episode>((e) {
         return Episode(
             airDate: e['air_date'],

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wwatch/Screens/welcome/welcome_screen.dart';
+import 'package:wwatch/Screens/home/home_screen.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -19,14 +19,14 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
   );
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setupLocators(prefs);
   runApp(
     DevicePreview(
       enabled: false,
       builder: (_) => MyApp(),
     ),
   );
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  setupLocators(prefs);
 }
 
 void setupLocators(SharedPreferences preferences) {
@@ -66,7 +66,16 @@ class MyApp extends StatelessWidget {
               // Status bar
             ),
           )),
-      home: WelcomeScreen(),
+      //home: WelcomeScreen(),
+      home: HomeScreen(contentType: type.movie),
     );
   }
 }
+//gradle-wrapper.properties \/
+//distributionUrl=https\://services.gradle.org/distributions/gradle-6.7-all.zip
+
+//android/buid.gradle \/
+//    dependencies {
+//        classpath 'com.android.tools.build:gradle:4.1.0'
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//    }
