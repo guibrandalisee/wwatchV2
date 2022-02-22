@@ -3,8 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:wwatch/Screens/genres/genres_screen.dart';
-import 'package:wwatch/Screens/sort_by/sort_by_screen.dart';
+import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -119,7 +118,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => GenresScreen(
+                    builder: (context) => FiltersScreen(
                           movieStore: movieStore,
                           fab: true,
                         )));
@@ -127,7 +126,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'Genres',
+              'Filters',
               style: GoogleFonts.getFont('Mitr',
                   color: AppColors.text,
                   fontSize: 16,
@@ -135,33 +134,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             ),
           ),
           child: Icon(
-            LineIcons.hashtag,
-            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
-          ),
-          backgroundColor: styleStore.primaryColor,
-        ),
-        SpeedDialChild(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SortByScreen(
-                          movieStore: movieStore,
-                          fab: true,
-                        )));
-          },
-          labelWidget: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'Sort By',
-              style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300),
-            ),
-          ),
-          child: Icon(
-            LineIcons.sort,
+            LineIcons.filter,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
           backgroundColor: styleStore.primaryColor,

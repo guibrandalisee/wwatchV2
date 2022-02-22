@@ -9,6 +9,21 @@ part of 'movie_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MovieStore on _MovieStoreBase, Store {
+  final _$didChangeAtom = Atom(name: '_MovieStoreBase.didChange');
+
+  @override
+  bool get didChange {
+    _$didChangeAtom.reportRead();
+    return super.didChange;
+  }
+
+  @override
+  set didChange(bool value) {
+    _$didChangeAtom.reportWrite(value, super.didChange, () {
+      super.didChange = value;
+    });
+  }
+
   final _$pageAtom = Atom(name: '_MovieStoreBase.page');
 
   @override
@@ -284,6 +299,7 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   @override
   String toString() {
     return '''
+didChange: ${didChange},
 page: ${page},
 language: ${language},
 movies: ${movies},

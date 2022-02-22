@@ -319,6 +319,142 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
+  final _$voteCountActiveAtom =
+      Atom(name: '_SettingsStoreBase.voteCountActive');
+
+  @override
+  bool get voteCountActive {
+    _$voteCountActiveAtom.reportRead();
+    return super.voteCountActive;
+  }
+
+  @override
+  set voteCountActive(bool value) {
+    _$voteCountActiveAtom.reportWrite(value, super.voteCountActive, () {
+      super.voteCountActive = value;
+    });
+  }
+
+  final _$voteCountMinAtom = Atom(name: '_SettingsStoreBase.voteCountMin');
+
+  @override
+  int get voteCountMin {
+    _$voteCountMinAtom.reportRead();
+    return super.voteCountMin;
+  }
+
+  @override
+  set voteCountMin(int value) {
+    _$voteCountMinAtom.reportWrite(value, super.voteCountMin, () {
+      super.voteCountMin = value;
+    });
+  }
+
+  final _$voteCountMaxAtom = Atom(name: '_SettingsStoreBase.voteCountMax');
+
+  @override
+  int get voteCountMax {
+    _$voteCountMaxAtom.reportRead();
+    return super.voteCountMax;
+  }
+
+  @override
+  set voteCountMax(int value) {
+    _$voteCountMaxAtom.reportWrite(value, super.voteCountMax, () {
+      super.voteCountMax = value;
+    });
+  }
+
+  final _$voteAvgActiveAtom = Atom(name: '_SettingsStoreBase.voteAvgActive');
+
+  @override
+  bool get voteAvgActive {
+    _$voteAvgActiveAtom.reportRead();
+    return super.voteAvgActive;
+  }
+
+  @override
+  set voteAvgActive(bool value) {
+    _$voteAvgActiveAtom.reportWrite(value, super.voteAvgActive, () {
+      super.voteAvgActive = value;
+    });
+  }
+
+  final _$voteAvgMinAtom = Atom(name: '_SettingsStoreBase.voteAvgMin');
+
+  @override
+  int get voteAvgMin {
+    _$voteAvgMinAtom.reportRead();
+    return super.voteAvgMin;
+  }
+
+  @override
+  set voteAvgMin(int value) {
+    _$voteAvgMinAtom.reportWrite(value, super.voteAvgMin, () {
+      super.voteAvgMin = value;
+    });
+  }
+
+  final _$voteAvgMaxAtom = Atom(name: '_SettingsStoreBase.voteAvgMax');
+
+  @override
+  int get voteAvgMax {
+    _$voteAvgMaxAtom.reportRead();
+    return super.voteAvgMax;
+  }
+
+  @override
+  set voteAvgMax(int value) {
+    _$voteAvgMaxAtom.reportWrite(value, super.voteAvgMax, () {
+      super.voteAvgMax = value;
+    });
+  }
+
+  final _$runTimeActiveAtom = Atom(name: '_SettingsStoreBase.runTimeActive');
+
+  @override
+  bool get runTimeActive {
+    _$runTimeActiveAtom.reportRead();
+    return super.runTimeActive;
+  }
+
+  @override
+  set runTimeActive(bool value) {
+    _$runTimeActiveAtom.reportWrite(value, super.runTimeActive, () {
+      super.runTimeActive = value;
+    });
+  }
+
+  final _$runTimeMinAtom = Atom(name: '_SettingsStoreBase.runTimeMin');
+
+  @override
+  int get runTimeMin {
+    _$runTimeMinAtom.reportRead();
+    return super.runTimeMin;
+  }
+
+  @override
+  set runTimeMin(int value) {
+    _$runTimeMinAtom.reportWrite(value, super.runTimeMin, () {
+      super.runTimeMin = value;
+    });
+  }
+
+  final _$runTimeMaxAtom = Atom(name: '_SettingsStoreBase.runTimeMax');
+
+  @override
+  int get runTimeMax {
+    _$runTimeMaxAtom.reportRead();
+    return super.runTimeMax;
+  }
+
+  @override
+  set runTimeMax(int value) {
+    _$runTimeMaxAtom.reportWrite(value, super.runTimeMax, () {
+      super.runTimeMax = value;
+    });
+  }
+
   final _$getMovieGenresAsyncAction =
       AsyncAction('_SettingsStoreBase.getMovieGenres');
 
@@ -537,6 +673,39 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
+  void toogleVoteCountFilter(bool value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.toogleVoteCountFilter');
+    try {
+      return super.toogleVoteCountFilter(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void toogleVoteAvgFilter(bool value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.toogleVoteAvgFilter');
+    try {
+      return super.toogleVoteAvgFilter(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void toogleRunTimeFilter(bool value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.toogleRunTimeFilter');
+    try {
+      return super.toogleRunTimeFilter(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 tileDisplayMode: ${tileDisplayMode},
@@ -558,7 +727,16 @@ tvShowGenres: ${tvShowGenres},
 selectedMovieGenres: ${selectedMovieGenres},
 selectedTvShowGenres: ${selectedTvShowGenres},
 selectedSortBy: ${selectedSortBy},
-selectedContentType: ${selectedContentType}
+selectedContentType: ${selectedContentType},
+voteCountActive: ${voteCountActive},
+voteCountMin: ${voteCountMin},
+voteCountMax: ${voteCountMax},
+voteAvgActive: ${voteAvgActive},
+voteAvgMin: ${voteAvgMin},
+voteAvgMax: ${voteAvgMax},
+runTimeActive: ${runTimeActive},
+runTimeMin: ${runTimeMin},
+runTimeMax: ${runTimeMax}
     ''';
   }
 }

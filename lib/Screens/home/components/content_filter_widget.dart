@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
 import 'package:wwatch/Screens/genres/genres_screen.dart';
 import 'package:wwatch/Screens/sort_by/sort_by_screen.dart';
 
@@ -188,99 +189,49 @@ class ContentFilter extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          Observer(builder: (_) {
+
+          Observer(builder: (context) {
             if (movieStore.temporarySearchString.isEmpty)
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(4),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SortByScreen(
-                                      movieStore: movieStore,
-                                    )));
-                      },
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            color: styleStore.shapeColor,
-                            borderRadius: BorderRadius.circular(4)),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: SizedBox(
-                          width: 340,
-                          height: 48,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Sort By",
-                                style: GoogleFonts.getFont('Mitr',
-                                    color: styleStore.textColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w100),
-                              ),
-                              Icon(
-                                LineIcons.angleDoubleRight,
-                                color: styleStore.textColor,
-                              )
-                            ],
-                          ),
+              return InkWell(
+                borderRadius: BorderRadius.circular(4),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FiltersScreen(
+                                movieStore: movieStore,
+                              )));
+                },
+                child: Ink(
+                  decoration: BoxDecoration(
+                      color: styleStore.shapeColor,
+                      borderRadius: BorderRadius.circular(4)),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Filters",
+                          style: GoogleFonts.getFont('Mitr',
+                              color: styleStore.textColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w100),
                         ),
-                      ),
+                        Icon(
+                          LineIcons.filter,
+                          color: styleStore.textColor,
+                        )
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(4),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => GenresScreen(
-                                      movieStore: movieStore,
-                                    )));
-                      },
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            color: styleStore.shapeColor,
-                            borderRadius: BorderRadius.circular(4)),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: SizedBox(
-                          width: 340,
-                          height: 48,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Genres",
-                                style: GoogleFonts.getFont('Mitr',
-                                    color: styleStore.textColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w100),
-                              ),
-                              Icon(
-                                LineIcons.angleDoubleRight,
-                                color: styleStore.textColor,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               );
             return Container();
           }),
-          const SizedBox(
-            height: 8,
-          ),
+
           //TODO Make this \/
 
           // Observer(

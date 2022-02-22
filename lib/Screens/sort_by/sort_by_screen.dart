@@ -13,82 +13,52 @@ class SortByScreen extends StatelessWidget {
   const SortByScreen({
     Key? key,
     required this.movieStore,
-    this.fab,
   }) : super(key: key);
   final MovieStore movieStore;
-  final bool? fab;
   @override
   Widget build(BuildContext context) {
-    bool didChange = false;
     final SettingsStore settingsStore = GetIt.I<SettingsStore>();
     final StyleStore styleStore = GetIt.I<StyleStore>();
     //TODO change options based on which content type is selected
-    return WillPopScope(
-      onWillPop: () async {
-        if (didChange) {
-          movieStore.movies = [];
-          movieStore.getPopularMovies();
-        }
-        return true;
-      },
-      child: Scaffold(
-        floatingActionButton: fab != null && fab!
-            ? FloatingActionButton(
-                onPressed: () {
-                  if (didChange) {
-                    movieStore.movies = [];
-                    movieStore.getPopularMovies();
-                  }
-                  Navigator.pop(context);
-                },
-                backgroundColor: styleStore.primaryColor,
-                child: Icon(
-                  LineIcons.arrowLeft,
-                  color: AppColors.textOnPrimaries[styleStore.colorIndex!],
-                ),
-              )
-            : Container(),
-        backgroundColor: styleStore.backgroundColor,
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: settingsStore.brightness != CustomBrightness.amoled
-                ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                : styleStore.primaryColor,
-          ),
-          backgroundColor: settingsStore.brightness == CustomBrightness.amoled
-              ? styleStore.backgroundColor
-              : styleStore.primaryColor,
-          title: Hero(
-            tag: "logo",
-            child: SizedBox(
-              height: 56,
-              child: Image(
-                image: ResizeImage(
-                    AssetImage(
-                      'assets/images/WWatch2-png.png',
-                    ),
-                    height: 156,
-                    width: 156),
-                filterQuality: FilterQuality.medium,
-                color: settingsStore.brightness != CustomBrightness.amoled
-                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : styleStore.primaryColor,
-              ),
-            ),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        backgroundColor: styleStore.primaryColor,
+        child: Center(
+          child: Icon(
+            Icons.arrow_back,
+            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
         ),
-        body: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: settingsStore.possibleSortBy.length + 1,
-            itemBuilder: (context, index) {
-              if (index == 0)
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 80,
-                    ),
-                    Container(
+      ),
+      backgroundColor: styleStore.backgroundColor,
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: settingsStore.brightness != CustomBrightness.amoled
+              ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+              : styleStore.primaryColor,
+        ),
+        backgroundColor: settingsStore.brightness == CustomBrightness.amoled
+            ? styleStore.backgroundColor
+            : styleStore.primaryColor,
+        leading: Container(),
+      ),
+      body: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          itemCount: settingsStore.possibleSortBy.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0)
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 80,
+                  ),
+                  Hero(
+                    tag: 'logoImage',
+                    child: Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
                           color: Colors.black.withAlpha(50),
@@ -102,8 +72,8 @@ class SortByScreen extends StatelessWidget {
                             AssetImage(
                               'assets/images/WWatch2-png.png',
                             ),
-                            height: 196,
-                            width: 196),
+                            height: 420,
+                            width: 420),
                         filterQuality: FilterQuality.medium,
                         color:
                             settingsStore.brightness != CustomBrightness.amoled
@@ -111,42 +81,42 @@ class SortByScreen extends StatelessWidget {
                                 : styleStore.primaryColor,
                       ),
                     ),
-                    SizedBox(
-                      height: 80,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Be aware that you will encounter some strange and/or broken content when sorting by low rated movies (Eg. Popularity | Asc )",
-                        style: GoogleFonts.getFont(
-                          'Mitr',
-                          color: styleStore.textColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w100,
-                        ),
-                        textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 80,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      "Be aware that you will encounter some strange and/or broken content when sorting by low rated movies (Eg. Popularity | Asc )",
+                      style: GoogleFonts.getFont(
+                        'Mitr',
+                        color: styleStore.textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w100,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                  ],
-                );
-              return SortByTile(
-                index: index - 1,
-                onTap: () {
-                  didChange = true;
-                  settingsStore
-                      .setSortBy(settingsStore.possibleSortBy[index - 1]);
-                },
-                onTap2: (a) {
-                  didChange = true;
-                  settingsStore
-                      .setSortBy(settingsStore.possibleSortBy[index - 1]);
-                },
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                ],
               );
-            }),
-      ),
+            return SortByTile(
+              index: index - 1,
+              onTap: () {
+                movieStore.didChange = true;
+                settingsStore
+                    .setSortBy(settingsStore.possibleSortBy[index - 1]);
+              },
+              onTap2: (a) {
+                movieStore.didChange = true;
+                settingsStore
+                    .setSortBy(settingsStore.possibleSortBy[index - 1]);
+              },
+            );
+          }),
     );
   }
 }

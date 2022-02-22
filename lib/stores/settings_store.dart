@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
-import 'package:wwatch/api.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 part 'settings_store.g.dart';
 
@@ -10,7 +10,7 @@ class SettingsStore = _SettingsStoreBase with _$SettingsStore;
 enum CustomBrightness { dark, amoled, light }
 
 abstract class _SettingsStoreBase with Store {
-  String apiKey = API().apiKey;
+  String apiKey = env['API_KEY']!;
   //Check if user has changed any settings before
   final SharedPreferences? prefs;
   _SettingsStoreBase({
@@ -255,4 +255,31 @@ abstract class _SettingsStoreBase with Store {
 
   @action
   void setSelectedContentType(int value) => selectedContentType = value;
+
+  @observable
+  bool voteCountActive = false;
+  @observable
+  int voteCountMin = 5000;
+  @observable
+  int voteCountMax = 10000;
+  @action
+  void toogleVoteCountFilter(bool value) => voteCountActive = value;
+
+  @observable
+  bool voteAvgActive = false;
+  @observable
+  int voteAvgMin = 3;
+  @observable
+  int voteAvgMax = 7;
+  @action
+  void toogleVoteAvgFilter(bool value) => voteAvgActive = value;
+
+  @observable
+  bool runTimeActive = false;
+  @observable
+  int runTimeMin = 60;
+  @observable
+  int runTimeMax = 120;
+  @action
+  void toogleRunTimeFilter(bool value) => runTimeActive = value;
 }

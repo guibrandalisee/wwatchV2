@@ -80,7 +80,10 @@ class MovieStatsWidget extends StatelessWidget {
               movie.revenue! > 1)
             CustomStatWidget(
                 title: 'Revenue',
-                content: moneyFormat(movie.revenue.toString()))
+                content: moneyFormat(movie.revenue.toString())),
+          if (!movie.voteCount.isNaN)
+            CustomStatWidget(
+                title: 'Vote Count', content: movie.voteCount.toString()),
         ],
       ),
     );

@@ -7,12 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wwatch/Screens/home/home_screen.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 //TODO add routes 2.0
 //TODO reduce the number of lines in all build methods
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DotEnv.load(fileName: "api.env");
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.transparent,
   ));

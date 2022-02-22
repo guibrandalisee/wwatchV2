@@ -71,10 +71,13 @@ class _BackToTopButtonState extends State<BackToTopButton>
                   height: buttonAnimation.value,
                   width: buttonAnimation.value,
                   child: Center(
-                      child: Icon(
-                    Icons.keyboard_arrow_up_rounded,
-                    size: buttonAnimation.value / 1.5,
-                    color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                      child: Visibility(
+                    visible: visible,
+                    child: Icon(
+                      Icons.keyboard_arrow_up_rounded,
+                      size: buttonAnimation.value / 1.5,
+                      color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                    ),
                   )),
                 ),
               ),

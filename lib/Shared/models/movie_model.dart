@@ -47,6 +47,7 @@ class CompleteMovie {
     this.posterPath,
     required this.popularity,
     required this.voteAverage,
+    required this.voteCount,
     required this.originalLanguage,
     required this.title,
     required this.overview,
@@ -78,6 +79,7 @@ class CompleteMovie {
   final String? posterPath;
   final double popularity;
   final double voteAverage;
+  final int voteCount;
   final String originalLanguage;
   final String title;
   final String overview;

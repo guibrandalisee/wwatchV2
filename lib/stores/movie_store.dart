@@ -5,7 +5,7 @@ import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
-import 'package:wwatch/api.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wwatch/stores/settings_store.dart';
 part 'movie_store.g.dart';
 
@@ -15,8 +15,10 @@ class MovieStore = _MovieStoreBase with _$MovieStore;
 final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
 abstract class _MovieStoreBase with Store {
-  String apiKey = API().apiKey;
+  String apiKey = env['API_KEY']!;
 
+  @observable
+  bool didChange = false;
   //Default http request function
   @action
   Future fetchData(
@@ -73,7 +75,25 @@ abstract class _MovieStoreBase with Store {
         'page': page,
         'sort_by': settingsStore.selectedSortBy,
         'include_adult': settingsStore.adultContent,
-        'with_genres': genres
+        'with_genres': genres,
+        'with_runtime.lte': settingsStore.runTimeActive
+            ? settingsStore.runTimeMax == 180
+                ? 999
+                : settingsStore.runTimeMax
+            : 999,
+        'with_runtime.gte':
+            settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
+        'vote_count.lte': settingsStore.voteCountActive
+            ? settingsStore.voteCountMax == 15000
+                ? 999999
+                : settingsStore.voteCountMax
+            : 999999,
+        'vote_count.gte':
+            settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
+        'vote_average.gte':
+            settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
+        'vote_average.lte':
+            settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
       };
       print("Genres: $genres");
     } else if (_settingsStore.selectedTvShowGenres.isNotEmpty &&
@@ -88,16 +108,65 @@ abstract class _MovieStoreBase with Store {
         'page': page,
         'sort_by': settingsStore.selectedSortBy,
         'include_adult': settingsStore.adultContent,
-        'with_genres': genres
+        'with_genres': genres,
+        'with_runtime.lte': settingsStore.runTimeActive
+            ? settingsStore.runTimeMax == 180
+                ? 999
+                : settingsStore.runTimeMax
+            : 999,
+        'with_runtime.gte':
+            settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
+        'vote_count.lte': settingsStore.voteCountActive
+            ? settingsStore.voteCountMax == 15000
+                ? 999999
+                : settingsStore.voteCountMax
+            : 999999,
+        'vote_count.gte':
+            settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
+        'vote_average.gte':
+            settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
+        'vote_average.lte':
+            settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
       };
       print("Genres: $genres");
     } else {
+      print(
+          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == 180 ? 99999 : settingsStore.runTimeMax : 99999}');
+      print(
+          'with_runtime.gte: ${settingsStore.runTimeActive ? settingsStore.runTimeMin : 0}');
+      print(
+          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == 15000 ? 99999 : settingsStore.voteCountMax : 99999}');
+      print(
+          'vote_count.gte: ${settingsStore.voteCountActive ? settingsStore.voteCountMin : 0}');
+
+      print(
+          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10}');
+      print(
+          'vote_average.gte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0}');
       parameters = {
         'api_key': apiKey,
         'language': language,
         'page': page,
         'sort_by': settingsStore.selectedSortBy,
         'include_adult': settingsStore.adultContent,
+        'with_runtime.lte': settingsStore.runTimeActive
+            ? settingsStore.runTimeMax == 180
+                ? 999
+                : settingsStore.runTimeMax
+            : 999,
+        'with_runtime.gte':
+            settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
+        'vote_count.lte': settingsStore.voteCountActive
+            ? settingsStore.voteCountMax == 15000
+                ? 999999
+                : settingsStore.voteCountMax
+            : 999999,
+        'vote_count.gte':
+            settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
+        'vote_average.gte':
+            settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
+        'vote_average.lte':
+            settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
       };
     }
     final response;
@@ -164,7 +233,25 @@ abstract class _MovieStoreBase with Store {
           'page': page,
           'sort_by': settingsStore.selectedSortBy,
           'include_adult': settingsStore.adultContent,
-          'with_genres': genres
+          'with_genres': genres,
+          'with_runtime.lte': settingsStore.runTimeActive
+              ? settingsStore.runTimeMax == 180
+                  ? 999
+                  : settingsStore.runTimeMax
+              : 999,
+          'with_runtime.gte':
+              settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
+          'vote_count.lte': settingsStore.voteCountActive
+              ? settingsStore.voteCountMax == 15000
+                  ? 999999
+                  : settingsStore.voteCountMax
+              : 999999,
+          'vote_count.gte':
+              settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
+          'vote_average.gte':
+              settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
+          'vote_average.lte':
+              settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
         };
       } else if (_settingsStore.selectedTvShowGenres.isNotEmpty &&
           _settingsStore.selectedContentType == 1) {
@@ -179,7 +266,25 @@ abstract class _MovieStoreBase with Store {
           'page': page,
           'sort_by': settingsStore.selectedSortBy,
           'include_adult': settingsStore.adultContent,
-          'with_genres': genres
+          'with_genres': genres,
+          'with_runtime.lte': settingsStore.runTimeActive
+              ? settingsStore.runTimeMax == 180
+                  ? 999
+                  : settingsStore.runTimeMax
+              : 999,
+          'with_runtime.gte':
+              settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
+          'vote_count.lte': settingsStore.voteCountActive
+              ? settingsStore.voteCountMax == 15000
+                  ? 999999
+                  : settingsStore.voteCountMax
+              : 999999,
+          'vote_count.gte':
+              settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
+          'vote_average.gte':
+              settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
+          'vote_average.lte':
+              settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
         };
       } else {
         parameters = {
@@ -386,6 +491,7 @@ abstract class _MovieStoreBase with Store {
             ? data['number_of_seasons']
             : null,
         seasons: seasons,
+        voteCount: data['vote_count'],
       );
     } catch (e) {
       error = true;

@@ -92,7 +92,8 @@ class _MovieScreenState extends State<MovieScreen> {
             );
           if (movieStore.movie == null)
             return const CustomLoadingMovieScreen();
-          else
+          else {
+            print(movieStore.movie!.voteCount);
             return SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -153,6 +154,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 ],
               ),
             );
+          }
           // return ListView.builder(
           //     physics: const BouncingScrollPhysics(),
           //     key: UniqueKey(),
