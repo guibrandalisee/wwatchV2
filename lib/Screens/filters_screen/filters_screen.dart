@@ -36,6 +36,9 @@ class FiltersScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        floatingActionButtonLocation: styleStore.fabPosition == 0
+            ? FloatingActionButtonLocation.startFloat
+            : FloatingActionButtonLocation.endFloat,
         floatingActionButton: fab != null && fab!
             ? FloatingActionButton(
                 onPressed: () {
@@ -166,7 +169,7 @@ class FiltersScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           Transition(
-                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
+                              transitionEffect: TransitionEffect.BOTTOM_TO_TOP,
                               child: SortByScreen(
                                 movieStore: movieStore,
                               )));
@@ -187,7 +190,7 @@ class FiltersScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w100),
                             ),
                             Icon(
-                              LineIcons.angleDoubleRight,
+                              LineIcons.sort,
                               color: styleStore.textColor,
                             )
                           ],
@@ -223,7 +226,7 @@ class FiltersScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           Transition(
-                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
+                              transitionEffect: TransitionEffect.BOTTOM_TO_TOP,
                               child: GenresScreen(
                                 movieStore: movieStore,
                               )));
@@ -244,7 +247,7 @@ class FiltersScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w100),
                             ),
                             Icon(
-                              LineIcons.angleDoubleRight,
+                              LineIcons.gripLinesVertical,
                               color: styleStore.textColor,
                             )
                           ],

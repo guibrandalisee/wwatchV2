@@ -51,7 +51,9 @@ class _MovieScreenState extends State<MovieScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: styleStore.fabPosition == 0
+          ? FloatingActionButtonLocation.startFloat
+          : FloatingActionButtonLocation.endFloat,
       floatingActionButton: const CustomSpeedDialMovieScreen(),
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(

@@ -53,7 +53,6 @@ class SeasonEpisodeWidget extends StatelessWidget {
                     fontWeight: FontWeight.w300),
               ),
               children: movieStore.movie!.seasons!.map((e) {
-                //TODO finish this widget
                 return SeasonTileWidget(
                   season: e,
                   tvId: movieStore.movie!.id,

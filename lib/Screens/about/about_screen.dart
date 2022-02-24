@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/settings_store.dart';
@@ -25,29 +24,21 @@ class AboutScreen extends StatelessWidget {
         backgroundColor: settingsStore.brightness == CustomBrightness.amoled
             ? styleStore.backgroundColor
             : styleStore.primaryColor,
-        title: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WelcomeScreen(),
-              ),
-            );
-          },
-          child: Ink(
-            child: Center(
-              child: Image(
-                image: ResizeImage(
-                    AssetImage(
-                      'assets/images/WWatch2-png.png',
-                    ),
-                    height: 156,
-                    width: 156),
-                filterQuality: FilterQuality.medium,
-                color: settingsStore.brightness != CustomBrightness.amoled
-                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : styleStore.primaryColor,
-              ),
+        title: Hero(
+          tag: "logo",
+          child: SizedBox(
+            height: 56,
+            child: Image(
+              image: ResizeImage(
+                  AssetImage(
+                    'assets/images/WWatch2-png.png',
+                  ),
+                  height: 156,
+                  width: 156),
+              filterQuality: FilterQuality.medium,
+              color: settingsStore.brightness != CustomBrightness.amoled
+                  ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+                  : styleStore.primaryColor,
             ),
           ),
         ),

@@ -21,6 +21,8 @@ class SortByScreen extends StatelessWidget {
     final StyleStore styleStore = GetIt.I<StyleStore>();
     //TODO change options based on which content type is selected
     return Scaffold(
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pop();
@@ -28,7 +30,7 @@ class SortByScreen extends StatelessWidget {
         backgroundColor: styleStore.primaryColor,
         child: Center(
           child: Icon(
-            Icons.arrow_back,
+            Icons.keyboard_arrow_down_rounded,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
         ),

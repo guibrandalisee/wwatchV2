@@ -13,6 +13,7 @@ class CustomSpeedDialMovieScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final StyleStore styleStore = GetIt.I<StyleStore>();
     return SpeedDial(
+      switchLabelPosition: styleStore.fabPosition == 0 ? true : false,
       elevation: 8,
       direction: SpeedDialDirection.up,
       overlayColor: Colors.black,
