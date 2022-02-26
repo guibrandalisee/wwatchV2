@@ -79,7 +79,7 @@ class CustomErrorScree extends StatelessWidget {
                         MaterialStateProperty.all(styleStore.primaryColor)),
                 onPressed: () {
                   movieStore.error = false;
-                  movieStore.getPopularMovies();
+                  movieStore.getPopularContent();
                 },
                 child: Text(
                   "Try Again",

@@ -29,6 +29,7 @@ class _SeasonScreenState extends State<SeasonScreen> {
   @override
   void initState() {
     super.initState();
+
     movieStore.getSeasonEpisodes(
         tvId: widget.tvId, seasonNumber: widget.seasonNumber);
   }

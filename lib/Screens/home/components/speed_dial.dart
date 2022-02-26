@@ -68,7 +68,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             if (settingsStore.selectedContentType != 0) {
               settingsStore.setSelectedContentType(0);
 
-              movieStore.getPopularMovies();
+              movieStore.getPopularContent();
             }
           },
           labelWidget: Padding(
@@ -92,7 +92,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             if (settingsStore.selectedContentType != 1) {
               settingsStore.setSelectedContentType(1);
 
-              movieStore.getPopularMovies();
+              movieStore.getPopularContent();
             }
           },
           labelWidget: Padding(

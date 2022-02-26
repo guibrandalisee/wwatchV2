@@ -73,6 +73,7 @@ class ContentFilter extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           movieStore.temporarySearchString = '';
+
                           movieStore.setSearch();
                           movieStore.search();
                         },
@@ -119,7 +120,7 @@ class ContentFilter extends StatelessWidget {
                       onPressed: () {
                         settingsStore.setSelectedContentType(0);
                         if (movieStore.temporarySearchString.isEmpty) {
-                          movieStore.getPopularMovies();
+                          movieStore.getPopularContent();
                         }
                       },
                       child: Text(
@@ -156,7 +157,7 @@ class ContentFilter extends StatelessWidget {
                       onPressed: () {
                         settingsStore.setSelectedContentType(1);
                         if (movieStore.temporarySearchString.isEmpty) {
-                          movieStore.getPopularMovies();
+                          movieStore.getPopularContent();
                         }
                       },
                       child: Text(

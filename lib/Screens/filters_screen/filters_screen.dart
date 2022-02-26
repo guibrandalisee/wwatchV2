@@ -30,7 +30,7 @@ class FiltersScreen extends StatelessWidget {
       onWillPop: () async {
         if (movieStore.didChange) {
           movieStore.movies = [];
-          movieStore.getPopularMovies();
+          movieStore.getPopularContent();
           movieStore.didChange = false;
         }
         return true;
@@ -44,7 +44,7 @@ class FiltersScreen extends StatelessWidget {
                 onPressed: () {
                   if (movieStore.didChange) {
                     movieStore.movies = [];
-                    movieStore.getPopularMovies();
+                    movieStore.getPopularContent();
                     movieStore.didChange = false;
                   }
                   Navigator.of(context).pop();

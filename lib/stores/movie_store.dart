@@ -17,9 +17,54 @@ final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 abstract class _MovieStoreBase with Store {
   String apiKey = env['API_KEY']!;
 
+  //!Global Variables ----------------------------------------------------------------------------------
+
   @observable
   bool didChange = false;
-  //Default http request function
+
+  @observable
+  int page = 1;
+
+  @observable
+  String language = 'en-US';
+
+  //List of movies that will be displayed on front page
+  @observable
+  List<SimpleMovie> movies = [];
+
+  @observable
+  bool error = false;
+
+  @observable
+  int? totalPages;
+
+  @observable
+  String country = 'US';
+
+  @observable
+  CompleteMovie? movie;
+
+  @observable
+  String searchString = '';
+
+  @observable
+  String temporarySearchString = '';
+
+  @observable
+  bool empty = false;
+
+  @observable
+  List<SimpleMovie> recommendations = [];
+
+  @observable
+  TvSeason? season;
+
+  @observable
+  bool loadingSeason = false;
+
+  //!---------------------------------------------------------------------------------------------------
+
+  //*Default http request function
   @action
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
@@ -40,143 +85,97 @@ abstract class _MovieStoreBase with Store {
     }
   }
 
-  @observable
-  int page = 1;
-
-  @observable
-  String language = 'en-US';
-
-  //List of movies that will be displayed on front page
-  @observable
-  List<SimpleMovie> movies = [];
-
-  @observable
-  bool error = false;
-
-  @observable
-  int? totalPages;
-
-  @action
-  Future<void> getPopularMovies() async {
-    movies = [];
+  String setUpGenres() {
     final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
-    empty = false;
-    page = 1;
-    Map<String, dynamic> parameters = {};
+    String genres = '';
     if (_settingsStore.selectedMovieGenres.isNotEmpty &&
         _settingsStore.selectedContentType == 0) {
-      String genres = '';
       for (var item in _settingsStore.selectedMovieGenres) {
         genres += item.toString() + ',';
       }
-      parameters = {
-        'api_key': apiKey,
-        'language': language,
-        'page': page,
-        'sort_by': settingsStore.selectedSortBy,
-        'include_adult': settingsStore.adultContent,
-        'with_genres': genres,
-        'with_runtime.lte': settingsStore.runTimeActive
-            ? settingsStore.runTimeMax == 180
-                ? 999
-                : settingsStore.runTimeMax
-            : 999,
-        'with_runtime.gte':
-            settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
-        'vote_count.lte': settingsStore.voteCountActive
-            ? settingsStore.voteCountMax == 15000
-                ? 999999
-                : settingsStore.voteCountMax
-            : 999999,
-        'vote_count.gte':
-            settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
-        'vote_average.gte':
-            settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
-        'vote_average.lte':
-            settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
-      };
-      print("Genres: $genres");
     } else if (_settingsStore.selectedTvShowGenres.isNotEmpty &&
         _settingsStore.selectedContentType == 1) {
-      String genres = '';
       for (var item in _settingsStore.selectedTvShowGenres) {
         genres += item.toString() + ',';
       }
-      parameters = {
-        'api_key': apiKey,
-        'language': language,
-        'page': page,
-        'sort_by': settingsStore.selectedSortBy,
-        'include_adult': settingsStore.adultContent,
-        'with_genres': genres,
-        'with_runtime.lte': settingsStore.runTimeActive
-            ? settingsStore.runTimeMax == 180
-                ? 999
-                : settingsStore.runTimeMax
-            : 999,
-        'with_runtime.gte':
-            settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
-        'vote_count.lte': settingsStore.voteCountActive
-            ? settingsStore.voteCountMax == 15000
-                ? 999999
-                : settingsStore.voteCountMax
-            : 999999,
-        'vote_count.gte':
-            settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
-        'vote_average.gte':
-            settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
-        'vote_average.lte':
-            settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
-      };
-      print("Genres: $genres");
-    } else {
-      print(
-          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == 180 ? 99999 : settingsStore.runTimeMax : 99999}');
-      print(
-          'with_runtime.gte: ${settingsStore.runTimeActive ? settingsStore.runTimeMin : 0}');
-      print(
-          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == 15000 ? 99999 : settingsStore.voteCountMax : 99999}');
-      print(
-          'vote_count.gte: ${settingsStore.voteCountActive ? settingsStore.voteCountMin : 0}');
+    }
+    return genres;
+  }
 
-      print(
-          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10}');
-      print(
-          'vote_average.gte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0}');
-      parameters = {
-        'api_key': apiKey,
-        'language': language,
-        'page': page,
-        'sort_by': settingsStore.selectedSortBy,
-        'include_adult': settingsStore.adultContent,
-        'with_runtime.lte': settingsStore.runTimeActive
-            ? settingsStore.runTimeMax == 180
-                ? 999
-                : settingsStore.runTimeMax
-            : 999,
-        'with_runtime.gte':
-            settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
-        'vote_count.lte': settingsStore.voteCountActive
-            ? settingsStore.voteCountMax == 15000
-                ? 999999
-                : settingsStore.voteCountMax
-            : 999999,
-        'vote_count.gte':
-            settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
+  Map<String, dynamic> setupFilters() {
+    Map<String, dynamic> filters = {};
+
+    if (settingsStore.runTimeActive && settingsStore.runTimeMax != 180)
+      filters.addEntries({
+        'with_runtime.lte': settingsStore.runTimeMax,
+      }.entries);
+
+    if (settingsStore.runTimeActive && settingsStore.runTimeMin > 3) {
+      filters.addEntries({
+        'with_runtime.gte': settingsStore.runTimeMin,
+      }.entries);
+    } else if (settingsStore.runTimeActive) {
+      filters.addEntries({
+        'with_runtime.gte': 3,
+      }.entries);
+    }
+
+    if (settingsStore.voteCountActive && settingsStore.voteCountMax != 15000)
+      filters.addEntries({
+        'vote_count.lte': settingsStore.voteCountMax,
+      }.entries);
+
+    if (settingsStore.voteCountActive && settingsStore.voteCountMin != 0)
+      filters.addEntries({
+        'vote_count.gte': settingsStore.voteCountMin,
+      }.entries);
+
+    if (settingsStore.voteAvgActive)
+      filters.addEntries({
         'vote_average.gte':
             settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
         'vote_average.lte':
             settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
-      };
-    }
-    final response;
-    if (settingsStore.selectedContentType == 0) {
-      response =
-          await fetchData(path: '/discover/movie', parameters: parameters);
-    } else {
-      response = await fetchData(path: '/discover/tv', parameters: parameters);
-    }
+      }.entries);
+    return filters;
+  }
+
+//*GetContent
+  @action
+  Future<void> getPopularContent() async {
+    //?setup
+    movies = [];
+    empty = false;
+    page = 1;
+    Map<String, dynamic> parameters = {};
+    String genres = '';
+    //?-----
+
+    //!Setup params
+    genres = setUpGenres();
+    parameters.addEntries({
+      'api_key': apiKey,
+      'language': language,
+      'page': page,
+      'sort_by': settingsStore.selectedSortBy,
+      'include_adult': settingsStore.adultContent,
+      'with_genres': genres,
+    }.entries);
+
+    Map<String, dynamic> filters = setupFilters();
+    parameters.addAll(filters);
+
+    if (genres != '' && genres.isNotEmpty)
+      parameters.addEntries({'with_genres': genres}.entries);
+
+    //!------------
+
+    //*http request and map from json
+    final response = settingsStore.selectedContentType == 0
+        ? await fetchData(path: '/discover/movie', parameters: parameters)
+        : await fetchData(path: '/discover/tv', parameters: parameters);
     error = false;
+
     try {
       totalPages = response.data['total_pages'];
       movies = response.data['results'].map<SimpleMovie>((e) {
@@ -203,6 +202,10 @@ abstract class _MovieStoreBase with Store {
       print(e);
       error = true;
     }
+    //*----
+
+    //?debug
+
     print("Include adult: ${settingsStore.adultContent}");
     print("Page: $page");
     print("Query: $searchString");
@@ -210,221 +213,164 @@ abstract class _MovieStoreBase with Store {
     print("Error: $error");
     print("Results: ${movies.length}");
     print("Sort By: ${settingsStore.selectedSortBy}");
+
+    if (genres != '' && genres.isNotEmpty) print("Genres: $genres");
+    if (settingsStore.runTimeActive)
+      print(
+          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == 180 ? 99999 : settingsStore.runTimeMax : 99999}');
+    if (settingsStore.runTimeActive)
+      print(
+          'with_runtime.gte: ${settingsStore.runTimeActive ? settingsStore.runTimeMin : 0}');
+    if (settingsStore.voteCountActive)
+      print(
+          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == 15000 ? 99999 : settingsStore.voteCountMax : 99999}');
+    if (settingsStore.voteCountActive)
+      print(
+          'vote_count.gte: ${settingsStore.voteCountActive ? settingsStore.voteCountMin : 0}');
+    if (settingsStore.voteAvgActive)
+      print(
+          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10}');
+    if (settingsStore.voteAvgActive)
+      print(
+          'vote_average.gte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0}');
+
+    //?-----
   }
 
+//*GetMoreContent
   @action
-  Future<void> getMorePopularMovies() async {
-    final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
+  Future<void> getMoreContent() async {
+//?setup
+    Map<String, dynamic> parameters = {};
     page++;
-    if (searchString.isEmpty) {
-      print("More Results-----------------------");
-      Map<String, dynamic> parameters = {};
+    String genres = '';
+//?-----
 
-      if (_settingsStore.selectedMovieGenres.isNotEmpty &&
-          _settingsStore.selectedContentType == 0) {
-        String genres = '';
-        for (var item in _settingsStore.selectedMovieGenres) {
-          genres += item.toString() + ',';
-        }
-        print("Genres: $genres");
-        parameters = {
-          'api_key': apiKey,
-          'language': language,
-          'page': page,
-          'sort_by': settingsStore.selectedSortBy,
-          'include_adult': settingsStore.adultContent,
-          'with_genres': genres,
-          'with_runtime.lte': settingsStore.runTimeActive
-              ? settingsStore.runTimeMax == 180
-                  ? 999
-                  : settingsStore.runTimeMax
-              : 999,
-          'with_runtime.gte':
-              settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
-          'vote_count.lte': settingsStore.voteCountActive
-              ? settingsStore.voteCountMax == 15000
-                  ? 999999
-                  : settingsStore.voteCountMax
-              : 999999,
-          'vote_count.gte':
-              settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
-          'vote_average.gte':
-              settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
-          'vote_average.lte':
-              settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
-        };
-      } else if (_settingsStore.selectedTvShowGenres.isNotEmpty &&
-          _settingsStore.selectedContentType == 1) {
-        String genres = '';
-        for (var item in _settingsStore.selectedTvShowGenres) {
-          genres += item.toString() + ',';
-        }
-        print("Genres: $genres");
-        parameters = {
-          'api_key': apiKey,
-          'language': language,
-          'page': page,
-          'sort_by': settingsStore.selectedSortBy,
-          'include_adult': settingsStore.adultContent,
-          'with_genres': genres,
-          'with_runtime.lte': settingsStore.runTimeActive
-              ? settingsStore.runTimeMax == 180
-                  ? 999
-                  : settingsStore.runTimeMax
-              : 999,
-          'with_runtime.gte':
-              settingsStore.runTimeActive ? settingsStore.runTimeMin : 0,
-          'vote_count.lte': settingsStore.voteCountActive
-              ? settingsStore.voteCountMax == 15000
-                  ? 999999
-                  : settingsStore.voteCountMax
-              : 999999,
-          'vote_count.gte':
-              settingsStore.voteCountActive ? settingsStore.voteCountMin : 0,
-          'vote_average.gte':
-              settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
-          'vote_average.lte':
-              settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
-        };
-      } else {
-        parameters = {
-          'api_key': apiKey,
-          'language': language,
-          'page': page,
-          'sort_by': settingsStore.selectedSortBy,
-          'include_adult': settingsStore.adultContent,
-        };
-      }
-      final response;
-      if (settingsStore.selectedContentType == 0) {
-        response =
-            await fetchData(path: '/discover/movie', parameters: parameters);
-      } else {
-        response =
-            await fetchData(path: '/discover/tv', parameters: parameters);
-      }
-      error = false;
-      try {
-        final newMovies = response.data['results'].map<SimpleMovie>((e) {
-          return SimpleMovie(
-              genreIds: e['genre_ids'],
-              id: e['id'],
-              popularity: e['popularity'] + 0.0,
-              voteAverage: e['vote_average'] + 0.0,
-              originalLanguage: e['original_language'],
-              title: e['title'] != null ? e['title'] : e['name'],
-              overview: e['overview'],
-              releaseDate: e['release_date'] != null
-                  ? e['release_date']
-                  : e['first_air_date'],
-              backdropPath: e['backdrop_path'],
-              posterPath: e['poster_path'],
-              adult: e['adult'] != null ? e['adult'] : false);
-        }).toList();
-        movies.addAll(newMovies);
-      } catch (e) {
-        print(e);
-        error = true;
-      }
-      print("Include adult: ${settingsStore.adultContent}");
-      print("Page: $page");
-      print("Query: $searchString");
-      print("Language: $language");
-      print("Error: $error");
-      print("Total Results: ${movies.length}");
-      print("Sort By: ${settingsStore.selectedSortBy}");
+//!Setup Params
+    if (searchString.isEmpty) {
+      genres = setUpGenres();
+      parameters.addEntries({
+        'api_key': apiKey,
+        'language': language,
+        'page': page,
+        'sort_by': settingsStore.selectedSortBy,
+        'include_adult': settingsStore.adultContent,
+        'with_genres': genres,
+      }.entries);
+
+      Map<String, dynamic> filters = setupFilters();
+      parameters.addAll(filters);
+
+      if (genres != '' && genres.isNotEmpty)
+        parameters.addEntries({'with_genres': genres}.entries);
     } else {
-      final response;
-      if (settingsStore.selectedContentType == 0) {
-        response = await fetchData(path: '/search/movie', parameters: {
-          'api_key': apiKey,
-          'language': language,
-          'page': page,
-          'query': searchString,
-          'include_adult': settingsStore.adultContent,
-        });
-      } else {
-        response = await fetchData(path: '/search/tv', parameters: {
-          'api_key': apiKey,
-          'language': language,
-          'page': page,
-          'query': searchString,
-          'include_adult': settingsStore.adultContent,
-        });
-      }
-      error = false;
-      try {
-        final newMovies = response.data['results'].map<SimpleMovie>((e) {
-          return SimpleMovie(
-              genreIds: e['genre_ids'],
-              id: e['id'],
-              popularity: e['popularity'] + 0.0,
-              voteAverage: e['vote_average'] + 0.0,
-              originalLanguage: e['original_language'],
-              title: e['title'] != null ? e['title'] : e['name'],
-              overview: e['overview'],
-              releaseDate: e['release_date'] != null
-                  ? e['release_date']
-                  : e['first_air_date'],
-              backdropPath: e['backdrop_path'],
-              posterPath: e['poster_path'],
-              adult: e['adult'] != null ? e['adult'] : false);
-        }).toList();
-        movies.addAll(newMovies);
-      } catch (e) {
-        print(e);
-        error = true;
-      }
-      print("More Results-----------------------");
-      print("Include adult: ${settingsStore.adultContent}");
-      print("Page: $page");
-      print("Query: $searchString");
-      print("Language: $language");
-      print("Error: $error");
-      print("Total Results: ${movies.length}");
+      parameters = {
+        'api_key': apiKey,
+        'language': language,
+        'page': page,
+        'query': searchString,
+        'include_adult': settingsStore.adultContent,
+      };
     }
+//!------------
+
+//*http request
+
+    final response;
+    if (settingsStore.selectedContentType == 0 && searchString.isEmpty) {
+      response =
+          await fetchData(path: '/discover/movie', parameters: parameters);
+    } else if (settingsStore.selectedContentType == 1 && searchString.isEmpty) {
+      response = await fetchData(path: '/discover/tv', parameters: parameters);
+    } else if (settingsStore.selectedContentType == 0) {
+      response = await fetchData(path: '/search/movie', parameters: parameters);
+    } else {
+      response = await fetchData(path: '/search/tv', parameters: parameters);
+    }
+    error = false;
+    try {
+      final newMovies = response.data['results'].map<SimpleMovie>((e) {
+        return SimpleMovie(
+            genreIds: e['genre_ids'],
+            id: e['id'],
+            popularity: e['popularity'] + 0.0,
+            voteAverage: e['vote_average'] + 0.0,
+            originalLanguage: e['original_language'],
+            title: e['title'] != null ? e['title'] : e['name'],
+            overview: e['overview'],
+            releaseDate: e['release_date'] != null
+                ? e['release_date']
+                : e['first_air_date'],
+            backdropPath: e['backdrop_path'],
+            posterPath: e['poster_path'],
+            adult: e['adult'] != null ? e['adult'] : false);
+      }).toList();
+      movies.addAll(newMovies);
+    } catch (e) {
+      print(e);
+      error = true;
+    }
+
+//?debug
+    print(' ');
+    print("More Results-----------------------");
+    print(' ');
+
+    print("Include adult: ${settingsStore.adultContent}");
+    print("Page: $page");
+    print("Query: $searchString");
+    print("Language: $language");
+    print("Error: $error");
+    print("Results: ${movies.length}");
+    print("Sort By: ${settingsStore.selectedSortBy}");
+
+    if (genres != '' && genres.isNotEmpty) print("Genres: $genres");
+    if (settingsStore.runTimeActive)
+      print(
+          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == 180 ? 99999 : settingsStore.runTimeMax : 99999}');
+    if (settingsStore.runTimeActive)
+      print(
+          'with_runtime.gte: ${settingsStore.runTimeActive ? settingsStore.runTimeMin : 0}');
+    if (settingsStore.voteCountActive)
+      print(
+          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == 15000 ? 99999 : settingsStore.voteCountMax : 99999}');
+    if (settingsStore.voteCountActive)
+      print(
+          'vote_count.gte: ${settingsStore.voteCountActive ? settingsStore.voteCountMin : 0}');
+    if (settingsStore.voteAvgActive)
+      print(
+          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10}');
+    if (settingsStore.voteAvgActive)
+      print(
+          'vote_average.gte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0}');
+//?-----
   }
 
-  @observable
-  String country = 'US';
-
-  @observable
-  CompleteMovie? movie;
-
+//*getSingleMovie
   @action
   Future<void> getSingleMovie(int id, int contentType) async {
+    //?setup
     final mainResponse;
     final videoResponse;
     final imageResponse;
-    print("ID: $id");
-    print("Selected Content Type: $contentType");
-    if (contentType == 0) {
-      mainResponse = await fetchData(path: '/movie/$id', parameters: {
-        'api_key': apiKey,
-        'language': language,
-      });
-      videoResponse = await fetchData(path: '/movie/$id/videos', parameters: {
-        'api_key': apiKey,
-        'language': language,
-      });
-      imageResponse = await fetchData(path: '/movie/$id/images', parameters: {
-        'api_key': apiKey,
-        'language': language.substring(0, 2),
-      });
-    } else {
-      mainResponse = await fetchData(path: '/tv/$id', parameters: {
-        'api_key': apiKey,
-        'language': language,
-      });
-      videoResponse = await fetchData(path: '/tv/$id/videos', parameters: {
-        'api_key': apiKey,
-        'language': language,
-      });
-      imageResponse = await fetchData(path: '/tv/$id/images', parameters: {
-        'api_key': apiKey,
-        'language': language.substring(0, 2),
-      });
-    }
+    String strContentType = contentType == 0 ? 'movie' : 'tv';
+    //?-----
+
+    //*http requests
+    mainResponse = await fetchData(path: '/$strContentType/$id', parameters: {
+      'api_key': apiKey,
+      'language': language,
+    });
+    videoResponse =
+        await fetchData(path: '/$strContentType/$id/videos', parameters: {
+      'api_key': apiKey,
+      'language': language,
+    });
+    imageResponse =
+        await fetchData(path: '/$strContentType/$id/images', parameters: {
+      'api_key': apiKey,
+      'language': language.substring(0, 2),
+    });
 
     try {
       //TODO get watchProviders, cast and reviews
@@ -497,49 +443,45 @@ abstract class _MovieStoreBase with Store {
       error = true;
       print(e);
     }
+    //*-------------
+
+    //?debug
+    print("ID: $id");
+    print("Selected Content Type: $contentType");
+    //?-----
   }
-
-  @observable
-  String searchString = '';
-
-  @observable
-  String temporarySearchString = '';
 
   @action
   void setSearch() {
     searchString = temporarySearchString;
   }
 
-  @observable
-  bool empty = false;
-
+  //*search
   @action
   Future<void> search() async {
+    //?setup
     empty = false;
     movies = [];
     page = 1;
     if (searchString.isEmpty) {
-      getPopularMovies();
+      getPopularContent();
       return;
     }
-    final response;
-    if (settingsStore.selectedContentType == 0) {
-      response = await fetchData(path: '/search/movie', parameters: {
-        'api_key': apiKey,
-        'language': language,
-        'query': searchString,
-        'page': page,
-        'include_adult': settingsStore.adultContent,
-      });
-    } else {
-      response = await fetchData(path: '/search/tv', parameters: {
-        'api_key': apiKey,
-        'language': language,
-        'query': searchString,
-        'page': page,
-        'include_adult': settingsStore.adultContent,
-      });
-    }
+
+    final parameters = {
+      'api_key': apiKey,
+      'language': language,
+      'query': searchString,
+      'page': page,
+      'include_adult': settingsStore.adultContent,
+    };
+
+    //?-----
+
+    //*http request
+    final response = settingsStore.selectedContentType == 0
+        ? await fetchData(path: '/search/movie', parameters: parameters)
+        : await fetchData(path: '/search/tv', parameters: parameters);
 
     error = false;
     try {
@@ -567,34 +509,37 @@ abstract class _MovieStoreBase with Store {
       print(e);
       error = true;
     }
+    //*------------
+
+    //?debug
     print("Include adult: ${settingsStore.adultContent}");
     print("Page: $page");
     print("Query: $searchString");
     print("Language: $language");
     print("Error: $error");
     print("Results: ${movies.length}");
+//?------
   }
 
-  @observable
-  List<SimpleMovie> recommendations = [];
-
+  //*getRecommendations
   @action
   Future<void> getRecommendations(int id) async {
+    //?setup
     recommendations = [];
-    Map<String, dynamic> parameters = {};
-    parameters = {
+    Map<String, dynamic> parameters = {
       'api_key': apiKey,
       'language': language,
       'page': 1,
     };
-    final response;
-    if (settingsStore.selectedContentType == 0) {
-      response = await fetchData(
-          path: '/movie/$id/recommendations', parameters: parameters);
-    } else {
-      response = await fetchData(
-          path: '/tv/$id/recommendations', parameters: parameters);
-    }
+    final response = settingsStore.selectedContentType == 0
+        ? await fetchData(
+            path: '/movie/$id/recommendations', parameters: parameters)
+        : await fetchData(
+            path: '/tv/$id/recommendations', parameters: parameters);
+
+    //?-----
+
+    //*http request
     error = false;
     try {
       recommendations = response.data['results'].map<SimpleMovie>((e) {
@@ -619,22 +564,19 @@ abstract class _MovieStoreBase with Store {
     }
   }
 
-  @observable
-  TvSeason? season;
-
-  @observable
-  bool loadingSeason = false;
-
-  @action
+  //*getSeasonEpisodes
   Future<void> getSeasonEpisodes(
       {required int tvId, required int seasonNumber}) async {
+    //?setup
     loadingSeason = true;
-    Map<String, dynamic> parameters = {};
-    parameters = {
+    Map<String, dynamic> parameters = {
       'api_key': apiKey,
       'language': language,
       'page': 1,
     };
+    //?-----
+
+    //*http request
     final response = await fetchData(
         path: '/tv/$tvId/season/$seasonNumber', parameters: parameters);
 
@@ -671,4 +613,6 @@ abstract class _MovieStoreBase with Store {
       print(e);
     }
   }
+
+  //end
 }

@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (widget.contentType != type.movie) {
       settingsStore.setSelectedContentType(1);
     }
-    movieStore.getPopularMovies();
+    movieStore.getPopularContent();
     settingsStore.getMovieGenres();
     settingsStore.getTvShowGenres();
   }
@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       settingsStore.selectedContentType);
                         else if (movieStore.totalPages != null &&
                             movieStore.page < movieStore.totalPages!) {
-                          movieStore.getMorePopularMovies();
+                          movieStore.getMoreContent();
                           return LinearProgressIndicator(
                             valueColor: AlwaysStoppedAnimation(
                               styleStore.primaryColor,

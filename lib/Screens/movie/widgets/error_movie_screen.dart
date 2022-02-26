@@ -81,6 +81,7 @@ class CustomErrorMovieScreen extends StatelessWidget {
                         MaterialStateProperty.all(styleStore.primaryColor)),
                 onPressed: () {
                   movieStore.error = false;
+
                   movieStore.getSingleMovie(
                       movieId, settingsStore.selectedContentType);
                 },

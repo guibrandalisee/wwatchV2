@@ -230,21 +230,20 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.fetchData(path: path, parameters: parameters));
   }
 
-  final _$getPopularMoviesAsyncAction =
-      AsyncAction('_MovieStoreBase.getPopularMovies');
+  final _$getPopularContentAsyncAction =
+      AsyncAction('_MovieStoreBase.getPopularContent');
 
   @override
-  Future<void> getPopularMovies() {
-    return _$getPopularMoviesAsyncAction.run(() => super.getPopularMovies());
+  Future<void> getPopularContent() {
+    return _$getPopularContentAsyncAction.run(() => super.getPopularContent());
   }
 
-  final _$getMorePopularMoviesAsyncAction =
-      AsyncAction('_MovieStoreBase.getMorePopularMovies');
+  final _$getMoreContentAsyncAction =
+      AsyncAction('_MovieStoreBase.getMoreContent');
 
   @override
-  Future<void> getMorePopularMovies() {
-    return _$getMorePopularMoviesAsyncAction
-        .run(() => super.getMorePopularMovies());
+  Future<void> getMoreContent() {
+    return _$getMoreContentAsyncAction.run(() => super.getMoreContent());
   }
 
   final _$getSingleMovieAsyncAction =
@@ -270,16 +269,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   Future<void> getRecommendations(int id) {
     return _$getRecommendationsAsyncAction
         .run(() => super.getRecommendations(id));
-  }
-
-  final _$getSeasonEpisodesAsyncAction =
-      AsyncAction('_MovieStoreBase.getSeasonEpisodes');
-
-  @override
-  Future<void> getSeasonEpisodes(
-      {required int tvId, required int seasonNumber}) {
-    return _$getSeasonEpisodesAsyncAction.run(
-        () => super.getSeasonEpisodes(tvId: tvId, seasonNumber: seasonNumber));
   }
 
   final _$_MovieStoreBaseActionController =
