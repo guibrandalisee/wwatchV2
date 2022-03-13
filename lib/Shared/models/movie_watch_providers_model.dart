@@ -1,17 +1,38 @@
-enum PayingType { FLATRATE, RENT, BUY }
+class AvaliableWatchProviderRegions {
+  String iso_3166_1;
+  String englishName;
+  String nativeName;
+  AvaliableWatchProviderRegions({
+    required this.iso_3166_1,
+    required this.englishName,
+    required this.nativeName,
+  });
+}
 
-//TODO fix this
-class MovieWatchProvider {
-  final String? country;
-  final String link;
-  final String logoPath;
-  final String name;
-  final PayingType payingType;
-  MovieWatchProvider({
-    this.country,
-    required this.link,
+class AvaliableWatchProvider {
+  int displayPriority;
+  String logoPath;
+  String providerName;
+  int providerId;
+  AvaliableWatchProvider({
+    required this.displayPriority,
     required this.logoPath,
-    required this.name,
-    required this.payingType,
+    required this.providerName,
+    required this.providerId,
+  });
+}
+
+class MovieAvaliableWatchProviders {
+  String countryIso_3166_1;
+  String link;
+  List<AvaliableWatchProvider>? rent;
+  List<AvaliableWatchProvider>? buy;
+  List<AvaliableWatchProvider>? flatrate;
+  MovieAvaliableWatchProviders({
+    required this.countryIso_3166_1,
+    required this.link,
+    this.rent,
+    this.buy,
+    this.flatrate,
   });
 }

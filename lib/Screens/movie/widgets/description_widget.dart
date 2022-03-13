@@ -2,12 +2,11 @@ import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
-import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DescriptionWidget extends StatelessWidget {
   DescriptionWidget({
@@ -34,7 +33,7 @@ class DescriptionWidget extends StatelessWidget {
               ),
               child: RichText(
                 text: TextSpan(
-                  text: 'Status: ',
+                  text: AppLocalizations.of(context)!.status,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 16,
@@ -77,6 +76,7 @@ class DescriptionWidget extends StatelessWidget {
             dropCap: DropCap(
                 child: movie.posterPath != null
                     ? InkWell(
+                        borderRadius: BorderRadius.circular(8),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => FullScreenImage(
@@ -91,21 +91,6 @@ class DescriptionWidget extends StatelessWidget {
                                 'https://image.tmdb.org/t/p/w342${movie.posterPath}',
                                 filterQuality: FilterQuality.medium,
                                 fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              left: 8,
-                              top: 8,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: AppColors.shape.withAlpha(100)),
-                                child: Icon(
-                                  LineIcons.alternateExpandArrows,
-                                  size: 22,
-                                  color: Colors.white,
-                                ),
                               ),
                             ),
                           ],

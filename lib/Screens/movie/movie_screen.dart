@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:wwatch/Screens/movie/widgets/credits_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/error_movie_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/header_widget.dart';
@@ -24,10 +27,12 @@ import 'package:wwatch/stores/style_store.dart';
 class MovieScreen extends StatefulWidget {
   final int movieId;
   final int contentType;
+  final SharedPreferences prefs;
   MovieScreen({
     Key? key,
     required this.movieId,
     required this.contentType,
+    required this.prefs,
   }) : super(key: key);
 
   @override
@@ -38,6 +43,14 @@ class _MovieScreenState extends State<MovieScreen> {
   @override
   void initState() {
     super.initState();
+    if (!widget.prefs.containsKey('language') ||
+        !widget.prefs.containsKey('languageISO') &&
+            (WidgetsBinding.instance != null)) {
+      movieStore.language = AppLocalizations.delegate
+              .isSupported(WidgetsBinding.instance!.window.locale)
+          ? '${WidgetsBinding.instance!.window.locale.languageCode}-${WidgetsBinding.instance!.window.locale.countryCode}'
+          : 'en-US';
+    }
     movieStore.getSingleMovie(widget.movieId, widget.contentType);
     movieStore.getRecommendations(widget.movieId);
   }
@@ -54,7 +67,7 @@ class _MovieScreenState extends State<MovieScreen> {
       floatingActionButtonLocation: styleStore.fabPosition == 0
           ? FloatingActionButtonLocation.startFloat
           : FloatingActionButtonLocation.endFloat,
-      floatingActionButton: const CustomSpeedDialMovieScreen(),
+      floatingActionButton: CustomSpeedDialMovieScreen(),
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -112,7 +125,7 @@ class _MovieScreenState extends State<MovieScreen> {
                         if (movieStore.movie!.numberOfSeasons != null &&
                             movieStore.movie!.numberOfSeasons! > 0)
                           SeasonEpisodeCount(
-                            title: 'Seasons',
+                            title: AppLocalizations.of(context)!.seasons,
                             value: movieStore.movie!.numberOfSeasons!,
                           ),
                         SizedBox(
@@ -121,7 +134,7 @@ class _MovieScreenState extends State<MovieScreen> {
                         if (movieStore.movie!.numberOfEpisodes != null &&
                             movieStore.movie!.numberOfEpisodes! > 0)
                           SeasonEpisodeCount(
-                            title: 'Episodes',
+                            title: AppLocalizations.of(context)!.episodes,
                             value: movieStore.movie!.numberOfEpisodes!,
                           ),
                       ],
@@ -143,10 +156,22 @@ class _MovieScreenState extends State<MovieScreen> {
                   if (movieStore.movie!.numberOfSeasons != null &&
                       movieStore.movie!.numberOfSeasons! > 0)
                     SeasonEpisodeWidget(
+                      prefs: widget.prefs,
                       movieStore: movieStore,
                     ),
                   if (movieStore.recommendations.length > 0)
-                    RecommendationsWidget(movieStore: movieStore),
+                    RecommendationsWidget(
+                      movieStore: movieStore,
+                      prefs: widget.prefs,
+                    ),
+                  if ((movieStore.movie!.credits.cast != null &&
+                          movieStore.movie!.credits.cast!.isNotEmpty) ||
+                      (movieStore.movie!.credits.crew != null &&
+                          movieStore.movie!.credits.crew!.isNotEmpty))
+                    CreditsWidget(
+                      prefs: widget.prefs,
+                      credits: movieStore.movie!.credits,
+                    ),
                   MovieStatsWidget(
                     movie: movieStore.movie!,
                   ),

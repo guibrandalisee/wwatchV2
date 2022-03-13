@@ -55,6 +55,22 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
+  final _$selectedlanguageAtom =
+      Atom(name: '_SettingsStoreBase.selectedlanguage');
+
+  @override
+  String get selectedlanguage {
+    _$selectedlanguageAtom.reportRead();
+    return super.selectedlanguage;
+  }
+
+  @override
+  set selectedlanguage(String value) {
+    _$selectedlanguageAtom.reportWrite(value, super.selectedlanguage, () {
+      super.selectedlanguage = value;
+    });
+  }
+
   final _$languageAtom = Atom(name: '_SettingsStoreBase.language');
 
   @override
@@ -144,21 +160,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   set country(String value) {
     _$countryAtom.reportWrite(value, super.country, () {
       super.country = value;
-    });
-  }
-
-  final _$countriesAtom = Atom(name: '_SettingsStoreBase.countries');
-
-  @override
-  List<String> get countries {
-    _$countriesAtom.reportRead();
-    return super.countries;
-  }
-
-  @override
-  set countries(List<String> value) {
-    _$countriesAtom.reportWrite(value, super.countries, () {
-      super.countries = value;
     });
   }
 
@@ -285,6 +286,39 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     _$selectedTvShowGenresAtom.reportWrite(value, super.selectedTvShowGenres,
         () {
       super.selectedTvShowGenres = value;
+    });
+  }
+
+  final _$avaliableRegionsAtom =
+      Atom(name: '_SettingsStoreBase.avaliableRegions');
+
+  @override
+  List<AvaliableWatchProviderRegions> get avaliableRegions {
+    _$avaliableRegionsAtom.reportRead();
+    return super.avaliableRegions;
+  }
+
+  @override
+  set avaliableRegions(List<AvaliableWatchProviderRegions> value) {
+    _$avaliableRegionsAtom.reportWrite(value, super.avaliableRegions, () {
+      super.avaliableRegions = value;
+    });
+  }
+
+  final _$avaliableContentLanguagesAtom =
+      Atom(name: '_SettingsStoreBase.avaliableContentLanguages');
+
+  @override
+  List<AvaliableContentLanguages> get avaliableContentLanguages {
+    _$avaliableContentLanguagesAtom.reportRead();
+    return super.avaliableContentLanguages;
+  }
+
+  @override
+  set avaliableContentLanguages(List<AvaliableContentLanguages> value) {
+    _$avaliableContentLanguagesAtom
+        .reportWrite(value, super.avaliableContentLanguages, () {
+      super.avaliableContentLanguages = value;
     });
   }
 
@@ -471,6 +505,24 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     return _$getTvShowGenresAsyncAction.run(() => super.getTvShowGenres());
   }
 
+  final _$getAvaliableRegionsAsyncAction =
+      AsyncAction('_SettingsStoreBase.getAvaliableRegions');
+
+  @override
+  Future<void> getAvaliableRegions() {
+    return _$getAvaliableRegionsAsyncAction
+        .run(() => super.getAvaliableRegions());
+  }
+
+  final _$getAvaliableLanguagesAsyncAction =
+      AsyncAction('_SettingsStoreBase.getAvaliableLanguages');
+
+  @override
+  Future<void> getAvaliableLanguages() {
+    return _$getAvaliableLanguagesAsyncAction
+        .run(() => super.getAvaliableLanguages());
+  }
+
   final _$_SettingsStoreBaseActionController =
       ActionController(name: '_SettingsStoreBase');
 
@@ -480,6 +532,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         name: '_SettingsStoreBase.setTileMode');
     try {
       return super.setTileMode(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCountry(String value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setCountry');
+    try {
+      return super.setCountry(value);
     } finally {
       _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -502,17 +565,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         name: '_SettingsStoreBase.setdateFormat');
     try {
       return super.setdateFormat(value);
-    } finally {
-      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setLanguage(String value) {
-    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.setLanguage');
-    try {
-      return super.setLanguage(value);
     } finally {
       _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -546,17 +598,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         name: '_SettingsStoreBase.setFilterBadLanguage');
     try {
       return super.setFilterBadLanguage(value);
-    } finally {
-      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setCountry(String value) {
-    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.setCountry');
-    try {
-      return super.setCountry(value);
     } finally {
       _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -673,6 +714,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
+  void switchContentType() {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.switchContentType');
+    try {
+      return super.switchContentType();
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void toogleVoteCountFilter(bool value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.toogleVoteCountFilter');
@@ -711,13 +763,13 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
 tileDisplayMode: ${tileDisplayMode},
 brightness: ${brightness},
 dateFormat: ${dateFormat},
+selectedlanguage: ${selectedlanguage},
 language: ${language},
 secondaryLanguage: ${secondaryLanguage},
 languages: ${languages},
 adultContent: ${adultContent},
 filterBadLanguage: ${filterBadLanguage},
 country: ${country},
-countries: ${countries},
 timeZone: ${timeZone},
 timeZones: ${timeZones},
 autoDetectTimeZone: ${autoDetectTimeZone},
@@ -726,6 +778,8 @@ movieGenres: ${movieGenres},
 tvShowGenres: ${tvShowGenres},
 selectedMovieGenres: ${selectedMovieGenres},
 selectedTvShowGenres: ${selectedTvShowGenres},
+avaliableRegions: ${avaliableRegions},
+avaliableContentLanguages: ${avaliableContentLanguages},
 selectedSortBy: ${selectedSortBy},
 selectedContentType: ${selectedContentType},
 voteCountActive: ${voteCountActive},

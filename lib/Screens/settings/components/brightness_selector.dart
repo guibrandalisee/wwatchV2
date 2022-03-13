@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BrightnessSelector extends StatelessWidget {
   const BrightnessSelector({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class BrightnessSelector extends StatelessWidget {
               width: 106,
               child: Center(
                 child: Text(
-                  "Dark",
+                  AppLocalizations.of(context)!.dark,
                   style: GoogleFonts.getFont('Mitr',
                       color: AppColors.text,
                       fontSize: 16,
@@ -117,7 +118,7 @@ class BrightnessSelector extends StatelessWidget {
               width: 106,
               child: Center(
                 child: Text(
-                  "Light",
+                  AppLocalizations.of(context)!.light,
                   style: GoogleFonts.getFont('Mitr',
                       color: Color(0xff16161D),
                       fontSize: 16,

@@ -1,3 +1,4 @@
+import 'package:wwatch/Shared/models/cast_and_crew_model.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
 import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
@@ -68,10 +69,9 @@ class CompleteMovie {
     this.numberOfSeasons,
     this.numberOfEpisodes,
     this.seasons,
-    this.watchProviders,
     this.recomendations,
     this.reviews,
-    this.cast,
+    required this.credits,
   });
   final List genres;
   final int id;
@@ -101,8 +101,8 @@ class CompleteMovie {
   final int? numberOfEpisodes;
   final List<TvSeason>? seasons;
   //TODO try to speak with TMDB to get direct link to movies in the Watch Providers;
-  final List<MovieWatchProvider>? watchProviders;
+
   final Map<String, dynamic>? recomendations;
   final Map<String, dynamic>? reviews;
-  final Map<String, dynamic>? cast;
+  final Credits credits;
 }

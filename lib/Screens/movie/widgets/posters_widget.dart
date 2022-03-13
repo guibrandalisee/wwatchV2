@@ -9,6 +9,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostersWidget extends StatelessWidget {
   final CompleteMovie movie;
@@ -47,8 +48,8 @@ class PostersWidget extends StatelessWidget {
                   )),
             Text(
               settingsStore.selectedContentType == 0
-                  ? 'Movie Posters'
-                  : 'Posters',
+                  ? AppLocalizations.of(context)!.moviePosters
+                  : AppLocalizations.of(context)!.posters,
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 22,
@@ -77,6 +78,7 @@ class PostersWidget extends StatelessWidget {
             itemCount: movie.images!.length,
             itemBuilder: (context, index, realIdx) {
               return InkWell(
+                borderRadius: BorderRadius.circular(16),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => FullScreenImage(

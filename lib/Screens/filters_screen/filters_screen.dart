@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transition/transition.dart';
 
 import 'package:wwatch/Screens/filters_screen/components/custom_slider_widget.dart';
@@ -14,6 +15,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FiltersScreen extends StatelessWidget {
   FiltersScreen({
@@ -24,6 +26,7 @@ class FiltersScreen extends StatelessWidget {
   final MovieStore movieStore;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final bool? fab;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -127,7 +130,7 @@ class FiltersScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(8),
                   child: Text(
-                    "None of this filters apply while searching",
+                    AppLocalizations.of(context)!.descriptionFilterScreen,
                     style: GoogleFonts.getFont(
                       'Mitr',
                       color: styleStore.textColor,
@@ -183,7 +186,7 @@ class FiltersScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Sort By",
+                              AppLocalizations.of(context)!.sortBy,
                               style: GoogleFonts.getFont('Mitr',
                                   color: styleStore.textColor,
                                   fontSize: 16,
@@ -240,7 +243,7 @@ class FiltersScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Genres",
+                              AppLocalizations.of(context)!.genres,
                               style: GoogleFonts.getFont('Mitr',
                                   color: styleStore.textColor,
                                   fontSize: 16,
@@ -261,7 +264,7 @@ class FiltersScreen extends StatelessWidget {
                 ),
                 FilterWidgetBase(
                     value: settingsStore.voteCountActive,
-                    title: 'Vote Count',
+                    title: AppLocalizations.of(context)!.voteCount,
                     onChanged: (a) {
                       settingsStore.toogleVoteCountFilter(a);
                       movieStore.didChange = true;
@@ -284,7 +287,7 @@ class FiltersScreen extends StatelessWidget {
                     )),
                 FilterWidgetBase(
                   value: settingsStore.voteAvgActive,
-                  title: 'Vote Average',
+                  title: AppLocalizations.of(context)!.voteAverage,
                   onChanged: (a) {
                     settingsStore.toogleVoteAvgFilter(a);
                     movieStore.didChange = true;
@@ -307,7 +310,7 @@ class FiltersScreen extends StatelessWidget {
                 ),
                 FilterWidgetBase(
                   value: settingsStore.runTimeActive,
-                  title: 'Runtime (minutes)',
+                  title: AppLocalizations.of(context)!.runtimeFilter,
                   onChanged: (a) {
                     settingsStore.toogleRunTimeFilter(a);
                     movieStore.didChange = true;
@@ -332,7 +335,7 @@ class FiltersScreen extends StatelessWidget {
                       ),
                       Center(
                         child: Text(
-                          "Episode Runtime for Tv Shows*",
+                          AppLocalizations.of(context)!.runtimeText,
                           style: GoogleFonts.getFont(
                             'Mitr',
                             color: styleStore.textColor,

@@ -1,6 +1,9 @@
+import 'dart:collection';
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:wwatch/Shared/models/cast_and_crew_model.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
@@ -16,6 +19,7 @@ final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
 abstract class _MovieStoreBase with Store {
   String apiKey = env['API_KEY']!;
+  String token = env['TOKEN']!;
 
   //!Global Variables ----------------------------------------------------------------------------------
 
@@ -26,7 +30,7 @@ abstract class _MovieStoreBase with Store {
   int page = 1;
 
   @observable
-  String language = 'en-US';
+  String language = settingsStore.language;
 
   //List of movies that will be displayed on front page
   @observable
@@ -72,6 +76,10 @@ abstract class _MovieStoreBase with Store {
       baseUrl: 'https://api.themoviedb.org/3',
       connectTimeout: 5000,
       receiveTimeout: 3000,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json;charset=utf-8'
+      },
     );
 
     try {
@@ -154,7 +162,6 @@ abstract class _MovieStoreBase with Store {
     //!Setup params
     genres = setUpGenres();
     parameters.addEntries({
-      'api_key': apiKey,
       'language': language,
       'page': page,
       'sort_by': settingsStore.selectedSortBy,
@@ -170,7 +177,7 @@ abstract class _MovieStoreBase with Store {
 
     //!------------
 
-    //*http request and map from json
+    //*http request
     final response = settingsStore.selectedContentType == 0
         ? await fetchData(path: '/discover/movie', parameters: parameters)
         : await fetchData(path: '/discover/tv', parameters: parameters);
@@ -250,7 +257,6 @@ abstract class _MovieStoreBase with Store {
     if (searchString.isEmpty) {
       genres = setUpGenres();
       parameters.addEntries({
-        'api_key': apiKey,
         'language': language,
         'page': page,
         'sort_by': settingsStore.selectedSortBy,
@@ -265,7 +271,6 @@ abstract class _MovieStoreBase with Store {
         parameters.addEntries({'with_genres': genres}.entries);
     } else {
       parameters = {
-        'api_key': apiKey,
         'language': language,
         'page': page,
         'query': searchString,
@@ -350,32 +355,31 @@ abstract class _MovieStoreBase with Store {
   @action
   Future<void> getSingleMovie(int id, int contentType) async {
     //?setup
-    final mainResponse;
-    final videoResponse;
-    final imageResponse;
+
     String strContentType = contentType == 0 ? 'movie' : 'tv';
     //?-----
 
+    final response = await Future.wait([
+      fetchData(path: '/$strContentType/$id', parameters: {
+        'language': language,
+      }),
+      fetchData(path: '/$strContentType/$id/videos', parameters: {
+        'language': language,
+      }),
+      fetchData(path: '/$strContentType/$id/images', parameters: {
+        'language': language.substring(0, 2),
+      }),
+      fetchData(path: '/$strContentType/$id/credits', parameters: {
+        'language': language,
+      }),
+    ]);
+
     //*http requests
-    mainResponse = await fetchData(path: '/$strContentType/$id', parameters: {
-      'api_key': apiKey,
-      'language': language,
-    });
-    videoResponse =
-        await fetchData(path: '/$strContentType/$id/videos', parameters: {
-      'api_key': apiKey,
-      'language': language,
-    });
-    imageResponse =
-        await fetchData(path: '/$strContentType/$id/images', parameters: {
-      'api_key': apiKey,
-      'language': language.substring(0, 2),
-    });
 
     try {
       //TODO get watchProviders, cast and reviews
-      final data = mainResponse.data;
-      final videos = videoResponse.data['results'].map<MovieVideo>((e) {
+      final data = response[0].data;
+      final videos = response[1].data['results'].map<MovieVideo>((e) {
         return MovieVideo(
             name: e['name'],
             site: e['site'],
@@ -385,7 +389,7 @@ abstract class _MovieStoreBase with Store {
             publishedAt: e['published_at'],
             official: e['official']);
       }).toList();
-      final images = imageResponse.data['posters'].map<MovieImage>((e) {
+      final images = response[2].data['posters'].map<MovieImage>((e) {
         return MovieImage(filePath: e['file_path'], language: e['iso_639_1']);
       }).toList();
       List<TvSeason>? seasons;
@@ -402,6 +406,46 @@ abstract class _MovieStoreBase with Store {
               );
             }).toList()
           : null;
+      final cast = response[3].data['cast'].map<Cast>((e) {
+        return Cast(
+          adult: e['adult'],
+          id: e['id'],
+          knownForFepartment: e['known_for_department'],
+          name: e['name'],
+          originalName: e['original_name'],
+          popularity: e['popularity'],
+          castId: e['cast_id'],
+          character: e['character'],
+          creditId: e['credit_id'],
+          order: e['order'],
+          gender: e['gender'],
+          profilePath: e['profile_path'],
+        );
+      }).toList();
+
+      final crew = response[3].data['crew'].map<Crew>((e) {
+        return Crew(
+            adult: e['adult'],
+            id: e['id'],
+            knownForFepartment: e['known_for_department'],
+            name: e['name'],
+            originalName: e['original_name'],
+            popularity: e['popularity'],
+            creditId: e['credit_id'],
+            department: e['department'],
+            job: e['job'],
+            gender: e['gender'],
+            profilePath: e['profile_path']);
+      }).toList();
+      final crewIds = Set();
+      crew.retainWhere((x) => crewIds.add(x.id));
+      final castIds = Set();
+      cast.retainWhere((x) => castIds.add(x.id));
+      final credits = Credits(
+        id: response[3].data['id'],
+        cast: cast,
+        crew: crew,
+      );
       movie = CompleteMovie(
         images: images,
         videos: videos,
@@ -438,6 +482,7 @@ abstract class _MovieStoreBase with Store {
             : null,
         seasons: seasons,
         voteCount: data['vote_count'],
+        credits: credits,
       );
     } catch (e) {
       error = true;
@@ -469,7 +514,6 @@ abstract class _MovieStoreBase with Store {
     }
 
     final parameters = {
-      'api_key': apiKey,
       'language': language,
       'query': searchString,
       'page': page,
@@ -527,7 +571,6 @@ abstract class _MovieStoreBase with Store {
     //?setup
     recommendations = [];
     Map<String, dynamic> parameters = {
-      'api_key': apiKey,
       'language': language,
       'page': 1,
     };
@@ -570,7 +613,6 @@ abstract class _MovieStoreBase with Store {
     //?setup
     loadingSeason = true;
     Map<String, dynamic> parameters = {
-      'api_key': apiKey,
       'language': language,
       'page': 1,
     };
@@ -610,6 +652,111 @@ abstract class _MovieStoreBase with Store {
       error = true;
       loadingSeason = false;
       print("Tv Sesons Error");
+      print(e);
+    }
+  }
+
+  @observable
+  Person? person;
+
+  @action
+  Future<void> getPerson(int personId) async {
+    final response = await Future.wait([
+      fetchData(path: '/person/$personId', parameters: {
+        'language': language,
+      }),
+      fetchData(
+          path: '/person/$personId/images', parameters: {'language': language}),
+      fetchData(
+          path: '/person/$personId/external_ids',
+          parameters: {'language': language}),
+      fetchData(
+          path: '/person/$personId/movie_credits',
+          parameters: {'language': language}),
+      fetchData(
+          path: '/person/$personId/tv_credits',
+          parameters: {'language': language}),
+      fetchData(
+          path: '/person/$personId/combined_credits',
+          parameters: {'language': language}),
+    ]);
+
+    final data = response[0].data;
+    final imageData = response[1].data;
+    final externalIdsData = response[2].data;
+    final movieCreditsData = response[3].data;
+    final tvCreditsData = response[4].data;
+    //TODO
+    final combinedCreditsData = response[5].data;
+    print(externalIdsData);
+    try {
+      final images = imageData['profiles'].map<PersonImage>((e) {
+        return PersonImage(
+          filePath: e['file_path'],
+          height: e['height'],
+          voteAverage: e['vote_average'] * 0.0,
+          voteCount: e['vote_average'] * 0.0,
+          width: e['width'],
+          aspectRatio: e['aspect_ratio'] * 0.0,
+        );
+      }).toList();
+      final externalIds = PersonExternalIds(
+        id: externalIdsData['id'],
+        facebookId: externalIdsData['facebook_id'],
+        freebaseId: externalIdsData['freebase_id'],
+        freebaseMid: externalIdsData['freebase_mid'],
+        imdbId: externalIdsData['imdb_id'],
+        instagramId: externalIdsData['instagram_id'],
+        tvrageId: externalIdsData['tvrage_id'],
+        twitterId: externalIdsData['twitter_id'],
+      );
+      final movieCreditsCast =
+          movieCreditsData['cast'].map<PersonMovieCreditCast>((e) {
+        return PersonMovieCreditCast(
+          character: e['character'] != null ? e['character'] : '',
+          creditId: e['credit_id'],
+          id: e['id'],
+          overview: e['overview'],
+          title: e['title'],
+          voteAverage: e['vote_average'],
+          voteCount: e['vote_count'],
+          backdropPath: e['backdrop_path'],
+          posterPath: e['poster_path'],
+          releaseDate: e['release_date'],
+        );
+      }).toList();
+      final tvCreditsCast = tvCreditsData['cast'].map<PersonTVCreditCast>((e) {
+        return PersonTVCreditCast(
+            creditId: e['credit_id'],
+            id: e['id'],
+            character: e['character'],
+            name: e['name'],
+            voteCount: e['vote_count'],
+            voteAverage: e['vote_average'],
+            popularity: e['popularity'],
+            episodeCount: e['episode_count'],
+            overview: e['overview'],
+            posterPath: e['poster_path']);
+      }).toList();
+      person = Person(
+          id: data['id'],
+          name: data['name'],
+          gender: data['gender'],
+          popularity: data['popularity'],
+          adult: data['adult'],
+          biography: data['biography'],
+          birthday: data['birthday'],
+          deathDay: data['deathday'],
+          homePage: data['homepage'],
+          knownForDepartment: data['known_for_department'],
+          placeOfBirth: data['place_of_birth'],
+          profilePath: data['profile_path'],
+          images: images,
+          externalIds: externalIds,
+          personMovieCreditCast: movieCreditsCast,
+          personTVCreditCast: tvCreditsCast);
+    } catch (e) {
+      error = true;
       print(e);
     }
   }

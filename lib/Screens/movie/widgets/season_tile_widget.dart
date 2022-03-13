@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wwatch/Screens/season/season_screen.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
@@ -13,9 +15,12 @@ class SeasonTileWidget extends StatelessWidget {
     Key? key,
     required this.season,
     required this.tvId,
+    required this.prefs,
   }) : super(key: key);
   final TvSeason season;
   final int tvId;
+  final SharedPreferences prefs;
+
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   final StyleStore styleStore = GetIt.I<StyleStore>();
   String formatDate(TvSeason season) {
@@ -38,6 +43,7 @@ class SeasonTileWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => SeasonScreen(
+                  prefs: prefs,
                   tvId: tvId,
                   seasonNumber: season.seasonNumber,
                 )));
@@ -118,7 +124,7 @@ class SeasonTileWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${season.episodeCount} Episodes',
+                  '${season.episodeCount} ${AppLocalizations.of(context)!.episodes}',
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 12,

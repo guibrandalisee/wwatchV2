@@ -3,7 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:mobx/mobx.dart';
 import 'package:transition/transition.dart';
+
 import 'package:wwatch/Screens/about/about_screen.dart';
 import 'package:wwatch/Screens/settings/components/brightness_selector.dart';
 import 'package:wwatch/Screens/settings/components/color_selector.dart';
@@ -12,15 +14,21 @@ import 'package:wwatch/Screens/settings/components/general_settings.dart';
 import 'package:wwatch/Screens/settings/components/tile_mode_selector.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/main.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
-import 'package:mobx/mobx.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
-
+  SettingsScreen({
+    Key? key,
+    this.fab,
+    required this.movieStore,
+  }) : super(key: key);
+  final bool? fab;
   @override
   _SettingsStateScreen createState() => _SettingsStateScreen();
+  final MovieStore movieStore;
 }
 
 class _SettingsStateScreen extends State<SettingsScreen> {
@@ -37,6 +45,23 @@ class _SettingsStateScreen extends State<SettingsScreen> {
     });
     final SettingsStore settingsStore = GetIt.I<SettingsStore>();
     return Scaffold(
+      floatingActionButtonLocation: styleStore.fabPosition == 0
+          ? FloatingActionButtonLocation.startFloat
+          : FloatingActionButtonLocation.endFloat,
+      floatingActionButton: widget.fab != null && widget.fab!
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              backgroundColor: styleStore.primaryColor,
+              child: Center(
+                child: Icon(
+                  Icons.arrow_back,
+                  color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                ),
+              ),
+            )
+          : Container(),
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -82,14 +107,14 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 height: 120,
               ),
               Text(
-                "SETTINGS",
+                AppLocalizations.of(context)!.settings.toUpperCase(),
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
-                    fontSize: 48,
+                    fontSize: 38,
                     fontWeight: FontWeight.w300),
               ),
               Text(
-                "Configure your APP",
+                AppLocalizations.of(context)!.configureApp,
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 18,
@@ -121,7 +146,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       width: 8,
                     ),
                     Text(
-                      "About the app",
+                      AppLocalizations.of(context)!.aboutTheApp,
                       style: GoogleFonts.getFont('Mitr',
                           color: styleStore.textColor,
                           fontSize: 18,
@@ -136,7 +161,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Floating Action Button Position",
+                  AppLocalizations.of(context)!.fabPosition,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -153,7 +178,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "App Main Color",
+                  AppLocalizations.of(context)!.appMainColor,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -170,7 +195,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "App Brightness",
+                  AppLocalizations.of(context)!.appBrightness,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -187,7 +212,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Home Screen Content Display",
+                  AppLocalizations.of(context)!.homeScreenTile,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -201,14 +226,16 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               const SizedBox(
                 height: 32,
               ),
-              const GeneralSettings(),
+              GeneralSettings(
+                movieStore: widget.movieStore,
+              ),
               const SizedBox(
                 height: 72,
               ),
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Think there are any account settings missing?",
+                  AppLocalizations.of(context)!.textSettingsMissing,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -222,7 +249,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "You can probably find them on the official TMDB website",
+                  AppLocalizations.of(context)!.textSettingsMissing2,
                   style: GoogleFonts.getFont(
                     'Mitr',
                     color: styleStore.textColor,
@@ -243,7 +270,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                       launchInBrowser('https://www.themoviedb.org/');
                     },
                     child: Text(
-                      "You can go there by clicking here",
+                      AppLocalizations.of(context)!.youCanGoThereByClickingHere,
                       style: GoogleFonts.getFont(
                         'Mitr',
                         color:
@@ -264,7 +291,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 height: 16,
               ),
               Text(
-                "This is not an official TMDB APP",
+                AppLocalizations.of(context)!.notOfficialApp,
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 16,

@@ -11,6 +11,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TrailersWidget extends StatefulWidget {
   final CompleteMovie movie;
@@ -67,8 +68,8 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                     )),
               Text(
                 settingsStore.selectedContentType == 0
-                    ? 'Movie Trailers'
-                    : 'Trailers',
+                    ? AppLocalizations.of(context)!.movieTrailers
+                    : AppLocalizations.of(context)!.trailers,
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 22,
@@ -98,11 +99,11 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                 carouselController: carouselController,
                 itemCount: videos.length,
                 itemBuilder: ((context, index, realIDX) {
-                  return InkWell(
-                    onTap: () {
+                  return GestureDetector(
+                    onTap: Feedback.wrapForTap(() {
                       launchInBrowser(
                           'https://www.youtube.com/watch?v=${videos[index].key}');
-                    },
+                    }, context),
                     child: Container(
                       height: 200,
                       child: Stack(
@@ -152,7 +153,7 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                             bottom: 8,
                             right: 16,
                             child: Text(
-                              'Watch on YouTube',
+                              AppLocalizations.of(context)!.watchOnYoutube,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.getFont('Mitr',
                                   color: AppColors.text,

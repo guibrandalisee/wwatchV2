@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wwatch/Screens/home/components/content_filter_widget.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -16,6 +17,7 @@ class CustomNothingFoundErrorScreen extends StatelessWidget {
   }) : super(key: key);
   final MovieStore movieStore;
   final FocusNode focusNode;
+
   @override
   Widget build(BuildContext context) {
     final StyleStore styleStore = GetIt.I<StyleStore>();

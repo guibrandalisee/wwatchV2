@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
-
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -14,8 +16,10 @@ class RecommendationsWidget extends StatelessWidget {
   RecommendationsWidget({
     Key? key,
     required this.movieStore,
+    required this.prefs,
   }) : super(key: key);
   final MovieStore movieStore;
+  final SharedPreferences prefs;
 
   final StyleStore styleStore = GetIt.I<StyleStore>();
   @override
@@ -36,7 +40,7 @@ class RecommendationsWidget extends StatelessWidget {
             height: 16,
           ),
           Text(
-            'Recommendations',
+            AppLocalizations.of(context)!.recommendations,
             style: GoogleFonts.getFont('Mitr',
                 color: styleStore.textColor,
                 fontSize: 22,
@@ -57,8 +61,9 @@ class RecommendationsWidget extends StatelessWidget {
                 index,
               ) {
                 return SizedBox(
-                    width: 180,
+                    width: 200,
                     child: SimilarMovieTile(
+                      prefs: prefs,
                       movie: movieStore.recommendations[index],
                     ));
               },
@@ -76,10 +81,12 @@ class SimilarMovieTile extends StatelessWidget {
   final SimpleMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  final SharedPreferences prefs;
 
   SimilarMovieTile({
     Key? key,
     required this.movie,
+    required this.prefs,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -107,17 +114,18 @@ class SimilarMovieTile extends StatelessWidget {
       width: 500,
       height: 550,
       child: GestureDetector(
-        onTap: () {
+        onTap: Feedback.wrapForTap(() {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => MovieScreen(
+                prefs: prefs,
                 movieId: movie.id,
                 contentType: settingsStore.selectedContentType,
               ),
             ),
           );
-        },
+        }, context),
         child: Stack(
           children: [
             movie.posterPath != null
@@ -163,7 +171,7 @@ class SimilarMovieTile extends StatelessWidget {
               bottom: 45,
               left: 8,
               child: Container(
-                width: 154,
+                width: 174,
                 child: Wrap(
                   children: [
                     Text(

@@ -63,12 +63,12 @@ class WelcomeScreen extends StatelessWidget {
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen(
-                                  contentType: type.movie,
-                                )));
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const HomeScreen(
+                    //               contentType: type.movie,
+                    //             )));
                   },
                   child: SizedBox(
                     width: 340,
@@ -118,12 +118,12 @@ class WelcomeScreen extends StatelessWidget {
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen(
-                                  contentType: type.tvShows,
-                                )));
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const HomeScreen(
+                    //               contentType: type.tvShows,
+                    //             )));
                   },
                   child: SizedBox(
                     width: 340,

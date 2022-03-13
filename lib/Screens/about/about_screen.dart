@@ -5,6 +5,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);
@@ -54,14 +55,14 @@ class AboutScreen extends StatelessWidget {
                 height: 120,
               ),
               Text(
-                "ABOUT",
+                AppLocalizations.of(context)!.about,
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 48,
                     fontWeight: FontWeight.w300),
               ),
               Text(
-                "Information about the APP",
+                AppLocalizations.of(context)!.aboutText,
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 18,
@@ -73,7 +74,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Made by:",
+                  AppLocalizations.of(context)!.madeBy,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -166,7 +167,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Made by:",
+                  AppLocalizations.of(context)!.madeBy,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -238,7 +239,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Buy me a coffee:",
+                  AppLocalizations.of(context)!.buyCoffe,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 18,
@@ -299,7 +300,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Dont forget to review the app on the PlayStore",
+                  AppLocalizations.of(context)!.askReview,
                   style: GoogleFonts.getFont(
                     'Mitr',
                     color: styleStore.textColor,
@@ -330,7 +331,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "This way we can keep improving it",
+                  AppLocalizations.of(context)!.canImprove,
                   style: GoogleFonts.getFont(
                     'Mitr',
                     color: styleStore.textColor,
@@ -356,7 +357,7 @@ class AboutScreen extends StatelessWidget {
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                      text: "App made using ",
+                      text: AppLocalizations.of(context)!.appMade,
                       style: GoogleFonts.getFont(
                         'Mitr',
                         color: styleStore.textColor,
@@ -400,7 +401,7 @@ class AboutScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Text(
-                    "Go to their WebSite",
+                    AppLocalizations.of(context)!.goToWebSite,
                     style: GoogleFonts.getFont(
                       'Mitr',
                       color: AppColors.textOnPrimaries[styleStore.colorIndex!],
@@ -416,7 +417,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "DISCLAIMER",
+                  AppLocalizations.of(context)!.disclaimer.toUpperCase(),
                   style: GoogleFonts.getFont(
                     'Mitr',
                     color: styleStore.textColor,
@@ -432,7 +433,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "We don't have any sort of affiliation with TMDB, this is just an app made using their API, any content related issues must be reported on their website",
+                  AppLocalizations.of(context)!.disclaimerText,
                   style: GoogleFonts.getFont(
                     'Mitr',
                     color: styleStore.textColor,

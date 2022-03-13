@@ -7,6 +7,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HeaderWidget extends StatelessWidget {
   HeaderWidget({
@@ -72,10 +73,9 @@ class HeaderWidget extends StatelessWidget {
             bottom: 56,
             left: 8,
             child: Container(
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                 alignment: Alignment.center,
                 height: 40,
-                width: 180,
                 decoration: BoxDecoration(
                     color: AppColors.shape,
                     borderRadius: BorderRadius.circular(32),
@@ -83,7 +83,7 @@ class HeaderWidget extends StatelessWidget {
                         Border.all(color: styleStore.primaryColor!, width: 2)),
                 child: RichText(
                   text: TextSpan(
-                    text: 'User Rating ',
+                    text: AppLocalizations.of(context)!.userRating,
                     style: GoogleFonts.getFont('Mitr',
                         color: AppColors.text,
                         fontSize: 16,

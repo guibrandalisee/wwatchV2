@@ -46,11 +46,14 @@ dependencies:
   cached_network_image: ^3.1.0
   flutter_svg: ^0.23.0+1
   flutter_launcher_icons: ^0.9.2
-  photo_view: ^0.13.0
+  photo_view: 
   device_preview: ^1.0.0
   double_back_to_close_app: ^2.1.0
   another_xlider: ^1.0.1+2
   flutter_dotenv: ^4.0.0-nullsafety.0
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +67,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

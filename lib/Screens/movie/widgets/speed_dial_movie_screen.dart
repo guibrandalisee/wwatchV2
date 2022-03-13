@@ -7,11 +7,11 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class CustomSpeedDialMovieScreen extends StatelessWidget {
-  const CustomSpeedDialMovieScreen({Key? key}) : super(key: key);
+  CustomSpeedDialMovieScreen({Key? key}) : super(key: key);
+  final StyleStore styleStore = GetIt.I<StyleStore>();
 
   @override
   Widget build(BuildContext context) {
-    final StyleStore styleStore = GetIt.I<StyleStore>();
     return SpeedDial(
       switchLabelPosition: styleStore.fabPosition == 0 ? true : false,
       elevation: 8,

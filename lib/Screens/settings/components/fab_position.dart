@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FabPosition extends StatelessWidget {
   const FabPosition({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class FabPosition extends StatelessWidget {
                           styleStore.setFabPosition(0);
                         },
                         child: Text(
-                          "Left",
+                          AppLocalizations.of(context)!.left,
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.fabPosition == 1
                                   ? styleStore.textColor
@@ -64,7 +65,7 @@ class FabPosition extends StatelessWidget {
                           styleStore.setFabPosition(1);
                         },
                         child: Text(
-                          "Right",
+                          AppLocalizations.of(context)!.right,
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.fabPosition == 0
                                   ? styleStore.textColor

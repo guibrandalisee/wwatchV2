@@ -221,6 +221,21 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$personAtom = Atom(name: '_MovieStoreBase.person');
+
+  @override
+  Person? get person {
+    _$personAtom.reportRead();
+    return super.person;
+  }
+
+  @override
+  set person(Person? value) {
+    _$personAtom.reportWrite(value, super.person, () {
+      super.person = value;
+    });
+  }
+
   final _$fetchDataAsyncAction = AsyncAction('_MovieStoreBase.fetchData');
 
   @override
@@ -271,6 +286,13 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.getRecommendations(id));
   }
 
+  final _$getPersonAsyncAction = AsyncAction('_MovieStoreBase.getPerson');
+
+  @override
+  Future<void> getPerson(int personId) {
+    return _$getPersonAsyncAction.run(() => super.getPerson(personId));
+  }
+
   final _$_MovieStoreBaseActionController =
       ActionController(name: '_MovieStoreBase');
 
@@ -301,7 +323,8 @@ temporarySearchString: ${temporarySearchString},
 empty: ${empty},
 recommendations: ${recommendations},
 season: ${season},
-loadingSeason: ${loadingSeason}
+loadingSeason: ${loadingSeason},
+person: ${person}
     ''';
   }
 }

@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wwatch/Shared/models/configuration_models.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 
 part 'settings_store.g.dart';
 
@@ -10,7 +12,8 @@ class SettingsStore = _SettingsStoreBase with _$SettingsStore;
 enum CustomBrightness { dark, amoled, light }
 
 abstract class _SettingsStoreBase with Store {
-  String apiKey = env['API_KEY']!;
+  String token = env['TOKEN']!;
+
   //Check if user has changed any settings before
   final SharedPreferences? prefs;
   _SettingsStoreBase({
@@ -33,6 +36,15 @@ abstract class _SettingsStoreBase with Store {
       if (prefs!.containsKey('tileMode')) {
         tileDisplayMode = prefs!.getInt('tileMode')!;
       }
+      if (prefs!.containsKey('country')) {
+        country = prefs!.getString('country')!;
+      }
+      if (prefs!.containsKey('language')) {
+        selectedlanguage = prefs!.getString('language')!;
+      }
+      if (prefs!.containsKey('languageISO')) {
+        language = prefs!.getString('languageISO')!;
+      }
     } else {
       dateFormat = 'dd/mm/yyyy';
       brightness = CustomBrightness.dark;
@@ -46,6 +58,10 @@ abstract class _SettingsStoreBase with Store {
       baseUrl: 'https://api.themoviedb.org/3',
       connectTimeout: 5000,
       receiveTimeout: 3000,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json;charset=utf-8'
+      },
     );
 
     try {
@@ -70,6 +86,12 @@ abstract class _SettingsStoreBase with Store {
     tileDisplayMode = value;
   }
 
+  @action
+  void setCountry(String value) {
+    prefs?.setString('country', value);
+    country = value;
+  }
+
   //Change Brightness settigns (Dark|Light|AMOLED)
   @observable
   CustomBrightness brightness = CustomBrightness.dark;
@@ -92,9 +114,10 @@ abstract class _SettingsStoreBase with Store {
   //TODO get list itens from API
   //or just set suported languages manually
   @observable
-  String language = 'English - US';
-  @action
-  void setLanguage(String value) => language = value;
+  String selectedlanguage = 'English - US';
+  @observable
+  String language = 'en';
+
   //WIP change app secondary language
   @observable
   String secondaryLanguage = 'English - US';
@@ -131,18 +154,7 @@ abstract class _SettingsStoreBase with Store {
 
   //WIP Change app country to filter movie watch providers results
   @observable
-  String country = 'Brazil';
-  @action
-  void setCountry(String value) => country = value;
-
-  @observable
-  List<String> countries = [
-    "United States",
-    "Canada",
-    "Brazil",
-    "United Kingdom",
-    "France"
-  ];
+  String country = 'United States of America';
 
   //WIP Change app timezone
   @observable
@@ -206,7 +218,6 @@ abstract class _SettingsStoreBase with Store {
   @action
   Future<void> getMovieGenres() async {
     final response = await fetchData(path: '/genre/movie/list', parameters: {
-      'api_key': apiKey,
       'language': language,
     });
 
@@ -218,13 +229,64 @@ abstract class _SettingsStoreBase with Store {
   @action
   Future<void> getTvShowGenres() async {
     final response = await fetchData(path: '/genre/tv/list', parameters: {
-      'api_key': apiKey,
       'language': language,
     });
 
     tvShowGenres = response.data['genres'].map<Genre>((e) {
       return Genre(id: e['id'], name: e['name']);
     }).toList();
+  }
+
+  @observable
+  List<AvaliableWatchProviderRegions> avaliableRegions = [];
+
+  @action
+  Future<void> getAvaliableRegions() async {
+    final response =
+        await fetchData(path: '/watch/providers/regions', parameters: {
+      'language': language,
+    });
+
+    avaliableRegions =
+        response.data['results'].map<AvaliableWatchProviderRegions>((e) {
+      return AvaliableWatchProviderRegions(
+        iso_3166_1: e['iso_3166_1'],
+        englishName: e['english_name'],
+        nativeName: e['native_name'],
+      );
+    }).toList();
+  }
+
+  @observable
+  List<AvaliableContentLanguages> avaliableContentLanguages = [];
+
+  @action
+  Future<void> getAvaliableLanguages() async {
+    avaliableContentLanguages = [
+      AvaliableContentLanguages(
+          iso_639_1: 'pt-BR',
+          englishName: 'Portuguese - BR',
+          name: 'Português - BR'),
+      AvaliableContentLanguages(
+          iso_639_1: 'en-US',
+          englishName: 'English - US',
+          name: 'English - US'),
+      AvaliableContentLanguages(
+          iso_639_1: 'es-ES',
+          englishName: 'Spanish - ES',
+          name: 'Español - ES'),
+      AvaliableContentLanguages(
+          iso_639_1: 'fr-FR',
+          englishName: 'French - FR',
+          name: 'Français - FR'),
+    ];
+
+    avaliableContentLanguages.sort((a, b) {
+      return a.englishName
+          .toString()
+          .toLowerCase()
+          .compareTo(b.englishName.toString().toLowerCase());
+    });
   }
 
   @observable
@@ -255,6 +317,14 @@ abstract class _SettingsStoreBase with Store {
 
   @action
   void setSelectedContentType(int value) => selectedContentType = value;
+
+  @action
+  void switchContentType() {
+    if (selectedContentType == 0)
+      selectedContentType = 1;
+    else
+      selectedContentType = 0;
+  }
 
   @observable
   bool voteCountActive = false;

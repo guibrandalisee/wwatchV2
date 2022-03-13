@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
+import 'package:wwatch/Screens/settings/settings_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
 class CustomSpeedDialHomeScreen extends StatelessWidget {
-  const CustomSpeedDialHomeScreen({
+  CustomSpeedDialHomeScreen({
     Key? key,
     required this.movieStore,
     required this.scrollController,
@@ -19,9 +23,10 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
   final MovieStore movieStore;
   final ScrollController scrollController;
   final FocusNode focusNode;
+  final StyleStore styleStore = GetIt.I<StyleStore>();
+
   @override
   Widget build(BuildContext context) {
-    final StyleStore styleStore = GetIt.I<StyleStore>();
     return SpeedDial(
       tooltip: 'Navigation Menu',
       switchLabelPosition: styleStore.fabPosition == 0 ? true : false,
@@ -39,7 +44,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
             FocusScope.of(context).unfocus();
 
             try {
-              await scrollController.animateTo(0,
+              await scrollController.animateTo(120,
                   duration: Duration(seconds: 1), curve: Curves.ease);
             } catch (e) {
               print('noScroll');
@@ -50,7 +55,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'Search',
+              AppLocalizations.of(context)!.search,
               style: GoogleFonts.getFont('Mitr',
                   color: AppColors.text,
                   fontSize: 16,
@@ -65,50 +70,33 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
         ),
         SpeedDialChild(
           onTap: () {
-            if (settingsStore.selectedContentType != 0) {
-              settingsStore.setSelectedContentType(0);
-
-              movieStore.getPopularContent();
-            }
+            settingsStore.switchContentType();
+            movieStore.getPopularContent();
           },
-          labelWidget: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'Movies',
-              style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300),
-            ),
-          ),
-          child: Icon(
-            LineIcons.video,
-            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
-          ),
-          backgroundColor: styleStore.primaryColor,
-        ),
-        SpeedDialChild(
-          onTap: () {
-            if (settingsStore.selectedContentType != 1) {
-              settingsStore.setSelectedContentType(1);
-
-              movieStore.getPopularContent();
-            }
-          },
-          labelWidget: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'TV Shows',
-              style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300),
-            ),
-          ),
-          child: Icon(
-            LineIcons.television,
-            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
-          ),
+          labelWidget: Observer(builder: (
+            context,
+          ) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                settingsStore.selectedContentType == 1
+                    ? AppLocalizations.of(context)!.movies
+                    : AppLocalizations.of(context)!.tvShows,
+                style: GoogleFonts.getFont('Mitr',
+                    color: AppColors.text,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300),
+              ),
+            );
+          }),
+          child: Observer(builder: (context) {
+            return Icon(
+              settingsStore.selectedContentType == 1
+                  ? LineIcons.video
+                  : LineIcons.television,
+              color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+            );
+          }),
           backgroundColor: styleStore.primaryColor,
         ),
         SpeedDialChild(
@@ -124,7 +112,7 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'Filters',
+              AppLocalizations.of(context)!.filters,
               style: GoogleFonts.getFont('Mitr',
                   color: AppColors.text,
                   fontSize: 16,
@@ -133,6 +121,30 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           ),
           child: Icon(
             LineIcons.filter,
+            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+          ),
+          backgroundColor: styleStore.primaryColor,
+        ),
+        SpeedDialChild(
+          onTap: () async {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SettingsScreen(
+                      fab: true,
+                      movieStore: movieStore,
+                    )));
+          },
+          labelWidget: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              AppLocalizations.of(context)!.settings,
+              style: GoogleFonts.getFont('Mitr',
+                  color: AppColors.text,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300),
+            ),
+          ),
+          child: Icon(
+            LineIcons.cog,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
           backgroundColor: styleStore.primaryColor,

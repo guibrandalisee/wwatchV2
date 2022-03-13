@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Screens/home/components/back_to_top_button_widget.dart';
 import 'package:wwatch/Screens/home/components/content_filter_widget.dart';
 import 'package:wwatch/Screens/home/components/loading_screen.dart';
@@ -20,12 +21,15 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum type { movie, tvShows }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.contentType}) : super(key: key);
+  const HomeScreen({Key? key, required this.contentType, required this.prefs})
+      : super(key: key);
   final contentType;
+  final SharedPreferences prefs;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -37,12 +41,28 @@ class _HomeScreenState extends State<HomeScreen> {
     if (widget.contentType != type.movie) {
       settingsStore.setSelectedContentType(1);
     }
+    if (!widget.prefs.containsKey('language') ||
+        !widget.prefs.containsKey('languageISO') &&
+            (WidgetsBinding.instance != null)) {
+      movieStore.language = AppLocalizations.delegate
+              .isSupported(WidgetsBinding.instance!.window.locale)
+          ? '${WidgetsBinding.instance!.window.locale.languageCode}-${WidgetsBinding.instance!.window.locale.countryCode}'
+          : 'en-US';
+      settingsStore.language = AppLocalizations.delegate
+              .isSupported(WidgetsBinding.instance!.window.locale)
+          ? '${WidgetsBinding.instance!.window.locale.languageCode}-${WidgetsBinding.instance!.window.locale.countryCode}'
+          : 'en-US';
+    }
+    settingsStore.getMovieGenres();
     movieStore.getPopularContent();
     settingsStore.getMovieGenres();
     settingsStore.getTvShowGenres();
+    settingsStore.getAvaliableRegions();
+    settingsStore.getAvaliableLanguages();
   }
 
-  final ScrollController scrollController = ScrollController();
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 120);
 
   final FocusNode focusNode = FocusNode();
   final MovieStore movieStore = MovieStore();
@@ -84,12 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
             : styleStore.primaryColor,
         leading: InkWell(
           onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WelcomeScreen(),
-              ),
-            );
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => WelcomeScreen(),
+            //   ),
+            // );
           },
           child: Ink(
             child: Center(
@@ -111,10 +131,14 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             splashRadius: 20,
-            tooltip: 'Settings',
+            tooltip: AppLocalizations.of(context)!.settings,
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SettingsScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SettingsScreen(
+                            movieStore: movieStore,
+                          )));
             },
             icon: Icon(
               LineIcons.cog,
@@ -183,6 +207,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              Container(
+                                width: double.infinity,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                      styleStore.shapeColor!.withOpacity(0.8),
+                                      Colors.transparent
+                                    ])),
+                              ),
                               const SizedBox(
                                 height: 28,
                               ),
@@ -195,11 +231,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         else if (index < movieStore.movies.length + 1)
                           return settingsStore.tileDisplayMode == 0
                               ? MovieTile(
+                                  prefs: widget.prefs,
                                   movie: movieStore.movies[index - 1],
                                   contentType:
                                       settingsStore.selectedContentType,
                                 )
                               : MovieTileList(
+                                  prefs: widget.prefs,
                                   movie: movieStore.movies[index - 1],
                                   contentType:
                                       settingsStore.selectedContentType);

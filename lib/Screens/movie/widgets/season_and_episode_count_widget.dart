@@ -35,7 +35,7 @@ class SeasonEpisodeCount extends StatelessWidget {
                     text: ' $title',
                     style: GoogleFonts.getFont('Mitr',
                         color: styleStore.textColor,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w100),
                   ),
                 ],

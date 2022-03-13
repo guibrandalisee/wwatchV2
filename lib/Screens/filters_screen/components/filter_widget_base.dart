@@ -58,7 +58,7 @@ class FilterWidgetBase extends StatelessWidget {
                     style: GoogleFonts.getFont(
                       'Mitr',
                       color: styleStore.textColor,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.w100,
                     ),
                     textAlign: TextAlign.center,

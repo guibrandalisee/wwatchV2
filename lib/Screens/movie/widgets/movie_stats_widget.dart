@@ -7,6 +7,7 @@ import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MovieStatsWidget extends StatelessWidget {
   const MovieStatsWidget({
@@ -37,8 +38,8 @@ class MovieStatsWidget extends StatelessWidget {
           ),
           Text(
             settingsStore.selectedContentType == 0
-                ? 'Movie Information'
-                : 'Information',
+                ? AppLocalizations.of(context)!.movieInformation
+                : AppLocalizations.of(context)!.information,
             style: GoogleFonts.getFont('Mitr',
                 color: styleStore.textColor,
                 fontSize: 22,
@@ -49,53 +50,58 @@ class MovieStatsWidget extends StatelessWidget {
             height: 32,
           ),
           CustomStatWidget(
-              title: 'Original Title',
+              title: AppLocalizations.of(context)!.originalTitle,
               content: movie.originalTitle.toString().trim()),
           CustomStatWidget(
-              title: 'Original Language',
+              title: AppLocalizations.of(context)!.originalLanguage,
               content: movie.originalLanguage.toString().toUpperCase()),
           if (movie.runtime != null &&
               !movie.runtime!.isNaN &&
               movie.runtime! > 1)
             CustomStatWidget(
-                title: 'Runtime', content: formatTime(movie.runtime!)),
+                title: AppLocalizations.of(context)!.runtime,
+                content: formatTime(movie.runtime!, context)),
           if (movie.releaseDate != null &&
               movie.releaseDate! != '0000-00-00' &&
               movie.releaseDate!.isNotEmpty &&
               settingsStore.selectedContentType == 0)
             CustomStatWidget(
-                title: 'Release Date',
+                title: AppLocalizations.of(context)!.releaseDate,
                 content: formatDate(movie) + ' - ${movie.launchStatus}'),
           if (movie.releaseDate != null &&
               movie.releaseDate! != '0000-00-00' &&
               movie.releaseDate!.isNotEmpty &&
               settingsStore.selectedContentType == 1)
             CustomStatWidget(
-                title: 'First Air Date', content: formatDate(movie)),
+                title: AppLocalizations.of(context)!.firstAirDate,
+                content: formatDate(movie)),
           if (movie.budget != null && !movie.budget!.isNaN && movie.budget! > 1)
             CustomStatWidget(
-                title: 'Budget', content: moneyFormat(movie.budget.toString())),
+                title: AppLocalizations.of(context)!.budget,
+                content: moneyFormat(movie.budget.toString())),
           if (movie.revenue != null &&
               !movie.revenue!.isNaN &&
               movie.revenue! > 1)
             CustomStatWidget(
-                title: 'Revenue',
+                title: AppLocalizations.of(context)!.revenue,
                 content: moneyFormat(movie.revenue.toString())),
           if (!movie.voteCount.isNaN)
             CustomStatWidget(
-                title: 'Vote Count', content: movie.voteCount.toString()),
+                title: AppLocalizations.of(context)!.voteCount,
+                content: movie.voteCount.toString()),
         ],
       ),
     );
   }
 }
 
-String formatTime(int value) {
-  if (value < 60) return "$value minutes";
+String formatTime(int value, BuildContext context) {
+  if (value < 60) return "$value ${AppLocalizations.of(context)!.minutes}";
 
-  String hours = '${(value / 60).truncate()} hours';
+  String hours =
+      '${(value / 60).truncate()} ${AppLocalizations.of(context)!.hours}';
   String minutes = value - ((value / 60).truncate() * 60) != 0
-      ? ' and ${value - ((value / 60).truncate() * 60)} minutes'
+      ? ' ${AppLocalizations.of(context)!.and} ${value - ((value / 60).truncate() * 60)} ${AppLocalizations.of(context)!.minutes}'
       : '';
   return hours + minutes;
 }

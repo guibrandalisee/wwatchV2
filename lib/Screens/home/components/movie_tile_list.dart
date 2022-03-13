@@ -2,9 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
-
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -12,9 +13,12 @@ import 'package:wwatch/stores/style_store.dart';
 class MovieTileList extends StatelessWidget {
   MovieTileList({
     Key? key,
+    required this.prefs,
     required this.movie,
     required this.contentType,
   }) : super(key: key);
+  final SharedPreferences prefs;
+
   final SimpleMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
@@ -52,6 +56,7 @@ class MovieTileList extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => MovieScreen(
+                prefs: prefs,
                 movieId: movie.id,
                 contentType: contentType,
               ),

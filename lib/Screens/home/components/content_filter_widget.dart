@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
@@ -19,7 +21,6 @@ class ContentFilter extends StatelessWidget {
     required this.focusNode,
     required this.movieStore,
   }) : super(key: key);
-
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   final controller = TextEditingController();
@@ -61,7 +62,7 @@ class ContentFilter extends StatelessWidget {
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
-                hintText: "Search",
+                hintText: AppLocalizations.of(context)!.search,
                 hintStyle: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 16,
@@ -124,7 +125,7 @@ class ContentFilter extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        "Movies",
+                        AppLocalizations.of(context)!.movies,
                         style: GoogleFonts.getFont('Mitr',
                             color: settingsStore.selectedContentType == 1
                                 ? styleStore.textColor
@@ -161,7 +162,7 @@ class ContentFilter extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        "TV Shows",
+                        AppLocalizations.of(context)!.tvShows,
                         style: GoogleFonts.getFont('Mitr',
                             color: settingsStore.selectedContentType == 0
                                 ? styleStore.textColor
@@ -213,7 +214,7 @@ class ContentFilter extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Filters",
+                          AppLocalizations.of(context)!.filters,
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.textColor,
                               fontSize: 16,

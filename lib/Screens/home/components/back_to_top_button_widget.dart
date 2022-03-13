@@ -57,12 +57,12 @@ class _BackToTopButtonState extends State<BackToTopButton>
             height: 38,
             width: 38,
             child: GestureDetector(
-              onTap: () async {
+              onTap: Feedback.wrapForTap(() async {
                 if (visible) {
-                  await widget.scrollController.animateTo(0.0,
+                  await widget.scrollController.animateTo(120.0,
                       duration: Duration(seconds: 1), curve: Curves.ease);
                 }
-              },
+              }, context),
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(

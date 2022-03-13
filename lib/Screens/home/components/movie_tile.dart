@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -14,11 +16,13 @@ class MovieTile extends StatelessWidget {
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   final int contentType;
+  final SharedPreferences prefs;
 
   MovieTile({
     Key? key,
     required this.movie,
     required this.contentType,
+    required this.prefs,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -52,6 +56,7 @@ class MovieTile extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => MovieScreen(
+                prefs: prefs,
                 movieId: movie.id,
                 contentType: contentType,
               ),
@@ -103,10 +108,10 @@ class MovieTile extends StatelessWidget {
               right: 8,
               top: 8,
               child: Container(
-                  padding: const EdgeInsets.all(4),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                   alignment: Alignment.center,
                   height: 40,
-                  width: 180,
                   decoration: BoxDecoration(
                     color: AppColors.shape,
                     borderRadius: BorderRadius.circular(32),
@@ -115,7 +120,7 @@ class MovieTile extends StatelessWidget {
                   ),
                   child: RichText(
                     text: TextSpan(
-                      text: 'User Rating ',
+                      text: AppLocalizations.of(context)!.userRating,
                       style: GoogleFonts.getFont('Mitr',
                           color: AppColors.text,
                           fontSize: 16,

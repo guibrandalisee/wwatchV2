@@ -1,13 +1,16 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wwatch/Screens/home/home_screen.dart';
+import 'package:wwatch/l10n/l10n.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //TODO add routes 2.0
 //TODO reduce the number of lines in all build methods
@@ -26,7 +29,7 @@ Future<void> main() async {
   runApp(
     DevicePreview(
       enabled: false,
-      builder: (_) => MyApp(),
+      builder: (_) => MyApp(prefs),
     ),
   );
 }
@@ -38,18 +41,20 @@ void setupLocators(SharedPreferences preferences) {
 }
 
 Future<void> launchInBrowser(String url) async {
-  if (await canLaunch(url)) {
+  try {
     await launch(
       url,
       forceSafariVC: false,
       forceWebView: false,
     );
-  } else {
-    throw 'Could not launch $url';
+  } catch (e) {
+    print(e);
   }
 }
 
 class MyApp extends StatelessWidget {
+  MyApp(this.prefs);
+  final SharedPreferences prefs;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -69,7 +74,17 @@ class MyApp extends StatelessWidget {
             ),
           )),
       //home: WelcomeScreen(),
-      home: HomeScreen(contentType: type.movie),
+      home: HomeScreen(
+        contentType: type.movie,
+        prefs: prefs,
+      ),
+      supportedLocales: L10n.all,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
     );
   }
 }
@@ -77,7 +92,14 @@ class MyApp extends StatelessWidget {
 //distributionUrl=https\://services.gradle.org/distributions/gradle-6.7-all.zip
 
 //android/buid.gradle \/
+//ext.kotlin_version = '1.6.10'
+
 //    dependencies {
 //        classpath 'com.android.tools.build:gradle:4.1.0'
 //        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 //    }
+
+//Android/app/src/build.gradle
+//dependencies {
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//}
