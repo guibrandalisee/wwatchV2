@@ -1,7 +1,6 @@
 import 'package:wwatch/Shared/models/cast_and_crew_model.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
-import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 
 class Genre {
@@ -13,13 +12,14 @@ class Genre {
   });
 }
 
+//A simple version of a Movie or TV Show, only getting enough values to display the movie tile on Home Screen
 class SimpleMovie {
   final List genreIds;
   final int id;
   final bool adult;
   final String? posterPath;
-  final double popularity;
-  final double voteAverage;
+  final num popularity;
+  final num voteAverage;
   final String originalLanguage;
   final String title;
   final String overview;
@@ -40,6 +40,7 @@ class SimpleMovie {
   });
 }
 
+//A complete version of a Movie or TV Show, to display in depth info about it on Movie Screen
 class CompleteMovie {
   CompleteMovie({
     required this.genres,
@@ -77,8 +78,8 @@ class CompleteMovie {
   final int id;
   final bool adult;
   final String? posterPath;
-  final double popularity;
-  final double voteAverage;
+  final num popularity;
+  final num voteAverage;
   final int voteCount;
   final String originalLanguage;
   final String title;

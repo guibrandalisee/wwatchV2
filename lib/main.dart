@@ -13,7 +13,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //TODO add routes 2.0
-//TODO reduce the number of lines in all build methods
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,18 +87,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//gradle-wrapper.properties \/
-//distributionUrl=https\://services.gradle.org/distributions/gradle-6.7-all.zip
-
-//android/buid.gradle \/
-//ext.kotlin_version = '1.6.10'
-
-//    dependencies {
-//        classpath 'com.android.tools.build:gradle:4.1.0'
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-//    }
-
-//Android/app/src/build.gradle
-//dependencies {
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//}

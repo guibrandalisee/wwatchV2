@@ -9,6 +9,8 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+//* This Screen is a child of Filter Screen, where the user can sort the content by a parameter Eg. Vote Count
+
 class SortByScreen extends StatelessWidget {
   const SortByScreen({
     Key? key,

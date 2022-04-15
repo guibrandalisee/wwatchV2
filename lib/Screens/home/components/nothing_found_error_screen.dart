@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wwatch/Screens/home/components/content_filter_widget.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomNothingFoundErrorScreen extends StatelessWidget {
   const CustomNothingFoundErrorScreen({
@@ -57,7 +57,7 @@ class CustomNothingFoundErrorScreen extends StatelessWidget {
                     height: 32,
                   ),
                   Text(
-                    "Couldn't find any movies with the especified filters :(",
+                    AppLocalizations.of(context)!.couldNotFindMovies,
                     style: GoogleFonts.getFont('Mitr',
                         color: AppColors.text,
                         fontSize: 16,

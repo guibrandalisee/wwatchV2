@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CustomErrorScree extends StatelessWidget {
-  const CustomErrorScree({
+class CustomErrorSeasonScreen extends StatelessWidget {
+  CustomErrorSeasonScreen({
     Key? key,
+    required this.seasonNumber,
+    required this.tvId,
     required this.movieStore,
   }) : super(key: key);
   final MovieStore movieStore;
+  final int seasonNumber;
+  final int tvId;
   @override
   Widget build(BuildContext context) {
     final StyleStore styleStore = GetIt.I<StyleStore>();
@@ -32,7 +35,7 @@ class CustomErrorScree extends StatelessWidget {
             Text(
               AppLocalizations.of(context)!.error,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 24,
                   fontWeight: FontWeight.w400),
             ),
@@ -52,7 +55,7 @@ class CustomErrorScree extends StatelessWidget {
             Text(
               AppLocalizations.of(context)!.homeErrorText1,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 14,
                   fontWeight: FontWeight.w300),
               textAlign: TextAlign.center,
@@ -63,7 +66,7 @@ class CustomErrorScree extends StatelessWidget {
             Text(
               AppLocalizations.of(context)!.homeErrorText2,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 12,
                   fontWeight: FontWeight.w100),
               textAlign: TextAlign.center,
@@ -80,12 +83,14 @@ class CustomErrorScree extends StatelessWidget {
                         MaterialStateProperty.all(styleStore.primaryColor)),
                 onPressed: () {
                   movieStore.error = false;
-                  movieStore.getPopularContent();
+
+                  movieStore.getSeasonEpisodes(
+                      tvId: tvId, seasonNumber: seasonNumber);
                 },
                 child: Text(
                   AppLocalizations.of(context)!.homeErrorButtonText,
                   style: GoogleFonts.getFont('Mitr',
-                      color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                      color: styleStore.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300),
                   textAlign: TextAlign.center,

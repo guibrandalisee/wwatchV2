@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/cast_and_crew_model.dart';

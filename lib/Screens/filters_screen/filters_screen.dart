@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transition/transition.dart';
 
 import 'package:wwatch/Screens/filters_screen/components/custom_slider_widget.dart';
@@ -271,8 +270,8 @@ class FiltersScreen extends StatelessWidget {
                     },
                     child: CustomSlider(
                       min: 0,
-                      max: 15000,
-                      step: FlutterSliderStep(step: 100),
+                      max: 10000,
+                      step: FlutterSliderStep(step: 10),
                       values: [
                         settingsStore.voteCountMin.toDouble(),
                         settingsStore.voteCountMax.toDouble()

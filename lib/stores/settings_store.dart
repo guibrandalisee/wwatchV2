@@ -110,7 +110,6 @@ abstract class _SettingsStoreBase with Store {
     dateFormat = value;
   }
 
-  //WIP change app language
   //TODO get list itens from API
   //or just set suported languages manually
   @observable
@@ -327,9 +326,9 @@ abstract class _SettingsStoreBase with Store {
   }
 
   @observable
-  bool voteCountActive = false;
+  bool voteCountActive = true;
   @observable
-  int voteCountMin = 5000;
+  int voteCountMin = 20;
   @observable
   int voteCountMax = 10000;
   @action

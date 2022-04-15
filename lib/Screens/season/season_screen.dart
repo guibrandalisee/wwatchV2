@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Screens/season/widgets/episode_widget.dart';
+import 'package:wwatch/Screens/season/widgets/season_error_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
@@ -89,6 +89,11 @@ class _SeasonScreenState extends State<SeasonScreen> {
       ),
       body: Observer(
         builder: (context) {
+          if (movieStore.error)
+            return CustomErrorSeasonScreen(
+                seasonNumber: widget.seasonNumber,
+                tvId: widget.tvId,
+                movieStore: movieStore);
           if (movieStore.loadingSeason)
             return LinearProgressIndicator(
               color: styleStore.primaryColor,
@@ -175,7 +180,6 @@ class _SeasonScreenState extends State<SeasonScreen> {
                     );
                   return Container();
                 });
-          //TODO make an error warning
           return Container();
         },
       ),

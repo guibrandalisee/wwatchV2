@@ -103,11 +103,11 @@ class Person {
 }
 
 class PersonImage {
-  double? aspectRatio;
+  num? aspectRatio;
   String filePath;
   int height;
-  double voteAverage;
-  double voteCount;
+  num voteAverage;
+  num voteCount;
   int width;
 
   PersonImage({

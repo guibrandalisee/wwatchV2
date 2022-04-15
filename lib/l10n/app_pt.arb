@@ -1,6 +1,6 @@
 {
     "movies": "Filmes",
-    "tvShows": "Series",
+    "tvShows": "Séries",
     "filters": "Filtros",
     "search": "Buscar",
     "settings": "Configurações",
@@ -62,7 +62,7 @@
     "biography": "Biografia",
     "knowFor": "Conhecido por",
     "appearInMovies": "Aparição em filmes",
-    "appearInTvShows": "Aparição em programas de TV/Series",
+    "appearInTvShows": "Aparição em programas de TV/Séries",
     "appearedAs": "Apareceu como",
     "hours": "hora(s)",
     "minutes": "minutos",
@@ -72,7 +72,7 @@
     "genres": "Gêneros",
     "voteAverage": "Média de Votos",
     "runtimeFilter": "Tempo de Exibição (minutos)",
-    "runtimeText": "Tempo de exibição médio dos episódios para Series*",
+    "runtimeText": "Tempo de exibição médio dos episódios para Séries*",
     "sortByDescription": "Esteja ciente de que você encontrará conteúdo estranho e/ou quebrado da ao ordenar por filmes desconhecidos (Ex. popularidade | Asc)",
     "genresDescription": "Este filtro funciona mostrando apenas filmes com todos os gêneros selecionados",
     "about": "SOBRE",
@@ -84,5 +84,11 @@
     "goToWebSite": "Vá para o WebSite deles",
     "disclaimer": "Nota",
     "disclaimerText": "Não temos nenhum tipo de afiliação com o TMDB, este é apenas um aplicativo feito usando a sua API, qualquer problema relacionado ao conteúdo deve ser relatado em seu website",
-    "aboutText": "Informações sobre o APP"
+    "aboutText": "Informações sobre o APP",
+    "error": "ERRO",
+    "homeErrorText1": "Não foi possível conectar com os servidor do TMDB",
+    "homeErrorText2": "Verifique sua conexão com a internet e tente novamente",
+    "homeErrorButtonText": "Tentar Novamente",
+    "tapAgainToLeave": "Clique em voltar novamente para sair",
+    "couldNotFindMovies": "Não encontramos nenhum conteudo com os filtros aplicados :("
 }

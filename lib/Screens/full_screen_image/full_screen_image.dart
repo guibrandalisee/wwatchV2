@@ -4,10 +4,6 @@ import 'package:photo_view/photo_view.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
-//TODO fix error when closing this screen
-//════════ Exception caught by widgets library ═══════════════════════════════════
-//Looking up a deactivated widget's ancestor is unsafe.
-//════════════════════════════════════════════════════════════════════════════════
 
 class FullScreenImage extends StatelessWidget {
   FullScreenImage({

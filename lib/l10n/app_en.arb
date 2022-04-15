@@ -84,5 +84,11 @@
     "goToWebSite": "Go to their WebSite",
     "disclaimer": "Disclaimer",
     "disclaimerText": "We do not have any sort of affiliation with TMDB, this is just an app made using their API, any content related issue must be reported on their website",
-    "aboutText": "Information about the APP"
+    "aboutText": "Information about the APP",
+    "error": "ERROR",
+    "homeErrorText1": "We couldn't connect you to the TMDB servers",
+    "homeErrorText2": "verify your internet connection and try again",
+    "homeErrorButtonText": "Try Again",
+    "tapAgainToLeave": "Tap back again to leave",
+    "couldNotFindMovies": "Couldn't find any content with the especified filters :("
 }

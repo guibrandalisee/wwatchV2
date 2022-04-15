@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/stores/movie_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wwatch/stores/style_store.dart';
 
@@ -31,7 +32,7 @@ class CustomErrorMovieScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'ERROR',
+              AppLocalizations.of(context)!.error,
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 24,
@@ -51,7 +52,7 @@ class CustomErrorMovieScreen extends StatelessWidget {
               height: 16,
             ),
             Text(
-              "We couldn't connect you to the TMDB servers",
+              AppLocalizations.of(context)!.homeErrorText1,
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 14,
@@ -62,7 +63,7 @@ class CustomErrorMovieScreen extends StatelessWidget {
               height: 16,
             ),
             Text(
-              "verify your internet connection and try again",
+              AppLocalizations.of(context)!.homeErrorText2,
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 12,
@@ -86,7 +87,7 @@ class CustomErrorMovieScreen extends StatelessWidget {
                       movieId, settingsStore.selectedContentType);
                 },
                 child: Text(
-                  "Try Again",
+                  AppLocalizations.of(context)!.homeErrorButtonText,
                   style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
                       fontSize: 16,

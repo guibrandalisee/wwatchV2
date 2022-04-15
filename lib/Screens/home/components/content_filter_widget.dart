@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';

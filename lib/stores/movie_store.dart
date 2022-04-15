@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -51,6 +49,7 @@ abstract class _MovieStoreBase with Store {
   @observable
   String searchString = '';
 
+  //Used to prevent new loaded content to use search string before the user click on search
   @observable
   String temporarySearchString = '';
 
@@ -189,8 +188,8 @@ abstract class _MovieStoreBase with Store {
         return SimpleMovie(
           genreIds: e['genre_ids'],
           id: e['id'],
-          popularity: e['popularity'] + 0.0,
-          voteAverage: e['vote_average'] + 0.0,
+          popularity: e['popularity'],
+          voteAverage: e['vote_average'],
           originalLanguage: e['original_language'],
           title: e['title'] != null ? e['title'] : e['name'],
           overview: e['overview'],
@@ -298,8 +297,8 @@ abstract class _MovieStoreBase with Store {
         return SimpleMovie(
             genreIds: e['genre_ids'],
             id: e['id'],
-            popularity: e['popularity'] + 0.0,
-            voteAverage: e['vote_average'] + 0.0,
+            popularity: e['popularity'],
+            voteAverage: e['vote_average'],
             originalLanguage: e['original_language'],
             title: e['title'] != null ? e['title'] : e['name'],
             overview: e['overview'],
@@ -452,8 +451,8 @@ abstract class _MovieStoreBase with Store {
         genres: data['genres'],
         id: id,
         adult: data['adult'],
-        popularity: data['popularity'] + 0.0,
-        voteAverage: data['vote_average'] + 0.0,
+        popularity: data['popularity'],
+        voteAverage: data['vote_average'],
         originalLanguage: data['original_language'],
         title: data['title'] != null ? data['title'] : data['name'],
         overview: data['overview'],
@@ -534,8 +533,8 @@ abstract class _MovieStoreBase with Store {
         return SimpleMovie(
             genreIds: e['genre_ids'],
             id: e['id'],
-            popularity: e['popularity'] + 0.0,
-            voteAverage: e['vote_average'] + 0.0,
+            popularity: e['popularity'],
+            voteAverage: e['vote_average'],
             originalLanguage: e['original_language'],
             title: e['title'] != null ? e['title'] : e['name'],
             overview: e['overview'],
@@ -589,8 +588,8 @@ abstract class _MovieStoreBase with Store {
         return SimpleMovie(
             genreIds: e['genre_ids'],
             id: e['id'],
-            popularity: e['popularity'] + 0.0,
-            voteAverage: e['vote_average'] + 0.0,
+            popularity: e['popularity'],
+            voteAverage: e['vote_average'],
             originalLanguage: e['original_language'],
             title: e['title'] != null ? e['title'] : e['name'],
             overview: e['overview'],
@@ -686,7 +685,7 @@ abstract class _MovieStoreBase with Store {
     final externalIdsData = response[2].data;
     final movieCreditsData = response[3].data;
     final tvCreditsData = response[4].data;
-    //TODO
+    //TODO finish implementing all the credits on people screen
     final combinedCreditsData = response[5].data;
     print(externalIdsData);
     try {
@@ -694,10 +693,12 @@ abstract class _MovieStoreBase with Store {
         return PersonImage(
           filePath: e['file_path'],
           height: e['height'],
-          voteAverage: e['vote_average'] * 0.0,
-          voteCount: e['vote_average'] * 0.0,
+          voteAverage: e['vote_average'],
+
+          //!wrong
+          voteCount: e['vote_average'],
           width: e['width'],
-          aspectRatio: e['aspect_ratio'] * 0.0,
+          aspectRatio: e['aspect_ratio'],
         );
       }).toList();
       final externalIds = PersonExternalIds(

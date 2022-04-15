@@ -22,8 +22,6 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
-//TODO add TV shows seasons and episodes
-
 class MovieScreen extends StatefulWidget {
   final int movieId;
   final int contentType;

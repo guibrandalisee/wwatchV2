@@ -104,14 +104,6 @@ class _PersonScreenState extends State<PersonScreen> {
                   Container(
                     width: double.infinity,
                     height: 120,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                          styleStore.shapeColor!.withOpacity(0.8),
-                          Colors.transparent
-                        ])),
                   ),
                   PersonHeaderWidget(movieStore: movieStore),
                   if (movieStore.person!.externalIds != null &&

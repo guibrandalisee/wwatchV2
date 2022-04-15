@@ -14,7 +14,6 @@ import 'package:wwatch/Screens/home/components/nothing_found_error_screen.dart';
 import 'package:wwatch/Screens/home/components/speed_dial.dart';
 import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/settings/settings_screen.dart';
-import 'package:wwatch/Screens/welcome/welcome_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Screens/home/components/movie_tile.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -103,14 +102,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ? styleStore.backgroundColor
             : styleStore.primaryColor,
         leading: InkWell(
-          onTap: () {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => WelcomeScreen(),
-            //   ),
-            // );
-          },
+          // onTap: () {
+          //   Navigator.pushReplacement(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => WelcomeScreen(),
+          //     ),
+          //   );
+          // },
           child: Ink(
             child: Center(
               child: Image(
@@ -182,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: DoubleBackToCloseApp(
           snackBar: SnackBar(
-            content: Text('Tap back again to leave'),
+            content: Text(AppLocalizations.of(context)!.tapAgainToLeave),
           ),
           child: Observer(
             builder: (context) {
@@ -210,14 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               Container(
                                 width: double.infinity,
                                 height: 120,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                      styleStore.shapeColor!.withOpacity(0.8),
-                                      Colors.transparent
-                                    ])),
                               ),
                               const SizedBox(
                                 height: 28,

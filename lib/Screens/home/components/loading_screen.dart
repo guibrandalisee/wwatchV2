@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:wwatch/stores/settings_store.dart';
 
 import 'package:wwatch/stores/style_store.dart';
 
@@ -12,6 +13,7 @@ class CustomLoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StyleStore styleStore = GetIt.I<StyleStore>();
+    final SettingsStore settingsStore = GetIt.I<SettingsStore>();
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -54,22 +56,7 @@ class CustomLoadingScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                    clipBehavior: Clip.antiAlias,
-                    child: Shimmer(
-                      child: Container(
-                        height: 48,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Expanded(
-                  child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
                     clipBehavior: Clip.antiAlias,
                     child: Shimmer(
                       child: Container(
@@ -84,19 +71,63 @@ class CustomLoadingScreen extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          Container(
-            margin: const EdgeInsets.all(16),
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Shimmer(
-              child: Container(
-                height: 550,
-                width: 500,
-              ),
-            ),
-          ),
+          settingsStore.tileDisplayMode == 0
+              ? Container(
+                  margin: const EdgeInsets.all(16),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Shimmer(
+                    child: Container(
+                      height: 550,
+                      width: 500,
+                    ),
+                  ),
+                )
+              : Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Shimmer(
+                        child: Container(
+                          height: 148,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Shimmer(
+                        child: Container(
+                          height: 148,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Shimmer(
+                        child: Container(
+                          height: 148,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
         ],
       ),
     );

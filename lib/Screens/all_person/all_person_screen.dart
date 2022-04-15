@@ -22,7 +22,8 @@ class AllPersonScreen extends StatelessWidget {
   final SharedPreferences prefs;
 
   final AllPersonType type;
-  ScrollController _controller = ScrollController(initialScrollOffset: 320);
+  final ScrollController _controller =
+      ScrollController(initialScrollOffset: 320);
   @override
   Widget build(BuildContext context) {
     final SettingsStore settingsStore = GetIt.I<SettingsStore>();

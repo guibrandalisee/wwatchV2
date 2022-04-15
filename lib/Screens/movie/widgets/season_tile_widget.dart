@@ -64,7 +64,7 @@ class SeasonTileWidget extends StatelessWidget {
                     height: 130,
                     child: CachedNetworkImage(
                       imageUrl:
-                          'https://image.tmdb.org/t/p/original${season.posterPath}',
+                          'https://image.tmdb.org/t/p/w154${season.posterPath}',
                       filterQuality: FilterQuality.medium,
                       fit: BoxFit.fill,
                     ),
