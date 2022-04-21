@@ -1,53 +1,52 @@
-[Versão em português desse arquivo](https://github.com/guibrandalisee/wwatchV2/blob/master/READMEPT.md)
+[English version of this file](https://github.com/guibrandalisee/wwatchV2#readme)
 
 # WWatch <img src="https://user-images.githubusercontent.com/41174096/164371416-2a92cf00-b958-4f16-b2d0-7adb1795767f.png" style="width:32px;">
 
 <h3>What && Where to watch</h2>
 
-# WIP ---- This APP is still far from complete
+# WIP ---- Este APP ainda está longe de ser concluído
 
-With all of today's streaming services, it's nice to have a place to see all content in one place.
+Com todos os serviços de streaming de hoje em dia, é bom ter onde ver o conteudo de todos em um só lugar
 
 
-Made using <img src="https://user-images.githubusercontent.com/41174096/164372188-82d5700d-8e69-4eb9-a01e-1b6ae7cdcf67.png" style="height: 16px;" alt="TMDB"> API
+Feito utilizando a API do <img src="https://user-images.githubusercontent.com/41174096/164372188-82d5700d-8e69-4eb9-a01e-1b6ae7cdcf67.png" style="height: 16px;" alt="TMDB"> 
 
 
 <h1>Features</h1>
 
-<h3>Completed Features</h3>
+<h3>Features Concluídas</h3>
 
- - View Movies
- - View TV Shows
- - Content Filter
- - Content Search
- - Internationalization (Portuguese and English)
- - Posters (Movies and TV Shows)
- - Trailers (Movies and TV Shows)
- - Similar content recommendations
- - Credits (Actors and Crew)
- - General Information (Movies and TV Shows)
- - APP styling (8 primary colors, 3 themes and 2 card styles for the main screen)
- - The entire APP can be used with just one hand
-
-
-<h3>Some future features</h3>
+ - Visualizar Filmes
+ - Visualizar Séries
+ - Filtro de Conteúdo
+ - Pesquisa de Conteúdo
+ - Internacionalização (Português e Inglês)
+ - Posters (Filmes e Series)
+ - Trailers (Filmes e Séries)
+ - Recomendações de conteúdo semelhante
+ - Créditos (Atores e Equipe)
+ - Informações Gerais (Filmes e Séries)
+ - Estilização do APP (8 cores primarias, 3 temas e 2 estilos de cards para a tela principal)
+ - Todo o APP pode ser utilizado com apenas uma mão
 
 
- - Streaming Platforms (In filters and content information)
- - Search by Actors
- - More Translations
- - Flutter Routes 2.0
- - Reviews and Discussions (Movies and TV Shows)
- - Login with TMDB Account
- - Lists (Favorites and other custom user created lists)
- - User Profile Statistics (Average Rating of Movies and TV Shows, Etc.)
- - Profile Screen
- - Welcome Screen (First time the app is opened)
+<h3>Algumas Features Futuras</h3>
+
+ - Plataformas de Streaming (Nos filtros e nas informações do conteúdo)
+ - Pesquisa por Atores
+ - Mais Traduções
+ - Rotas 2.0 do Flutter
+ - Reviews e Discuçoes (Filmes e Séries)
+ - Login com Conta do TMDB
+ - Listas (Favoritos e outras listas personalizadas do usuario)
+ - Estatísticas do Perfil do Usuario (Avaliação Média dos Filmes e Series, Etc.) 
+ - Tela do Perfil
+ - Tela de Boas Vindas (Primeira vez que o app é aberto)
 
 
 <h1>Screenshots</h1>
 
-<h3>Main Screens</h3>
+<h3>Telas Principais</h3>
 
 <div>
 <img src="https://user-images.githubusercontent.com/41174096/164374284-135d506a-1895-4db3-8645-5d1cabc28d06.jpg" style="width: 300px;" alt="home_screen_movies_cards"> 
@@ -59,7 +58,7 @@ Made using <img src="https://user-images.githubusercontent.com/41174096/16437218
 </div>
 
 
-<h3>Movie Screen</h3>
+<h3>Tela de Filmes</h3>
 
 
 <div>
@@ -71,7 +70,7 @@ Made using <img src="https://user-images.githubusercontent.com/41174096/16437218
 
 </div>
 
-<h3>TV Shows Screen</h3>
+<h3>Tela de Séries</h3>
 
 
 <div>
@@ -82,7 +81,7 @@ Made using <img src="https://user-images.githubusercontent.com/41174096/16437218
   
 </div>
 
-<h3>Actors Screen</h3>
+<h3>Tela de Atores</h3>
 
 
 <div>
