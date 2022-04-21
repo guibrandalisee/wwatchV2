@@ -11,6 +11,7 @@ import 'package:wwatch/Screens/filters_screen/components/filter_widget_base.dart
 import 'package:wwatch/Screens/genres/genres_screen.dart';
 import 'package:wwatch/Screens/sort_by/sort_by_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/Shared/models/configuration_models.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -269,8 +270,8 @@ class FiltersScreen extends StatelessWidget {
                       movieStore.didChange = true;
                     },
                     child: CustomSlider(
-                      min: 0,
-                      max: 10000,
+                      min: FilterDefaultValues.voteCountMinValue,
+                      max: FilterDefaultValues.voteCountMaxValue,
                       step: FlutterSliderStep(step: 10),
                       values: [
                         settingsStore.voteCountMin.toDouble(),
@@ -292,8 +293,8 @@ class FiltersScreen extends StatelessWidget {
                     movieStore.didChange = true;
                   },
                   child: CustomSlider(
-                    min: 0,
-                    max: 10,
+                    min: FilterDefaultValues.voteAvgMinValue,
+                    max: FilterDefaultValues.voteAvgMaxValue,
                     values: [
                       settingsStore.voteAvgMin.toDouble(),
                       settingsStore.voteAvgMax.toDouble()
@@ -318,8 +319,8 @@ class FiltersScreen extends StatelessWidget {
                     children: [
                       CustomSlider(
                         minimumDistance: 0,
-                        min: 3,
-                        max: 180,
+                        min: FilterDefaultValues.runTimeMinValue,
+                        max: FilterDefaultValues.runTimeMaxValue,
                         values: [
                           settingsStore.runTimeMin.toDouble(),
                           settingsStore.runTimeMax.toDouble()

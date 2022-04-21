@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:wwatch/Shared/models/cast_and_crew_model.dart';
+import 'package:wwatch/Shared/models/configuration_models.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
@@ -112,12 +113,14 @@ abstract class _MovieStoreBase with Store {
   Map<String, dynamic> setupFilters() {
     Map<String, dynamic> filters = {};
 
-    if (settingsStore.runTimeActive && settingsStore.runTimeMax != 180)
+    if (settingsStore.runTimeActive &&
+        settingsStore.runTimeMax != FilterDefaultValues.runTimeMaxValue)
       filters.addEntries({
         'with_runtime.lte': settingsStore.runTimeMax,
       }.entries);
 
-    if (settingsStore.runTimeActive && settingsStore.runTimeMin > 3) {
+    if (settingsStore.runTimeActive &&
+        settingsStore.runTimeMin > FilterDefaultValues.runTimeMinValue) {
       filters.addEntries({
         'with_runtime.gte': settingsStore.runTimeMin,
       }.entries);
@@ -127,22 +130,26 @@ abstract class _MovieStoreBase with Store {
       }.entries);
     }
 
-    if (settingsStore.voteCountActive && settingsStore.voteCountMax != 15000)
+    if (settingsStore.voteCountActive &&
+        settingsStore.voteCountMax != FilterDefaultValues.voteCountMaxValue)
       filters.addEntries({
         'vote_count.lte': settingsStore.voteCountMax,
       }.entries);
 
-    if (settingsStore.voteCountActive && settingsStore.voteCountMin != 0)
+    if (settingsStore.voteCountActive &&
+        settingsStore.voteCountMin != FilterDefaultValues.voteCountMinValue)
       filters.addEntries({
         'vote_count.gte': settingsStore.voteCountMin,
       }.entries);
 
     if (settingsStore.voteAvgActive)
       filters.addEntries({
-        'vote_average.gte':
-            settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0,
-        'vote_average.lte':
-            settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10
+        'vote_average.gte': settingsStore.voteAvgActive
+            ? settingsStore.voteAvgMin
+            : FilterDefaultValues.voteAvgMinValue,
+        'vote_average.lte': settingsStore.voteAvgActive
+            ? settingsStore.voteAvgMax
+            : FilterDefaultValues.voteAvgMaxValue
       }.entries);
     return filters;
   }
@@ -223,19 +230,19 @@ abstract class _MovieStoreBase with Store {
     if (genres != '' && genres.isNotEmpty) print("Genres: $genres");
     if (settingsStore.runTimeActive)
       print(
-          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == 180 ? 99999 : settingsStore.runTimeMax : 99999}');
+          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == FilterDefaultValues.runTimeMaxValue ? 99999 : settingsStore.runTimeMax : 99999}');
     if (settingsStore.runTimeActive)
       print(
           'with_runtime.gte: ${settingsStore.runTimeActive ? settingsStore.runTimeMin : 0}');
     if (settingsStore.voteCountActive)
       print(
-          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == 15000 ? 99999 : settingsStore.voteCountMax : 99999}');
+          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == FilterDefaultValues.voteCountMaxValue ? 99999 : settingsStore.voteCountMax : 99999}');
     if (settingsStore.voteCountActive)
       print(
           'vote_count.gte: ${settingsStore.voteCountActive ? settingsStore.voteCountMin : 0}');
     if (settingsStore.voteAvgActive)
       print(
-          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10}');
+          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : FilterDefaultValues.voteAvgMaxValue}');
     if (settingsStore.voteAvgActive)
       print(
           'vote_average.gte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0}');
@@ -331,19 +338,19 @@ abstract class _MovieStoreBase with Store {
     if (genres != '' && genres.isNotEmpty) print("Genres: $genres");
     if (settingsStore.runTimeActive)
       print(
-          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == 180 ? 99999 : settingsStore.runTimeMax : 99999}');
+          'with_runtime.lte: ${settingsStore.runTimeActive ? settingsStore.runTimeMax == FilterDefaultValues.runTimeMaxValue ? 99999 : settingsStore.runTimeMax : 99999}');
     if (settingsStore.runTimeActive)
       print(
           'with_runtime.gte: ${settingsStore.runTimeActive ? settingsStore.runTimeMin : 0}');
     if (settingsStore.voteCountActive)
       print(
-          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == 15000 ? 99999 : settingsStore.voteCountMax : 99999}');
+          'vote_count.lte: ${settingsStore.voteCountActive ? settingsStore.voteCountMax == FilterDefaultValues.voteCountMaxValue ? 99999 : settingsStore.voteCountMax : 99999}');
     if (settingsStore.voteCountActive)
       print(
           'vote_count.gte: ${settingsStore.voteCountActive ? settingsStore.voteCountMin : 0}');
     if (settingsStore.voteAvgActive)
       print(
-          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : 10}');
+          'vote_average.lte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMax : FilterDefaultValues.voteAvgMaxValue}');
     if (settingsStore.voteAvgActive)
       print(
           'vote_average.gte: ${settingsStore.voteAvgActive ? settingsStore.voteAvgMin : 0}');

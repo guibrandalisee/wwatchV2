@@ -328,7 +328,7 @@ abstract class _SettingsStoreBase with Store {
   @observable
   bool voteCountActive = true;
   @observable
-  int voteCountMin = 20;
+  int voteCountMin = 50;
   @observable
   int voteCountMax = 10000;
   @action

@@ -2,7 +2,7 @@ class Cast {
   bool adult;
   int? gender;
   int id;
-  String knownForFepartment;
+  String? knownForFepartment;
   String name;
   String originalName;
   double popularity;
@@ -15,7 +15,7 @@ class Cast {
     required this.adult,
     this.gender,
     required this.id,
-    required this.knownForFepartment,
+    this.knownForFepartment,
     required this.name,
     required this.originalName,
     required this.popularity,

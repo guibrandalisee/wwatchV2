@@ -23,6 +23,7 @@ class GeneralSettings extends StatefulWidget {
 }
 
 class _GeneralSettingsState extends State<GeneralSettings> {
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   bool didChange = false;
   @override
   void initState() {
@@ -41,7 +42,11 @@ class _GeneralSettingsState extends State<GeneralSettings> {
     StyleStore styleStore = GetIt.I<StyleStore>();
     return WillPopScope(
       onWillPop: () async {
-        if (didChange) widget.movieStore.getPopularContent();
+        if (didChange) {
+          widget.movieStore.getPopularContent();
+          settingsStore.getMovieGenres();
+          settingsStore.getTvShowGenres();
+        }
         return true;
       },
       child: Observer(
