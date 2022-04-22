@@ -96,16 +96,16 @@ abstract class _StyleStoreBase with Store {
         dropdownColor = AppColors.dropdownButton;
         break;
       case CustomBrightness.amoled:
-        backgroundColor = Colors.black;
-        textColor = Color(0xffc4c4c4);
-        shapeColor = Color(0xff16161D);
-        dropdownColor = Color(0xff16161D);
+        backgroundColor = AppColors.backgroundAmoled;
+        textColor = AppColors.textAmoled;
+        shapeColor = AppColors.shapeAmoled;
+        dropdownColor = AppColors.dropdownAmoled;
         break;
       case CustomBrightness.light:
-        backgroundColor = Color(0xffFFFFFF);
-        textColor = Color(0xff252525);
-        shapeColor = Color(0xFFF3F3F3);
-        dropdownColor = Color(0xffe4e4e4);
+        backgroundColor = AppColors.backgroundLight;
+        textColor = AppColors.textLight;
+        shapeColor = AppColors.shapeLight;
+        dropdownColor = AppColors.dropdownLight;
         break;
     }
   }

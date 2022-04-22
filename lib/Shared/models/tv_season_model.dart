@@ -24,8 +24,6 @@ class TvSeason {
 class Episode {
   String airDate;
   int episodeNumber;
-  List? crew = [];
-  List? guestStars = [];
   int id;
   String name;
   String overview;
@@ -37,8 +35,6 @@ class Episode {
   Episode({
     required this.airDate,
     required this.episodeNumber,
-    this.crew,
-    this.guestStars,
     required this.id,
     required this.name,
     required this.overview,

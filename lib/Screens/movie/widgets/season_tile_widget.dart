@@ -24,17 +24,29 @@ class SeasonTileWidget extends StatelessWidget {
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   final StyleStore styleStore = GetIt.I<StyleStore>();
   String formatDate(TvSeason season) {
+    String date = '';
     switch (settingsStore.dateFormat) {
       case 'dd/mm/yyyy':
-        return '${season.airDate!.substring(8, 10)}/${season.airDate!.substring(5, 7)}/${season.airDate!.substring(0, 4)}';
-
+        try {
+          date =
+              '${season.airDate!.substring(8, 10)}/${season.airDate!.substring(5, 7)}/${season.airDate!.substring(0, 4)}';
+        } catch (e) {
+          date = '';
+        }
+        break;
       case 'mm/dd/yyyy':
-        return '${season.airDate!.substring(5, 7)}/${season.airDate!.substring(8, 10)}/${season.airDate!.substring(0, 4)}';
-
+        try {
+          date =
+              '${season.airDate!.substring(5, 7)}/${season.airDate!.substring(8, 10)}/${season.airDate!.substring(0, 4)}';
+        } catch (e) {
+          date = '';
+        }
+        break;
       case 'yyyy/mm/dd':
-        return season.airDate!.replaceAll('-', '/');
+        date = season.airDate!.replaceAll('-', '/');
+        break;
     }
-    return '';
+    return date;
   }
 
   @override
@@ -93,11 +105,11 @@ class SeasonTileWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width - 168,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         season.name,
+                        textAlign: TextAlign.start,
                         style: GoogleFonts.getFont('Mitr',
                             color: styleStore.textColor,
                             fontSize: 18,

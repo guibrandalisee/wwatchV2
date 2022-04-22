@@ -93,8 +93,12 @@ class AboutScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/me.jpg"),
+                      backgroundColor: styleStore.primaryColor,
                       radius: 36,
+                      child: Image.asset(
+                        "assets/images/me.png",
+                        filterQuality: FilterQuality.medium,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -133,7 +137,9 @@ class AboutScreen extends StatelessWidget {
                                     },
                                     child: Ink(
                                       child: Image.asset(
-                                          "assets/images/GitHubLogo.png"),
+                                        "assets/images/GitHubLogo.png",
+                                        filterQuality: FilterQuality.medium,
+                                      ),
                                     ),
                                   ),
                                   Container(
@@ -148,7 +154,9 @@ class AboutScreen extends StatelessWidget {
                                     },
                                     child: Ink(
                                       child: Image.asset(
-                                          "assets/images/LinkedInLogo.png"),
+                                        "assets/images/LinkedInLogo.png",
+                                        filterQuality: FilterQuality.medium,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -162,21 +170,9 @@ class AboutScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 32,
+                height: 16,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  AppLocalizations.of(context)!.madeBy,
-                  style: GoogleFonts.getFont('Mitr',
-                      color: styleStore.textColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w300),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
+
               Container(
                 decoration: BoxDecoration(
                     color: styleStore.shapeColor,
@@ -186,17 +182,21 @@ class AboutScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      height: 56,
-                      width: 96,
+                      width: 120,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        boxShadow: [
+                          if (settingsStore.brightness ==
+                              CustomBrightness.light)
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                        ],
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Image.asset(
                         "assets/images/logo.png",
                         fit: BoxFit.contain,
+                        filterQuality: FilterQuality.medium,
                       ),
                     ),
                     Padding(
@@ -225,6 +225,7 @@ class AboutScreen extends StatelessWidget {
                             child: Image.asset(
                               "assets/images/GooglePlayLogo.png",
                               fit: BoxFit.contain,
+                              filterQuality: FilterQuality.medium,
                             ),
                           ),
                         ],
@@ -233,67 +234,70 @@ class AboutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 32,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  AppLocalizations.of(context)!.buyCoffe,
-                  style: GoogleFonts.getFont('Mitr',
-                      color: styleStore.textColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w300),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Container(
-                height: 56,
-                width: 340,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: styleStore.shapeColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        launchInBrowser("https://www.google.com");
-                      },
-                      child: Ink(
-                        child: SizedBox(
-                          width: 120,
-                          child: Image.asset(
-                            "assets/images/PayPalLogo.png",
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 3,
-                      height: 36,
-                      decoration: BoxDecoration(
-                          color: styleStore.textColor,
-                          borderRadius: BorderRadius.circular(16)),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        launchInBrowser("https://www.google.com");
-                      },
-                      child: Ink(
-                        child: SizedBox(
-                            width: 120,
-                            child:
-                                Image.asset("assets/images/PatreonLogo.png")),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // const SizedBox(
+              //   height: 32,
+              // ),
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: Text(
+              //     AppLocalizations.of(context)!.buyCoffe,
+              //     style: GoogleFonts.getFont('Mitr',
+              //         color: styleStore.textColor,
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.w300),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              // Container(
+              //   height: 56,
+              //   width: 340,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(16),
+              //     color: styleStore.shapeColor,
+              //   ),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     children: [
+              //       InkWell(
+              //         onTap: () {
+              //           launchInBrowser("https://www.google.com");
+              //         },
+              //         child: Ink(
+              //           child: SizedBox(
+              //             width: 120,
+              //             child: Image.asset(
+              //               "assets/images/PayPalLogo.png",
+              //               fit: BoxFit.fitHeight,
+              //               filterQuality: FilterQuality.medium,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       Container(
+              //         width: 3,
+              //         height: 36,
+              //         decoration: BoxDecoration(
+              //             color: styleStore.textColor,
+              //             borderRadius: BorderRadius.circular(16)),
+              //       ),
+              //       InkWell(
+              //         onTap: () {
+              //           launchInBrowser("https://www.google.com");
+              //         },
+              //         child: Ink(
+              //           child: SizedBox(
+              //               width: 120,
+              //               child: Image.asset(
+              //                 "assets/images/PatreonLogo.png",
+              //                 filterQuality: FilterQuality.medium,
+              //               )),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               const SizedBox(
                 height: 32,
               ),
@@ -323,6 +327,7 @@ class AboutScreen extends StatelessWidget {
                 child: Image.asset(
                   "assets/images/GooglePlayLogo.png",
                   fit: BoxFit.contain,
+                  filterQuality: FilterQuality.medium,
                 ),
               ),
               const SizedBox(

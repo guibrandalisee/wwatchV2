@@ -90,5 +90,7 @@
     "homeErrorText2": "Verifique sua conexão com a internet e tente novamente",
     "homeErrorButtonText": "Tentar Novamente",
     "tapAgainToLeave": "Clique em voltar novamente para sair",
-    "couldNotFindMovies": "Não encontramos nenhum conteudo com os filtros aplicados :("
+    "couldNotFindMovies": "Não encontramos nenhum conteudo com os filtros aplicados :(",
+    "season": "Temporada",
+    "episode": "Episódio"
 }

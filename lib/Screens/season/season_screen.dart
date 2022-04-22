@@ -43,6 +43,8 @@ class _SeasonScreenState extends State<SeasonScreen> {
     }
     movieStore.getSeasonEpisodes(
         tvId: widget.tvId, seasonNumber: widget.seasonNumber);
+    print('TV id: ${widget.tvId}');
+    print('Season Number: ${widget.seasonNumber}');
   }
 
   final StyleStore styleStore = GetIt.I<StyleStore>();
@@ -53,8 +55,6 @@ class _SeasonScreenState extends State<SeasonScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('TV id: ${widget.tvId}');
-    print('Season Number: ${widget.seasonNumber}');
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: styleStore.backgroundColor,
@@ -175,6 +175,8 @@ class _SeasonScreenState extends State<SeasonScreen> {
                   if (movieStore.season!.episodes!.length > 0 &&
                       movieStore.season!.episodes != null)
                     return EpisodeWidget(
+                      seasonNumber: widget.seasonNumber,
+                      tvId: widget.tvId,
                       movieStore: movieStore,
                       index: index,
                     );

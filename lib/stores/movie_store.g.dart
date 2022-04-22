@@ -221,6 +221,51 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  final _$episodeAtom = Atom(name: '_MovieStoreBase.episode');
+
+  @override
+  Episode? get episode {
+    _$episodeAtom.reportRead();
+    return super.episode;
+  }
+
+  @override
+  set episode(Episode? value) {
+    _$episodeAtom.reportWrite(value, super.episode, () {
+      super.episode = value;
+    });
+  }
+
+  final _$loadingEpisodeAtom = Atom(name: '_MovieStoreBase.loadingEpisode');
+
+  @override
+  bool get loadingEpisode {
+    _$loadingEpisodeAtom.reportRead();
+    return super.loadingEpisode;
+  }
+
+  @override
+  set loadingEpisode(bool value) {
+    _$loadingEpisodeAtom.reportWrite(value, super.loadingEpisode, () {
+      super.loadingEpisode = value;
+    });
+  }
+
+  final _$episodeErrorAtom = Atom(name: '_MovieStoreBase.episodeError');
+
+  @override
+  bool get episodeError {
+    _$episodeErrorAtom.reportRead();
+    return super.episodeError;
+  }
+
+  @override
+  set episodeError(bool value) {
+    _$episodeErrorAtom.reportWrite(value, super.episodeError, () {
+      super.episodeError = value;
+    });
+  }
+
   final _$personAtom = Atom(name: '_MovieStoreBase.person');
 
   @override
@@ -286,6 +331,14 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.getRecommendations(id));
   }
 
+  final _$getEpisodeAsyncAction = AsyncAction('_MovieStoreBase.getEpisode');
+
+  @override
+  Future<void> getEpisode(int tvId, int seasonNumber, int episodeNumber) {
+    return _$getEpisodeAsyncAction
+        .run(() => super.getEpisode(tvId, seasonNumber, episodeNumber));
+  }
+
   final _$getPersonAsyncAction = AsyncAction('_MovieStoreBase.getPerson');
 
   @override
@@ -324,6 +377,9 @@ empty: ${empty},
 recommendations: ${recommendations},
 season: ${season},
 loadingSeason: ${loadingSeason},
+episode: ${episode},
+loadingEpisode: ${loadingEpisode},
+episodeError: ${episodeError},
 person: ${person}
     ''';
   }

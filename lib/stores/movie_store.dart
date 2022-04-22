@@ -663,6 +663,55 @@ abstract class _MovieStoreBase with Store {
   }
 
   @observable
+  Episode? episode;
+
+  @observable
+  bool loadingEpisode = false;
+
+  @observable
+  bool episodeError = false;
+
+  //*getSingleEpisode
+  @action
+  Future<void> getEpisode(int tvId, int seasonNumber, int episodeNumber) async {
+    //?setup
+    loadingEpisode = true;
+    Map<String, dynamic> parameters = {
+      'language': language,
+    };
+    //?-----
+
+    //*http request
+    final response = await fetchData(
+        path: '/tv/$tvId/season/$seasonNumber/episode/$episodeNumber',
+        parameters: parameters);
+    episodeError = false;
+    try {
+      episode = Episode(
+        airDate: response.data['air_date'],
+        episodeNumber: response.data['episode_number'],
+        id: response.data['id'],
+        name: response.data['name'],
+        overview: response.data['overview'],
+        productionCode: response.data['production_code'],
+        seasonNumber: response.data['season_number'],
+        voteAverage: response.data['vote_average'],
+        voteCount: response.data['vote_count'],
+        stillPath: response.data['still_path'],
+      );
+      loadingEpisode = false;
+    } catch (e) {
+      episodeError = true;
+      loadingEpisode = false;
+      print("Episode Error");
+      print('TvId: $tvId');
+      print("Season Number: $seasonNumber");
+      print("Episode Number: $episodeNumber");
+      print(e);
+    }
+  }
+
+  @observable
   Person? person;
 
   @action

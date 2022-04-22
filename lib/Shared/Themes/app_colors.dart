@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  //Dark
   static final background = Color(0xff252525);
   static Color primary = Color(0xffFF8500);
   static final shape = Color(0xff121212);
@@ -8,8 +9,19 @@ class AppColors {
   static final logo = Color(0xff332532);
   static final button = Color(0xff646464);
   static final divider = Color(0xff585858);
-
   static final dropdownButton = Color(0xff646464);
+
+  //AMOLED
+  static final backgroundAmoled = Colors.black;
+  static final shapeAmoled = Color(0xff16161D);
+  static final textAmoled = Color(0xffc4c4c4);
+  static final dropdownAmoled = Color(0xff16161D);
+
+  //Light
+  static final backgroundLight = Color(0xffFFFFFF);
+  static final shapeLight = Color(0xFFF3F3F3);
+  static final textLight = Color(0xff252525);
+  static final dropdownLight = Color(0xffe4e4e4);
 
   static List<Color> primaries = [
     Color(0xffFF8500), //primaryOrange

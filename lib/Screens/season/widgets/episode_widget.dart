@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:wwatch/Screens/episode/episode_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -11,23 +13,39 @@ class EpisodeWidget extends StatelessWidget {
   EpisodeWidget({
     Key? key,
     required this.movieStore,
+    required this.tvId,
+    required this.seasonNumber,
     required this.index,
   }) : super(key: key);
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final MovieStore movieStore;
+  final int tvId;
+  final int seasonNumber;
   final int index;
   String formatDate(Episode episode) {
+    String date = '';
+
     switch (settingsStore.dateFormat) {
       case 'dd/mm/yyyy':
-        return '${episode.airDate.substring(8, 10)}/${episode.airDate.substring(5, 7)}/${episode.airDate.substring(0, 4)}';
-
+        try {
+          date =
+              '${episode.airDate.substring(8, 10)}/${episode.airDate.substring(5, 7)}/${episode.airDate.substring(0, 4)}';
+        } catch (e) {
+          date = '';
+        }
+        break;
       case 'mm/dd/yyyy':
-        return '${episode.airDate.substring(5, 7)}/${episode.airDate.substring(8, 10)}/${episode.airDate.substring(0, 4)}';
-
+        try {
+          date =
+              '${episode.airDate.substring(5, 7)}/${episode.airDate.substring(8, 10)}/${episode.airDate.substring(0, 4)}';
+        } catch (e) {
+          date = '';
+        }
+        break;
       case 'yyyy/mm/dd':
-        return episode.airDate.replaceAll('-', '/');
+        date = episode.airDate.replaceAll('-', '/');
     }
-    return '';
+    return date;
   }
 
   @override
@@ -39,7 +57,15 @@ class EpisodeWidget extends StatelessWidget {
       width: double.infinity,
       child: InkWell(
         borderRadius: BorderRadius.circular(5),
-        onTap: () {},
+        onTap: () async {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EpisodeScreen(
+                  tvId: tvId,
+                  movieStore: movieStore,
+                  seasonNumber: seasonNumber,
+                  episodeNumber:
+                      movieStore.season!.episodes![index - 1].episodeNumber)));
+        },
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -101,7 +127,7 @@ class EpisodeWidget extends StatelessWidget {
                               Text(
                                 '$index - ${movieStore.season!.episodes![index - 1].name}',
                                 style: GoogleFonts.getFont('Mitr',
-                                    color: AppColors.text,
+                                    color: styleStore.textColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w300),
                                 maxLines: 3,
@@ -157,7 +183,7 @@ class EpisodeWidget extends StatelessWidget {
                                           .season!.episodes![index - 1])
                                       .trim(),
                                   style: GoogleFonts.getFont('Mitr',
-                                      color: AppColors.text,
+                                      color: styleStore.textColor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w200),
                                   maxLines: 6,
@@ -180,7 +206,7 @@ class EpisodeWidget extends StatelessWidget {
                   Text(
                     movieStore.season!.episodes![index - 1].overview,
                     style: GoogleFonts.getFont('Mitr',
-                        color: AppColors.text,
+                        color: styleStore.textColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w300),
                     maxLines: 99,
