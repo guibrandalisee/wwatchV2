@@ -45,10 +45,7 @@ class RecommendationsWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (movieStore.recommendations.length > 1 &&
-                  !Platform.isAndroid &&
-                  !Platform.isIOS &&
-                  !Platform.isFuchsia)
+              if (movieStore.recommendations.length > 1)
                 IconButton(
                     splashRadius: 16,
                     onPressed: () async {
@@ -79,10 +76,7 @@ class RecommendationsWidget extends StatelessWidget {
               const SizedBox(
                 width: 8,
               ),
-              if (movieStore.recommendations.length > 1 &&
-                  !Platform.isAndroid &&
-                  !Platform.isIOS &&
-                  !Platform.isFuchsia)
+              if (movieStore.recommendations.length > 1)
                 IconButton(
                     splashRadius: 16,
                     onPressed: () async {

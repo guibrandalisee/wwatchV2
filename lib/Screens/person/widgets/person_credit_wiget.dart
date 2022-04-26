@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -53,10 +51,7 @@ class PersonCreditWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (person.personMovieCreditCast!.length > 1 &&
-                  !Platform.isAndroid &&
-                  !Platform.isIOS &&
-                  !Platform.isFuchsia)
+              if (person.personMovieCreditCast!.length > 1)
                 IconButton(
                     splashRadius: 16,
                     onPressed: () async {
@@ -89,10 +84,7 @@ class PersonCreditWidget extends StatelessWidget {
               const SizedBox(
                 width: 8,
               ),
-              if (person.personMovieCreditCast!.length > 1 &&
-                  !Platform.isAndroid &&
-                  !Platform.isIOS &&
-                  !Platform.isFuchsia)
+              if (person.personMovieCreditCast!.length > 1)
                 IconButton(
                     splashRadius: 16,
                     onPressed: () async {
@@ -146,10 +138,7 @@ class PersonCreditWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (person.personMovieCreditCast!.length > 1 &&
-                  !Platform.isAndroid &&
-                  !Platform.isIOS &&
-                  !Platform.isFuchsia)
+              if (person.personMovieCreditCast!.length > 1)
                 IconButton(
                     splashRadius: 16,
                     onPressed: () async {
@@ -182,10 +171,7 @@ class PersonCreditWidget extends StatelessWidget {
               const SizedBox(
                 width: 8,
               ),
-              if (person.personMovieCreditCast!.length > 1 &&
-                  !Platform.isAndroid &&
-                  !Platform.isIOS &&
-                  !Platform.isFuchsia)
+              if (person.personMovieCreditCast!.length > 1)
                 IconButton(
                     splashRadius: 16,
                     onPressed: () async {

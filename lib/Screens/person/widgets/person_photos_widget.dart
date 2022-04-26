@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -40,10 +38,7 @@ class PersonPhotosWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (movieStore.person!.images!.length > 1 &&
-                !Platform.isAndroid &&
-                !Platform.isIOS &&
-                !Platform.isFuchsia)
+            if (movieStore.person!.images!.length > 1)
               IconButton(
                   splashRadius: 16,
                   onPressed: () async {
@@ -74,10 +69,7 @@ class PersonPhotosWidget extends StatelessWidget {
             const SizedBox(
               width: 8,
             ),
-            if (movieStore.person!.images!.length > 1 &&
-                !Platform.isAndroid &&
-                !Platform.isIOS &&
-                !Platform.isFuchsia)
+            if (movieStore.person!.images!.length > 1)
               IconButton(
                   splashRadius: 16,
                   onPressed: () async {
