@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -20,7 +22,9 @@ class PersonCreditWidget extends StatelessWidget {
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   final SharedPreferences prefs;
-
+  bool scrollInProgress = false;
+  ScrollController scrollController = ScrollController();
+  ScrollController scrollController2 = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,16 +50,69 @@ class PersonCreditWidget extends StatelessWidget {
           ),
         if (person.personMovieCreditCast != null &&
             person.personMovieCreditCast!.length > 0)
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            width: double.infinity,
-            child: Text(
-              AppLocalizations.of(context)!.appearInMovies,
-              style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w300),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (person.personMovieCreditCast!.length > 1 &&
+                  !Platform.isAndroid &&
+                  !Platform.isIOS &&
+                  !Platform.isFuchsia)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () async {
+                      if (!scrollInProgress) {
+                        scrollInProgress = true;
+                        await scrollController.animateTo(
+                            scrollController.offset -
+                                MediaQuery.of(context).size.width -
+                                32,
+                            duration: Duration(milliseconds: 100),
+                            curve: Curves.ease);
+                        scrollInProgress = false;
+                      }
+                    },
+                    icon: Icon(
+                      Icons.chevron_left_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                AppLocalizations.of(context)!.appearInMovies,
+                style: GoogleFonts.getFont('Mitr',
+                    color: styleStore.textColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              if (person.personMovieCreditCast!.length > 1 &&
+                  !Platform.isAndroid &&
+                  !Platform.isIOS &&
+                  !Platform.isFuchsia)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () async {
+                      if (!scrollInProgress) {
+                        scrollInProgress = true;
+                        await scrollController.animateTo(
+                            scrollController.offset +
+                                MediaQuery.of(context).size.width -
+                                32,
+                            duration: Duration(milliseconds: 100),
+                            curve: Curves.ease);
+                        scrollInProgress = false;
+                      }
+                    },
+                    icon: Icon(
+                      Icons.chevron_right_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+            ],
           ),
         if (person.personMovieCreditCast != null &&
             person.personMovieCreditCast!.length > 0)
@@ -66,6 +123,7 @@ class PersonCreditWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: 280,
           child: ListView.builder(
+              controller: scrollController,
               physics: BouncingScrollPhysics(),
               itemCount: person.personMovieCreditCast!.length,
               scrollDirection: Axis.horizontal,
@@ -85,16 +143,69 @@ class PersonCreditWidget extends StatelessWidget {
           ),
         if (person.personTVCreditCast != null &&
             person.personTVCreditCast!.length > 0)
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            width: double.infinity,
-            child: Text(
-              AppLocalizations.of(context)!.appearInTvShows,
-              style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w300),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (person.personMovieCreditCast!.length > 1 &&
+                  !Platform.isAndroid &&
+                  !Platform.isIOS &&
+                  !Platform.isFuchsia)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () async {
+                      if (!scrollInProgress) {
+                        scrollInProgress = true;
+                        await scrollController2.animateTo(
+                            scrollController2.offset -
+                                MediaQuery.of(context).size.width -
+                                32,
+                            duration: Duration(milliseconds: 100),
+                            curve: Curves.ease);
+                        scrollInProgress = false;
+                      }
+                    },
+                    icon: Icon(
+                      Icons.chevron_left_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                AppLocalizations.of(context)!.appearInTvShows,
+                style: GoogleFonts.getFont('Mitr',
+                    color: styleStore.textColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              if (person.personMovieCreditCast!.length > 1 &&
+                  !Platform.isAndroid &&
+                  !Platform.isIOS &&
+                  !Platform.isFuchsia)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () async {
+                      if (!scrollInProgress) {
+                        scrollInProgress = true;
+                        await scrollController2.animateTo(
+                            scrollController2.offset +
+                                MediaQuery.of(context).size.width -
+                                32,
+                            duration: Duration(milliseconds: 100),
+                            curve: Curves.ease);
+                        scrollInProgress = false;
+                      }
+                    },
+                    icon: Icon(
+                      Icons.chevron_right_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+            ],
           ),
         if (person.personTVCreditCast != null &&
             person.personTVCreditCast!.length > 0)
@@ -107,6 +218,7 @@ class PersonCreditWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: 280,
             child: ListView.builder(
+                controller: scrollController2,
                 physics: BouncingScrollPhysics(),
                 itemCount: person.personTVCreditCast!.length,
                 scrollDirection: Axis.horizontal,

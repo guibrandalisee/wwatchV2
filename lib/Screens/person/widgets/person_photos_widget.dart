@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +18,8 @@ class PersonPhotosWidget extends StatelessWidget {
   }) : super(key: key);
   final MovieStore movieStore;
   final StyleStore styleStore = GetIt.I<StyleStore>();
+  final ScrollController scrollController = ScrollController();
+  bool scrollInProgress = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,17 +37,65 @@ class PersonPhotosWidget extends StatelessWidget {
         const SizedBox(
           height: 32,
         ),
-        Container(
-          padding: EdgeInsets.only(
-            left: 16,
-          ),
-          child: Text(
-            AppLocalizations.of(context)!.photos,
-            style: GoogleFonts.getFont('Mitr',
-                color: styleStore.textColor,
-                fontSize: 20,
-                fontWeight: FontWeight.w300),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (movieStore.person!.images!.length > 1 &&
+                !Platform.isAndroid &&
+                !Platform.isIOS &&
+                !Platform.isFuchsia)
+              IconButton(
+                  splashRadius: 16,
+                  onPressed: () async {
+                    if (!scrollInProgress) {
+                      scrollInProgress = true;
+                      await scrollController.animateTo(
+                          scrollController.offset - 200,
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.ease);
+                      scrollInProgress = false;
+                    }
+                  },
+                  icon: Icon(
+                    Icons.chevron_left_rounded,
+                    color: styleStore.textColor,
+                    size: 22,
+                  )),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              AppLocalizations.of(context)!.photos,
+              style: GoogleFonts.getFont('Mitr',
+                  color: styleStore.textColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w400),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            if (movieStore.person!.images!.length > 1 &&
+                !Platform.isAndroid &&
+                !Platform.isIOS &&
+                !Platform.isFuchsia)
+              IconButton(
+                  splashRadius: 16,
+                  onPressed: () async {
+                    if (!scrollInProgress) {
+                      scrollInProgress = true;
+                      await scrollController.animateTo(
+                          scrollController.offset + 200,
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.ease);
+                      scrollInProgress = false;
+                    }
+                  },
+                  icon: Icon(
+                    Icons.chevron_right_rounded,
+                    color: styleStore.textColor,
+                    size: 22,
+                  )),
+          ],
         ),
         SizedBox(
           height: 16,
@@ -52,6 +104,7 @@ class PersonPhotosWidget extends StatelessWidget {
           height: 300,
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
+              controller: scrollController,
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: movieStore.person!.images!.length,

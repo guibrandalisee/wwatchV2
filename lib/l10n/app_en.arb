@@ -92,5 +92,7 @@
     "tapAgainToLeave": "Tap back again to leave",
     "couldNotFindMovies": "Couldn't find any content with the especified filters :(",
     "season": "Season",
-    "episode": "Episode"
+    "episode": "Episode",
+    "images": "Images",
+    "videos": "Videos"
 }

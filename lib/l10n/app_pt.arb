@@ -92,5 +92,7 @@
     "tapAgainToLeave": "Clique em voltar novamente para sair",
     "couldNotFindMovies": "Não encontramos nenhum conteudo com os filtros aplicados :(",
     "season": "Temporada",
-    "episode": "Episódio"
+    "episode": "Episódio",
+    "images": "Imagens",
+    "videos": "Vídeos"
 }

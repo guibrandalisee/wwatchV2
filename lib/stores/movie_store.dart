@@ -681,23 +681,45 @@ abstract class _MovieStoreBase with Store {
     };
     //?-----
 
+    final response = await Future.wait([
+      fetchData(
+          path: '/tv/$tvId/season/$seasonNumber/episode/$episodeNumber',
+          parameters: parameters),
+      fetchData(
+          path: '/tv/$tvId/season/$seasonNumber/episode/$episodeNumber/images',
+          parameters: parameters),
+    ]);
+    List<EpisodeImage>? images;
+    try {
+      images = response[1].data['stills'].map<EpisodeImage>((e) {
+        return EpisodeImage(
+            aspectRatio: e['aspect_ratio'],
+            filePath: e['file_path'],
+            heigth: e['height'],
+            voteAverage: e['vote_average'],
+            voteCount: e['vote_count'],
+            width: e['width']);
+      }).toList();
+    } catch (e) {
+      print('Episode Images Error');
+      print(e);
+    }
     //*http request
-    final response = await fetchData(
-        path: '/tv/$tvId/season/$seasonNumber/episode/$episodeNumber',
-        parameters: parameters);
+
     episodeError = false;
     try {
       episode = Episode(
-        airDate: response.data['air_date'],
-        episodeNumber: response.data['episode_number'],
-        id: response.data['id'],
-        name: response.data['name'],
-        overview: response.data['overview'],
-        productionCode: response.data['production_code'],
-        seasonNumber: response.data['season_number'],
-        voteAverage: response.data['vote_average'],
-        voteCount: response.data['vote_count'],
-        stillPath: response.data['still_path'],
+        airDate: response[0].data['air_date'],
+        episodeNumber: response[0].data['episode_number'],
+        id: response[0].data['id'],
+        name: response[0].data['name'],
+        overview: response[0].data['overview'],
+        productionCode: response[0].data['production_code'],
+        seasonNumber: response[0].data['season_number'],
+        voteAverage: response[0].data['vote_average'],
+        voteCount: response[0].data['vote_count'],
+        stillPath: response[0].data['still_path'],
+        images: images,
       );
       loadingEpisode = false;
     } catch (e) {

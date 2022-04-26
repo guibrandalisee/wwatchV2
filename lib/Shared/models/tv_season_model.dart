@@ -32,6 +32,8 @@ class Episode {
   String? stillPath;
   double voteAverage;
   int voteCount;
+  List<EpisodeImage>? images;
+
   Episode({
     required this.airDate,
     required this.episodeNumber,
@@ -43,5 +45,25 @@ class Episode {
     this.stillPath,
     required this.voteAverage,
     required this.voteCount,
+    this.images,
+  });
+}
+
+class EpisodeImage {
+  num aspectRatio;
+  String filePath;
+  int heigth;
+  String? iso_639_1;
+  num voteAverage;
+  int voteCount;
+  int width;
+  EpisodeImage({
+    required this.aspectRatio,
+    required this.filePath,
+    required this.heigth,
+    this.iso_639_1,
+    required this.voteAverage,
+    required this.voteCount,
+    required this.width,
   });
 }

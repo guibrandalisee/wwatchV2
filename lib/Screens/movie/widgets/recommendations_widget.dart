@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -20,8 +22,9 @@ class RecommendationsWidget extends StatelessWidget {
   }) : super(key: key);
   final MovieStore movieStore;
   final SharedPreferences prefs;
-
+  final ScrollController scrollController = ScrollController();
   final StyleStore styleStore = GetIt.I<StyleStore>();
+  bool scrollInProgress = false;
   @override
   Widget build(BuildContext context) {
     if (movieStore.recommendations.length > 0) {
@@ -39,12 +42,65 @@ class RecommendationsWidget extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Text(
-            AppLocalizations.of(context)!.recommendations,
-            style: GoogleFonts.getFont('Mitr',
-                color: styleStore.textColor,
-                fontSize: 22,
-                fontWeight: FontWeight.w400),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (movieStore.recommendations.length > 1 &&
+                  !Platform.isAndroid &&
+                  !Platform.isIOS &&
+                  !Platform.isFuchsia)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () async {
+                      if (!scrollInProgress) {
+                        scrollInProgress = true;
+                        await scrollController.animateTo(
+                            scrollController.offset - 200,
+                            duration: Duration(milliseconds: 100),
+                            curve: Curves.ease);
+                        scrollInProgress = false;
+                      }
+                    },
+                    icon: Icon(
+                      Icons.chevron_left_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                AppLocalizations.of(context)!.recommendations,
+                style: GoogleFonts.getFont('Mitr',
+                    color: styleStore.textColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              if (movieStore.recommendations.length > 1 &&
+                  !Platform.isAndroid &&
+                  !Platform.isIOS &&
+                  !Platform.isFuchsia)
+                IconButton(
+                    splashRadius: 16,
+                    onPressed: () async {
+                      if (!scrollInProgress) {
+                        scrollInProgress = true;
+                        await scrollController.animateTo(
+                            scrollController.offset + 200,
+                            duration: Duration(milliseconds: 100),
+                            curve: Curves.ease);
+                        scrollInProgress = false;
+                      }
+                    },
+                    icon: Icon(
+                      Icons.chevron_right_rounded,
+                      color: styleStore.textColor,
+                      size: 22,
+                    )),
+            ],
           ),
           const SizedBox(
             height: 16,
@@ -53,6 +109,7 @@ class RecommendationsWidget extends StatelessWidget {
             width: double.infinity,
             height: 300,
             child: ListView.builder(
+              controller: scrollController,
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: movieStore.recommendations.length,
