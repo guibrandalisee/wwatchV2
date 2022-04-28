@@ -753,9 +753,6 @@ abstract class _MovieStoreBase with Store {
       fetchData(
           path: '/person/$personId/tv_credits',
           parameters: {'language': language}),
-      fetchData(
-          path: '/person/$personId/combined_credits',
-          parameters: {'language': language}),
     ]);
 
     final data = response[0].data;
@@ -763,8 +760,6 @@ abstract class _MovieStoreBase with Store {
     final externalIdsData = response[2].data;
     final movieCreditsData = response[3].data;
     final tvCreditsData = response[4].data;
-    //TODO finish implementing all the credits on people screen
-    final combinedCreditsData = response[5].data;
     print(externalIdsData);
     try {
       final images = imageData['profiles'].map<PersonImage>((e) {
@@ -772,9 +767,7 @@ abstract class _MovieStoreBase with Store {
           filePath: e['file_path'],
           height: e['height'],
           voteAverage: e['vote_average'],
-
-          //!wrong
-          voteCount: e['vote_average'],
+          voteCount: e['vote_count'],
           width: e['width'],
           aspectRatio: e['aspect_ratio'],
         );
