@@ -170,17 +170,6 @@ abstract class _SettingsStoreBase with Store {
   @action
   void setAutoDetectTimeZone(bool value) => autoDetectTimeZone = value;
 
-  //WIP Watch Providers Filter
-  @observable
-  var selectedWatchProviders = ObservableList<int>();
-
-  @action
-  void addSelectedWatchProvider(int value) => selectedWatchProviders.add(value);
-
-  @action
-  void removeSelectedWatchProvider(int value) =>
-      selectedWatchProviders.remove(value);
-
   //Movie Genres Filter
   @observable
   List<Genre> movieGenres = [];
@@ -236,6 +225,8 @@ abstract class _SettingsStoreBase with Store {
     }).toList();
   }
 
+//!Watch Providers ---------------------------------------------------------------------------
+
   @observable
   List<AvaliableWatchProviderRegions> avaliableRegions = [];
 
@@ -255,6 +246,69 @@ abstract class _SettingsStoreBase with Store {
       );
     }).toList();
   }
+
+  @observable
+  bool? rememberWatchProviders;
+
+  @observable
+  List<AvaliableWatchProvider> avaliableWatchProviders = [];
+
+  @observable
+  bool loadingWatchProviders = false;
+
+  @action
+  Future<void> getPossibleWatchProviders(bool movie) async {
+    String iso = avaliableRegions
+        .firstWhere((element) => element.englishName == 'Brazil')
+        .iso_3166_1;
+    loadingWatchProviders = true;
+    final response = await fetchData(
+        path: '/watch/providers/' + (movie ? 'movie' : 'tv'),
+        parameters: {
+          'language': language,
+          'watch_region': iso,
+        });
+
+    avaliableWatchProviders =
+        response.data['results'].map<AvaliableWatchProvider>((e) {
+      return AvaliableWatchProvider(
+        displayPriority: e['display_priority'],
+        logoPath: e['logo_path'],
+        providerId: e['provider_id'],
+        providerName: e['provider_name'],
+      );
+    }).toList();
+    loadingWatchProviders = false;
+  }
+
+  @observable
+  bool rememberSelectedWatchPMovies = false;
+
+  @observable
+  bool rememberSelectedWatchPTVShows = false;
+
+  @action
+  void setRememberSelectedWatchPMovies(bool value) =>
+      rememberSelectedWatchPMovies = value;
+
+  @action
+  void setRememberSelectedWatchPTVShows(bool value) =>
+      rememberSelectedWatchPTVShows = value;
+
+  @observable
+  ObservableList<int> selectedWatchProvidersMovies = ObservableList<int>();
+
+  @observable
+  ObservableList<int> selectedWatchProvidersTVShows = ObservableList<int>();
+
+  @action
+  void saveSelectedWatchProviders() {
+    //TODO save changes to shared preferences
+    //get selected changes when loading settings store for first time
+    //apply filters to API requests
+  }
+
+  //!------------------------------------------------------------------------------
 
   @observable
   List<AvaliableContentLanguages> avaliableContentLanguages = [];

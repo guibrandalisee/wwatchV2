@@ -23,8 +23,9 @@ class SortByScreen extends StatelessWidget {
     final StyleStore styleStore = GetIt.I<StyleStore>();
     //TODO change options based on which content type is selected
     return Scaffold(
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButtonLocation: styleStore.fabPosition == 0
+          ? FloatingActionButtonLocation.startFloat
+          : FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pop();
@@ -47,7 +48,6 @@ class SortByScreen extends StatelessWidget {
         backgroundColor: settingsStore.brightness == CustomBrightness.amoled
             ? styleStore.backgroundColor
             : styleStore.primaryColor,
-        leading: Container(),
       ),
       body: ListView.builder(
           physics: BouncingScrollPhysics(),

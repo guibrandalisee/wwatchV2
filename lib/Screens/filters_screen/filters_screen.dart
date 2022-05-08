@@ -10,6 +10,7 @@ import 'package:wwatch/Screens/filters_screen/components/custom_slider_widget.da
 import 'package:wwatch/Screens/filters_screen/components/filter_widget_base.dart';
 import 'package:wwatch/Screens/genres/genres_screen.dart';
 import 'package:wwatch/Screens/sort_by/sort_by_screen.dart';
+import 'package:wwatch/Screens/watch_providers/watch_providers_scren.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/configuration_models.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -34,6 +35,7 @@ class FiltersScreen extends StatelessWidget {
         if (movieStore.didChange) {
           movieStore.movies = [];
           movieStore.getPopularContent();
+          settingsStore.saveSelectedWatchProviders();
           movieStore.didChange = false;
         }
         return true;
@@ -143,11 +145,6 @@ class FiltersScreen extends StatelessWidget {
                 SizedBox(
                   height: 16,
                 ),
-                // FilterWidgetBase(
-                //   value: true,
-                //   title: 'Date period',
-                //   onChanged: (a) {},
-                // ),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
@@ -260,6 +257,63 @@ class FiltersScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 2,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0)
+                    ],
+                    color: settingsStore.brightness == CustomBrightness.amoled
+                        ? styleStore.shapeColor
+                        : styleStore.backgroundColor!
+                            .withBlue(styleStore.backgroundColor!.blue - 2)
+                            .withGreen(styleStore.backgroundColor!.green - 2)
+                            .withRed(styleStore.backgroundColor!.red - 2),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(4),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        Transition(
+                          transitionEffect: TransitionEffect.BOTTOM_TO_TOP,
+                          child: WatchProvidersScreen(movieStore: movieStore),
+                        ),
+                      );
+                    },
+                    child: Ink(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.watchProviders,
+                              style: GoogleFonts.getFont('Mitr',
+                                  color: styleStore.textColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w100),
+                            ),
+                            Icon(
+                              LineIcons.television,
+                              color: styleStore.textColor,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
                   height: 16,
                 ),
                 FilterWidgetBase(

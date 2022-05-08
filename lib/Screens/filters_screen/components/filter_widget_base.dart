@@ -11,12 +11,14 @@ class FilterWidgetBase extends StatelessWidget {
     required this.onChanged,
     required this.title,
     this.child,
+    this.shapeColor,
     required this.value,
   }) : super(key: key);
   final Function(bool) onChanged;
   final String title;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final Widget? child;
+  final bool? shapeColor;
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   final bool value;
   @override
@@ -25,21 +27,25 @@ class FilterWidgetBase extends StatelessWidget {
       decoration: BoxDecoration(
         // color: styleStore.shapeColor,
         borderRadius: BorderRadius.circular(4),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black26,
-              blurRadius: 2,
-              offset: Offset(0, 4),
-              spreadRadius: 0)
-        ],
-        color: settingsStore.brightness == CustomBrightness.amoled
+        boxShadow: (shapeColor != null && shapeColor!)
+            ? []
+            : [
+                BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 2,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0)
+              ],
+        color: (shapeColor != null && shapeColor!)
             ? styleStore.shapeColor
-            : styleStore.backgroundColor!
-                .withBlue(styleStore.backgroundColor!.blue - 2)
-                .withGreen(styleStore.backgroundColor!.green - 2)
-                .withRed(styleStore.backgroundColor!.red - 2),
+            : settingsStore.brightness == CustomBrightness.amoled
+                ? styleStore.shapeColor
+                : styleStore.backgroundColor!
+                    .withBlue(styleStore.backgroundColor!.blue - 2)
+                    .withGreen(styleStore.backgroundColor!.green - 2)
+                    .withRed(styleStore.backgroundColor!.red - 2),
       ),
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.all(shapeColor != null && shapeColor! ? 12 : 16),
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,

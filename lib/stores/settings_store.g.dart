@@ -209,23 +209,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedWatchProvidersAtom =
-      Atom(name: '_SettingsStoreBase.selectedWatchProviders');
-
-  @override
-  ObservableList<int> get selectedWatchProviders {
-    _$selectedWatchProvidersAtom.reportRead();
-    return super.selectedWatchProviders;
-  }
-
-  @override
-  set selectedWatchProviders(ObservableList<int> value) {
-    _$selectedWatchProvidersAtom
-        .reportWrite(value, super.selectedWatchProviders, () {
-      super.selectedWatchProviders = value;
-    });
-  }
-
   final _$movieGenresAtom = Atom(name: '_SettingsStoreBase.movieGenres');
 
   @override
@@ -302,6 +285,125 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   set avaliableRegions(List<AvaliableWatchProviderRegions> value) {
     _$avaliableRegionsAtom.reportWrite(value, super.avaliableRegions, () {
       super.avaliableRegions = value;
+    });
+  }
+
+  final _$rememberWatchProvidersAtom =
+      Atom(name: '_SettingsStoreBase.rememberWatchProviders');
+
+  @override
+  bool? get rememberWatchProviders {
+    _$rememberWatchProvidersAtom.reportRead();
+    return super.rememberWatchProviders;
+  }
+
+  @override
+  set rememberWatchProviders(bool? value) {
+    _$rememberWatchProvidersAtom
+        .reportWrite(value, super.rememberWatchProviders, () {
+      super.rememberWatchProviders = value;
+    });
+  }
+
+  final _$avaliableWatchProvidersAtom =
+      Atom(name: '_SettingsStoreBase.avaliableWatchProviders');
+
+  @override
+  List<AvaliableWatchProvider> get avaliableWatchProviders {
+    _$avaliableWatchProvidersAtom.reportRead();
+    return super.avaliableWatchProviders;
+  }
+
+  @override
+  set avaliableWatchProviders(List<AvaliableWatchProvider> value) {
+    _$avaliableWatchProvidersAtom
+        .reportWrite(value, super.avaliableWatchProviders, () {
+      super.avaliableWatchProviders = value;
+    });
+  }
+
+  final _$loadingWatchProvidersAtom =
+      Atom(name: '_SettingsStoreBase.loadingWatchProviders');
+
+  @override
+  bool get loadingWatchProviders {
+    _$loadingWatchProvidersAtom.reportRead();
+    return super.loadingWatchProviders;
+  }
+
+  @override
+  set loadingWatchProviders(bool value) {
+    _$loadingWatchProvidersAtom.reportWrite(value, super.loadingWatchProviders,
+        () {
+      super.loadingWatchProviders = value;
+    });
+  }
+
+  final _$rememberSelectedWatchPMoviesAtom =
+      Atom(name: '_SettingsStoreBase.rememberSelectedWatchPMovies');
+
+  @override
+  bool get rememberSelectedWatchPMovies {
+    _$rememberSelectedWatchPMoviesAtom.reportRead();
+    return super.rememberSelectedWatchPMovies;
+  }
+
+  @override
+  set rememberSelectedWatchPMovies(bool value) {
+    _$rememberSelectedWatchPMoviesAtom
+        .reportWrite(value, super.rememberSelectedWatchPMovies, () {
+      super.rememberSelectedWatchPMovies = value;
+    });
+  }
+
+  final _$rememberSelectedWatchPTVShowsAtom =
+      Atom(name: '_SettingsStoreBase.rememberSelectedWatchPTVShows');
+
+  @override
+  bool get rememberSelectedWatchPTVShows {
+    _$rememberSelectedWatchPTVShowsAtom.reportRead();
+    return super.rememberSelectedWatchPTVShows;
+  }
+
+  @override
+  set rememberSelectedWatchPTVShows(bool value) {
+    _$rememberSelectedWatchPTVShowsAtom
+        .reportWrite(value, super.rememberSelectedWatchPTVShows, () {
+      super.rememberSelectedWatchPTVShows = value;
+    });
+  }
+
+  final _$selectedWatchProvidersMoviesAtom =
+      Atom(name: '_SettingsStoreBase.selectedWatchProvidersMovies');
+
+  @override
+  ObservableList<int> get selectedWatchProvidersMovies {
+    _$selectedWatchProvidersMoviesAtom.reportRead();
+    return super.selectedWatchProvidersMovies;
+  }
+
+  @override
+  set selectedWatchProvidersMovies(ObservableList<int> value) {
+    _$selectedWatchProvidersMoviesAtom
+        .reportWrite(value, super.selectedWatchProvidersMovies, () {
+      super.selectedWatchProvidersMovies = value;
+    });
+  }
+
+  final _$selectedWatchProvidersTVShowsAtom =
+      Atom(name: '_SettingsStoreBase.selectedWatchProvidersTVShows');
+
+  @override
+  ObservableList<int> get selectedWatchProvidersTVShows {
+    _$selectedWatchProvidersTVShowsAtom.reportRead();
+    return super.selectedWatchProvidersTVShows;
+  }
+
+  @override
+  set selectedWatchProvidersTVShows(ObservableList<int> value) {
+    _$selectedWatchProvidersTVShowsAtom
+        .reportWrite(value, super.selectedWatchProvidersTVShows, () {
+      super.selectedWatchProvidersTVShows = value;
     });
   }
 
@@ -514,6 +616,15 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         .run(() => super.getAvaliableRegions());
   }
 
+  final _$getPossibleWatchProvidersAsyncAction =
+      AsyncAction('_SettingsStoreBase.getPossibleWatchProviders');
+
+  @override
+  Future<void> getPossibleWatchProviders(bool movie) {
+    return _$getPossibleWatchProvidersAsyncAction
+        .run(() => super.getPossibleWatchProviders(movie));
+  }
+
   final _$getAvaliableLanguagesAsyncAction =
       AsyncAction('_SettingsStoreBase.getAvaliableLanguages');
 
@@ -626,28 +737,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
-  void addSelectedWatchProvider(int value) {
-    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.addSelectedWatchProvider');
-    try {
-      return super.addSelectedWatchProvider(value);
-    } finally {
-      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void removeSelectedWatchProvider(int value) {
-    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.removeSelectedWatchProvider');
-    try {
-      return super.removeSelectedWatchProvider(value);
-    } finally {
-      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void addSelectedTvShowGenre(int value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.addSelectedTvShowGenre');
@@ -686,6 +775,39 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         name: '_SettingsStoreBase.removeSelectedMovieGenre');
     try {
       return super.removeSelectedMovieGenre(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setRememberSelectedWatchPMovies(bool value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setRememberSelectedWatchPMovies');
+    try {
+      return super.setRememberSelectedWatchPMovies(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setRememberSelectedWatchPTVShows(bool value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setRememberSelectedWatchPTVShows');
+    try {
+      return super.setRememberSelectedWatchPTVShows(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void saveSelectedWatchProviders() {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.saveSelectedWatchProviders');
+    try {
+      return super.saveSelectedWatchProviders();
     } finally {
       _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -773,12 +895,18 @@ country: ${country},
 timeZone: ${timeZone},
 timeZones: ${timeZones},
 autoDetectTimeZone: ${autoDetectTimeZone},
-selectedWatchProviders: ${selectedWatchProviders},
 movieGenres: ${movieGenres},
 tvShowGenres: ${tvShowGenres},
 selectedMovieGenres: ${selectedMovieGenres},
 selectedTvShowGenres: ${selectedTvShowGenres},
 avaliableRegions: ${avaliableRegions},
+rememberWatchProviders: ${rememberWatchProviders},
+avaliableWatchProviders: ${avaliableWatchProviders},
+loadingWatchProviders: ${loadingWatchProviders},
+rememberSelectedWatchPMovies: ${rememberSelectedWatchPMovies},
+rememberSelectedWatchPTVShows: ${rememberSelectedWatchPTVShows},
+selectedWatchProvidersMovies: ${selectedWatchProvidersMovies},
+selectedWatchProvidersTVShows: ${selectedWatchProvidersTVShows},
 avaliableContentLanguages: ${avaliableContentLanguages},
 selectedSortBy: ${selectedSortBy},
 selectedContentType: ${selectedContentType},

@@ -94,5 +94,6 @@
     "season": "Season",
     "episode": "Episode",
     "images": "Images",
-    "videos": "Videos"
+    "videos": "Videos",
+    "watchProviders": "Watch Providers"
 }

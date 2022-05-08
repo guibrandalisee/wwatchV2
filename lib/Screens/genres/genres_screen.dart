@@ -34,8 +34,9 @@ class _GenresScreenState extends State<GenresScreen> {
     final StyleStore styleStore = GetIt.I<StyleStore>();
 
     return Scaffold(
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButtonLocation: styleStore.fabPosition == 0
+          ? FloatingActionButtonLocation.startFloat
+          : FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pop();
@@ -50,7 +51,6 @@ class _GenresScreenState extends State<GenresScreen> {
       ),
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
-        leading: Container(),
         iconTheme: IconThemeData(
           color: settingsStore.brightness != CustomBrightness.amoled
               ? AppColors.textOnPrimaries[styleStore.colorIndex!]

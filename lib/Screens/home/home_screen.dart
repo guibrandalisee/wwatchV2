@@ -12,7 +12,6 @@ import 'package:wwatch/Screens/home/components/error_screen.dart';
 import 'package:wwatch/Screens/home/components/movie_tile_list.dart';
 import 'package:wwatch/Screens/home/components/nothing_found_error_screen.dart';
 import 'package:wwatch/Screens/home/components/speed_dial.dart';
-import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/settings/settings_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Screens/home/components/movie_tile.dart';
@@ -56,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
     movieStore.getPopularContent();
     settingsStore.getMovieGenres();
     settingsStore.getTvShowGenres();
-    settingsStore.getAvaliableRegions();
     settingsStore.getAvaliableLanguages();
+    settingsStore.getAvaliableRegions();
   }
 
   final ScrollController scrollController =
@@ -147,24 +146,27 @@ class _HomeScreenState extends State<HomeScreen> {
               size: 28,
             ),
           ),
-          IconButton(
-            splashRadius: 20,
-            tooltip: 'User Profile',
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-            icon: Hero(
-              tag: 'User Profile',
-              child: Icon(
-                LineIcons.user,
-                color: settingsStore.brightness != CustomBrightness.amoled
-                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : styleStore.primaryColor,
-                size: 28,
-              ),
-            ),
-          ),
+          SizedBox(
+            width: 8,
+          )
+          // IconButton(
+          //   splashRadius: 20,
+          //   tooltip: 'User Profile',
+          //   onPressed: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => LoginScreen()));
+          //   },
+          //   icon: Hero(
+          //     tag: 'User Profile',
+          //     child: Icon(
+          //       LineIcons.user,
+          //       color: settingsStore.brightness != CustomBrightness.amoled
+          //           ? AppColors.textOnPrimaries[styleStore.colorIndex!]
+          //           : styleStore.primaryColor,
+          //       size: 28,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       body: WillPopScope(

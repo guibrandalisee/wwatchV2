@@ -25,6 +25,7 @@ Future<void> main() async {
   );
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupLocators(prefs);
+
   runApp(
     DevicePreview(
       enabled: false,
@@ -54,6 +55,7 @@ Future<void> launchInBrowser(String url) async {
 class MyApp extends StatelessWidget {
   MyApp(this.prefs);
   final SharedPreferences prefs;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
