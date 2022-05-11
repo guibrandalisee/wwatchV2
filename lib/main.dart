@@ -9,14 +9,14 @@ import 'package:wwatch/Screens/home/home_screen.dart';
 import 'package:wwatch/l10n/l10n.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //TODO add routes 2.0
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv.load(fileName: "api.env");
+  await dotenv.load(fileName: "api.env");
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.transparent,
   ));
@@ -26,12 +26,16 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupLocators(prefs);
 
-  runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (_) => MyApp(prefs),
-    ),
-  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(
+      DevicePreview(
+        enabled: false,
+        builder: (_) => MyApp(prefs),
+      ),
+    );
+    ;
+  });
 }
 
 void setupLocators(SharedPreferences preferences) {

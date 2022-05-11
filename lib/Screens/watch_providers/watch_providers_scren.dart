@@ -24,6 +24,8 @@ class WatchProvidersScreen extends StatefulWidget {
 class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
   @override
   void initState() {
+    //TODO save movie and TV Shows watch providers in two diferent variables
+    //that way it does't need to fetch new data every time this screen is opened
     settingsStore
         .getPossibleWatchProviders(settingsStore.selectedContentType == 0);
     super.initState();
@@ -73,7 +75,7 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
             );
           return ListView.builder(
               physics: BouncingScrollPhysics(),
-              itemCount: settingsStore.avaliableWatchProviders.length + 1,
+              itemCount: settingsStore.avaliableWatchProviders.length + 2,
               itemBuilder: (context, index) {
                 if (index == 0)
                   return Column(
@@ -148,6 +150,67 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                       ),
                     ],
                   );
+                //*Shape at bottom---------------------------------------------------------------
+                if (index == settingsStore.avaliableWatchProviders.length + 1)
+                  return Container(
+                    height: 96,
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 16,
+                                width: 16,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: styleStore.primaryColor),
+                              ),
+                              Container(
+                                height: 16,
+                                width: 16,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: styleStore.primaryColor),
+                              ),
+                              Container(
+                                height: 16,
+                                width: 16,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: styleStore.primaryColor),
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            top: 6,
+                            left: MediaQuery.of(context).size.width / 2 - 48,
+                            child: Container(
+                              height: 4,
+                              width: 76,
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: styleStore.primaryColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+//*-----------------------------------------------------------------------------------------------
                 return WatchProvidersWidget(
                   index: index - 1,
                   onTap: () {

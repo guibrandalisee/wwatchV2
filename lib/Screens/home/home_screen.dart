@@ -40,15 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
       settingsStore.setSelectedContentType(1);
     }
     if (!widget.prefs.containsKey('language') ||
-        !widget.prefs.containsKey('languageISO') &&
-            (WidgetsBinding.instance != null)) {
+        !widget.prefs.containsKey('languageISO')) {
       movieStore.language = AppLocalizations.delegate
-              .isSupported(WidgetsBinding.instance!.window.locale)
-          ? '${WidgetsBinding.instance!.window.locale.languageCode}-${WidgetsBinding.instance!.window.locale.countryCode}'
+              .isSupported(WidgetsBinding.instance.window.locale)
+          ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
           : 'en-US';
       settingsStore.language = AppLocalizations.delegate
-              .isSupported(WidgetsBinding.instance!.window.locale)
-          ? '${WidgetsBinding.instance!.window.locale.languageCode}-${WidgetsBinding.instance!.window.locale.countryCode}'
+              .isSupported(WidgetsBinding.instance.window.locale)
+          ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
           : 'en-US';
     }
     settingsStore.getMovieGenres();

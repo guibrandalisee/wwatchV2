@@ -9,10 +9,11 @@ import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 part 'settings_store.g.dart';
 
 class SettingsStore = _SettingsStoreBase with _$SettingsStore;
+
 enum CustomBrightness { dark, amoled, light }
 
 abstract class _SettingsStoreBase with Store {
-  String token = env['TOKEN']!;
+  String token = dotenv.env['TOKEN']!;
 
   //Check if user has changed any settings before
   final SharedPreferences? prefs;
@@ -150,8 +151,6 @@ abstract class _SettingsStoreBase with Store {
   String filterBadLanguage = 'Yes';
   @action
   void setFilterBadLanguage(String value) => filterBadLanguage = value;
-
-  //WIP Change app country to filter movie watch providers results
   @observable
   String country = 'United States of America';
 
@@ -259,7 +258,7 @@ abstract class _SettingsStoreBase with Store {
   @action
   Future<void> getPossibleWatchProviders(bool movie) async {
     String iso = avaliableRegions
-        .firstWhere((element) => element.englishName == 'Brazil')
+        .firstWhere((element) => element.englishName == country)
         .iso_3166_1;
     loadingWatchProviders = true;
     final response = await fetchData(
@@ -278,6 +277,8 @@ abstract class _SettingsStoreBase with Store {
         providerName: e['provider_name'],
       );
     }).toList();
+    avaliableWatchProviders
+        .sort(((a, b) => a.displayPriority.compareTo(b.displayPriority)));
     loadingWatchProviders = false;
   }
 
