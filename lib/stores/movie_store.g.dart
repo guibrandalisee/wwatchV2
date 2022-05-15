@@ -99,21 +99,6 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$countryAtom = Atom(name: '_MovieStoreBase.country');
-
-  @override
-  String get country {
-    _$countryAtom.reportRead();
-    return super.country;
-  }
-
-  @override
-  set country(String value) {
-    _$countryAtom.reportWrite(value, super.country, () {
-      super.country = value;
-    });
-  }
-
   final _$movieAtom = Atom(name: '_MovieStoreBase.movie');
 
   @override
@@ -218,6 +203,39 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   set loadingSeason(bool value) {
     _$loadingSeasonAtom.reportWrite(value, super.loadingSeason, () {
       super.loadingSeason = value;
+    });
+  }
+
+  final _$movieAvaliableWatchProvidersAtom =
+      Atom(name: '_MovieStoreBase.movieAvaliableWatchProviders');
+
+  @override
+  MovieAvaliableWatchProviders? get movieAvaliableWatchProviders {
+    _$movieAvaliableWatchProvidersAtom.reportRead();
+    return super.movieAvaliableWatchProviders;
+  }
+
+  @override
+  set movieAvaliableWatchProviders(MovieAvaliableWatchProviders? value) {
+    _$movieAvaliableWatchProvidersAtom
+        .reportWrite(value, super.movieAvaliableWatchProviders, () {
+      super.movieAvaliableWatchProviders = value;
+    });
+  }
+
+  final _$watchProviderErrorAtom =
+      Atom(name: '_MovieStoreBase.watchProviderError');
+
+  @override
+  bool get watchProviderError {
+    _$watchProviderErrorAtom.reportRead();
+    return super.watchProviderError;
+  }
+
+  @override
+  set watchProviderError(bool value) {
+    _$watchProviderErrorAtom.reportWrite(value, super.watchProviderError, () {
+      super.watchProviderError = value;
     });
   }
 
@@ -369,7 +387,6 @@ language: ${language},
 movies: ${movies},
 error: ${error},
 totalPages: ${totalPages},
-country: ${country},
 movie: ${movie},
 searchString: ${searchString},
 temporarySearchString: ${temporarySearchString},
@@ -377,6 +394,8 @@ empty: ${empty},
 recommendations: ${recommendations},
 season: ${season},
 loadingSeason: ${loadingSeason},
+movieAvaliableWatchProviders: ${movieAvaliableWatchProviders},
+watchProviderError: ${watchProviderError},
 episode: ${episode},
 loadingEpisode: ${loadingEpisode},
 episodeError: ${episodeError},

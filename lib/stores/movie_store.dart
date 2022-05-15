@@ -9,6 +9,8 @@ import 'package:wwatch/Shared/models/movie_video_model.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wwatch/stores/settings_store.dart';
+import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
+
 part 'movie_store.g.dart';
 
 enum ContentType { TVSHOW, MOVIE }
@@ -42,9 +44,6 @@ abstract class _MovieStoreBase with Store {
   int? totalPages;
 
   @observable
-  String country = 'US';
-
-  @observable
   CompleteMovie? movie;
 
   @observable
@@ -65,6 +64,12 @@ abstract class _MovieStoreBase with Store {
 
   @observable
   bool loadingSeason = false;
+
+  @observable
+  MovieAvaliableWatchProviders? movieAvaliableWatchProviders;
+
+  @observable
+  bool watchProviderError = false;
 
   //!---------------------------------------------------------------------------------------------------
 
@@ -364,6 +369,8 @@ abstract class _MovieStoreBase with Store {
 
     String strContentType = contentType == 0 ? 'movie' : 'tv';
     //?-----
+    //TODO Use Append To Response
+    //*http requests
 
     final response = await Future.wait([
       fetchData(path: '/$strContentType/$id', parameters: {
@@ -378,12 +385,88 @@ abstract class _MovieStoreBase with Store {
       fetchData(path: '/$strContentType/$id/credits', parameters: {
         'language': language,
       }),
+      fetchData(path: '/$strContentType/$id/watch/providers', parameters: {}),
     ]);
 
-    //*http requests
+    //!Watch Providers
+    try {
+      final wpData = response[4].data['results'];
+      String iso = settingsStore.avaliableRegions
+          .firstWhere((element) => element.englishName == settingsStore.country)
+          .iso_3166_1;
+      if (wpData[iso] == null) return;
+
+      final List<AvaliableWatchProvider> flatrate =
+          wpData[iso]['flatrate'] != null
+              ? wpData[iso]['flatrate'].map<AvaliableWatchProvider>((e) {
+                  return AvaliableWatchProvider(
+                    displayPriority: e['display_priority'],
+                    logoPath: e['logo_path'],
+                    providerName: e['provider_name'],
+                    providerId: e['provider_id'],
+                  );
+                }).toList()
+              : [];
+
+      final List<AvaliableWatchProvider> buy = wpData[iso]['buy'] != null
+          ? wpData[iso]['buy'].map<AvaliableWatchProvider>((e) {
+              return AvaliableWatchProvider(
+                displayPriority: e['display_priority'],
+                logoPath: e['logo_path'],
+                providerName: e['provider_name'],
+                providerId: e['provider_id'],
+              );
+            }).toList()
+          : [];
+      final List<AvaliableWatchProvider> rent = wpData[iso]['rent'] != null
+          ? wpData[iso]['rent'].map<AvaliableWatchProvider>((e) {
+              return AvaliableWatchProvider(
+                displayPriority: e['display_priority'],
+                logoPath: e['logo_path'],
+                providerName: e['provider_name'],
+                providerId: e['provider_id'],
+              );
+            }).toList()
+          : [];
+      final List<AvaliableWatchProvider> ads = wpData[iso]['ads'] != null
+          ? wpData[iso]['ads'].map<AvaliableWatchProvider>((e) {
+              return AvaliableWatchProvider(
+                displayPriority: e['display_priority'],
+                logoPath: e['logo_path'],
+                providerName: e['provider_name'],
+                providerId: e['provider_id'],
+              );
+            }).toList()
+          : [];
+
+      final List<AvaliableWatchProvider> free = wpData[iso]['free'] != null
+          ? wpData[iso]['free'].map<AvaliableWatchProvider>((e) {
+              return AvaliableWatchProvider(
+                displayPriority: e['display_priority'],
+                logoPath: e['logo_path'],
+                providerName: e['provider_name'],
+                providerId: e['provider_id'],
+              );
+            }).toList()
+          : [];
+
+      movieAvaliableWatchProviders = MovieAvaliableWatchProviders(
+        countryIso_3166_1: iso,
+        link: wpData[iso]['link'],
+        flatrate: flatrate,
+        buy: buy,
+        rent: rent,
+        ads: ads,
+        free: free,
+      );
+    } catch (e) {
+      watchProviderError = true;
+      print(e);
+    }
+    //!---------------
 
     try {
-      //TODO get watchProviders, cast and reviews
+      //TODO get reviews
       final data = response[0].data;
       final videos = response[1].data['results'].map<MovieVideo>((e) {
         return MovieVideo(
@@ -489,11 +572,13 @@ abstract class _MovieStoreBase with Store {
         seasons: seasons,
         voteCount: data['vote_count'],
         credits: credits,
+        movieAvaliableWatchProviders: movieAvaliableWatchProviders,
       );
     } catch (e) {
       error = true;
       print(e);
     }
+
     //*-------------
 
     //?debug

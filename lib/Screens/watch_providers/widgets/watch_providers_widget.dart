@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -22,6 +23,10 @@ class WatchProvidersWidget extends StatelessWidget {
   final void Function(bool?) onTap2;
   @override
   Widget build(BuildContext context) {
+    final bool movie = settingsStore.selectedContentType == 0;
+    final List<AvaliableWatchProvider> watchProviders = movie
+        ? settingsStore.avaliableWatchProvidersMovies
+        : settingsStore.avaliableWatchProvidersTvShows;
     return Observer(builder: (context) {
       return Column(
         children: [
@@ -49,14 +54,13 @@ class WatchProvidersWidget extends StatelessWidget {
                           height: 32,
                           child: CachedNetworkImage(
                               imageUrl:
-                                  'https://image.tmdb.org/t/p/w154/${settingsStore.avaliableWatchProviders[index].logoPath}'),
+                                  'https://image.tmdb.org/t/p/w154/${watchProviders[index].logoPath}'),
                         ),
                         SizedBox(
                           width: 16,
                         ),
                         Text(
-                          settingsStore
-                              .avaliableWatchProviders[index].providerName,
+                          watchProviders[index].providerName,
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.textColor,
                               fontSize: 16,
@@ -75,14 +79,11 @@ class WatchProvidersWidget extends StatelessWidget {
                           checkColor:
                               AppColors.textOnPrimaries[styleStore.colorIndex!],
                           fillColor: settingsStore.selectedWatchProvidersMovies
-                                  .contains(settingsStore
-                                      .avaliableWatchProviders[index]
-                                      .providerId)
+                                  .contains(watchProviders[index].providerId)
                               ? null
                               : MaterialStateProperty.all(styleStore.textColor),
                           value: settingsStore.selectedWatchProvidersMovies
-                              .contains(settingsStore
-                                  .avaliableWatchProviders[index].providerId),
+                              .contains(watchProviders[index].providerId),
                           onChanged: onTap2)
                     else if (settingsStore.selectedContentType == 1)
                       Checkbox(
@@ -93,14 +94,11 @@ class WatchProvidersWidget extends StatelessWidget {
                           checkColor:
                               AppColors.textOnPrimaries[styleStore.colorIndex!],
                           fillColor: settingsStore.selectedWatchProvidersTVShows
-                                  .contains(settingsStore
-                                      .avaliableWatchProviders[index]
-                                      .providerId)
+                                  .contains(watchProviders[index].providerId)
                               ? null
                               : MaterialStateProperty.all(styleStore.textColor),
                           value: settingsStore.selectedWatchProvidersTVShows
-                              .contains(settingsStore
-                                  .avaliableWatchProviders[index].providerId),
+                              .contains(watchProviders[index].providerId),
                           onChanged: onTap2)
                   ],
                 ),

@@ -28,11 +28,15 @@ class MovieAvaliableWatchProviders {
   List<AvaliableWatchProvider>? rent;
   List<AvaliableWatchProvider>? buy;
   List<AvaliableWatchProvider>? flatrate;
+  List<AvaliableWatchProvider>? ads;
+  List<AvaliableWatchProvider>? free;
   MovieAvaliableWatchProviders({
     required this.countryIso_3166_1,
     required this.link,
     this.rent,
     this.buy,
     this.flatrate,
+    this.ads,
+    this.free,
   });
 }

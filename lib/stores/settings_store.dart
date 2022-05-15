@@ -250,7 +250,10 @@ abstract class _SettingsStoreBase with Store {
   bool? rememberWatchProviders;
 
   @observable
-  List<AvaliableWatchProvider> avaliableWatchProviders = [];
+  List<AvaliableWatchProvider> avaliableWatchProvidersMovies = [];
+
+  @observable
+  List<AvaliableWatchProvider> avaliableWatchProvidersTvShows = [];
 
   @observable
   bool loadingWatchProviders = false;
@@ -268,18 +271,33 @@ abstract class _SettingsStoreBase with Store {
           'watch_region': iso,
         });
 
-    avaliableWatchProviders =
-        response.data['results'].map<AvaliableWatchProvider>((e) {
-      return AvaliableWatchProvider(
-        displayPriority: e['display_priority'],
-        logoPath: e['logo_path'],
-        providerId: e['provider_id'],
-        providerName: e['provider_name'],
-      );
-    }).toList();
-    avaliableWatchProviders
-        .sort(((a, b) => a.displayPriority.compareTo(b.displayPriority)));
-    loadingWatchProviders = false;
+    if (movie) {
+      avaliableWatchProvidersMovies =
+          response.data['results'].map<AvaliableWatchProvider>((e) {
+        return AvaliableWatchProvider(
+          displayPriority: e['display_priority'],
+          logoPath: e['logo_path'],
+          providerId: e['provider_id'],
+          providerName: e['provider_name'],
+        );
+      }).toList();
+      avaliableWatchProvidersMovies
+          .sort(((a, b) => a.displayPriority.compareTo(b.displayPriority)));
+      loadingWatchProviders = false;
+    } else {
+      avaliableWatchProvidersTvShows =
+          response.data['results'].map<AvaliableWatchProvider>((e) {
+        return AvaliableWatchProvider(
+          displayPriority: e['display_priority'],
+          logoPath: e['logo_path'],
+          providerId: e['provider_id'],
+          providerName: e['provider_name'],
+        );
+      }).toList();
+      avaliableWatchProvidersTvShows
+          .sort(((a, b) => a.displayPriority.compareTo(b.displayPriority)));
+      loadingWatchProviders = false;
+    }
   }
 
   @observable

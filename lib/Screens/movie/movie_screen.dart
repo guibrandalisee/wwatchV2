@@ -17,6 +17,7 @@ import 'package:wwatch/Screens/movie/widgets/season_and_episode_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/speed_dial_movie_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/tagline_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
+import 'package:wwatch/Screens/movie/widgets/watch_providers_widget.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
@@ -105,7 +106,6 @@ class _MovieScreenState extends State<MovieScreen> {
           if (movieStore.movie == null)
             return const CustomLoadingMovieScreen();
           else {
-            print(movieStore.movie!.voteCount);
             return SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -160,6 +160,10 @@ class _MovieScreenState extends State<MovieScreen> {
                     RecommendationsWidget(
                       movieStore: movieStore,
                       prefs: widget.prefs,
+                    ),
+                  if (movieStore.movie!.movieAvaliableWatchProviders != null)
+                    WatchProvidersWidgetMovieScreen(
+                      movieStore: movieStore,
                     ),
                   if ((movieStore.movie!.credits.cast != null &&
                           movieStore.movie!.credits.cast!.isNotEmpty) ||

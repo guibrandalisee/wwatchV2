@@ -186,11 +186,9 @@ class ContentFilter extends StatelessWidget {
               ],
             ),
           ),
-
           const SizedBox(
             height: 8,
           ),
-
           Observer(builder: (context) {
             if (movieStore.temporarySearchString.isEmpty)
               return InkWell(
@@ -232,17 +230,6 @@ class ContentFilter extends StatelessWidget {
               );
             return Container();
           }),
-
-          //TODO Make this \/
-
-          // Observer(
-          //   builder: (_) {
-          //     if (movieStore.searchString.isEmpty)
-          //       return ProvidersFilterWidget();
-          //     else
-          //       return Container();
-          //   },
-          // ),
         ],
       ),
     );

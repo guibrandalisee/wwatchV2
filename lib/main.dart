@@ -34,7 +34,6 @@ Future<void> main() async {
         builder: (_) => MyApp(prefs),
       ),
     );
-    ;
   });
 }
 
@@ -72,15 +71,12 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle(
-              // Navigation bar
               statusBarColor: Colors.transparent,
-
-              // Status bar
             ),
           )),
       //home: WelcomeScreen(),
       home: HomeScreen(
-        contentType: type.movie,
+        contentType: Type.movie,
         prefs: prefs,
       ),
       supportedLocales: L10n.all,

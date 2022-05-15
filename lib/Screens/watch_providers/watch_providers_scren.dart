@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Screens/filters_screen/components/filter_widget_base.dart';
 import 'package:wwatch/Screens/watch_providers/widgets/watch_providers_widget.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -26,8 +27,15 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
   void initState() {
     //TODO save movie and TV Shows watch providers in two diferent variables
     //that way it does't need to fetch new data every time this screen is opened
-    settingsStore
-        .getPossibleWatchProviders(settingsStore.selectedContentType == 0);
+    if (settingsStore.selectedContentType == 0) {
+      if (settingsStore.avaliableWatchProvidersMovies.isEmpty) {
+        settingsStore.getPossibleWatchProviders(true);
+      }
+    } else {
+      if (settingsStore.avaliableWatchProvidersTvShows.isEmpty) {
+        settingsStore.getPossibleWatchProviders(false);
+      }
+    }
     super.initState();
   }
 
@@ -37,6 +45,8 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool movie = settingsStore.selectedContentType == 0;
+    List<AvaliableWatchProvider> watchProviders = [];
     return Scaffold(
       floatingActionButtonLocation: styleStore.fabPosition == 0
           ? FloatingActionButtonLocation.startFloat
@@ -66,16 +76,25 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
       ),
       body: Observer(
         builder: (context) {
-          if (settingsStore.loadingWatchProviders)
+          if (settingsStore.loadingWatchProviders) {
             return LinearProgressIndicator(
               valueColor: AlwaysStoppedAnimation(
                 styleStore.primaryColor,
               ),
               backgroundColor: styleStore.backgroundColor,
             );
+          } else {
+            if (watchProviders.isEmpty) {
+              watchProviders = movie
+                  ? settingsStore.avaliableWatchProvidersMovies
+                  : settingsStore.avaliableWatchProvidersTvShows;
+            }
+          }
           return ListView.builder(
               physics: BouncingScrollPhysics(),
-              itemCount: settingsStore.avaliableWatchProviders.length + 2,
+              itemCount: movie
+                  ? settingsStore.avaliableWatchProvidersMovies.length + 2
+                  : settingsStore.avaliableWatchProvidersTvShows.length + 2,
               itemBuilder: (context, index) {
                 if (index == 0)
                   return Column(
@@ -151,7 +170,11 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                     ],
                   );
                 //*Shape at bottom---------------------------------------------------------------
-                if (index == settingsStore.avaliableWatchProviders.length + 1)
+                if (index ==
+                    (movie
+                        ? settingsStore.avaliableWatchProvidersMovies.length + 1
+                        : settingsStore.avaliableWatchProvidersTvShows.length +
+                            1))
                   return Container(
                     height: 96,
                     child: Center(
@@ -216,56 +239,44 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                   onTap: () {
                     widget.movieStore.didChange = true;
                     if (settingsStore.selectedContentType == 0) {
-                      if (!settingsStore.selectedWatchProvidersMovies.contains(
-                          settingsStore
-                              .avaliableWatchProviders[index - 1].providerId)) {
-                        settingsStore.selectedWatchProvidersMovies.add(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                      if (!settingsStore.selectedWatchProvidersMovies
+                          .contains(watchProviders[index - 1].providerId)) {
+                        settingsStore.selectedWatchProvidersMovies
+                            .add(watchProviders[index - 1].providerId);
                       } else {
-                        settingsStore.selectedWatchProvidersMovies.remove(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                        settingsStore.selectedWatchProvidersMovies
+                            .remove(watchProviders[index - 1].providerId);
                       }
                     } else {
                       widget.movieStore.didChange = true;
-                      if (!settingsStore.selectedWatchProvidersTVShows.contains(
-                          settingsStore
-                              .avaliableWatchProviders[index - 1].providerId)) {
-                        settingsStore.selectedWatchProvidersTVShows.add(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                      if (!settingsStore.selectedWatchProvidersTVShows
+                          .contains(watchProviders[index - 1].providerId)) {
+                        settingsStore.selectedWatchProvidersTVShows
+                            .add(watchProviders[index - 1].providerId);
                       } else {
-                        settingsStore.selectedWatchProvidersTVShows.remove(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                        settingsStore.selectedWatchProvidersTVShows
+                            .remove(watchProviders[index - 1].providerId);
                       }
                     }
                   },
                   onTap2: (s) {
                     if (settingsStore.selectedContentType == 0) {
-                      if (!settingsStore.selectedWatchProvidersMovies.contains(
-                          settingsStore
-                              .avaliableWatchProviders[index - 1].providerId)) {
-                        settingsStore.selectedWatchProvidersMovies.add(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                      if (!settingsStore.selectedWatchProvidersMovies
+                          .contains(watchProviders[index - 1].providerId)) {
+                        settingsStore.selectedWatchProvidersMovies
+                            .add(watchProviders[index - 1].providerId);
                       } else {
-                        settingsStore.selectedWatchProvidersMovies.remove(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                        settingsStore.selectedWatchProvidersMovies
+                            .remove(watchProviders[index - 1].providerId);
                       }
                     } else {
-                      if (!settingsStore.selectedWatchProvidersTVShows.contains(
-                          settingsStore
-                              .avaliableWatchProviders[index - 1].providerId)) {
-                        settingsStore.selectedWatchProvidersTVShows.add(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                      if (!settingsStore.selectedWatchProvidersTVShows
+                          .contains(watchProviders[index - 1].providerId)) {
+                        settingsStore.selectedWatchProvidersTVShows
+                            .add(watchProviders[index - 1].providerId);
                       } else {
-                        settingsStore.selectedWatchProvidersTVShows.remove(
-                            settingsStore
-                                .avaliableWatchProviders[index - 1].providerId);
+                        settingsStore.selectedWatchProvidersTVShows
+                            .remove(watchProviders[index - 1].providerId);
                       }
                     }
                   },

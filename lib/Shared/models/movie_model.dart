@@ -1,6 +1,7 @@
 import 'package:wwatch/Shared/models/cast_and_crew_model.dart';
 import 'package:wwatch/Shared/models/movie_images_model.dart';
 import 'package:wwatch/Shared/models/movie_video_model.dart';
+import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 
 class Genre {
@@ -73,6 +74,7 @@ class CompleteMovie {
     this.recomendations,
     this.reviews,
     required this.credits,
+    this.movieAvaliableWatchProviders,
   });
   final List genres;
   final int id;
@@ -106,4 +108,5 @@ class CompleteMovie {
   final Map<String, dynamic>? recomendations;
   final Map<String, dynamic>? reviews;
   final Credits credits;
+  final MovieAvaliableWatchProviders? movieAvaliableWatchProviders;
 }

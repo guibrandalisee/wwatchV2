@@ -305,20 +305,37 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$avaliableWatchProvidersAtom =
-      Atom(name: '_SettingsStoreBase.avaliableWatchProviders');
+  final _$avaliableWatchProvidersMoviesAtom =
+      Atom(name: '_SettingsStoreBase.avaliableWatchProvidersMovies');
 
   @override
-  List<AvaliableWatchProvider> get avaliableWatchProviders {
-    _$avaliableWatchProvidersAtom.reportRead();
-    return super.avaliableWatchProviders;
+  List<AvaliableWatchProvider> get avaliableWatchProvidersMovies {
+    _$avaliableWatchProvidersMoviesAtom.reportRead();
+    return super.avaliableWatchProvidersMovies;
   }
 
   @override
-  set avaliableWatchProviders(List<AvaliableWatchProvider> value) {
-    _$avaliableWatchProvidersAtom
-        .reportWrite(value, super.avaliableWatchProviders, () {
-      super.avaliableWatchProviders = value;
+  set avaliableWatchProvidersMovies(List<AvaliableWatchProvider> value) {
+    _$avaliableWatchProvidersMoviesAtom
+        .reportWrite(value, super.avaliableWatchProvidersMovies, () {
+      super.avaliableWatchProvidersMovies = value;
+    });
+  }
+
+  final _$avaliableWatchProvidersTvShowsAtom =
+      Atom(name: '_SettingsStoreBase.avaliableWatchProvidersTvShows');
+
+  @override
+  List<AvaliableWatchProvider> get avaliableWatchProvidersTvShows {
+    _$avaliableWatchProvidersTvShowsAtom.reportRead();
+    return super.avaliableWatchProvidersTvShows;
+  }
+
+  @override
+  set avaliableWatchProvidersTvShows(List<AvaliableWatchProvider> value) {
+    _$avaliableWatchProvidersTvShowsAtom
+        .reportWrite(value, super.avaliableWatchProvidersTvShows, () {
+      super.avaliableWatchProvidersTvShows = value;
     });
   }
 
@@ -901,7 +918,8 @@ selectedMovieGenres: ${selectedMovieGenres},
 selectedTvShowGenres: ${selectedTvShowGenres},
 avaliableRegions: ${avaliableRegions},
 rememberWatchProviders: ${rememberWatchProviders},
-avaliableWatchProviders: ${avaliableWatchProviders},
+avaliableWatchProvidersMovies: ${avaliableWatchProvidersMovies},
+avaliableWatchProvidersTvShows: ${avaliableWatchProvidersTvShows},
 loadingWatchProviders: ${loadingWatchProviders},
 rememberSelectedWatchPMovies: ${rememberSelectedWatchPMovies},
 rememberSelectedWatchPTVShows: ${rememberSelectedWatchPTVShows},

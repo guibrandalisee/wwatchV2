@@ -21,7 +21,7 @@ import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum type { movie, tvShows }
+enum Type { movie, tvShows }
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.contentType, required this.prefs})
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.contentType != type.movie) {
+    if (widget.contentType != Type.movie) {
       settingsStore.setSelectedContentType(1);
     }
     if (!widget.prefs.containsKey('language') ||
