@@ -154,21 +154,6 @@ abstract class _SettingsStoreBase with Store {
   @observable
   String country = 'United States of America';
 
-  //WIP Change app timezone
-  @observable
-  String timeZone = "Brasil - São Paulo";
-  @action
-  void setTimeZone(String value) => timeZone = value;
-
-  @observable
-  List<String> timeZones = ["Brasil - São Paulo", "Brasil - Belo Horizonte"];
-
-  @observable
-  bool autoDetectTimeZone = true;
-
-  @action
-  void setAutoDetectTimeZone(bool value) => autoDetectTimeZone = value;
-
   //Movie Genres Filter
   @observable
   List<Genre> movieGenres = [];

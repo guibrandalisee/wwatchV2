@@ -394,76 +394,76 @@ abstract class _MovieStoreBase with Store {
       String iso = settingsStore.avaliableRegions
           .firstWhere((element) => element.englishName == settingsStore.country)
           .iso_3166_1;
-      if (wpData[iso] == null) return;
+      if (wpData[iso] != null) {
+        final List<AvaliableWatchProvider> flatrate =
+            wpData[iso]['flatrate'] != null
+                ? wpData[iso]['flatrate'].map<AvaliableWatchProvider>((e) {
+                    return AvaliableWatchProvider(
+                      displayPriority: e['display_priority'],
+                      logoPath: e['logo_path'],
+                      providerName: e['provider_name'],
+                      providerId: e['provider_id'],
+                    );
+                  }).toList()
+                : [];
 
-      final List<AvaliableWatchProvider> flatrate =
-          wpData[iso]['flatrate'] != null
-              ? wpData[iso]['flatrate'].map<AvaliableWatchProvider>((e) {
-                  return AvaliableWatchProvider(
-                    displayPriority: e['display_priority'],
-                    logoPath: e['logo_path'],
-                    providerName: e['provider_name'],
-                    providerId: e['provider_id'],
-                  );
-                }).toList()
-              : [];
+        final List<AvaliableWatchProvider> buy = wpData[iso]['buy'] != null
+            ? wpData[iso]['buy'].map<AvaliableWatchProvider>((e) {
+                return AvaliableWatchProvider(
+                  displayPriority: e['display_priority'],
+                  logoPath: e['logo_path'],
+                  providerName: e['provider_name'],
+                  providerId: e['provider_id'],
+                );
+              }).toList()
+            : [];
+        final List<AvaliableWatchProvider> rent = wpData[iso]['rent'] != null
+            ? wpData[iso]['rent'].map<AvaliableWatchProvider>((e) {
+                return AvaliableWatchProvider(
+                  displayPriority: e['display_priority'],
+                  logoPath: e['logo_path'],
+                  providerName: e['provider_name'],
+                  providerId: e['provider_id'],
+                );
+              }).toList()
+            : [];
+        final List<AvaliableWatchProvider> ads = wpData[iso]['ads'] != null
+            ? wpData[iso]['ads'].map<AvaliableWatchProvider>((e) {
+                return AvaliableWatchProvider(
+                  displayPriority: e['display_priority'],
+                  logoPath: e['logo_path'],
+                  providerName: e['provider_name'],
+                  providerId: e['provider_id'],
+                );
+              }).toList()
+            : [];
 
-      final List<AvaliableWatchProvider> buy = wpData[iso]['buy'] != null
-          ? wpData[iso]['buy'].map<AvaliableWatchProvider>((e) {
-              return AvaliableWatchProvider(
-                displayPriority: e['display_priority'],
-                logoPath: e['logo_path'],
-                providerName: e['provider_name'],
-                providerId: e['provider_id'],
-              );
-            }).toList()
-          : [];
-      final List<AvaliableWatchProvider> rent = wpData[iso]['rent'] != null
-          ? wpData[iso]['rent'].map<AvaliableWatchProvider>((e) {
-              return AvaliableWatchProvider(
-                displayPriority: e['display_priority'],
-                logoPath: e['logo_path'],
-                providerName: e['provider_name'],
-                providerId: e['provider_id'],
-              );
-            }).toList()
-          : [];
-      final List<AvaliableWatchProvider> ads = wpData[iso]['ads'] != null
-          ? wpData[iso]['ads'].map<AvaliableWatchProvider>((e) {
-              return AvaliableWatchProvider(
-                displayPriority: e['display_priority'],
-                logoPath: e['logo_path'],
-                providerName: e['provider_name'],
-                providerId: e['provider_id'],
-              );
-            }).toList()
-          : [];
+        final List<AvaliableWatchProvider> free = wpData[iso]['free'] != null
+            ? wpData[iso]['free'].map<AvaliableWatchProvider>((e) {
+                return AvaliableWatchProvider(
+                  displayPriority: e['display_priority'],
+                  logoPath: e['logo_path'],
+                  providerName: e['provider_name'],
+                  providerId: e['provider_id'],
+                );
+              }).toList()
+            : [];
 
-      final List<AvaliableWatchProvider> free = wpData[iso]['free'] != null
-          ? wpData[iso]['free'].map<AvaliableWatchProvider>((e) {
-              return AvaliableWatchProvider(
-                displayPriority: e['display_priority'],
-                logoPath: e['logo_path'],
-                providerName: e['provider_name'],
-                providerId: e['provider_id'],
-              );
-            }).toList()
-          : [];
-
-      movieAvaliableWatchProviders = MovieAvaliableWatchProviders(
-        countryIso_3166_1: iso,
-        link: wpData[iso]['link'],
-        flatrate: flatrate,
-        buy: buy,
-        rent: rent,
-        ads: ads,
-        free: free,
-      );
+        movieAvaliableWatchProviders = MovieAvaliableWatchProviders(
+          countryIso_3166_1: iso,
+          link: wpData[iso]['link'],
+          flatrate: flatrate,
+          buy: buy,
+          rent: rent,
+          ads: ads,
+          free: free,
+        );
+      }
     } catch (e) {
       watchProviderError = true;
       print(e);
     }
-    //!---------------
+    // //!---------------
 
     try {
       //TODO get reviews

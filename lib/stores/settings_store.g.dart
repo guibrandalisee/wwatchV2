@@ -163,52 +163,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$timeZoneAtom = Atom(name: '_SettingsStoreBase.timeZone');
-
-  @override
-  String get timeZone {
-    _$timeZoneAtom.reportRead();
-    return super.timeZone;
-  }
-
-  @override
-  set timeZone(String value) {
-    _$timeZoneAtom.reportWrite(value, super.timeZone, () {
-      super.timeZone = value;
-    });
-  }
-
-  final _$timeZonesAtom = Atom(name: '_SettingsStoreBase.timeZones');
-
-  @override
-  List<String> get timeZones {
-    _$timeZonesAtom.reportRead();
-    return super.timeZones;
-  }
-
-  @override
-  set timeZones(List<String> value) {
-    _$timeZonesAtom.reportWrite(value, super.timeZones, () {
-      super.timeZones = value;
-    });
-  }
-
-  final _$autoDetectTimeZoneAtom =
-      Atom(name: '_SettingsStoreBase.autoDetectTimeZone');
-
-  @override
-  bool get autoDetectTimeZone {
-    _$autoDetectTimeZoneAtom.reportRead();
-    return super.autoDetectTimeZone;
-  }
-
-  @override
-  set autoDetectTimeZone(bool value) {
-    _$autoDetectTimeZoneAtom.reportWrite(value, super.autoDetectTimeZone, () {
-      super.autoDetectTimeZone = value;
-    });
-  }
-
   final _$movieGenresAtom = Atom(name: '_SettingsStoreBase.movieGenres');
 
   @override
@@ -732,28 +686,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
-  void setTimeZone(String value) {
-    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.setTimeZone');
-    try {
-      return super.setTimeZone(value);
-    } finally {
-      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setAutoDetectTimeZone(bool value) {
-    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
-        name: '_SettingsStoreBase.setAutoDetectTimeZone');
-    try {
-      return super.setAutoDetectTimeZone(value);
-    } finally {
-      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void addSelectedTvShowGenre(int value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.addSelectedTvShowGenre');
@@ -909,9 +841,6 @@ languages: ${languages},
 adultContent: ${adultContent},
 filterBadLanguage: ${filterBadLanguage},
 country: ${country},
-timeZone: ${timeZone},
-timeZones: ${timeZones},
-autoDetectTimeZone: ${autoDetectTimeZone},
 movieGenres: ${movieGenres},
 tvShowGenres: ${tvShowGenres},
 selectedMovieGenres: ${selectedMovieGenres},

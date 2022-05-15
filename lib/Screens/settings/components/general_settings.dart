@@ -196,54 +196,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                 },
               ),
               SizedBox(
-                height: 32,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.timeZone,
-                      style: GoogleFonts.getFont('Mitr',
-                          color: styleStore.textColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Checkbox(
-                        checkColor:
-                            AppColors.textOnPrimaries[styleStore.colorIndex!],
-                        fillColor:
-                            MaterialStateProperty.all(styleStore.primaryColor),
-                        value: settingsStore.autoDetectTimeZone,
-                        onChanged: (value) {
-                          if (value != null) {
-                            settingsStore.setAutoDetectTimeZone(value);
-                          }
-                        }),
-                    Text(
-                      AppLocalizations.of(context)!.autoDetect,
-                      style: GoogleFonts.getFont('Mitr',
-                          color: styleStore.textColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w100),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
                 height: 16,
-              ),
-              DropDownButtonWidget(
-                items: settingsStore.timeZones,
-                value: settingsStore.timeZone,
-                onChanged: (value) {
-                  if (value != null) {
-                    settingsStore.setTimeZone(value);
-                  }
-                },
               ),
             ],
           );
