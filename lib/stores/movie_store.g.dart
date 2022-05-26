@@ -9,7 +9,8 @@ part of 'movie_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MovieStore on _MovieStoreBase, Store {
-  final _$didChangeAtom = Atom(name: '_MovieStoreBase.didChange');
+  late final _$didChangeAtom =
+      Atom(name: '_MovieStoreBase.didChange', context: context);
 
   @override
   bool get didChange {
@@ -24,7 +25,7 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$pageAtom = Atom(name: '_MovieStoreBase.page');
+  late final _$pageAtom = Atom(name: '_MovieStoreBase.page', context: context);
 
   @override
   int get page {
@@ -39,7 +40,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$languageAtom = Atom(name: '_MovieStoreBase.language');
+  late final _$languageAtom =
+      Atom(name: '_MovieStoreBase.language', context: context);
 
   @override
   String get language {
@@ -54,7 +56,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$moviesAtom = Atom(name: '_MovieStoreBase.movies');
+  late final _$moviesAtom =
+      Atom(name: '_MovieStoreBase.movies', context: context);
 
   @override
   List<SimpleMovie> get movies {
@@ -69,7 +72,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_MovieStoreBase.error');
+  late final _$errorAtom =
+      Atom(name: '_MovieStoreBase.error', context: context);
 
   @override
   bool get error {
@@ -84,7 +88,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$totalPagesAtom = Atom(name: '_MovieStoreBase.totalPages');
+  late final _$totalPagesAtom =
+      Atom(name: '_MovieStoreBase.totalPages', context: context);
 
   @override
   int? get totalPages {
@@ -99,7 +104,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$movieAtom = Atom(name: '_MovieStoreBase.movie');
+  late final _$movieAtom =
+      Atom(name: '_MovieStoreBase.movie', context: context);
 
   @override
   CompleteMovie? get movie {
@@ -114,7 +120,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$searchStringAtom = Atom(name: '_MovieStoreBase.searchString');
+  late final _$searchStringAtom =
+      Atom(name: '_MovieStoreBase.searchString', context: context);
 
   @override
   String get searchString {
@@ -129,8 +136,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$temporarySearchStringAtom =
-      Atom(name: '_MovieStoreBase.temporarySearchString');
+  late final _$temporarySearchStringAtom =
+      Atom(name: '_MovieStoreBase.temporarySearchString', context: context);
 
   @override
   String get temporarySearchString {
@@ -146,7 +153,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$emptyAtom = Atom(name: '_MovieStoreBase.empty');
+  late final _$emptyAtom =
+      Atom(name: '_MovieStoreBase.empty', context: context);
 
   @override
   bool get empty {
@@ -161,7 +169,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$recommendationsAtom = Atom(name: '_MovieStoreBase.recommendations');
+  late final _$recommendationsAtom =
+      Atom(name: '_MovieStoreBase.recommendations', context: context);
 
   @override
   List<SimpleMovie> get recommendations {
@@ -176,7 +185,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$seasonAtom = Atom(name: '_MovieStoreBase.season');
+  late final _$seasonAtom =
+      Atom(name: '_MovieStoreBase.season', context: context);
 
   @override
   TvSeason? get season {
@@ -191,7 +201,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$loadingSeasonAtom = Atom(name: '_MovieStoreBase.loadingSeason');
+  late final _$loadingSeasonAtom =
+      Atom(name: '_MovieStoreBase.loadingSeason', context: context);
 
   @override
   bool get loadingSeason {
@@ -206,8 +217,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$movieAvaliableWatchProvidersAtom =
-      Atom(name: '_MovieStoreBase.movieAvaliableWatchProviders');
+  late final _$movieAvaliableWatchProvidersAtom = Atom(
+      name: '_MovieStoreBase.movieAvaliableWatchProviders', context: context);
 
   @override
   MovieAvaliableWatchProviders? get movieAvaliableWatchProviders {
@@ -223,8 +234,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$watchProviderErrorAtom =
-      Atom(name: '_MovieStoreBase.watchProviderError');
+  late final _$watchProviderErrorAtom =
+      Atom(name: '_MovieStoreBase.watchProviderError', context: context);
 
   @override
   bool get watchProviderError {
@@ -239,7 +250,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$episodeAtom = Atom(name: '_MovieStoreBase.episode');
+  late final _$episodeAtom =
+      Atom(name: '_MovieStoreBase.episode', context: context);
 
   @override
   Episode? get episode {
@@ -254,7 +266,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$loadingEpisodeAtom = Atom(name: '_MovieStoreBase.loadingEpisode');
+  late final _$loadingEpisodeAtom =
+      Atom(name: '_MovieStoreBase.loadingEpisode', context: context);
 
   @override
   bool get loadingEpisode {
@@ -269,7 +282,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$episodeErrorAtom = Atom(name: '_MovieStoreBase.episodeError');
+  late final _$episodeErrorAtom =
+      Atom(name: '_MovieStoreBase.episodeError', context: context);
 
   @override
   bool get episodeError {
@@ -284,7 +298,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$personAtom = Atom(name: '_MovieStoreBase.person');
+  late final _$personAtom =
+      Atom(name: '_MovieStoreBase.person', context: context);
 
   @override
   Person? get person {
@@ -299,7 +314,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
-  final _$fetchDataAsyncAction = AsyncAction('_MovieStoreBase.fetchData');
+  late final _$fetchDataAsyncAction =
+      AsyncAction('_MovieStoreBase.fetchData', context: context);
 
   @override
   Future<dynamic> fetchData(
@@ -308,24 +324,24 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.fetchData(path: path, parameters: parameters));
   }
 
-  final _$getPopularContentAsyncAction =
-      AsyncAction('_MovieStoreBase.getPopularContent');
+  late final _$getPopularContentAsyncAction =
+      AsyncAction('_MovieStoreBase.getPopularContent', context: context);
 
   @override
   Future<void> getPopularContent() {
     return _$getPopularContentAsyncAction.run(() => super.getPopularContent());
   }
 
-  final _$getMoreContentAsyncAction =
-      AsyncAction('_MovieStoreBase.getMoreContent');
+  late final _$getMoreContentAsyncAction =
+      AsyncAction('_MovieStoreBase.getMoreContent', context: context);
 
   @override
   Future<void> getMoreContent() {
     return _$getMoreContentAsyncAction.run(() => super.getMoreContent());
   }
 
-  final _$getSingleMovieAsyncAction =
-      AsyncAction('_MovieStoreBase.getSingleMovie');
+  late final _$getSingleMovieAsyncAction =
+      AsyncAction('_MovieStoreBase.getSingleMovie', context: context);
 
   @override
   Future<void> getSingleMovie(int id, int contentType) {
@@ -333,15 +349,16 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.getSingleMovie(id, contentType));
   }
 
-  final _$searchAsyncAction = AsyncAction('_MovieStoreBase.search');
+  late final _$searchAsyncAction =
+      AsyncAction('_MovieStoreBase.search', context: context);
 
   @override
   Future<void> search() {
     return _$searchAsyncAction.run(() => super.search());
   }
 
-  final _$getRecommendationsAsyncAction =
-      AsyncAction('_MovieStoreBase.getRecommendations');
+  late final _$getRecommendationsAsyncAction =
+      AsyncAction('_MovieStoreBase.getRecommendations', context: context);
 
   @override
   Future<void> getRecommendations(int id) {
@@ -349,7 +366,8 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.getRecommendations(id));
   }
 
-  final _$getEpisodeAsyncAction = AsyncAction('_MovieStoreBase.getEpisode');
+  late final _$getEpisodeAsyncAction =
+      AsyncAction('_MovieStoreBase.getEpisode', context: context);
 
   @override
   Future<void> getEpisode(int tvId, int seasonNumber, int episodeNumber) {
@@ -357,15 +375,16 @@ mixin _$MovieStore on _MovieStoreBase, Store {
         .run(() => super.getEpisode(tvId, seasonNumber, episodeNumber));
   }
 
-  final _$getPersonAsyncAction = AsyncAction('_MovieStoreBase.getPerson');
+  late final _$getPersonAsyncAction =
+      AsyncAction('_MovieStoreBase.getPerson', context: context);
 
   @override
   Future<void> getPerson(int personId) {
     return _$getPersonAsyncAction.run(() => super.getPerson(personId));
   }
 
-  final _$_MovieStoreBaseActionController =
-      ActionController(name: '_MovieStoreBase');
+  late final _$_MovieStoreBaseActionController =
+      ActionController(name: '_MovieStoreBase', context: context);
 
   @override
   void setSearch() {

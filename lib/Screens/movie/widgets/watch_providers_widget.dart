@@ -89,6 +89,168 @@ class _WatchProvidersWidgetMovieScreenState
         }
         break;
     }
+    List<Widget> rowWidgets = [
+      Column(
+        children: [
+          if (widget.movieStore.movie!.movieAvaliableWatchProviders!.flatrate !=
+                  null &&
+              widget.movieStore.movie!.movieAvaliableWatchProviders!.flatrate!
+                      .length !=
+                  0)
+            WatchProviderSelector(
+              watchProvider: WatchProviderType.flatrate,
+              currentWatchProvider: watchProviderType,
+              onTap: () {
+                setState(() {
+                  watchProviderType = WatchProviderType.flatrate;
+                });
+              },
+              title: 'Stream',
+            ),
+          if (widget.movieStore.movie!.movieAvaliableWatchProviders!.rent !=
+                  null &&
+              widget.movieStore.movie!.movieAvaliableWatchProviders!.rent!
+                      .length !=
+                  0)
+            WatchProviderSelector(
+              watchProvider: WatchProviderType.rent,
+              currentWatchProvider: watchProviderType,
+              onTap: () {
+                setState(() {
+                  watchProviderType = WatchProviderType.rent;
+                });
+              },
+              title: 'Rent',
+            ),
+          if (widget.movieStore.movie!.movieAvaliableWatchProviders!.buy !=
+                  null &&
+              widget.movieStore.movie!.movieAvaliableWatchProviders!.buy!
+                      .length !=
+                  0)
+            WatchProviderSelector(
+              watchProvider: WatchProviderType.buy,
+              currentWatchProvider: watchProviderType,
+              onTap: () {
+                setState(() {
+                  watchProviderType = WatchProviderType.buy;
+                });
+              },
+              title: 'Buy',
+            ),
+          if (widget.movieStore.movie!.movieAvaliableWatchProviders!.ads !=
+                  null &&
+              widget.movieStore.movie!.movieAvaliableWatchProviders!.ads!
+                      .length !=
+                  0)
+            WatchProviderSelector(
+              watchProvider: WatchProviderType.ads,
+              currentWatchProvider: watchProviderType,
+              onTap: () {
+                setState(() {
+                  watchProviderType = WatchProviderType.ads;
+                });
+              },
+              title: 'With Ads',
+            ),
+          if (widget.movieStore.movie!.movieAvaliableWatchProviders!.free !=
+                  null &&
+              widget.movieStore.movie!.movieAvaliableWatchProviders!.free!
+                      .length !=
+                  0)
+            WatchProviderSelector(
+              watchProvider: WatchProviderType.free,
+              currentWatchProvider: watchProviderType,
+              onTap: () {
+                setState(() {
+                  watchProviderType = WatchProviderType.free;
+                });
+              },
+              title: 'Free',
+            ),
+        ],
+      ),
+      SizedBox(
+        width: 16,
+      ),
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: styleStore.primaryColor),
+        width: 4,
+        height: 320,
+      ),
+      SizedBox(
+        width: 16,
+      ),
+      Expanded(
+        child: Container(
+          child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: currentWatchProviders.length != 0
+                  ? currentWatchProviders.length
+                  : 1,
+              itemBuilder: (context, index) {
+                if (currentWatchProviders.length != 0)
+                  return InkWell(
+                    onDoubleTap: () {
+                      launchInBrowser(widget.movieStore.movie!
+                          .movieAvaliableWatchProviders!.link);
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: styleStore.backgroundColor),
+                      child: Row(children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          height: 32,
+                          child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://image.tmdb.org/t/p/w154/${currentWatchProviders[index].logoPath}'),
+                        ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Expanded(
+                          child: Text(
+                            currentWatchProviders[index].providerName,
+                            style: GoogleFonts.getFont('Mitr',
+                                color: styleStore.textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w200),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                      ]),
+                    ),
+                  );
+                return Center(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      'No Services Avaliable for the selected country',
+                      style: GoogleFonts.getFont('Mitr',
+                          color: styleStore.textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w200),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 6,
+                    ),
+                  ),
+                );
+              }),
+        ),
+      ),
+    ];
     return Column(
       children: [
         Divider(
@@ -119,242 +281,9 @@ class _WatchProvidersWidgetMovieScreenState
           padding: EdgeInsets.all(16),
           height: 376,
           child: Row(
-            children: [
-              Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        watchProviderType = WatchProviderType.flatrate;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: styleStore.backgroundColor,
-                          border:
-                              watchProviderType == WatchProviderType.flatrate
-                                  ? Border.all(
-                                      color: styleStore.primaryColor!, width: 2)
-                                  : null),
-                      height: 56,
-                      width: 120,
-                      child: Center(
-                        child: Text(
-                          'Stream',
-                          style: GoogleFonts.getFont('Mitr',
-                              color: styleStore.textColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        watchProviderType = WatchProviderType.rent;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: styleStore.backgroundColor,
-                          border: watchProviderType == WatchProviderType.rent
-                              ? Border.all(
-                                  color: styleStore.primaryColor!, width: 2)
-                              : null),
-                      height: 56,
-                      width: 120,
-                      child: Center(
-                        child: Text(
-                          'Rent',
-                          style: GoogleFonts.getFont('Mitr',
-                              color: styleStore.textColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        watchProviderType = WatchProviderType.buy;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: styleStore.backgroundColor,
-                          border: watchProviderType == WatchProviderType.buy
-                              ? Border.all(
-                                  color: styleStore.primaryColor!, width: 2)
-                              : null),
-                      height: 56,
-                      width: 120,
-                      child: Center(
-                        child: Text(
-                          'Buy',
-                          style: GoogleFonts.getFont('Mitr',
-                              color: styleStore.textColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        watchProviderType = WatchProviderType.ads;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: styleStore.backgroundColor,
-                          border: watchProviderType == WatchProviderType.ads
-                              ? Border.all(
-                                  color: styleStore.primaryColor!, width: 2)
-                              : null),
-                      height: 56,
-                      width: 120,
-                      child: Center(
-                        child: Text(
-                          'With Ads',
-                          style: GoogleFonts.getFont('Mitr',
-                              color: styleStore.textColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        watchProviderType = WatchProviderType.free;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: styleStore.backgroundColor,
-                          border: watchProviderType == WatchProviderType.free
-                              ? Border.all(
-                                  color: styleStore.primaryColor!, width: 2)
-                              : null),
-                      height: 56,
-                      width: 120,
-                      child: Center(
-                        child: Text(
-                          'Free',
-                          style: GoogleFonts.getFont('Mitr',
-                              color: styleStore.textColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 16,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: styleStore.primaryColor),
-                width: 4,
-                height: 320,
-              ),
-              SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Container(
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: currentWatchProviders.length != 0
-                          ? currentWatchProviders.length
-                          : 1,
-                      itemBuilder: (context, index) {
-                        if (currentWatchProviders.length != 0)
-                          return InkWell(
-                            onDoubleTap: () {
-                              launchInBrowser(widget.movieStore.movie!
-                                  .movieAvaliableWatchProviders!.link);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 16),
-                              margin: EdgeInsets.symmetric(vertical: 8),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: styleStore.backgroundColor),
-                              child: Row(children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  height: 32,
-                                  child: CachedNetworkImage(
-                                      imageUrl:
-                                          'https://image.tmdb.org/t/p/w154/${currentWatchProviders[index].logoPath}'),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    currentWatchProviders[index].providerName,
-                                    style: GoogleFonts.getFont('Mitr',
-                                        color: styleStore.textColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w200),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                              ]),
-                            ),
-                          );
-                        return Center(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            child: Text(
-                              'No Services Avaliable for the selected country',
-                              style: GoogleFonts.getFont('Mitr',
-                                  color: styleStore.textColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w200),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                              maxLines: 6,
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-              ),
-            ],
-          ),
+              children: styleStore.fabPosition == 0
+                  ? rowWidgets
+                  : rowWidgets.reversed.toList()),
         ),
         //TODO make a screen to see in which country the movie can be watched on
         //similiar to https://unogs.com/
@@ -371,6 +300,48 @@ class _WatchProvidersWidgetMovieScreenState
           ),
         )
       ],
+    );
+  }
+}
+
+class WatchProviderSelector extends StatelessWidget {
+  WatchProviderSelector(
+      {required this.currentWatchProvider,
+      required this.onTap,
+      required this.title,
+      required this.watchProvider});
+  final VoidCallback onTap;
+  final StyleStore styleStore = GetIt.I<StyleStore>();
+  final WatchProviderType currentWatchProvider;
+  final String title;
+  final WatchProviderType watchProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 16),
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: styleStore.backgroundColor,
+              border: currentWatchProvider == watchProvider
+                  ? Border.all(color: styleStore.primaryColor!, width: 2)
+                  : null),
+          height: 56,
+          width: 120,
+          child: Center(
+            child: Text(
+              title,
+              style: GoogleFonts.getFont('Mitr',
+                  color: styleStore.textColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w100),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

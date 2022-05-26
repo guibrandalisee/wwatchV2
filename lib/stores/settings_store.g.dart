@@ -9,8 +9,8 @@ part of 'settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingsStore on _SettingsStoreBase, Store {
-  final _$tileDisplayModeAtom =
-      Atom(name: '_SettingsStoreBase.tileDisplayMode');
+  late final _$tileDisplayModeAtom =
+      Atom(name: '_SettingsStoreBase.tileDisplayMode', context: context);
 
   @override
   int get tileDisplayMode {
@@ -25,7 +25,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$brightnessAtom = Atom(name: '_SettingsStoreBase.brightness');
+  late final _$brightnessAtom =
+      Atom(name: '_SettingsStoreBase.brightness', context: context);
 
   @override
   CustomBrightness get brightness {
@@ -40,7 +41,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$dateFormatAtom = Atom(name: '_SettingsStoreBase.dateFormat');
+  late final _$dateFormatAtom =
+      Atom(name: '_SettingsStoreBase.dateFormat', context: context);
 
   @override
   String get dateFormat {
@@ -55,8 +57,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedlanguageAtom =
-      Atom(name: '_SettingsStoreBase.selectedlanguage');
+  late final _$selectedlanguageAtom =
+      Atom(name: '_SettingsStoreBase.selectedlanguage', context: context);
 
   @override
   String get selectedlanguage {
@@ -71,7 +73,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$languageAtom = Atom(name: '_SettingsStoreBase.language');
+  late final _$languageAtom =
+      Atom(name: '_SettingsStoreBase.language', context: context);
 
   @override
   String get language {
@@ -86,8 +89,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$secondaryLanguageAtom =
-      Atom(name: '_SettingsStoreBase.secondaryLanguage');
+  late final _$secondaryLanguageAtom =
+      Atom(name: '_SettingsStoreBase.secondaryLanguage', context: context);
 
   @override
   String get secondaryLanguage {
@@ -102,7 +105,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$languagesAtom = Atom(name: '_SettingsStoreBase.languages');
+  late final _$languagesAtom =
+      Atom(name: '_SettingsStoreBase.languages', context: context);
 
   @override
   List<String> get languages {
@@ -117,7 +121,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$adultContentAtom = Atom(name: '_SettingsStoreBase.adultContent');
+  late final _$adultContentAtom =
+      Atom(name: '_SettingsStoreBase.adultContent', context: context);
 
   @override
   bool get adultContent {
@@ -132,8 +137,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$filterBadLanguageAtom =
-      Atom(name: '_SettingsStoreBase.filterBadLanguage');
+  late final _$filterBadLanguageAtom =
+      Atom(name: '_SettingsStoreBase.filterBadLanguage', context: context);
 
   @override
   String get filterBadLanguage {
@@ -148,7 +153,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$countryAtom = Atom(name: '_SettingsStoreBase.country');
+  late final _$countryAtom =
+      Atom(name: '_SettingsStoreBase.country', context: context);
 
   @override
   String get country {
@@ -163,7 +169,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$movieGenresAtom = Atom(name: '_SettingsStoreBase.movieGenres');
+  late final _$movieGenresAtom =
+      Atom(name: '_SettingsStoreBase.movieGenres', context: context);
 
   @override
   List<Genre> get movieGenres {
@@ -178,7 +185,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$tvShowGenresAtom = Atom(name: '_SettingsStoreBase.tvShowGenres');
+  late final _$tvShowGenresAtom =
+      Atom(name: '_SettingsStoreBase.tvShowGenres', context: context);
 
   @override
   List<Genre> get tvShowGenres {
@@ -193,8 +201,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedMovieGenresAtom =
-      Atom(name: '_SettingsStoreBase.selectedMovieGenres');
+  late final _$selectedMovieGenresAtom =
+      Atom(name: '_SettingsStoreBase.selectedMovieGenres', context: context);
 
   @override
   ObservableList<int> get selectedMovieGenres {
@@ -209,8 +217,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedTvShowGenresAtom =
-      Atom(name: '_SettingsStoreBase.selectedTvShowGenres');
+  late final _$selectedTvShowGenresAtom =
+      Atom(name: '_SettingsStoreBase.selectedTvShowGenres', context: context);
 
   @override
   ObservableList<int> get selectedTvShowGenres {
@@ -226,8 +234,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$avaliableRegionsAtom =
-      Atom(name: '_SettingsStoreBase.avaliableRegions');
+  late final _$avaliableRegionsAtom =
+      Atom(name: '_SettingsStoreBase.avaliableRegions', context: context);
 
   @override
   List<AvaliableWatchProviderRegions> get avaliableRegions {
@@ -242,8 +250,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$rememberWatchProvidersAtom =
-      Atom(name: '_SettingsStoreBase.rememberWatchProviders');
+  late final _$rememberWatchProvidersAtom =
+      Atom(name: '_SettingsStoreBase.rememberWatchProviders', context: context);
 
   @override
   bool? get rememberWatchProviders {
@@ -259,8 +267,9 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$avaliableWatchProvidersMoviesAtom =
-      Atom(name: '_SettingsStoreBase.avaliableWatchProvidersMovies');
+  late final _$avaliableWatchProvidersMoviesAtom = Atom(
+      name: '_SettingsStoreBase.avaliableWatchProvidersMovies',
+      context: context);
 
   @override
   List<AvaliableWatchProvider> get avaliableWatchProvidersMovies {
@@ -276,8 +285,9 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$avaliableWatchProvidersTvShowsAtom =
-      Atom(name: '_SettingsStoreBase.avaliableWatchProvidersTvShows');
+  late final _$avaliableWatchProvidersTvShowsAtom = Atom(
+      name: '_SettingsStoreBase.avaliableWatchProvidersTvShows',
+      context: context);
 
   @override
   List<AvaliableWatchProvider> get avaliableWatchProvidersTvShows {
@@ -293,8 +303,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$loadingWatchProvidersAtom =
-      Atom(name: '_SettingsStoreBase.loadingWatchProviders');
+  late final _$loadingWatchProvidersAtom =
+      Atom(name: '_SettingsStoreBase.loadingWatchProviders', context: context);
 
   @override
   bool get loadingWatchProviders {
@@ -310,8 +320,9 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$rememberSelectedWatchPMoviesAtom =
-      Atom(name: '_SettingsStoreBase.rememberSelectedWatchPMovies');
+  late final _$rememberSelectedWatchPMoviesAtom = Atom(
+      name: '_SettingsStoreBase.rememberSelectedWatchPMovies',
+      context: context);
 
   @override
   bool get rememberSelectedWatchPMovies {
@@ -327,8 +338,9 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$rememberSelectedWatchPTVShowsAtom =
-      Atom(name: '_SettingsStoreBase.rememberSelectedWatchPTVShows');
+  late final _$rememberSelectedWatchPTVShowsAtom = Atom(
+      name: '_SettingsStoreBase.rememberSelectedWatchPTVShows',
+      context: context);
 
   @override
   bool get rememberSelectedWatchPTVShows {
@@ -344,8 +356,9 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedWatchProvidersMoviesAtom =
-      Atom(name: '_SettingsStoreBase.selectedWatchProvidersMovies');
+  late final _$selectedWatchProvidersMoviesAtom = Atom(
+      name: '_SettingsStoreBase.selectedWatchProvidersMovies',
+      context: context);
 
   @override
   ObservableList<int> get selectedWatchProvidersMovies {
@@ -361,8 +374,9 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedWatchProvidersTVShowsAtom =
-      Atom(name: '_SettingsStoreBase.selectedWatchProvidersTVShows');
+  late final _$selectedWatchProvidersTVShowsAtom = Atom(
+      name: '_SettingsStoreBase.selectedWatchProvidersTVShows',
+      context: context);
 
   @override
   ObservableList<int> get selectedWatchProvidersTVShows {
@@ -378,8 +392,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$avaliableContentLanguagesAtom =
-      Atom(name: '_SettingsStoreBase.avaliableContentLanguages');
+  late final _$avaliableContentLanguagesAtom = Atom(
+      name: '_SettingsStoreBase.avaliableContentLanguages', context: context);
 
   @override
   List<AvaliableContentLanguages> get avaliableContentLanguages {
@@ -395,7 +409,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedSortByAtom = Atom(name: '_SettingsStoreBase.selectedSortBy');
+  late final _$selectedSortByAtom =
+      Atom(name: '_SettingsStoreBase.selectedSortBy', context: context);
 
   @override
   String get selectedSortBy {
@@ -410,8 +425,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$selectedContentTypeAtom =
-      Atom(name: '_SettingsStoreBase.selectedContentType');
+  late final _$selectedContentTypeAtom =
+      Atom(name: '_SettingsStoreBase.selectedContentType', context: context);
 
   @override
   int get selectedContentType {
@@ -426,8 +441,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$voteCountActiveAtom =
-      Atom(name: '_SettingsStoreBase.voteCountActive');
+  late final _$voteCountActiveAtom =
+      Atom(name: '_SettingsStoreBase.voteCountActive', context: context);
 
   @override
   bool get voteCountActive {
@@ -442,7 +457,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$voteCountMinAtom = Atom(name: '_SettingsStoreBase.voteCountMin');
+  late final _$voteCountMinAtom =
+      Atom(name: '_SettingsStoreBase.voteCountMin', context: context);
 
   @override
   int get voteCountMin {
@@ -457,7 +473,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$voteCountMaxAtom = Atom(name: '_SettingsStoreBase.voteCountMax');
+  late final _$voteCountMaxAtom =
+      Atom(name: '_SettingsStoreBase.voteCountMax', context: context);
 
   @override
   int get voteCountMax {
@@ -472,7 +489,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$voteAvgActiveAtom = Atom(name: '_SettingsStoreBase.voteAvgActive');
+  late final _$voteAvgActiveAtom =
+      Atom(name: '_SettingsStoreBase.voteAvgActive', context: context);
 
   @override
   bool get voteAvgActive {
@@ -487,7 +505,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$voteAvgMinAtom = Atom(name: '_SettingsStoreBase.voteAvgMin');
+  late final _$voteAvgMinAtom =
+      Atom(name: '_SettingsStoreBase.voteAvgMin', context: context);
 
   @override
   int get voteAvgMin {
@@ -502,7 +521,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$voteAvgMaxAtom = Atom(name: '_SettingsStoreBase.voteAvgMax');
+  late final _$voteAvgMaxAtom =
+      Atom(name: '_SettingsStoreBase.voteAvgMax', context: context);
 
   @override
   int get voteAvgMax {
@@ -517,7 +537,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$runTimeActiveAtom = Atom(name: '_SettingsStoreBase.runTimeActive');
+  late final _$runTimeActiveAtom =
+      Atom(name: '_SettingsStoreBase.runTimeActive', context: context);
 
   @override
   bool get runTimeActive {
@@ -532,7 +553,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$runTimeMinAtom = Atom(name: '_SettingsStoreBase.runTimeMin');
+  late final _$runTimeMinAtom =
+      Atom(name: '_SettingsStoreBase.runTimeMin', context: context);
 
   @override
   int get runTimeMin {
@@ -547,7 +569,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$runTimeMaxAtom = Atom(name: '_SettingsStoreBase.runTimeMax');
+  late final _$runTimeMaxAtom =
+      Atom(name: '_SettingsStoreBase.runTimeMax', context: context);
 
   @override
   int get runTimeMax {
@@ -562,24 +585,24 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
-  final _$getMovieGenresAsyncAction =
-      AsyncAction('_SettingsStoreBase.getMovieGenres');
+  late final _$getMovieGenresAsyncAction =
+      AsyncAction('_SettingsStoreBase.getMovieGenres', context: context);
 
   @override
   Future<void> getMovieGenres() {
     return _$getMovieGenresAsyncAction.run(() => super.getMovieGenres());
   }
 
-  final _$getTvShowGenresAsyncAction =
-      AsyncAction('_SettingsStoreBase.getTvShowGenres');
+  late final _$getTvShowGenresAsyncAction =
+      AsyncAction('_SettingsStoreBase.getTvShowGenres', context: context);
 
   @override
   Future<void> getTvShowGenres() {
     return _$getTvShowGenresAsyncAction.run(() => super.getTvShowGenres());
   }
 
-  final _$getAvaliableRegionsAsyncAction =
-      AsyncAction('_SettingsStoreBase.getAvaliableRegions');
+  late final _$getAvaliableRegionsAsyncAction =
+      AsyncAction('_SettingsStoreBase.getAvaliableRegions', context: context);
 
   @override
   Future<void> getAvaliableRegions() {
@@ -587,8 +610,9 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         .run(() => super.getAvaliableRegions());
   }
 
-  final _$getPossibleWatchProvidersAsyncAction =
-      AsyncAction('_SettingsStoreBase.getPossibleWatchProviders');
+  late final _$getPossibleWatchProvidersAsyncAction = AsyncAction(
+      '_SettingsStoreBase.getPossibleWatchProviders',
+      context: context);
 
   @override
   Future<void> getPossibleWatchProviders(bool movie) {
@@ -596,8 +620,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         .run(() => super.getPossibleWatchProviders(movie));
   }
 
-  final _$getAvaliableLanguagesAsyncAction =
-      AsyncAction('_SettingsStoreBase.getAvaliableLanguages');
+  late final _$getAvaliableLanguagesAsyncAction =
+      AsyncAction('_SettingsStoreBase.getAvaliableLanguages', context: context);
 
   @override
   Future<void> getAvaliableLanguages() {
@@ -605,8 +629,8 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
         .run(() => super.getAvaliableLanguages());
   }
 
-  final _$_SettingsStoreBaseActionController =
-      ActionController(name: '_SettingsStoreBase');
+  late final _$_SettingsStoreBaseActionController =
+      ActionController(name: '_SettingsStoreBase', context: context);
 
   @override
   void setTileMode(int value) {

@@ -9,7 +9,8 @@ part of 'style_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$StyleStore on _StyleStoreBase, Store {
-  final _$primaryColorAtom = Atom(name: '_StyleStoreBase.primaryColor');
+  late final _$primaryColorAtom =
+      Atom(name: '_StyleStoreBase.primaryColor', context: context);
 
   @override
   Color? get primaryColor {
@@ -24,7 +25,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$dropdownColorAtom = Atom(name: '_StyleStoreBase.dropdownColor');
+  late final _$dropdownColorAtom =
+      Atom(name: '_StyleStoreBase.dropdownColor', context: context);
 
   @override
   Color? get dropdownColor {
@@ -39,7 +41,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$backgroundColorAtom = Atom(name: '_StyleStoreBase.backgroundColor');
+  late final _$backgroundColorAtom =
+      Atom(name: '_StyleStoreBase.backgroundColor', context: context);
 
   @override
   Color? get backgroundColor {
@@ -54,7 +57,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$textColorAtom = Atom(name: '_StyleStoreBase.textColor');
+  late final _$textColorAtom =
+      Atom(name: '_StyleStoreBase.textColor', context: context);
 
   @override
   Color? get textColor {
@@ -69,8 +73,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$textOnPrimaryColorAtom =
-      Atom(name: '_StyleStoreBase.textOnPrimaryColor');
+  late final _$textOnPrimaryColorAtom =
+      Atom(name: '_StyleStoreBase.textOnPrimaryColor', context: context);
 
   @override
   Color? get textOnPrimaryColor {
@@ -85,7 +89,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$shapeColorAtom = Atom(name: '_StyleStoreBase.shapeColor');
+  late final _$shapeColorAtom =
+      Atom(name: '_StyleStoreBase.shapeColor', context: context);
 
   @override
   Color? get shapeColor {
@@ -100,7 +105,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$colorIndexAtom = Atom(name: '_StyleStoreBase.colorIndex');
+  late final _$colorIndexAtom =
+      Atom(name: '_StyleStoreBase.colorIndex', context: context);
 
   @override
   int? get colorIndex {
@@ -115,7 +121,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$fabPositionAtom = Atom(name: '_StyleStoreBase.fabPosition');
+  late final _$fabPositionAtom =
+      Atom(name: '_StyleStoreBase.fabPosition', context: context);
 
   @override
   int? get fabPosition {
@@ -130,7 +137,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$errorImageAtom = Atom(name: '_StyleStoreBase.errorImage');
+  late final _$errorImageAtom =
+      Atom(name: '_StyleStoreBase.errorImage', context: context);
 
   @override
   String? get errorImage {
@@ -145,8 +153,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$nothingFoundImageAtom =
-      Atom(name: '_StyleStoreBase.nothingFoundImage');
+  late final _$nothingFoundImageAtom =
+      Atom(name: '_StyleStoreBase.nothingFoundImage', context: context);
 
   @override
   String? get nothingFoundImage {
@@ -161,8 +169,8 @@ mixin _$StyleStore on _StyleStoreBase, Store {
     });
   }
 
-  final _$_StyleStoreBaseActionController =
-      ActionController(name: '_StyleStoreBase');
+  late final _$_StyleStoreBaseActionController =
+      ActionController(name: '_StyleStoreBase', context: context);
 
   @override
   void setPrimaryColor(Color value, int index) {

@@ -122,6 +122,9 @@ class ContentFilter extends StatelessWidget {
                         if (movieStore.temporarySearchString.isEmpty) {
                           movieStore.getPopularContent();
                           settingsStore.getPossibleWatchProviders(true);
+                        } else {
+                          movieStore.setSearch();
+                          movieStore.search();
                         }
                       },
                       child: Text(
@@ -160,6 +163,9 @@ class ContentFilter extends StatelessWidget {
                         if (movieStore.temporarySearchString.isEmpty) {
                           movieStore.getPopularContent();
                           settingsStore.getPossibleWatchProviders(false);
+                        } else {
+                          movieStore.setSearch();
+                          movieStore.search();
                         }
                       },
                       child: Text(

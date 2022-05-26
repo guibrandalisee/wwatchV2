@@ -14,7 +14,6 @@ enum CustomBrightness { dark, amoled, light }
 
 abstract class _SettingsStoreBase with Store {
   String token = dotenv.env['TOKEN']!;
-
   //Check if user has changed any settings before
   final SharedPreferences? prefs;
   _SettingsStoreBase({

@@ -327,24 +327,26 @@ class CastWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width - 56,
-                        child: Wrap(
-                          children: [
-                            Text(
-                              isCast
-                                  ? '${AppLocalizations.of(context)!.as} ${cast!.character}'
-                                  : crew!.knownForFepartment,
-                              style: GoogleFonts.getFont('Mitr',
-                                  color: styleStore.textColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w200),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                      if ((isCast && cast!.character.isNotEmpty) ||
+                          (!isCast && crew!.knownForFepartment.isNotEmpty))
+                        Container(
+                          width: MediaQuery.of(context).size.width - 56,
+                          child: Wrap(
+                            children: [
+                              Text(
+                                isCast
+                                    ? '${AppLocalizations.of(context)!.as} ${cast!.character}'
+                                    : crew!.knownForFepartment,
+                                style: GoogleFonts.getFont('Mitr',
+                                    color: styleStore.textColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w200),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),
