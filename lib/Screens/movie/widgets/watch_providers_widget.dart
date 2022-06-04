@@ -9,7 +9,6 @@ import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum WatchProviderType { flatrate, buy, rent, ads, free }
 

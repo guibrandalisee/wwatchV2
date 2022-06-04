@@ -171,6 +171,7 @@ abstract class _MovieStoreBase with Store {
     //?-----
 
     //!Setup params
+
     genres = setUpGenres();
     parameters.addEntries({
       'language': language,
@@ -183,6 +184,37 @@ abstract class _MovieStoreBase with Store {
     Map<String, dynamic> filters = setupFilters();
     parameters.addAll(filters);
 
+    //* WatchProvider Filters --------------------------------------
+
+    if (settingsStore.selectedContentType == 0) {
+      if (settingsStore.selectedWatchProvidersMovies.isNotEmpty) {
+        String iso = settingsStore.avaliableRegions
+            .firstWhere(
+                (element) => element.englishName == settingsStore.country)
+            .iso_3166_1;
+        String watchProviders = settingsStore.selectedWatchProvidersMovies
+            .map<String>((e) {
+              return e.toString();
+            })
+            .toList()
+            .join('|');
+        parameters.addAll(
+            {'with_watch_providers': watchProviders, 'watch_region': iso});
+      }
+    } else if (settingsStore.selectedWatchProvidersTVShows.isNotEmpty) {
+      String iso = settingsStore.avaliableRegions
+          .firstWhere((element) => element.englishName == settingsStore.country)
+          .iso_3166_1;
+      String watchProviders = settingsStore.selectedWatchProvidersTVShows
+          .map<String>((e) {
+            return e.toString();
+          })
+          .toList()
+          .join('|');
+      parameters.addAll(
+          {'with_watch_providers': watchProviders, 'watch_region': iso});
+    }
+//*------------------------------------------------------
     if (genres != '' && genres.isNotEmpty)
       parameters.addEntries({'with_genres': genres}.entries);
 
@@ -288,6 +320,38 @@ abstract class _MovieStoreBase with Store {
         'include_adult': settingsStore.adultContent,
       };
     }
+
+    //* WatchProvider Filters --------------------------------------
+
+    if (settingsStore.selectedContentType == 0) {
+      if (settingsStore.selectedWatchProvidersMovies.isNotEmpty) {
+        String iso = settingsStore.avaliableRegions
+            .firstWhere(
+                (element) => element.englishName == settingsStore.country)
+            .iso_3166_1;
+        String watchProviders = settingsStore.selectedWatchProvidersMovies
+            .map<String>((e) {
+              return e.toString();
+            })
+            .toList()
+            .join('|');
+        parameters.addAll(
+            {'with_watch_providers': watchProviders, 'watch_region': iso});
+      }
+    } else if (settingsStore.selectedWatchProvidersTVShows.isNotEmpty) {
+      String iso = settingsStore.avaliableRegions
+          .firstWhere((element) => element.englishName == settingsStore.country)
+          .iso_3166_1;
+      String watchProviders = settingsStore.selectedWatchProvidersTVShows
+          .map<String>((e) {
+            return e.toString();
+          })
+          .toList()
+          .join('|');
+      parameters.addAll(
+          {'with_watch_providers': watchProviders, 'watch_region': iso});
+    }
+//*------------------------------------------------------
 //!------------
 
 //*http request
