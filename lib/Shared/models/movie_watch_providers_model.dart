@@ -40,3 +40,27 @@ class MovieAvaliableWatchProviders {
     this.free,
   });
 }
+
+class Country {
+  String name;
+  String iso_3166_1;
+  Country({
+    required this.name,
+    required this.iso_3166_1,
+  });
+}
+
+class AllCountriesWatchProviders {
+  List<Country> flatrate;
+  List<Country> rent;
+  List<Country> buy;
+  List<Country> free;
+  List<Country> ads;
+  AllCountriesWatchProviders({
+    required this.flatrate,
+    required this.rent,
+    required this.buy,
+    required this.free,
+    required this.ads,
+  });
+}

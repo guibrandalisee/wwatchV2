@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wwatch/Screens/all_watch_providers/all_watch_providers_screen.dart';
 
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
@@ -286,18 +287,25 @@ class _WatchProvidersWidgetMovieScreenState
         ),
         //TODO make a screen to see in which country the movie can be watched on
         //similiar to https://unogs.com/
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            'View For All Countries',
-            style: GoogleFonts.getFont('Mitr',
-                color: styleStore.primaryColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w200),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-          ),
-        )
+        if (widget.movieStore.movie!.allWatchProviders != null)
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AllWatchProvidersScreen(
+                        watchProvidersData:
+                            widget.movieStore.movie!.allWatchProviders!,
+                      )));
+            },
+            child: Text(
+              'View For All Countries',
+              style: GoogleFonts.getFont('Mitr',
+                  color: styleStore.primaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w200),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+          )
       ],
     );
   }
@@ -308,28 +316,35 @@ class WatchProviderSelector extends StatelessWidget {
       {required this.currentWatchProvider,
       required this.onTap,
       required this.title,
-      required this.watchProvider});
+      required this.watchProvider,
+      this.height,
+      this.margin,
+      this.width,
+      this.color});
   final VoidCallback onTap;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final WatchProviderType currentWatchProvider;
   final String title;
   final WatchProviderType watchProvider;
-
+  final Color? color;
+  final double? height;
+  final double? width;
+  final EdgeInsets? margin;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: margin ?? EdgeInsets.only(bottom: 16),
       child: InkWell(
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: styleStore.backgroundColor,
+              color: color ?? styleStore.backgroundColor,
               border: currentWatchProvider == watchProvider
                   ? Border.all(color: styleStore.primaryColor!, width: 2)
                   : null),
-          height: 56,
-          width: 120,
+          height: height ?? 56,
+          width: width ?? 120,
           child: Center(
             child: Text(
               title,

@@ -110,7 +110,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                AppLocalizations.of(context)!.sContentLanguage,
+                AppLocalizations.of(context)!.sContentLanguage + " | WIP",
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 18,
@@ -121,7 +121,9 @@ class _GeneralSettingsState extends State<GeneralSettings> {
               height: 16,
             ),
             DropDownButtonWidget(
-              items: settingsStore.languages,
+              items: settingsStore.avaliableContentLanguages
+                  .map<String>((e) => e.englishName)
+                  .toList(),
               value: settingsStore.secondaryLanguage,
               onChanged: (value) {
                 if (value != null) {

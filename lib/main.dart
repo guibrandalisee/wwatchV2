@@ -44,11 +44,10 @@ void setupLocators(SharedPreferences preferences) {
 }
 
 Future<void> launchInBrowser(String url) async {
+  final uri = Uri.parse(url);
   try {
-    await launch(
-      url,
-      forceSafariVC: false,
-      forceWebView: false,
+    await launchUrl(
+      uri,
     );
   } catch (e) {
     print(e);

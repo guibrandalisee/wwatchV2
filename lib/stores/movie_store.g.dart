@@ -6,7 +6,7 @@ part of 'movie_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MovieStore on _MovieStoreBase, Store {
   late final _$didChangeAtom =
@@ -314,6 +314,23 @@ mixin _$MovieStore on _MovieStoreBase, Store {
     });
   }
 
+  late final _$allCountriesWatchProvidersAtom = Atom(
+      name: '_MovieStoreBase.allCountriesWatchProviders', context: context);
+
+  @override
+  AllCountriesWatchProviders? get allCountriesWatchProviders {
+    _$allCountriesWatchProvidersAtom.reportRead();
+    return super.allCountriesWatchProviders;
+  }
+
+  @override
+  set allCountriesWatchProviders(AllCountriesWatchProviders? value) {
+    _$allCountriesWatchProvidersAtom
+        .reportWrite(value, super.allCountriesWatchProviders, () {
+      super.allCountriesWatchProviders = value;
+    });
+  }
+
   late final _$fetchDataAsyncAction =
       AsyncAction('_MovieStoreBase.fetchData', context: context);
 
@@ -398,6 +415,17 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   }
 
   @override
+  void getAllCountriesWatchProviders(Map<String, dynamic> data) {
+    final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
+        name: '_MovieStoreBase.getAllCountriesWatchProviders');
+    try {
+      return super.getAllCountriesWatchProviders(data);
+    } finally {
+      _$_MovieStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 didChange: ${didChange},
@@ -418,7 +446,8 @@ watchProviderError: ${watchProviderError},
 episode: ${episode},
 loadingEpisode: ${loadingEpisode},
 episodeError: ${episodeError},
-person: ${person}
+person: ${person},
+allCountriesWatchProviders: ${allCountriesWatchProviders}
     ''';
   }
 }

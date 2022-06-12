@@ -75,6 +75,7 @@ class CompleteMovie {
     this.reviews,
     required this.credits,
     this.movieAvaliableWatchProviders,
+    this.allWatchProviders,
   });
   final List genres;
   final int id;
@@ -109,4 +110,5 @@ class CompleteMovie {
   final Map<String, dynamic>? reviews;
   final Credits credits;
   final MovieAvaliableWatchProviders? movieAvaliableWatchProviders;
+  final Map<String, dynamic>? allWatchProviders;
 }

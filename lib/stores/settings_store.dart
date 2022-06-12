@@ -12,6 +12,8 @@ class SettingsStore = _SettingsStoreBase with _$SettingsStore;
 
 enum CustomBrightness { dark, amoled, light }
 
+enum GenreMode { all, one }
+
 abstract class _SettingsStoreBase with Store {
   String token = dotenv.env['TOKEN']!;
   //Check if user has changed any settings before
@@ -45,6 +47,14 @@ abstract class _SettingsStoreBase with Store {
       if (prefs!.containsKey('languageISO')) {
         language = prefs!.getString('languageISO')!;
       }
+      if (prefs!.containsKey('movieGenreMode')) {
+        movieGenreMode =
+            prefs!.getBool('movieGenreMode')! ? GenreMode.all : GenreMode.one;
+      }
+      if (prefs!.containsKey('tvShowGenreMode')) {
+        tvShowGenreMode =
+            prefs!.getBool('tvShowGenreMode')! ? GenreMode.all : GenreMode.one;
+      }
     } else {
       dateFormat = 'dd/mm/yyyy';
       brightness = CustomBrightness.dark;
@@ -71,6 +81,32 @@ abstract class _SettingsStoreBase with Store {
       return response;
     } on DioError catch (e) {
       print(e);
+    }
+  }
+
+  @observable
+  GenreMode movieGenreMode = GenreMode.all;
+
+  @observable
+  GenreMode tvShowGenreMode = GenreMode.all;
+
+  @action
+  void setMovieGenreMode(GenreMode value) {
+    movieGenreMode = value;
+    if (value == GenreMode.all) {
+      prefs!.setBool('movieGenreMode', true);
+    } else {
+      prefs!.setBool('movieGenreMode', false);
+    }
+  }
+
+  @action
+  void setTvShowGenreMode(GenreMode value) {
+    tvShowGenreMode = value;
+    if (value == GenreMode.all) {
+      prefs!.setBool('tvShowGenreMode', true);
+    } else {
+      prefs!.setBool('tvShowGenreMode', false);
     }
   }
 
@@ -122,14 +158,6 @@ abstract class _SettingsStoreBase with Store {
   String secondaryLanguage = 'English - US';
   @action
   void setSecondaryLanguage(String value) => secondaryLanguage = value;
-
-  @observable
-  List<String> languages = [
-    "English - US",
-    "Portuguese - BR",
-    "Portuguese - PT",
-    "Spanish - ES",
-  ];
 
   //Change if the app will display adult content
   @observable

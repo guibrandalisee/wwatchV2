@@ -99,17 +99,18 @@ abstract class _MovieStoreBase with Store {
   }
 
   String setUpGenres() {
-    final SettingsStore _settingsStore = GetIt.I<SettingsStore>();
     String genres = '';
-    if (_settingsStore.selectedMovieGenres.isNotEmpty &&
-        _settingsStore.selectedContentType == 0) {
-      for (var item in _settingsStore.selectedMovieGenres) {
-        genres += item.toString() + ',';
+    if (settingsStore.selectedMovieGenres.isNotEmpty &&
+        settingsStore.selectedContentType == 0) {
+      for (var item in settingsStore.selectedMovieGenres) {
+        genres += item.toString() +
+            (settingsStore.movieGenreMode == GenreMode.all ? ',' : '|');
       }
-    } else if (_settingsStore.selectedTvShowGenres.isNotEmpty &&
-        _settingsStore.selectedContentType == 1) {
-      for (var item in _settingsStore.selectedTvShowGenres) {
-        genres += item.toString() + ',';
+    } else if (settingsStore.selectedTvShowGenres.isNotEmpty &&
+        settingsStore.selectedContentType == 1) {
+      for (var item in settingsStore.selectedTvShowGenres) {
+        genres += item.toString() +
+            (settingsStore.tvShowGenreMode == GenreMode.all ? ',' : '|');
       }
     }
     return genres;
@@ -600,44 +601,44 @@ abstract class _MovieStoreBase with Store {
         crew: crew,
       );
       movie = CompleteMovie(
-        images: images,
-        videos: videos,
-        genres: data['genres'],
-        id: id,
-        adult: data['adult'],
-        popularity: data['popularity'],
-        voteAverage: data['vote_average'],
-        originalLanguage: data['original_language'],
-        title: data['title'] != null ? data['title'] : data['name'],
-        overview: data['overview'],
-        releaseDate: data['release_date'] != null
-            ? data['release_date']
-            : data['first_air_date'],
-        budget: data['budget'],
-        originalTitle: data['original_title'] != null
-            ? data['original_title']
-            : data['original_name'],
-        productionCompanies: data['production_companies'],
-        productionCountries: data['production_countries'],
-        spokenLanguages: data['spoken_languages'],
-        revenue: data['revenue'],
-        launchStatus: data['status'],
-        backdropPath: data['backdrop_path'],
-        imdbId: data['imdb_id'],
-        posterPath: data['poster_path'],
-        runtime: data['runtime'],
-        tagline: data['tagline'],
-        numberOfEpisodes: data['number_of_episodes'] != null
-            ? data['number_of_episodes']
-            : null,
-        numberOfSeasons: data['number_of_seasons'] != null
-            ? data['number_of_seasons']
-            : null,
-        seasons: seasons,
-        voteCount: data['vote_count'],
-        credits: credits,
-        movieAvaliableWatchProviders: movieAvaliableWatchProviders,
-      );
+          images: images,
+          videos: videos,
+          genres: data['genres'],
+          id: id,
+          adult: data['adult'],
+          popularity: data['popularity'],
+          voteAverage: data['vote_average'],
+          originalLanguage: data['original_language'],
+          title: data['title'] != null ? data['title'] : data['name'],
+          overview: data['overview'],
+          releaseDate: data['release_date'] != null
+              ? data['release_date']
+              : data['first_air_date'],
+          budget: data['budget'],
+          originalTitle: data['original_title'] != null
+              ? data['original_title']
+              : data['original_name'],
+          productionCompanies: data['production_companies'],
+          productionCountries: data['production_countries'],
+          spokenLanguages: data['spoken_languages'],
+          revenue: data['revenue'],
+          launchStatus: data['status'],
+          backdropPath: data['backdrop_path'],
+          imdbId: data['imdb_id'],
+          posterPath: data['poster_path'],
+          runtime: data['runtime'],
+          tagline: data['tagline'],
+          numberOfEpisodes: data['number_of_episodes'] != null
+              ? data['number_of_episodes']
+              : null,
+          numberOfSeasons: data['number_of_seasons'] != null
+              ? data['number_of_seasons']
+              : null,
+          seasons: seasons,
+          voteCount: data['vote_count'],
+          credits: credits,
+          movieAvaliableWatchProviders: movieAvaliableWatchProviders,
+          allWatchProviders: response[4].data['results']);
     } catch (e) {
       error = true;
       print(e);
@@ -980,6 +981,47 @@ abstract class _MovieStoreBase with Store {
       error = true;
       print(e);
     }
+  }
+
+  @observable
+  AllCountriesWatchProviders? allCountriesWatchProviders;
+
+  @action
+  void getAllCountriesWatchProviders(Map<String, dynamic> data) {
+    List<Country> flatrate = [];
+    List<Country> rent = [];
+    List<Country> buy = [];
+    List<Country> free = [];
+    List<Country> ads = [];
+    data.forEach(
+      (key, value) {
+        String name = '';
+        try {
+          name = settingsStore.avaliableRegions
+              .firstWhere((element) => element.iso_3166_1 == key.toString())
+              .englishName;
+        } catch (e) {
+          print(e);
+        }
+        if (value['rent'] != null) {
+          rent.add(Country(name: name, iso_3166_1: key));
+        }
+        if (value['flatrate'] != null) {
+          flatrate.add(Country(name: name, iso_3166_1: key));
+        }
+        if (value['buy'] != null) {
+          buy.add(Country(name: name, iso_3166_1: key));
+        }
+        if (value['free'] != null) {
+          free.add(Country(name: name, iso_3166_1: key));
+        }
+        if (value['ads'] != null) {
+          ads.add(Country(name: name, iso_3166_1: key));
+        }
+      },
+    );
+    allCountriesWatchProviders = AllCountriesWatchProviders(
+        flatrate: flatrate, rent: rent, buy: buy, free: free, ads: ads);
   }
 
   //end

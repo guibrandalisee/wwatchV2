@@ -6,9 +6,41 @@ part of 'settings_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SettingsStore on _SettingsStoreBase, Store {
+  late final _$movieGenreModeAtom =
+      Atom(name: '_SettingsStoreBase.movieGenreMode', context: context);
+
+  @override
+  GenreMode get movieGenreMode {
+    _$movieGenreModeAtom.reportRead();
+    return super.movieGenreMode;
+  }
+
+  @override
+  set movieGenreMode(GenreMode value) {
+    _$movieGenreModeAtom.reportWrite(value, super.movieGenreMode, () {
+      super.movieGenreMode = value;
+    });
+  }
+
+  late final _$tvShowGenreModeAtom =
+      Atom(name: '_SettingsStoreBase.tvShowGenreMode', context: context);
+
+  @override
+  GenreMode get tvShowGenreMode {
+    _$tvShowGenreModeAtom.reportRead();
+    return super.tvShowGenreMode;
+  }
+
+  @override
+  set tvShowGenreMode(GenreMode value) {
+    _$tvShowGenreModeAtom.reportWrite(value, super.tvShowGenreMode, () {
+      super.tvShowGenreMode = value;
+    });
+  }
+
   late final _$tileDisplayModeAtom =
       Atom(name: '_SettingsStoreBase.tileDisplayMode', context: context);
 
@@ -102,22 +134,6 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   set secondaryLanguage(String value) {
     _$secondaryLanguageAtom.reportWrite(value, super.secondaryLanguage, () {
       super.secondaryLanguage = value;
-    });
-  }
-
-  late final _$languagesAtom =
-      Atom(name: '_SettingsStoreBase.languages', context: context);
-
-  @override
-  List<String> get languages {
-    _$languagesAtom.reportRead();
-    return super.languages;
-  }
-
-  @override
-  set languages(List<String> value) {
-    _$languagesAtom.reportWrite(value, super.languages, () {
-      super.languages = value;
     });
   }
 
@@ -633,6 +649,28 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
       ActionController(name: '_SettingsStoreBase', context: context);
 
   @override
+  void setMovieGenreMode(GenreMode value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setMovieGenreMode');
+    try {
+      return super.setMovieGenreMode(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTvShowGenreMode(GenreMode value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setTvShowGenreMode');
+    try {
+      return super.setTvShowGenreMode(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setTileMode(int value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.setTileMode');
@@ -855,13 +893,14 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   @override
   String toString() {
     return '''
+movieGenreMode: ${movieGenreMode},
+tvShowGenreMode: ${tvShowGenreMode},
 tileDisplayMode: ${tileDisplayMode},
 brightness: ${brightness},
 dateFormat: ${dateFormat},
 selectedlanguage: ${selectedlanguage},
 language: ${language},
 secondaryLanguage: ${secondaryLanguage},
-languages: ${languages},
 adultContent: ${adultContent},
 filterBadLanguage: ${filterBadLanguage},
 country: ${country},
