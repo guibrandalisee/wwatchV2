@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wwatch/Screens/all_watch_providers/all_watch_providers_screen.dart';
 
 import 'package:wwatch/Screens/movie/widgets/credits_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
@@ -164,6 +166,69 @@ class _MovieScreenState extends State<MovieScreen> {
                   if (movieStore.movie!.movieAvaliableWatchProviders != null)
                     WatchProvidersWidgetMovieScreen(
                       movieStore: movieStore,
+                    ),
+                  if (movieStore.movie!.movieAvaliableWatchProviders == null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Divider(
+                          color: AppColors.divider,
+                          thickness: 1,
+                          endIndent: 24,
+                          indent: 24,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          'Watch Providers',
+                          style: GoogleFonts.getFont('Mitr',
+                              color: styleStore.textColor,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          'No Watch Providers information found for the selected country',
+                          style: GoogleFonts.getFont('Mitr',
+                              color: styleStore.textColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w300),
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AllWatchProvidersScreen(
+                                      watchProvidersData:
+                                          movieStore.movie!.allWatchProviders!,
+                                    )));
+                          },
+                          child: Text(
+                            'View Watch Providers for all countries instead',
+                            style: GoogleFonts.getFont('Mitr',
+                                color: styleStore.primaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w200),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                      ],
                     ),
                   if ((movieStore.movie!.credits.cast != null &&
                           movieStore.movie!.credits.cast!.isNotEmpty) ||

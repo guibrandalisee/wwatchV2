@@ -124,6 +124,8 @@ class PersonPhotosWidget extends StatelessWidget {
                               'https://image.tmdb.org/t/p/w342${movieStore.person!.images![index].filePath}',
                           filterQuality: FilterQuality.medium,
                           fit: BoxFit.cover,
+                          memCacheHeight: 300,
+                          memCacheWidth: 200,
                         )),
                   ),
                 );

@@ -69,6 +69,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
       body: Stack(
         children: [
           ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: currentWatchProviderCountries.length + 2,
             itemBuilder: (conext, index) {
               if (index == 0) {
@@ -189,7 +190,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                  color: styleStore.shapeColor,
+                  color: styleStore.shapeColor!.withOpacity(0.9),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),

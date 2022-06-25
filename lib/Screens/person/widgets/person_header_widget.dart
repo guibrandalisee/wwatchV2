@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,10 +74,13 @@ class PersonHeaderWidget extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          'https://image.tmdb.org/t/p/w342${movieStore.person!.profilePath}',
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w342${movieStore.person!.profilePath}',
                           filterQuality: FilterQuality.medium,
                           fit: BoxFit.cover,
+                          memCacheHeight: 248,
+                          memCacheWidth: 165,
                         ),
                       ),
                     ],

@@ -277,6 +277,8 @@ class CastWidget extends StatelessWidget {
                                 topLeft: Radius.circular(8),
                                 bottomLeft: Radius.circular(8)),
                             child: CachedNetworkImage(
+                              memCacheHeight: 128,
+                              memCacheWidth: 86,
                               imageUrl:
                                   'https://image.tmdb.org/t/p/w185${isCast ? cast!.profilePath : crew!.profilePath}',
                               filterQuality: FilterQuality.medium,

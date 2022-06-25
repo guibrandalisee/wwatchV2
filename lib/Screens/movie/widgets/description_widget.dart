@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -86,13 +87,14 @@ class DescriptionWidget extends StatelessWidget {
                         child: Stack(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                'https://image.tmdb.org/t/p/w342${movie.posterPath}',
-                                filterQuality: FilterQuality.medium,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                                borderRadius: BorderRadius.circular(8),
+                                child: CachedNetworkImage(
+                                  memCacheHeight: 190,
+                                  memCacheWidth: 126,
+                                  filterQuality: FilterQuality.medium,
+                                  imageUrl:
+                                      'https://image.tmdb.org/t/p/w342${movie.posterPath}',
+                                )),
                           ],
                         ),
                       )

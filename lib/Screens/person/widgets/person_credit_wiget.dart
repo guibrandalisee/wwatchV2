@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -294,13 +295,15 @@ class MovieWidget extends StatelessWidget {
                           height: 180,
                           width: 120,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              'https://image.tmdb.org/t/p/w342${!tvShow ? person.personMovieCreditCast![index].posterPath : person.personTVCreditCast![index].posterPath}',
-                              filterQuality: FilterQuality.medium,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                              borderRadius: BorderRadius.circular(8),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    'https://image.tmdb.org/t/p/w185${!tvShow ? person.personMovieCreditCast![index].posterPath : person.personTVCreditCast![index].posterPath}',
+                                filterQuality: FilterQuality.medium,
+                                fit: BoxFit.cover,
+                                memCacheHeight: 180,
+                                memCacheWidth: 120,
+                              )),
                         )
                       : Container(
                           width: 165,

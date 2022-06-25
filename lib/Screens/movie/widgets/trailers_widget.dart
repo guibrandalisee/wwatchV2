@@ -116,7 +116,7 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                             clipBehavior: Clip.antiAlias,
                             child: CachedNetworkImage(
                               imageUrl:
-                                  'https://img.youtube.com/vi/${videos[index].key}/0.jpg',
+                                  'https://img.youtube.com/vi/${videos[index].key}/mqdefault.jpg',
                               fit: BoxFit.cover,
                               filterQuality: FilterQuality.medium,
                             ),
@@ -141,7 +141,7 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                             child: Text(
                               videos[index].name,
                               style: GoogleFonts.getFont('Mitr',
-                                  color: AppColors.text,
+                                  color: styleStore.textColor,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w300),
                               overflow: TextOverflow.ellipsis,
@@ -156,7 +156,7 @@ class _TrailersWidgetState extends State<TrailersWidget> {
                               AppLocalizations.of(context)!.watchOnYoutube,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.getFont('Mitr',
-                                  color: AppColors.text,
+                                  color: styleStore.textColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w200),
                               overflow: TextOverflow.ellipsis,

@@ -46,9 +46,7 @@ void setupLocators(SharedPreferences preferences) {
 Future<void> launchInBrowser(String url) async {
   final uri = Uri.parse(url);
   try {
-    await launchUrl(
-      uri,
-    );
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   } catch (e) {
     print(e);
   }

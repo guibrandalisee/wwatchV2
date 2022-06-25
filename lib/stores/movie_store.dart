@@ -1020,6 +1020,11 @@ abstract class _MovieStoreBase with Store {
         }
       },
     );
+    flatrate.sort((a, b) => a.name.compareTo(b.name));
+    ads.sort((a, b) => a.name.compareTo(b.name));
+    buy.sort((a, b) => a.name.compareTo(b.name));
+    rent.sort((a, b) => a.name.compareTo(b.name));
+    free.sort((a, b) => a.name.compareTo(b.name));
     allCountriesWatchProviders = AllCountriesWatchProviders(
         flatrate: flatrate, rent: rent, buy: buy, free: free, ads: ads);
   }

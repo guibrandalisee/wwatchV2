@@ -98,6 +98,8 @@ class AboutScreen extends StatelessWidget {
                       child: Image.asset(
                         "assets/images/me.png",
                         filterQuality: FilterQuality.medium,
+                        cacheHeight: 200,
+                        cacheWidth: 200,
                       ),
                     ),
                     Padding(
@@ -197,6 +199,8 @@ class AboutScreen extends StatelessWidget {
                         "assets/images/logo.png",
                         fit: BoxFit.contain,
                         filterQuality: FilterQuality.medium,
+                        cacheHeight: 90,
+                        cacheWidth: 240,
                       ),
                     ),
                     Padding(
@@ -226,6 +230,8 @@ class AboutScreen extends StatelessWidget {
                               "assets/images/GooglePlayLogo.png",
                               fit: BoxFit.contain,
                               filterQuality: FilterQuality.medium,
+                              cacheHeight: 84,
+                              cacheWidth: 168,
                             ),
                           ),
                         ],
@@ -328,6 +334,8 @@ class AboutScreen extends StatelessWidget {
                   "assets/images/GooglePlayLogo.png",
                   fit: BoxFit.contain,
                   filterQuality: FilterQuality.medium,
+                  cacheHeight: 128,
+                  cacheWidth: 250,
                 ),
               ),
               const SizedBox(

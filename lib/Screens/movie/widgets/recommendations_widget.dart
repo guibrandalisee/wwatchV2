@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -205,7 +204,9 @@ class SimilarMovieTile extends StatelessWidget {
                     ),
                   ),
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              //One less than on the CachedImage ClipRRect because
+              //flutter is not pixel perfect when using stacks
+              borderRadius: BorderRadius.circular(15),
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
