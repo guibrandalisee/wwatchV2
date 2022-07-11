@@ -21,9 +21,9 @@ class PersonCreditWidget extends StatelessWidget {
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
   final SharedPreferences prefs;
+  final ScrollController scrollController = ScrollController();
+  final ScrollController scrollController2 = ScrollController();
   bool scrollInProgress = false;
-  ScrollController scrollController = ScrollController();
-  ScrollController scrollController2 = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Column(

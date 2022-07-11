@@ -25,8 +25,6 @@ class WatchProvidersScreen extends StatefulWidget {
 class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
   @override
   void initState() {
-    //TODO save movie and TV Shows watch providers in two diferent variables
-    //that way it does't need to fetch new data every time this screen is opened
     if (settingsStore.selectedContentType == 0) {
       if (settingsStore.avaliableWatchProvidersMovies.isEmpty) {
         settingsStore.getPossibleWatchProviders(true);

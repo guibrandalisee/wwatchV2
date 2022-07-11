@@ -32,7 +32,7 @@ class CustomErrorScree extends StatelessWidget {
             Text(
               AppLocalizations.of(context)!.error,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 24,
                   fontWeight: FontWeight.w400),
             ),
@@ -52,7 +52,7 @@ class CustomErrorScree extends StatelessWidget {
             Text(
               AppLocalizations.of(context)!.homeErrorText1,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 14,
                   fontWeight: FontWeight.w300),
               textAlign: TextAlign.center,
@@ -63,7 +63,7 @@ class CustomErrorScree extends StatelessWidget {
             Text(
               AppLocalizations.of(context)!.homeErrorText2,
               style: GoogleFonts.getFont('Mitr',
-                  color: AppColors.text,
+                  color: styleStore.textColor,
                   fontSize: 12,
                   fontWeight: FontWeight.w100),
               textAlign: TextAlign.center,

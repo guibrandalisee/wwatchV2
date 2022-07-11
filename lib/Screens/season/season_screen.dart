@@ -12,7 +12,6 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SeasonScreen extends StatefulWidget {
   SeasonScreen({
@@ -33,13 +32,13 @@ class _SeasonScreenState extends State<SeasonScreen> {
   @override
   void initState() {
     super.initState();
-    if (!widget.prefs.containsKey('language') ||
-        !widget.prefs.containsKey('languageISO')) {
-      movieStore.language = AppLocalizations.delegate
-              .isSupported(WidgetsBinding.instance.window.locale)
-          ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
-          : 'en-US';
-    }
+    // if (!widget.prefs.containsKey('language') ||
+    //     !widget.prefs.containsKey('languageISO')) {
+    //   movieStore.language = AppLocalizations.delegate
+    //           .isSupported(WidgetsBinding.instance.window.locale)
+    //       ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
+    //       : 'en-US';
+    // }
     movieStore.getSeasonEpisodes(
         tvId: widget.tvId, seasonNumber: widget.seasonNumber);
     print('TV id: ${widget.tvId}');

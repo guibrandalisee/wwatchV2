@@ -19,7 +19,7 @@ abstract class _SettingsStoreBase with Store {
   //Check if user has changed any settings before
   final SharedPreferences? prefs;
   _SettingsStoreBase({
-    this.prefs,
+    required this.prefs,
   }) {
     if (prefs != null) {
       if (prefs!.containsKey('dateFormat')) {
@@ -126,6 +126,8 @@ abstract class _SettingsStoreBase with Store {
   void setCountry(String value) {
     prefs?.setString('country', value);
     country = value;
+    getPossibleWatchProviders(true);
+    getPossibleWatchProviders(false);
   }
 
   //Change Brightness settigns (Dark|Light|AMOLED)

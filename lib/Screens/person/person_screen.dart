@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,13 +25,13 @@ class PersonScreen extends StatefulWidget {
 class _PersonScreenState extends State<PersonScreen> {
   @override
   void initState() {
-    if (!widget.prefs.containsKey('language') ||
-        !widget.prefs.containsKey('languageISO')) {
-      movieStore.language = AppLocalizations.delegate
-              .isSupported(WidgetsBinding.instance.window.locale)
-          ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
-          : 'en-US';
-    }
+    // if (!widget.prefs.containsKey('language') ||
+    //     !widget.prefs.containsKey('languageISO')) {
+    //   movieStore.language = AppLocalizations.delegate
+    //           .isSupported(WidgetsBinding.instance.window.locale)
+    //       ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
+    //       : 'en-US';
+    // }
     movieStore.getPerson(widget.id);
     super.initState();
   }

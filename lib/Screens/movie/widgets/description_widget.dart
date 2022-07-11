@@ -89,8 +89,8 @@ class DescriptionWidget extends StatelessWidget {
                             ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
-                                  memCacheHeight: 190,
-                                  memCacheWidth: 126,
+                                  memCacheHeight: 285,
+                                  memCacheWidth: 189,
                                   filterQuality: FilterQuality.medium,
                                   imageUrl:
                                       'https://image.tmdb.org/t/p/w342${movie.posterPath}',

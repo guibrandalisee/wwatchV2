@@ -13,7 +13,7 @@ abstract class _StyleStoreBase with Store {
   final SharedPreferences? prefs;
   final settingsStore = GetIt.I<SettingsStore>();
   _StyleStoreBase({
-    this.prefs,
+    required this.prefs,
   }) {
     if (prefs != null) {
       if (prefs!.containsKey('primaryColor')) {

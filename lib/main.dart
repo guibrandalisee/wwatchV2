@@ -11,6 +11,7 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wwatch/stores/user_store.dart';
 
 //TODO add routes 2.0
 
@@ -25,7 +26,6 @@ Future<void> main() async {
   );
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupLocators(prefs);
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
@@ -39,7 +39,7 @@ Future<void> main() async {
 
 void setupLocators(SharedPreferences preferences) {
   GetIt.I.registerSingleton(SettingsStore(prefs: preferences));
-
+  GetIt.I.registerSingleton(UserStore(prefs: preferences));
   GetIt.I.registerSingleton(StyleStore(prefs: preferences));
 }
 

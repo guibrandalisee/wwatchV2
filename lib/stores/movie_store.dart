@@ -13,13 +13,15 @@ import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
 
 part 'movie_store.g.dart';
 
+//TODO Use append to response > https://developers.themoviedb.org/3/getting-started/append-to-response
+
 enum ContentType { TVSHOW, MOVIE }
 
 class MovieStore = _MovieStoreBase with _$MovieStore;
 final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
 abstract class _MovieStoreBase with Store {
-  String apiKey = dotenv.env['API_KEY']!;
+  //String apiKey = dotenv.env['API_KEY']!;
   String token = dotenv.env['TOKEN']!;
 
   //!Global Variables ----------------------------------------------------------------------------------

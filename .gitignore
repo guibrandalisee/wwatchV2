@@ -12,6 +12,8 @@
 .firebase
 firebase.json
 .firebaserc
+/node_modules/
+/package-lock.json
 
 # IntelliJ related
 *.iml

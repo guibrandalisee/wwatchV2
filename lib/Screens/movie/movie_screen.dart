@@ -44,13 +44,13 @@ class _MovieScreenState extends State<MovieScreen> {
   @override
   void initState() {
     super.initState();
-    if (!widget.prefs.containsKey('language') ||
-        !widget.prefs.containsKey('languageISO')) {
-      movieStore.language = AppLocalizations.delegate
-              .isSupported(WidgetsBinding.instance.window.locale)
-          ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
-          : 'en-US';
-    }
+    // if (!widget.prefs.containsKey('language') ||
+    //     !widget.prefs.containsKey('languageISO')) {
+    //   movieStore.language = AppLocalizations.delegate
+    //           .isSupported(WidgetsBinding.instance.window.locale)
+    //       ? '${WidgetsBinding.instance.window.locale.languageCode}-${WidgetsBinding.instance.window.locale.countryCode}'
+    //       : 'en-US';
+    // }
     movieStore.getSingleMovie(widget.movieId, widget.contentType);
     movieStore.getRecommendations(widget.movieId);
   }
