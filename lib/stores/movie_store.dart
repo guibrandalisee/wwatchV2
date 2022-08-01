@@ -446,13 +446,9 @@ abstract class _MovieStoreBase with Store {
       'language': language,
       'session_id': userStore.sessionId,
       'append_to_response':
-          'videos,images,credits,watch/providers,account_states'
+          'videos,images,credits,watch/providers,account_states',
+      'include_image_language': '${language.substring(0, 2)},null'
     });
-
-    //?debug
-    print("Favorite: ${response.data['account_states']['favorite']}");
-    print("Watchlist: ${response.data['account_states']['watchlist']}");
-    print("Rate: ${response.data['account_states']['rated']}");
 
     //!Watch Providers
     try {
@@ -544,6 +540,8 @@ abstract class _MovieStoreBase with Store {
             publishedAt: e['published_at'],
             official: e['official']);
       }).toList();
+      print(response.data['images']);
+      print(response.data['images']['posters']);
       final images = response.data['images']['posters'].map<MovieImage>((e) {
         return MovieImage(filePath: e['file_path'], language: e['iso_639_1']);
       }).toList();
@@ -602,6 +600,10 @@ abstract class _MovieStoreBase with Store {
       );
       movie = CompleteMovie(
           favorite: response.data['account_states']['favorite'],
+          watchlist: response.data['account_states']['watchlist'],
+          rate: response.data['account_states']['rated'] is bool
+              ? null
+              : response.data['account_states']['rated']['value'],
           images: images,
           videos: videos,
           genres: data['genres'],
@@ -650,6 +652,13 @@ abstract class _MovieStoreBase with Store {
     //?debug
     print("ID: $id");
     print("Selected Content Type: $contentType");
+
+    if (movie != null) {
+      print(movie!.images);
+      print("Favorite: ${movie!.favorite}");
+      print("Watchlist: ${movie!.watchlist}");
+      print("Rate: ${movie!.rate}");
+    }
     //?-----
   }
 
