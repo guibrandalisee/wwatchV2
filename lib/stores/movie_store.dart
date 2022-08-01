@@ -10,15 +10,17 @@ import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
+import 'package:wwatch/stores/user_store.dart';
 
 part 'movie_store.g.dart';
 
 //TODO Use append to response > https://developers.themoviedb.org/3/getting-started/append-to-response
-
-enum ContentType { TVSHOW, MOVIE }
+//TODO get Account States to know if movie is on watchlist/favorite list > https://developers.themoviedb.org/3/movies/get-movie-account-states
+enum CustomContentType { TVSHOW, MOVIE }
 
 class MovieStore = _MovieStoreBase with _$MovieStore;
 final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+final UserStore userStore = GetIt.I<UserStore>();
 
 abstract class _MovieStoreBase with Store {
   //String apiKey = dotenv.env['API_KEY']!;
@@ -436,28 +438,25 @@ abstract class _MovieStoreBase with Store {
 
     String strContentType = contentType == 0 ? 'movie' : 'tv';
     //?-----
-    //TODO Use Append To Response
     //*http requests
 
-    final response = await Future.wait([
-      fetchData(path: '/$strContentType/$id', parameters: {
-        'language': language,
-      }),
-      fetchData(path: '/$strContentType/$id/videos', parameters: {
-        'language': language,
-      }),
-      fetchData(path: '/$strContentType/$id/images', parameters: {
-        'language': language.substring(0, 2),
-      }),
-      fetchData(path: '/$strContentType/$id/credits', parameters: {
-        'language': language,
-      }),
-      fetchData(path: '/$strContentType/$id/watch/providers', parameters: {}),
-    ]);
+    dynamic response;
+
+    response = await fetchData(path: '/$strContentType/$id', parameters: {
+      'language': language,
+      'session_id': userStore.sessionId,
+      'append_to_response':
+          'videos,images,credits,watch/providers,account_states'
+    });
+
+    //?debug
+    print("Favorite: ${response.data['account_states']['favorite']}");
+    print("Watchlist: ${response.data['account_states']['watchlist']}");
+    print("Rate: ${response.data['account_states']['rated']}");
 
     //!Watch Providers
     try {
-      final wpData = response[4].data['results'];
+      final wpData = response.data['watch/providers']['results'];
       String iso = settingsStore.avaliableRegions
           .firstWhere((element) => element.englishName == settingsStore.country)
           .iso_3166_1;
@@ -534,8 +533,8 @@ abstract class _MovieStoreBase with Store {
 
     try {
       //TODO get reviews
-      final data = response[0].data;
-      final videos = response[1].data['results'].map<MovieVideo>((e) {
+      final data = response.data;
+      final videos = response.data['videos']['results'].map<MovieVideo>((e) {
         return MovieVideo(
             name: e['name'],
             site: e['site'],
@@ -545,7 +544,7 @@ abstract class _MovieStoreBase with Store {
             publishedAt: e['published_at'],
             official: e['official']);
       }).toList();
-      final images = response[2].data['posters'].map<MovieImage>((e) {
+      final images = response.data['images']['posters'].map<MovieImage>((e) {
         return MovieImage(filePath: e['file_path'], language: e['iso_639_1']);
       }).toList();
       List<TvSeason>? seasons;
@@ -562,7 +561,7 @@ abstract class _MovieStoreBase with Store {
               );
             }).toList()
           : null;
-      final cast = response[3].data['cast'].map<Cast>((e) {
+      final cast = response.data['credits']['cast'].map<Cast>((e) {
         return Cast(
           adult: e['adult'],
           id: e['id'],
@@ -579,7 +578,7 @@ abstract class _MovieStoreBase with Store {
         );
       }).toList();
 
-      final crew = response[3].data['crew'].map<Crew>((e) {
+      final crew = response.data['credits']['crew'].map<Crew>((e) {
         return Crew(
             adult: e['adult'],
             id: e['id'],
@@ -598,11 +597,11 @@ abstract class _MovieStoreBase with Store {
       final castIds = Set();
       cast.retainWhere((x) => castIds.add(x.id));
       final credits = Credits(
-        id: response[3].data['id'],
         cast: cast,
         crew: crew,
       );
       movie = CompleteMovie(
+          favorite: response.data['account_states']['favorite'],
           images: images,
           videos: videos,
           genres: data['genres'],
@@ -640,7 +639,7 @@ abstract class _MovieStoreBase with Store {
           voteCount: data['vote_count'],
           credits: credits,
           movieAvaliableWatchProviders: movieAvaliableWatchProviders,
-          allWatchProviders: response[4].data['results']);
+          allWatchProviders: response.data['watch/providers']['results']);
     } catch (e) {
       error = true;
       print(e);
@@ -824,6 +823,7 @@ abstract class _MovieStoreBase with Store {
   bool episodeError = false;
 
   //*getSingleEpisode
+  //TODO Use append to response > https://developers.themoviedb.org/3/getting-started/append-to-response
   @action
   Future<void> getEpisode(int tvId, int seasonNumber, int episodeNumber) async {
     //?setup
@@ -888,6 +888,7 @@ abstract class _MovieStoreBase with Store {
   @observable
   Person? person;
 
+  //TODO Use append to response > https://developers.themoviedb.org/3/getting-started/append-to-response
   @action
   Future<void> getPerson(int personId) async {
     final response = await Future.wait([

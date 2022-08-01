@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+enum AvatarType { tmdb, gravatar }
+
 class Guest {
   String guestSessionID;
   String expiresAt;
@@ -6,7 +10,8 @@ class Guest {
 
 class User {
   User({
-    required this.avatar,
+    this.avatar,
+    this.avatarType,
     required this.id,
     required this.includeAdult,
     required this.iso_3166_1,
@@ -14,7 +19,8 @@ class User {
     required this.name,
     required this.username,
   });
-  String avatar;
+  String? avatar;
+  AvatarType? avatarType;
   int id;
   String iso_639_1;
   String iso_3166_1;

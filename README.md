@@ -8,7 +8,7 @@
 
 # WIP ---- This APP is still far from complete
 
-With all of today's streaming services, it's nice to have a place to see all content in one place.
+With all of today's streaming services, it's nice to have a way to see all content in one place.
 
 
 Made using <img src="https://user-images.githubusercontent.com/41174096/164372188-82d5700d-8e69-4eb9-a01e-1b6ae7cdcf67.png" style="height: 16px;" alt="TMDB"> API
@@ -30,20 +30,20 @@ Made using <img src="https://user-images.githubusercontent.com/41174096/16437218
  - General Information (Movies and TV Shows)
  - APP styling (8 primary colors, 3 themes and 2 card styles for the main screen)
  - The entire APP can be used with just one hand
+ - Streaming Platforms (In filters and content information)
+ - Login with TMDB Account
+ - Profile Screen
 
 
 <h3>Some future features</h3>
 
 
- - Streaming Platforms (In filters and content information)
  - Search by Actors
  - More Translations
  - Flutter Routes 2.0
  - Reviews and Discussions (Movies and TV Shows)
- - Login with TMDB Account
  - Lists (Favorites and other custom user created lists)
  - User Profile Statistics (Average Rating of Movies and TV Shows, Etc.)
- - Profile Screen
  - Welcome Screen (First time the app is opened)
 
 

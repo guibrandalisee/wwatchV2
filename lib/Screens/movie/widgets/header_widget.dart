@@ -90,7 +90,7 @@ class HeaderWidget extends StatelessWidget {
                         fontWeight: FontWeight.w300),
                     children: <TextSpan>[
                       TextSpan(
-                        text: '${(movie.voteAverage)}',
+                        text: '${(movie.voteAverage.toStringAsFixed(1))}',
                         style: GoogleFonts.getFont('Kodchasan',
                             color: AppColors.text,
                             fontSize: 18,

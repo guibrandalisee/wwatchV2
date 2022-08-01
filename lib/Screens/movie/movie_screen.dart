@@ -67,7 +67,17 @@ class _MovieScreenState extends State<MovieScreen> {
       floatingActionButtonLocation: styleStore.fabPosition == 0
           ? FloatingActionButtonLocation.startFloat
           : FloatingActionButtonLocation.endFloat,
-      floatingActionButton: CustomSpeedDialMovieScreen(),
+      floatingActionButton: userStore.sessionId != null
+          ? Observer(builder: (context) {
+              if (movieStore.movie != null)
+                return CustomSpeedDialMovieScreen(
+                  mediaId: movieStore.movie!.id,
+                  favorite: movieStore.movie!.favorite,
+                );
+
+              return Container();
+            })
+          : null,
       backgroundColor: styleStore.backgroundColor,
       appBar: AppBar(
         iconTheme: IconThemeData(

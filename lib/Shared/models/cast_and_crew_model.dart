@@ -56,11 +56,9 @@ class Crew {
 }
 
 class Credits {
-  int id;
   List<Cast>? cast = [];
   List<Crew>? crew = [];
   Credits({
-    required this.id,
     this.cast,
     this.crew,
   });

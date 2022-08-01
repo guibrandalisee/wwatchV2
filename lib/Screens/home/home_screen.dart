@@ -14,6 +14,7 @@ import 'package:wwatch/Screens/home/components/nothing_found_error_screen.dart';
 import 'package:wwatch/Screens/home/components/speed_dial.dart';
 import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/settings/settings_screen.dart';
+import 'package:wwatch/Screens/user/user_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Screens/home/components/movie_tile.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -21,14 +22,16 @@ import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wwatch/stores/user_store.dart';
 
 enum Type { movie, tvShows }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.contentType, required this.prefs})
+  HomeScreen({Key? key, required this.contentType, required this.prefs})
       : super(key: key);
   final contentType;
   final SharedPreferences prefs;
+  final UserStore userStore = GetIt.I<UserStore>();
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -43,6 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
     settingsStore.getMovieGenres();
     settingsStore.getTvShowGenres();
     movieStore.getPopularContent();
+
+    if (widget.prefs.containsKey("sessionId")) {
+      widget.userStore.getUserDetails();
+    }
+
     if (widget.contentType != Type.movie) {
       settingsStore.setSelectedContentType(1);
     }
@@ -182,8 +190,14 @@ class _HomeScreenState extends State<HomeScreen> {
             splashRadius: 20,
             tooltip: 'User Profile',
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
+              if (widget.userStore.sessionId != null &&
+                  widget.userStore.sessionId!.isNotEmpty) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserScreen()));
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              }
             },
             icon: Hero(
               tag: 'User Profile',

@@ -9,6 +9,21 @@ part of 'user_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$UserStore on _UserStoreBase, Store {
+  late final _$userAtom = Atom(name: '_UserStoreBase.user', context: context);
+
+  @override
+  User? get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(User? value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
+    });
+  }
+
   late final _$httpErrorAtom =
       Atom(name: '_UserStoreBase.httpError', context: context);
 
@@ -105,6 +120,21 @@ mixin _$UserStore on _UserStoreBase, Store {
     });
   }
 
+  late final _$errorAtom = Atom(name: '_UserStoreBase.error', context: context);
+
+  @override
+  bool get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(bool value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
   late final _$loginErrorMessageAtom =
       Atom(name: '_UserStoreBase.loginErrorMessage', context: context);
 
@@ -118,6 +148,72 @@ mixin _$UserStore on _UserStoreBase, Store {
   set loginErrorMessage(String value) {
     _$loginErrorMessageAtom.reportWrite(value, super.loginErrorMessage, () {
       super.loginErrorMessage = value;
+    });
+  }
+
+  late final _$favoriteMoviesAtom =
+      Atom(name: '_UserStoreBase.favoriteMovies', context: context);
+
+  @override
+  ObservableList<SimpleMovie> get favoriteMovies {
+    _$favoriteMoviesAtom.reportRead();
+    return super.favoriteMovies;
+  }
+
+  @override
+  set favoriteMovies(ObservableList<SimpleMovie> value) {
+    _$favoriteMoviesAtom.reportWrite(value, super.favoriteMovies, () {
+      super.favoriteMovies = value;
+    });
+  }
+
+  late final _$favoriteMoviesMaxPagesAtom =
+      Atom(name: '_UserStoreBase.favoriteMoviesMaxPages', context: context);
+
+  @override
+  int get favoriteMoviesMaxPages {
+    _$favoriteMoviesMaxPagesAtom.reportRead();
+    return super.favoriteMoviesMaxPages;
+  }
+
+  @override
+  set favoriteMoviesMaxPages(int value) {
+    _$favoriteMoviesMaxPagesAtom
+        .reportWrite(value, super.favoriteMoviesMaxPages, () {
+      super.favoriteMoviesMaxPages = value;
+    });
+  }
+
+  late final _$favoriteTvShowsAtom =
+      Atom(name: '_UserStoreBase.favoriteTvShows', context: context);
+
+  @override
+  ObservableList<SimpleMovie> get favoriteTvShows {
+    _$favoriteTvShowsAtom.reportRead();
+    return super.favoriteTvShows;
+  }
+
+  @override
+  set favoriteTvShows(ObservableList<SimpleMovie> value) {
+    _$favoriteTvShowsAtom.reportWrite(value, super.favoriteTvShows, () {
+      super.favoriteTvShows = value;
+    });
+  }
+
+  late final _$favoriteTvShowsMaxPagesAtom =
+      Atom(name: '_UserStoreBase.favoriteTvShowsMaxPages', context: context);
+
+  @override
+  int get favoriteTvShowsMaxPages {
+    _$favoriteTvShowsMaxPagesAtom.reportRead();
+    return super.favoriteTvShowsMaxPages;
+  }
+
+  @override
+  set favoriteTvShowsMaxPages(int value) {
+    _$favoriteTvShowsMaxPagesAtom
+        .reportWrite(value, super.favoriteTvShowsMaxPages, () {
+      super.favoriteTvShowsMaxPages = value;
     });
   }
 
@@ -149,6 +245,61 @@ mixin _$UserStore on _UserStoreBase, Store {
     return _$getRequestTokenAsyncAction.run(() => super.getRequestToken());
   }
 
+  late final _$deleteSessionAsyncAction =
+      AsyncAction('_UserStoreBase.deleteSession', context: context);
+
+  @override
+  Future<bool> deleteSession() {
+    return _$deleteSessionAsyncAction.run(() => super.deleteSession());
+  }
+
+  late final _$getUserDetailsAsyncAction =
+      AsyncAction('_UserStoreBase.getUserDetails', context: context);
+
+  @override
+  Future<void> getUserDetails() {
+    return _$getUserDetailsAsyncAction.run(() => super.getUserDetails());
+  }
+
+  late final _$getFavoriteContentAsyncAction =
+      AsyncAction('_UserStoreBase.getFavoriteContent', context: context);
+
+  @override
+  Future<void> getFavoriteContent(
+      {required CustomContentType mediaType, required int page}) {
+    return _$getFavoriteContentAsyncAction
+        .run(() => super.getFavoriteContent(mediaType: mediaType, page: page));
+  }
+
+  late final _$markContentAsFavoriteAsyncAction =
+      AsyncAction('_UserStoreBase.markContentAsFavorite', context: context);
+
+  @override
+  Future<Map<String, dynamic>> markContentAsFavorite(
+      {required CustomContentType mediaType,
+      required bool favorite,
+      required int mediaID}) {
+    return _$markContentAsFavoriteAsyncAction.run(() => super
+        .markContentAsFavorite(
+            mediaType: mediaType, favorite: favorite, mediaID: mediaID));
+  }
+
+  late final _$addToWatchListAsyncAction =
+      AsyncAction('_UserStoreBase.addToWatchList', context: context);
+
+  @override
+  Future<Map<String, dynamic>> addToWatchList(
+      {required CustomContentType mediaType,
+      required bool watchlist,
+      required int accID,
+      required int mediaID}) {
+    return _$addToWatchListAsyncAction.run(() => super.addToWatchList(
+        mediaType: mediaType,
+        watchlist: watchlist,
+        accID: accID,
+        mediaID: mediaID));
+  }
+
   late final _$_UserStoreBaseActionController =
       ActionController(name: '_UserStoreBase', context: context);
 
@@ -158,28 +309,6 @@ mixin _$UserStore on _UserStoreBase, Store {
         name: '_UserStoreBase.createGuestSession');
     try {
       return super.createGuestSession();
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void deleteSession() {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.deleteSession');
-    try {
-      return super.deleteSession();
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void getUserDetails() {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.getUserDetails');
-    try {
-      return super.getUserDetails();
     } finally {
       _$_UserStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -197,31 +326,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   }
 
   @override
-  void getFavoriteContent({required ContentType mediaType}) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.getFavoriteContent');
-    try {
-      return super.getFavoriteContent(mediaType: mediaType);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void markContentAsFavorite(
-      {required ContentType mediaType, required bool favorite}) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.markContentAsFavorite');
-    try {
-      return super
-          .markContentAsFavorite(mediaType: mediaType, favorite: favorite);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void getRatedContent({required ContentType mediaType}) {
+  void getRatedContent({required CustomContentType mediaType}) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.getRatedContent');
     try {
@@ -245,7 +350,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   @override
   void rateContent(
       {required num rating,
-      required ContentType mediaType,
+      required CustomContentType mediaType,
       bool guest = false}) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.rateContent');
@@ -280,19 +385,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   }
 
   @override
-  void addToWatchList(
-      {required ContentType mediaType, required bool watchlist}) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.addToWatchList');
-    try {
-      return super.addToWatchList(mediaType: mediaType, watchlist: watchlist);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void guestGetRatedContent(ContentType mediaType) {
+  void guestGetRatedContent(CustomContentType mediaType) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.guestGetRatedContent');
     try {
@@ -316,7 +409,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   @override
   void deleteRateContent(
       {required num rating,
-      required ContentType mediaType,
+      required CustomContentType mediaType,
       bool guest = false}) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.deleteRateContent');
@@ -342,13 +435,19 @@ mixin _$UserStore on _UserStoreBase, Store {
   @override
   String toString() {
     return '''
+user: ${user},
 httpError: ${httpError},
 requestToken: ${requestToken},
 loading: ${loading},
 sessionId: ${sessionId},
 authError: ${authError},
 loggedIn: ${loggedIn},
-loginErrorMessage: ${loginErrorMessage}
+error: ${error},
+loginErrorMessage: ${loginErrorMessage},
+favoriteMovies: ${favoriteMovies},
+favoriteMoviesMaxPages: ${favoriteMoviesMaxPages},
+favoriteTvShows: ${favoriteTvShows},
+favoriteTvShowsMaxPages: ${favoriteTvShowsMaxPages}
     ''';
   }
 }
