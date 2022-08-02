@@ -426,6 +426,39 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   }
 
   @override
+  void updateFavorite(bool value) {
+    final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
+        name: '_MovieStoreBase.updateFavorite');
+    try {
+      return super.updateFavorite(value);
+    } finally {
+      _$_MovieStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateWatchlist(bool value) {
+    final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
+        name: '_MovieStoreBase.updateWatchlist');
+    try {
+      return super.updateWatchlist(value);
+    } finally {
+      _$_MovieStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateRate(num value) {
+    final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
+        name: '_MovieStoreBase.updateRate');
+    try {
+      return super.updateRate(value);
+    } finally {
+      _$_MovieStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 didChange: ${didChange},

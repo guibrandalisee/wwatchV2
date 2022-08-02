@@ -33,9 +33,9 @@ class TaglineWidget extends StatelessWidget {
             child: Text(
               '${movie.tagline!}',
               style: GoogleFonts.getFont(
-                'Kodchasan',
+                'Manjari',
                 color: styleStore.textColor,
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.center,

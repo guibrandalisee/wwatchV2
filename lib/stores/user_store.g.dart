@@ -284,6 +284,24 @@ mixin _$UserStore on _UserStoreBase, Store {
             mediaType: mediaType, favorite: favorite, mediaID: mediaID));
   }
 
+  late final _$rateContentAsyncAction =
+      AsyncAction('_UserStoreBase.rateContent', context: context);
+
+  @override
+  Future<Map<String, dynamic>> rateContent(
+      {required num rating,
+      required CustomContentType mediaType,
+      required int mediaID,
+      required int sessionID,
+      bool guest = false}) {
+    return _$rateContentAsyncAction.run(() => super.rateContent(
+        rating: rating,
+        mediaType: mediaType,
+        mediaID: mediaID,
+        sessionID: sessionID,
+        guest: guest));
+  }
+
   late final _$addToWatchListAsyncAction =
       AsyncAction('_UserStoreBase.addToWatchList', context: context);
 
@@ -291,13 +309,21 @@ mixin _$UserStore on _UserStoreBase, Store {
   Future<Map<String, dynamic>> addToWatchList(
       {required CustomContentType mediaType,
       required bool watchlist,
-      required int accID,
       required int mediaID}) {
     return _$addToWatchListAsyncAction.run(() => super.addToWatchList(
-        mediaType: mediaType,
-        watchlist: watchlist,
-        accID: accID,
-        mediaID: mediaID));
+        mediaType: mediaType, watchlist: watchlist, mediaID: mediaID));
+  }
+
+  late final _$deleteRateContentAsyncAction =
+      AsyncAction('_UserStoreBase.deleteRateContent', context: context);
+
+  @override
+  Future<Map<String, dynamic>> deleteRateContent(
+      {required CustomContentType mediaType,
+      required int mediaID,
+      bool guest = false}) {
+    return _$deleteRateContentAsyncAction.run(() => super.deleteRateContent(
+        mediaType: mediaType, mediaID: mediaID, guest: guest));
   }
 
   late final _$_UserStoreBaseActionController =
@@ -348,21 +374,6 @@ mixin _$UserStore on _UserStoreBase, Store {
   }
 
   @override
-  void rateContent(
-      {required num rating,
-      required CustomContentType mediaType,
-      bool guest = false}) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.rateContent');
-    try {
-      return super
-          .rateContent(rating: rating, mediaType: mediaType, guest: guest);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void rateEpisode({required num rating, bool guest = false}) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.rateEpisode');
@@ -401,21 +412,6 @@ mixin _$UserStore on _UserStoreBase, Store {
         name: '_UserStoreBase.guestGetRatedEpisodes');
     try {
       return super.guestGetRatedEpisodes();
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void deleteRateContent(
-      {required num rating,
-      required CustomContentType mediaType,
-      bool guest = false}) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.deleteRateContent');
-    try {
-      return super.deleteRateContent(
-          rating: rating, mediaType: mediaType, guest: guest);
     } finally {
       _$_UserStoreBaseActionController.endAction(_$actionInfo);
     }

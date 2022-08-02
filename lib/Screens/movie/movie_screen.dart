@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Screens/all_watch_providers/all_watch_providers_screen.dart';
+import 'package:wwatch/Screens/movie/widgets/account_states_widget.dart';
 
 import 'package:wwatch/Screens/movie/widgets/credits_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
@@ -24,6 +25,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:mobx/mobx.dart';
 
 class MovieScreen extends StatefulWidget {
   final int movieId;
@@ -63,6 +65,10 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
+    reaction((_) => movieStore.movie!.favorite, (value) {
+      setState(() {});
+    });
+
     return Scaffold(
       floatingActionButtonLocation: styleStore.fabPosition == 0
           ? FloatingActionButtonLocation.startFloat
@@ -72,7 +78,10 @@ class _MovieScreenState extends State<MovieScreen> {
               if (movieStore.movie != null)
                 return CustomSpeedDialMovieScreen(
                   mediaId: movieStore.movie!.id,
-                  favorite: movieStore.movie!.favorite,
+                  movieStore: movieStore,
+                  customSetState: () {
+                    setState(() {});
+                  },
                 );
 
               return Container();
@@ -153,6 +162,16 @@ class _MovieScreenState extends State<MovieScreen> {
                       movieStore.movie!.tagline!.isNotEmpty)
                     TaglineWidget(
                       movie: movieStore.movie!,
+                    ),
+                  if (movieStore.movie!.favorite != null &&
+                      movieStore.movie!.watchlist != null &&
+                      (movieStore.movie!.favorite! ||
+                          movieStore.movie!.watchlist! ||
+                          movieStore.movie!.rate != null))
+                    AccountStatesWidget(
+                      favorite: movieStore.movie!.favorite!,
+                      watchlist: movieStore.movie!.watchlist!,
+                      rate: movieStore.movie!.rate,
                     ),
                   if (movieStore.movie!.images != null &&
                       movieStore.movie!.images!.length > 0)

@@ -89,11 +89,14 @@ abstract class _UserStoreBase with Store {
   }
 
   Future postData(
-      {required String path, required Map<String, dynamic> data}) async {
+      {required String path,
+      required Map<String, dynamic> data,
+      Map<String, dynamic>? parameters}) async {
     var options = BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
       connectTimeout: 5000,
       receiveTimeout: 3000,
+      queryParameters: parameters,
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json;charset=utf-8'
@@ -370,13 +373,29 @@ abstract class _UserStoreBase with Store {
     //need to think how this will be displayed
   }
 
-  //TODO
+  //!Have to test
   @action
-  void rateContent(
+  Future<Map<String, dynamic>> rateContent(
       {required num rating,
       required CustomContentType mediaType,
-      bool guest = false}) {
+      required int mediaID,
+      required int sessionID,
+      bool guest = false}) async {
     //movies and tvShows
+    try {
+      final response = await postData(
+        path:
+            "${mediaType == CustomContentType.MOVIE ? 'movie' : 'tv'}/$mediaID/rating",
+        parameters: {
+          "session_id": sessionId,
+        },
+        data: {"value": rating},
+      );
+
+      return response.data;
+    } catch (e) {
+      return {'error': e};
+    }
   }
 
   //TODO
@@ -389,18 +408,17 @@ abstract class _UserStoreBase with Store {
     //movies and tvShows
   }
 
-  //!Have to test
   @action
   Future<Map<String, dynamic>> addToWatchList(
       {required CustomContentType mediaType,
       required bool watchlist,
-      required int accID,
       required int mediaID}) async {
     //movies and tvShows
     try {
-      final response = await postData(path: "/account/$accID/favorite", data: {
+      final response =
+          await postData(path: "/account/${user!.id}/watchlist", data: {
         "media_type": mediaType == CustomContentType.MOVIE ? 'movie' : 'tv',
-        'favorite': watchlist,
+        'watchlist': watchlist,
         'media_id': mediaID,
       });
 
@@ -421,12 +439,26 @@ abstract class _UserStoreBase with Store {
 
   //! Deletions -----------------------------
 
+  //!Have to test
   @action
-  void deleteRateContent(
-      {required num rating,
-      required CustomContentType mediaType,
-      bool guest = false}) {
+  Future<Map<String, dynamic>> deleteRateContent(
+      {required CustomContentType mediaType,
+      required int mediaID,
+      bool guest = false}) async {
     //movies and tvShows
+    try {
+      final response = await deleteData(
+        path:
+            "${mediaType == CustomContentType.MOVIE ? 'movie' : 'tv'}/$mediaID/rating",
+        parameters: {
+          "session_id": sessionId,
+        },
+      );
+
+      return response.data;
+    } catch (e) {
+      return {'error': e};
+    }
   }
 
   @action

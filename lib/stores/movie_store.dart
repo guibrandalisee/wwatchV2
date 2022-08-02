@@ -540,8 +540,6 @@ abstract class _MovieStoreBase with Store {
             publishedAt: e['published_at'],
             official: e['official']);
       }).toList();
-      print(response.data['images']);
-      print(response.data['images']['posters']);
       final images = response.data['images']['posters'].map<MovieImage>((e) {
         return MovieImage(filePath: e['file_path'], language: e['iso_639_1']);
       }).toList();
@@ -654,7 +652,6 @@ abstract class _MovieStoreBase with Store {
     print("Selected Content Type: $contentType");
 
     if (movie != null) {
-      print(movie!.images);
       print("Favorite: ${movie!.favorite}");
       print("Watchlist: ${movie!.watchlist}");
       print("Rate: ${movie!.rate}");
@@ -1040,6 +1037,15 @@ abstract class _MovieStoreBase with Store {
     allCountriesWatchProviders = AllCountriesWatchProviders(
         flatrate: flatrate, rent: rent, buy: buy, free: free, ads: ads);
   }
+
+  @action
+  void updateFavorite(bool value) => movie!.favorite = value;
+
+  @action
+  void updateWatchlist(bool value) => movie!.watchlist = value;
+
+  @action
+  void updateRate(num value) => movie!.rate = value;
 
   //end
 }

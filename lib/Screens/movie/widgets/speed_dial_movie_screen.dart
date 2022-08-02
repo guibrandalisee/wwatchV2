@@ -11,15 +11,17 @@ import 'package:wwatch/stores/user_store.dart';
 class CustomSpeedDialMovieScreen extends StatefulWidget {
   CustomSpeedDialMovieScreen(
       {Key? key,
-      this.favorite,
       this.watchlist,
       this.rate,
+      required this.customSetState,
+      required this.movieStore,
       required this.mediaId})
       : super(key: key);
   final bool? watchlist;
   final int? rate;
-  bool? favorite;
   final int mediaId;
+  MovieStore movieStore;
+  VoidCallback customSetState;
 
   @override
   State<CustomSpeedDialMovieScreen> createState() =>
@@ -65,15 +67,49 @@ class _CustomSpeedDialMovieScreenState
           ),
         ),
         SpeedDialChild(
+          onTap: () async {
+            final response = await userStore.addToWatchList(
+              mediaType: settingsStore.selectedContentType == 0
+                  ? CustomContentType.MOVIE
+                  : CustomContentType.TVSHOW,
+              watchlist: !widget.movieStore.movie!.watchlist!,
+              mediaID: widget.mediaId,
+            );
+            if (response['status_code'] != null) {
+              widget.movieStore
+                  .updateWatchlist(!widget.movieStore.movie!.watchlist!);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  widget.movieStore.movie!.watchlist!
+                      ? settingsStore.selectedContentType == 0
+                          ? "Movie" + " added to watchlist"
+                          : "TV Show" + " added to watchlist"
+                      : settingsStore.selectedContentType == 0
+                          ? "Movie" + " removed from watchlist"
+                          : "TV Show" + " removed from watchlist",
+                  style: TextStyle(
+                      color: AppColors.textOnPrimaries[styleStore.colorIndex!]),
+                ),
+                backgroundColor: styleStore.primaryColor,
+              ));
+              widget.customSetState();
+            } else {
+              print('Status Code:' + response['status_code']);
+            }
+          },
           backgroundColor: styleStore.primaryColor,
           child: Icon(
-            LineIcons.bookmark,
+            widget.movieStore.movie!.watchlist!
+                ? Icons.bookmark_remove_outlined
+                : LineIcons.bookmark,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'Add to your watchlist',
+              widget.movieStore.movie!.watchlist!
+                  ? 'Remove from watchlist'
+                  : 'Add to your watchlist',
               style: GoogleFonts.getFont('Mitr',
                   color: AppColors.text,
                   fontSize: 16,
@@ -104,24 +140,34 @@ class _CustomSpeedDialMovieScreenState
                 mediaType: settingsStore.selectedContentType == 0
                     ? CustomContentType.MOVIE
                     : CustomContentType.TVSHOW,
-                favorite: !widget.favorite!,
+                favorite: !widget.movieStore.movie!.favorite!,
                 mediaID: widget.mediaId);
             if (response['status_code'] != null) {
-              setState(() {
-                widget.favorite = !widget.favorite!;
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(widget.favorite!
-                        ? "Movie marked as favorite"
-                        : "Movie removed from favorites"),
-                    backgroundColor: Colors.green));
-              });
+              widget.movieStore
+                  .updateFavorite(!widget.movieStore.movie!.favorite!);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    widget.movieStore.movie!.favorite!
+                        ? settingsStore.selectedContentType == 0
+                            ? "Movie" + " added to watchlist"
+                            : "TV Show" + " marked as favorite"
+                        : settingsStore.selectedContentType == 0
+                            ? "Movie" + " removed from watchlist"
+                            : "TV Show" + " removed from favorites",
+                    style: TextStyle(
+                        color:
+                            AppColors.textOnPrimaries[styleStore.colorIndex!]),
+                  ),
+                  backgroundColor: styleStore.primaryColor));
+              widget.customSetState();
             } else {
-              print(response['status_code']);
+              print('Status Code:' + response['status_code']);
             }
           },
           backgroundColor: styleStore.primaryColor,
           child: Icon(
-            widget.favorite != null && widget.favorite!
+            widget.movieStore.movie!.favorite != null &&
+                    widget.movieStore.movie!.favorite!
                 ? LineIcons.heartBroken
                 : LineIcons.heart,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
@@ -129,7 +175,8 @@ class _CustomSpeedDialMovieScreenState
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              widget.favorite != null && widget.favorite!
+              widget.movieStore.movie!.favorite != null &&
+                      widget.movieStore.movie!.favorite!
                   ? 'Remove from favorites'
                   : 'Mark as favorite',
               style: GoogleFonts.getFont('Mitr',

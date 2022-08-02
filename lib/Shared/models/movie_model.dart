@@ -113,7 +113,7 @@ class CompleteMovie {
   final Credits credits;
   final MovieAvaliableWatchProviders? movieAvaliableWatchProviders;
   final Map<String, dynamic>? allWatchProviders;
-  final bool? favorite;
-  final bool? watchlist;
-  final num? rate;
+  bool? favorite;
+  bool? watchlist;
+  num? rate;
 }

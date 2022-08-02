@@ -32,41 +32,51 @@ class PostersWidget extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (movie.images != null && movie.images!.length > 1)
-              IconButton(
-                  splashRadius: 16,
-                  onPressed: () {
-                    carouselController.previousPage();
-                  },
-                  icon: Icon(
-                    Icons.chevron_left_rounded,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                settingsStore.selectedContentType == 0
+                    ? AppLocalizations.of(context)!.moviePosters
+                    : AppLocalizations.of(context)!.posters,
+                style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
-                    size: 22,
-                  )),
-            Text(
-              settingsStore.selectedContentType == 0
-                  ? AppLocalizations.of(context)!.moviePosters
-                  : AppLocalizations.of(context)!.posters,
-              style: GoogleFonts.getFont('Mitr',
-                  color: styleStore.textColor,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400),
-            ),
-            if (movie.images != null && movie.images!.length > 1)
-              IconButton(
-                  splashRadius: 16,
-                  onPressed: () {
-                    carouselController.nextPage();
-                  },
-                  icon: Icon(
-                    Icons.chevron_right_rounded,
-                    color: styleStore.textColor,
-                    size: 22,
-                  )),
-          ],
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400),
+              ),
+              Row(
+                children: [
+                  if (movie.images != null && movie.images!.length > 1)
+                    IconButton(
+                        splashRadius: 16,
+                        onPressed: () {
+                          carouselController.previousPage();
+                        },
+                        icon: Icon(
+                          Icons.chevron_left_rounded,
+                          color: styleStore.textColor,
+                          size: 22,
+                        )),
+                  SizedBox(
+                    width: 32,
+                  ),
+                  if (movie.images != null && movie.images!.length > 1)
+                    IconButton(
+                        splashRadius: 16,
+                        onPressed: () {
+                          carouselController.nextPage();
+                        },
+                        icon: Icon(
+                          Icons.chevron_right_rounded,
+                          color: styleStore.textColor,
+                          size: 22,
+                        )),
+                ],
+              )
+            ],
+          ),
         ),
         const SizedBox(
           height: 16,

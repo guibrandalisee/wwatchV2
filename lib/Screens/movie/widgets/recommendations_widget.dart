@@ -40,59 +40,63 @@ class RecommendationsWidget extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (movieStore.recommendations.length > 1)
-                IconButton(
-                    splashRadius: 16,
-                    onPressed: () async {
-                      if (!scrollInProgress) {
-                        scrollInProgress = true;
-                        await scrollController.animateTo(
-                            scrollController.offset - 200,
-                            duration: Duration(milliseconds: 100),
-                            curve: Curves.ease);
-                        scrollInProgress = false;
-                      }
-                    },
-                    icon: Icon(
-                      Icons.chevron_left_rounded,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.recommendations,
+                  style: GoogleFonts.getFont('Mitr',
                       color: styleStore.textColor,
-                      size: 22,
-                    )),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                AppLocalizations.of(context)!.recommendations,
-                style: GoogleFonts.getFont('Mitr',
-                    color: styleStore.textColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              if (movieStore.recommendations.length > 1)
-                IconButton(
-                    splashRadius: 16,
-                    onPressed: () async {
-                      if (!scrollInProgress) {
-                        scrollInProgress = true;
-                        await scrollController.animateTo(
-                            scrollController.offset + 200,
-                            duration: Duration(milliseconds: 100),
-                            curve: Curves.ease);
-                        scrollInProgress = false;
-                      }
-                    },
-                    icon: Icon(
-                      Icons.chevron_right_rounded,
-                      color: styleStore.textColor,
-                      size: 22,
-                    )),
-            ],
+                      fontSize: 22,
+                      fontWeight: FontWeight.w400),
+                ),
+                Row(
+                  children: [
+                    if (movieStore.recommendations.length > 1)
+                      IconButton(
+                          splashRadius: 16,
+                          onPressed: () async {
+                            if (!scrollInProgress) {
+                              scrollInProgress = true;
+                              await scrollController.animateTo(
+                                  scrollController.offset - 200,
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.ease);
+                              scrollInProgress = false;
+                            }
+                          },
+                          icon: Icon(
+                            Icons.chevron_left_rounded,
+                            color: styleStore.textColor,
+                            size: 22,
+                          )),
+                    SizedBox(
+                      width: 32,
+                    ),
+                    if (movieStore.recommendations.length > 1)
+                      IconButton(
+                          splashRadius: 16,
+                          onPressed: () async {
+                            if (!scrollInProgress) {
+                              scrollInProgress = true;
+                              await scrollController.animateTo(
+                                  scrollController.offset + 200,
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.ease);
+                              scrollInProgress = false;
+                            }
+                          },
+                          icon: Icon(
+                            Icons.chevron_right_rounded,
+                            color: styleStore.textColor,
+                            size: 22,
+                          )),
+                  ],
+                )
+              ],
+            ),
           ),
           const SizedBox(
             height: 16,

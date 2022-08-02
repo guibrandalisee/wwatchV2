@@ -30,19 +30,19 @@ Feito utilizando a API do <img src="https://user-images.githubusercontent.com/41
  - Informações Gerais (Filmes e Séries)
  - Estilização do APP (8 cores primarias, 3 temas e 2 estilos de cards para a tela principal)
  - Todo o APP pode ser utilizado com apenas uma mão
-
+ - Plataformas de Streaming (Nos filtros e nas informações do conteúdo)
+ - Login com Conta do TMDB
+ - Tela do Perfil
 
 <h3>Algumas Features Futuras</h3>
 
- - Plataformas de Streaming (Nos filtros e nas informações do conteúdo)
+
  - Pesquisa por Atores
  - Mais Traduções
  - Rotas 2.0 do Flutter
  - Reviews e Discuçoes (Filmes e Séries)
- - Login com Conta do TMDB
  - Listas (Favoritos e outras listas personalizadas do usuario)
  - Estatísticas do Perfil do Usuario (Avaliação Média dos Filmes e Series, Etc.) 
- - Tela do Perfil
  - Tela de Boas Vindas (Primeira vez que o app é aberto)
 
 
