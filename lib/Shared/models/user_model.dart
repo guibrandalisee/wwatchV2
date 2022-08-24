@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 enum AvatarType { tmdb, gravatar }
 
 class Guest {

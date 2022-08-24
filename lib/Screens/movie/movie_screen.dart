@@ -25,7 +25,6 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
-import 'package:mobx/mobx.dart';
 
 class MovieScreen extends StatefulWidget {
   final int movieId;
@@ -65,10 +64,6 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    reaction((_) => movieStore.movie!.favorite, (value) {
-      setState(() {});
-    });
-
     return Scaffold(
       floatingActionButtonLocation: styleStore.fabPosition == 0
           ? FloatingActionButtonLocation.startFloat
@@ -158,8 +153,13 @@ class _MovieScreenState extends State<MovieScreen> {
                       ],
                     ),
                   ),
-                  if (movieStore.movie!.tagline != null &&
-                      movieStore.movie!.tagline!.isNotEmpty)
+                  if ((movieStore.movie!.tagline != null &&
+                          movieStore.movie!.tagline!.isNotEmpty) ||
+                      movieStore.movie!.secondaryLanguageContent != null &&
+                          movieStore.movie!.secondaryLanguageContent!.tagline !=
+                              null &&
+                          movieStore.movie!.secondaryLanguageContent!.tagline!
+                              .isNotEmpty)
                     TaglineWidget(
                       movie: movieStore.movie!,
                     ),
@@ -169,6 +169,9 @@ class _MovieScreenState extends State<MovieScreen> {
                           movieStore.movie!.watchlist! ||
                           movieStore.movie!.rate != null))
                     AccountStatesWidget(
+                      contentType: widget.contentType == 0
+                          ? CustomContentType.MOVIE
+                          : CustomContentType.TVSHOW,
                       favorite: movieStore.movie!.favorite!,
                       watchlist: movieStore.movie!.watchlist!,
                       rate: movieStore.movie!.rate,

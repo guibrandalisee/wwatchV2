@@ -68,7 +68,9 @@ class DescriptionWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: DropCapText(
-            movie.overview,
+            movie.overview.isNotEmpty
+                ? movie.overview
+                : movie.secondaryLanguageContent!.overview,
             style: GoogleFonts.getFont('Mitr',
                 color: styleStore.textColor,
                 fontSize: 20,

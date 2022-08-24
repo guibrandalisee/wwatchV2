@@ -4,8 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
+import 'package:wwatch/Screens/user/widgets/movie_list.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/user_model.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:wwatch/stores/user_store.dart';
@@ -26,9 +28,7 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   void initState() {
-    if (userStore.user == null) {
-      userStore.getUserDetails();
-    }
+    _getUserDetails();
     super.initState();
   }
 
@@ -164,6 +164,7 @@ class _UserScreenState extends State<UserScreen> {
             backgroundColor: styleStore.backgroundColor,
           );
         return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -227,11 +228,54 @@ class _UserScreenState extends State<UserScreen> {
                     color: styleStore.textColor,
                     fontSize: 24,
                     fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 64,
+              ),
+              //TODO deal with multiple pages
+              if (userStore.favoriteMovies.length > 0)
+                MovieListWidget(
+                    refresh: () async {
+                      await userStore.getFavoriteContent(
+                          reset: true,
+                          mediaType: CustomContentType.MOVIE,
+                          page: 1);
+                    },
+                    contentType: CustomContentType.MOVIE,
+                    title: "Favorite Movies",
+                    prefs: settingsStore.prefs!,
+                    content: userStore.favoriteMovies),
+              if (userStore.favoriteTvShows.length > 0)
+                MovieListWidget(
+                    refresh: () async {
+                      await userStore.getFavoriteContent(
+                          reset: true,
+                          mediaType: CustomContentType.TVSHOW,
+                          page: 1);
+                    },
+                    contentType: CustomContentType.TVSHOW,
+                    title: "Favorite TVShows",
+                    prefs: settingsStore.prefs!,
+                    content: userStore.favoriteTvShows),
+              SizedBox(
+                height: 56,
               )
             ],
           ),
         );
       }),
     );
+  }
+}
+
+void _getUserDetails() async {
+  if (userStore.user == null) {
+    await userStore.getUserDetails();
+  }
+  if (userStore.favoriteMovies.length == 0) {
+    userStore.getFavoriteContent(mediaType: CustomContentType.MOVIE, page: 1);
+  }
+  if (userStore.favoriteTvShows.length == 0) {
+    userStore.getFavoriteContent(mediaType: CustomContentType.TVSHOW, page: 1);
   }
 }

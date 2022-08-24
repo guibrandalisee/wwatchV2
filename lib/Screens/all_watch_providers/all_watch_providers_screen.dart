@@ -198,65 +198,67 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
                 ),
                 padding: EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width,
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    WatchProviderSelector(
-                        margin: EdgeInsets.all(8),
-                        width: 100,
-                        currentWatchProvider: currentWatchProvider,
-                        onTap: () {
-                          setState(() {
-                            currentWatchProvider = WatchProviderType.flatrate;
-                          });
-                        },
-                        title: 'Stream',
-                        watchProvider: WatchProviderType.flatrate),
-                    WatchProviderSelector(
-                        width: 100,
-                        margin: EdgeInsets.all(8),
-                        currentWatchProvider: currentWatchProvider,
-                        onTap: () {
-                          setState(() {
-                            currentWatchProvider = WatchProviderType.buy;
-                          });
-                        },
-                        title: 'Buy',
-                        watchProvider: WatchProviderType.buy),
-                    WatchProviderSelector(
-                        width: 100,
-                        margin: EdgeInsets.all(8),
-                        currentWatchProvider: currentWatchProvider,
-                        onTap: () {
-                          setState(() {
-                            currentWatchProvider = WatchProviderType.rent;
-                          });
-                        },
-                        title: 'Rent',
-                        watchProvider: WatchProviderType.rent),
-                    WatchProviderSelector(
-                        width: 100,
-                        margin: EdgeInsets.all(8),
-                        currentWatchProvider: currentWatchProvider,
-                        onTap: () {
-                          setState(() {
-                            currentWatchProvider = WatchProviderType.ads;
-                          });
-                        },
-                        title: 'Ads',
-                        watchProvider: WatchProviderType.ads),
-                    WatchProviderSelector(
-                        width: 100,
-                        margin: EdgeInsets.all(8),
-                        currentWatchProvider: currentWatchProvider,
-                        onTap: () {
-                          setState(() {
-                            currentWatchProvider = WatchProviderType.free;
-                          });
-                        },
-                        title: 'Free',
-                        watchProvider: WatchProviderType.free)
-                  ],
+                child: SafeArea(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      WatchProviderSelector(
+                          margin: EdgeInsets.all(8),
+                          width: 100,
+                          currentWatchProvider: currentWatchProvider,
+                          onTap: () {
+                            setState(() {
+                              currentWatchProvider = WatchProviderType.flatrate;
+                            });
+                          },
+                          title: 'Stream',
+                          watchProvider: WatchProviderType.flatrate),
+                      WatchProviderSelector(
+                          width: 100,
+                          margin: EdgeInsets.all(8),
+                          currentWatchProvider: currentWatchProvider,
+                          onTap: () {
+                            setState(() {
+                              currentWatchProvider = WatchProviderType.buy;
+                            });
+                          },
+                          title: 'Buy',
+                          watchProvider: WatchProviderType.buy),
+                      WatchProviderSelector(
+                          width: 100,
+                          margin: EdgeInsets.all(8),
+                          currentWatchProvider: currentWatchProvider,
+                          onTap: () {
+                            setState(() {
+                              currentWatchProvider = WatchProviderType.rent;
+                            });
+                          },
+                          title: 'Rent',
+                          watchProvider: WatchProviderType.rent),
+                      WatchProviderSelector(
+                          width: 100,
+                          margin: EdgeInsets.all(8),
+                          currentWatchProvider: currentWatchProvider,
+                          onTap: () {
+                            setState(() {
+                              currentWatchProvider = WatchProviderType.ads;
+                            });
+                          },
+                          title: 'Ads',
+                          watchProvider: WatchProviderType.ads),
+                      WatchProviderSelector(
+                          width: 100,
+                          margin: EdgeInsets.all(8),
+                          currentWatchProvider: currentWatchProvider,
+                          onTap: () {
+                            setState(() {
+                              currentWatchProvider = WatchProviderType.free;
+                            });
+                          },
+                          title: 'Free',
+                          watchProvider: WatchProviderType.free)
+                    ],
+                  ),
                 ),
               )),
         ],

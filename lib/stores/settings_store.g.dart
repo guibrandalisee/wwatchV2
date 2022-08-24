@@ -137,6 +137,23 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
     });
   }
 
+  late final _$selectedSecondaryLanguageAtom = Atom(
+      name: '_SettingsStoreBase.selectedSecondaryLanguage', context: context);
+
+  @override
+  String get selectedSecondaryLanguage {
+    _$selectedSecondaryLanguageAtom.reportRead();
+    return super.selectedSecondaryLanguage;
+  }
+
+  @override
+  set selectedSecondaryLanguage(String value) {
+    _$selectedSecondaryLanguageAtom
+        .reportWrite(value, super.selectedSecondaryLanguage, () {
+      super.selectedSecondaryLanguage = value;
+    });
+  }
+
   late final _$adultContentAtom =
       Atom(name: '_SettingsStoreBase.adultContent', context: context);
 
@@ -726,6 +743,17 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
+  void setSelectedSecondaryLanguage(String value) {
+    final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
+        name: '_SettingsStoreBase.setSelectedSecondaryLanguage');
+    try {
+      return super.setSelectedSecondaryLanguage(value);
+    } finally {
+      _$_SettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setAdultContent(String value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.setAdultContent');
@@ -901,6 +929,7 @@ dateFormat: ${dateFormat},
 selectedlanguage: ${selectedlanguage},
 language: ${language},
 secondaryLanguage: ${secondaryLanguage},
+selectedSecondaryLanguage: ${selectedSecondaryLanguage},
 adultContent: ${adultContent},
 filterBadLanguage: ${filterBadLanguage},
 country: ${country},

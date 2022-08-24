@@ -110,7 +110,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                AppLocalizations.of(context)!.sContentLanguage + " | WIP",
+                AppLocalizations.of(context)!.sContentLanguage,
                 style: GoogleFonts.getFont('Mitr',
                     color: styleStore.textColor,
                     fontSize: 18,
@@ -124,10 +124,20 @@ class _GeneralSettingsState extends State<GeneralSettings> {
               items: settingsStore.avaliableContentLanguages
                   .map<String>((e) => e.englishName)
                   .toList(),
-              value: settingsStore.secondaryLanguage,
+              value: settingsStore.selectedSecondaryLanguage,
               onChanged: (value) {
                 if (value != null) {
-                  settingsStore.setSecondaryLanguage(value);
+                  settingsStore.selectedSecondaryLanguage = value;
+                  settingsStore.secondaryLanguage = settingsStore
+                      .avaliableContentLanguages
+                      .firstWhere((element) => element.englishName == value)
+                      .iso_639_1;
+
+                  if (_prefs != null) {
+                    _prefs!.setString('secondaryLanguage', value);
+                    _prefs!.setString('secondaryLanguageISO',
+                        settingsStore.secondaryLanguage);
+                  }
                 }
               },
             ),

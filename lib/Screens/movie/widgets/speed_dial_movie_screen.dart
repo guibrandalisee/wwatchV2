@@ -3,8 +3,10 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:rate/rate.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
+import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:wwatch/stores/user_store.dart';
 
@@ -20,8 +22,8 @@ class CustomSpeedDialMovieScreen extends StatefulWidget {
   final bool? watchlist;
   final int? rate;
   final int mediaId;
-  MovieStore movieStore;
-  VoidCallback customSetState;
+  final MovieStore movieStore;
+  final VoidCallback customSetState;
 
   @override
   State<CustomSpeedDialMovieScreen> createState() =>
@@ -118,6 +120,16 @@ class _CustomSpeedDialMovieScreenState
           ),
         ),
         SpeedDialChild(
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return RateItAlertDialog(
+                    movieStore: widget.movieStore,
+                    customSetState: widget.customSetState,
+                  );
+                });
+          },
           backgroundColor: styleStore.primaryColor,
           child: Icon(
             LineIcons.star,
@@ -186,6 +198,166 @@ class _CustomSpeedDialMovieScreenState
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class RateItAlertDialog extends StatefulWidget {
+  RateItAlertDialog(
+      {Key? key, required this.movieStore, required this.customSetState})
+      : super(key: key);
+  final MovieStore movieStore;
+  final VoidCallback customSetState;
+
+  @override
+  State<RateItAlertDialog> createState() => _RateItAlertDialogState();
+}
+
+class _RateItAlertDialogState extends State<RateItAlertDialog> {
+  final StyleStore styleStore = GetIt.I<StyleStore>();
+  final UserStore userStore = GetIt.I<UserStore>();
+  final SettingsStore settingsStore = GetIt.I<SettingsStore>();
+  double rating = 0;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Rating",
+            style: GoogleFonts.mitr(
+                color: styleStore.textColor,
+                fontSize: 22,
+                fontWeight: FontWeight.w300),
+          ),
+          RichText(
+            text: TextSpan(
+              text: rating.toStringAsFixed(0),
+              style: GoogleFonts.getFont('Kodchasan',
+                  color: AppColors.text,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w300),
+              children: <TextSpan>[
+                TextSpan(
+                  text: '/10',
+                  style: GoogleFonts.getFont('Kodchasan',
+                      color: AppColors.text,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      decoration: TextDecoration.overline),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+      titlePadding: EdgeInsets.only(left: 16, top: 8, right: 16),
+      backgroundColor: styleStore.shapeColor,
+      content: Container(
+        height: 40,
+        child: Center(
+          child: Rate(
+            iconSize: 36,
+            color: styleStore.primaryColor!,
+            allowHalf: true,
+            onChange: (value) {
+              setState(() {
+                rating = value * 2;
+              });
+            },
+            allowClear: false,
+          ),
+        ),
+      ),
+      actions: [
+        if (widget.movieStore.movie!.rate != null)
+          ElevatedButton(
+            onPressed: () async {
+              final response = await userStore.deleteRateContent(
+                  mediaType: settingsStore.selectedContentType == 0
+                      ? CustomContentType.MOVIE
+                      : CustomContentType.TVSHOW,
+                  mediaID: widget.movieStore.movie!.id);
+              if (response['error'] == null) {
+                widget.movieStore.updateRate(null);
+                Navigator.of(context).pop();
+                widget.customSetState();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Success!",
+                    style: TextStyle(color: styleStore.textOnPrimaryColor),
+                  ),
+                  backgroundColor: styleStore.primaryColor,
+                ));
+              } else {
+                print(response['error']);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Error!",
+                    style: TextStyle(color: styleStore.textOnPrimaryColor),
+                  ),
+                  backgroundColor: Colors.redAccent,
+                ));
+              }
+            },
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red)),
+            child: Text(
+              "Remove Rating",
+              style: GoogleFonts.mitr(
+                  color: AppColors.text,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300),
+            ),
+          ),
+        ElevatedButton(
+          onPressed: () async {
+            if (rating != 0) {
+              final response = await userStore.rateContent(
+                rating: rating,
+                mediaType: settingsStore.selectedContentType == 0
+                    ? CustomContentType.MOVIE
+                    : CustomContentType.TVSHOW,
+                mediaID: widget.movieStore.movie!.id,
+              );
+
+              if (response['error'] == null) {
+                widget.movieStore.updateRate(rating);
+                widget.customSetState();
+                Navigator.of(context).pop();
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Success!",
+                    style: TextStyle(color: styleStore.textOnPrimaryColor),
+                  ),
+                  backgroundColor: styleStore.primaryColor,
+                ));
+              } else {
+                print(response['error']);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Error!",
+                    style: TextStyle(color: styleStore.textOnPrimaryColor),
+                  ),
+                  backgroundColor: Colors.redAccent,
+                ));
+              }
+            }
+          },
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(styleStore.primaryColor)),
+          child: Text(
+            widget.movieStore.movie!.rate != null ? "Update" : "Rate It",
+            style: GoogleFonts.mitr(
+                color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                fontSize: 18,
+                fontWeight: FontWeight.w300),
+          ),
+        )
       ],
     );
   }

@@ -48,6 +48,7 @@ class FullScreenImage extends StatelessWidget {
       ),
       body: Container(
         child: PhotoView(
+          //TODO add all posters in PhotoView.gallery so the user can swipe to change image
           minScale: PhotoViewComputedScale.contained,
           maxScale: PhotoViewComputedScale.contained * 100,
           loadingBuilder: (_, imageChunkEvent) {

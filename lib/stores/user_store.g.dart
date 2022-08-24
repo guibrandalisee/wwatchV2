@@ -266,9 +266,11 @@ mixin _$UserStore on _UserStoreBase, Store {
 
   @override
   Future<void> getFavoriteContent(
-      {required CustomContentType mediaType, required int page}) {
-    return _$getFavoriteContentAsyncAction
-        .run(() => super.getFavoriteContent(mediaType: mediaType, page: page));
+      {required CustomContentType mediaType,
+      required int page,
+      bool reset = false}) {
+    return _$getFavoriteContentAsyncAction.run(() => super
+        .getFavoriteContent(mediaType: mediaType, page: page, reset: reset));
   }
 
   late final _$markContentAsFavoriteAsyncAction =
@@ -292,14 +294,9 @@ mixin _$UserStore on _UserStoreBase, Store {
       {required num rating,
       required CustomContentType mediaType,
       required int mediaID,
-      required int sessionID,
       bool guest = false}) {
     return _$rateContentAsyncAction.run(() => super.rateContent(
-        rating: rating,
-        mediaType: mediaType,
-        mediaID: mediaID,
-        sessionID: sessionID,
-        guest: guest));
+        rating: rating, mediaType: mediaType, mediaID: mediaID, guest: guest));
   }
 
   late final _$addToWatchListAsyncAction =

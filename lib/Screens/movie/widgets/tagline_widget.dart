@@ -31,7 +31,9 @@ class TaglineWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              '${movie.tagline!}',
+              movie.tagline != null && movie.tagline!.isNotEmpty
+                  ? '${movie.tagline!}'
+                  : '${movie.secondaryLanguageContent!.tagline}',
               style: GoogleFonts.getFont(
                 'Manjari',
                 color: styleStore.textColor,

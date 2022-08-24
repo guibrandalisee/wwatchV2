@@ -15,6 +15,7 @@ class Genre {
 
 //A simple version of a Movie or TV Show, only getting enough values to display the movie tile on Home Screen
 class SimpleMovie {
+  final num? rating;
   final List genreIds;
   final int id;
   final bool adult;
@@ -29,6 +30,7 @@ class SimpleMovie {
   final String? releaseDate;
   final String? backdropPath;
   SimpleMovie({
+    this.rating,
     required this.genreIds,
     required this.id,
     required this.adult,
@@ -80,7 +82,10 @@ class CompleteMovie {
       this.allWatchProviders,
       this.favorite,
       this.watchlist,
-      this.rate});
+      this.rate,
+      this.translations,
+      this.secondaryLanguageContent});
+
   final List genres;
   final int id;
   final bool adult;
@@ -116,4 +121,31 @@ class CompleteMovie {
   bool? favorite;
   bool? watchlist;
   num? rate;
+  final List<ContentTranslation>? translations;
+  final TranslationData? secondaryLanguageContent;
+}
+
+class ContentTranslation {
+  final String iso_3166_1;
+  final String iso_639_1;
+  final String name;
+  final TranslationData data;
+  ContentTranslation({
+    required this.iso_3166_1,
+    required this.iso_639_1,
+    required this.name,
+    required this.data,
+  });
+}
+
+class TranslationData {
+  final String title;
+  final String overview;
+  final String homepage;
+  final String? tagline;
+  TranslationData(
+      {required this.homepage,
+      required this.overview,
+      required this.title,
+      this.tagline});
 }

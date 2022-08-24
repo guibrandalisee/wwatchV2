@@ -47,6 +47,12 @@ abstract class _SettingsStoreBase with Store {
       if (prefs!.containsKey('languageISO')) {
         language = prefs!.getString('languageISO')!;
       }
+      if (prefs!.containsKey('secondaryLanguage')) {
+        selectedSecondaryLanguage = prefs!.getString('secondaryLanguage')!;
+      }
+      if (prefs!.containsKey('secondaryLanguageISO')) {
+        secondaryLanguage = prefs!.getString('secondaryLanguageISO')!;
+      }
       if (prefs!.containsKey('movieGenreMode')) {
         movieGenreMode =
             prefs!.getBool('movieGenreMode')! ? GenreMode.all : GenreMode.one;
@@ -160,6 +166,12 @@ abstract class _SettingsStoreBase with Store {
   String secondaryLanguage = 'English - US';
   @action
   void setSecondaryLanguage(String value) => secondaryLanguage = value;
+
+  @observable
+  String selectedSecondaryLanguage = 'English - US';
+  @action
+  void setSelectedSecondaryLanguage(String value) =>
+      selectedSecondaryLanguage = value;
 
   //Change if the app will display adult content
   @observable

@@ -8,6 +8,7 @@ import 'package:line_icons/line_icons.dart';
 
 import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
 import 'package:wwatch/Screens/settings/settings_screen.dart';
+import 'package:wwatch/Screens/user/user_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -144,6 +145,27 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
           ),
           child: Icon(
             LineIcons.cog,
+            color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+          ),
+          backgroundColor: styleStore.primaryColor,
+        ),
+        SpeedDialChild(
+          onTap: () async {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => UserScreen()));
+          },
+          labelWidget: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "Profile",
+              style: GoogleFonts.getFont('Mitr',
+                  color: AppColors.text,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300),
+            ),
+          ),
+          child: Icon(
+            LineIcons.user,
             color: AppColors.textOnPrimaries[styleStore.colorIndex!],
           ),
           backgroundColor: styleStore.primaryColor,

@@ -446,8 +446,9 @@ abstract class _MovieStoreBase with Store {
       'language': language,
       'session_id': userStore.sessionId,
       'append_to_response':
-          'videos,images,credits,watch/providers,account_states',
-      'include_image_language': '${language.substring(0, 2)},null'
+          'videos,images,credits,watch/providers,account_states,translations',
+      'include_image_language':
+          '${language.substring(0, 2)},${settingsStore.secondaryLanguage.substring(0, 2) != language.substring(0, 2) ? settingsStore.secondaryLanguage.substring(0, 2) : 'null'},null'
     });
 
     //!Watch Providers
@@ -596,6 +597,22 @@ abstract class _MovieStoreBase with Store {
         cast: cast,
         crew: crew,
       );
+
+      final List<ContentTranslation> translations = response
+          .data['translations']['translations']
+          .map<ContentTranslation>((e) {
+        return ContentTranslation(
+          iso_3166_1: e['iso_3166_1'],
+          iso_639_1: e['iso_639_1'],
+          name: e['name'],
+          data: TranslationData(
+              homepage: e['data']['homepage'],
+              overview: e['data']['overview'],
+              title: e['data']['title'],
+              tagline: e['data']['tagline']),
+        );
+      }).toList();
+
       movie = CompleteMovie(
           favorite: response.data['account_states']['favorite'],
           watchlist: response.data['account_states']['watchlist'],
@@ -639,7 +656,13 @@ abstract class _MovieStoreBase with Store {
           voteCount: data['vote_count'],
           credits: credits,
           movieAvaliableWatchProviders: movieAvaliableWatchProviders,
-          allWatchProviders: response.data['watch/providers']['results']);
+          allWatchProviders: response.data['watch/providers']['results'],
+          translations: translations,
+          secondaryLanguageContent: translations
+              .firstWhere((element) =>
+                  element.iso_3166_1 ==
+                  settingsStore.secondaryLanguage.substring(3, 5))
+              .data);
     } catch (e) {
       error = true;
       print(e);
@@ -1045,7 +1068,7 @@ abstract class _MovieStoreBase with Store {
   void updateWatchlist(bool value) => movie!.watchlist = value;
 
   @action
-  void updateRate(num value) => movie!.rate = value;
+  void updateRate(num? value) => movie!.rate = value;
 
   //end
 }

@@ -53,7 +53,7 @@ abstract class _UserStoreBase with Store {
   int favoriteMoviesMaxPages = 1;
 
   @observable
-  ObservableList<SimpleMovie> favoriteTvShows = ObservableList();
+  ObservableList<SimpleMovie> favoriteTvShows = ObservableList<SimpleMovie>();
 
   @observable
   int favoriteTvShowsMaxPages = 1;
@@ -287,8 +287,10 @@ abstract class _UserStoreBase with Store {
   //!Have to test
   @action
   Future<void> getFavoriteContent(
-      {required CustomContentType mediaType, required int page}) async {
-    String contentType = mediaType == CustomContentType.MOVIE ? "movie" : "tv";
+      {required CustomContentType mediaType,
+      required int page,
+      bool reset = false}) async {
+    String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
 
     final response = await fetchData(
         path: "/account/${user!.id}/favorite/$contentType",
@@ -301,8 +303,12 @@ abstract class _UserStoreBase with Store {
     try {
       switch (mediaType) {
         case CustomContentType.MOVIE:
-          favoriteMoviesMaxPages = response.data['totalPages'];
-          favoriteMovies = response.data['results'].map<SimpleMovie>((e) {
+          favoriteMoviesMaxPages = response.data['total_pages'];
+          if (reset) {
+            favoriteMovies.clear();
+          }
+          print("Geeting Favorite Movies...");
+          favoriteMovies.addAll(response.data['results'].map<SimpleMovie>((e) {
             return SimpleMovie(
                 genreIds: e['genre_ids'],
                 id: e['id'],
@@ -315,11 +321,16 @@ abstract class _UserStoreBase with Store {
                 backdropPath: e['backdrop_path'],
                 posterPath: e['poster_path'],
                 releaseDate: e['release_date']);
-          }).toList();
+          }).toList());
+          print("Movies: $favoriteMovies");
           break;
         case CustomContentType.TVSHOW:
-          favoriteTvShowsMaxPages = response.data['totalPages'];
-          favoriteTvShows = response.data['results'].map<SimpleMovie>((e) {
+          favoriteTvShowsMaxPages = response.data['total_pages'];
+          print("Geeting Favorite TvShows...");
+          if (reset) {
+            favoriteTvShows.clear();
+          }
+          favoriteTvShows.addAll(response.data['results'].map<SimpleMovie>((e) {
             return SimpleMovie(
                 genreIds: e['genre_ids'],
                 id: e['id'],
@@ -332,7 +343,9 @@ abstract class _UserStoreBase with Store {
                 backdropPath: e['backdrop_path'],
                 posterPath: e['poster_path'],
                 releaseDate: e['first_air_date']);
-          }).toList();
+          }).toList());
+          print("TVShows: $favoriteTvShows");
+
           break;
       }
     } catch (e) {
@@ -341,7 +354,6 @@ abstract class _UserStoreBase with Store {
     }
   }
 
-  //!Have to test
   @action
   Future<Map<String, dynamic>> markContentAsFavorite(
       {required CustomContentType mediaType,
@@ -379,20 +391,20 @@ abstract class _UserStoreBase with Store {
       {required num rating,
       required CustomContentType mediaType,
       required int mediaID,
-      required int sessionID,
       bool guest = false}) async {
     //movies and tvShows
+    final String content =
+        mediaType == CustomContentType.MOVIE ? 'movie' : 'tv';
     try {
-      final response = await postData(
-        path:
-            "${mediaType == CustomContentType.MOVIE ? 'movie' : 'tv'}/$mediaID/rating",
+      await postData(
+        path: "/$content/$mediaID/rating",
         parameters: {
           "session_id": sessionId,
         },
         data: {"value": rating},
       );
 
-      return response.data;
+      return {"message": ''};
     } catch (e) {
       return {'error': e};
     }
@@ -446,16 +458,17 @@ abstract class _UserStoreBase with Store {
       required int mediaID,
       bool guest = false}) async {
     //movies and tvShows
+    final String content =
+        mediaType == CustomContentType.MOVIE ? 'movie' : 'tv';
     try {
-      final response = await deleteData(
-        path:
-            "${mediaType == CustomContentType.MOVIE ? 'movie' : 'tv'}/$mediaID/rating",
+      await deleteData(
+        path: "/$content/$mediaID/rating",
         parameters: {
           "session_id": sessionId,
         },
       );
 
-      return response.data;
+      return {"message": ""};
     } catch (e) {
       return {'error': e};
     }

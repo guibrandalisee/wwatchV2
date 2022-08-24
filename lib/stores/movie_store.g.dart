@@ -448,7 +448,7 @@ mixin _$MovieStore on _MovieStoreBase, Store {
   }
 
   @override
-  void updateRate(num value) {
+  void updateRate(num? value) {
     final _$actionInfo = _$_MovieStoreBaseActionController.startAction(
         name: '_MovieStoreBase.updateRate');
     try {
