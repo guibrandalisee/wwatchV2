@@ -107,6 +107,11 @@ class _GeneralSettingsState extends State<GeneralSettings> {
             SizedBox(
               height: 32,
             ),
+            // IconButton(
+            //     onPressed: () {
+            //       _prefs!.clear();
+            //     },
+            //     icon: Icon(Icons.refresh)),
             SizedBox(
               width: double.infinity,
               child: Text(

@@ -659,10 +659,17 @@ abstract class _MovieStoreBase with Store {
           allWatchProviders: response.data['watch/providers']['results'],
           translations: translations,
           secondaryLanguageContent: translations
-              .firstWhere((element) =>
-                  element.iso_3166_1 ==
-                  settingsStore.secondaryLanguage.substring(3, 5))
-              .data);
+                      .where((element) =>
+                          element.iso_3166_1 ==
+                          settingsStore.secondaryLanguage.substring(3, 5))
+                      .length >
+                  0
+              ? translations
+                  .firstWhere((element) =>
+                      element.iso_3166_1 ==
+                      settingsStore.secondaryLanguage.substring(3, 5))
+                  .data
+              : null);
     } catch (e) {
       error = true;
       print(e);

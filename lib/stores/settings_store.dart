@@ -163,7 +163,7 @@ abstract class _SettingsStoreBase with Store {
 
   //WIP change app secondary language
   @observable
-  String secondaryLanguage = 'English - US';
+  String secondaryLanguage = 'en-US';
   @action
   void setSecondaryLanguage(String value) => secondaryLanguage = value;
 
