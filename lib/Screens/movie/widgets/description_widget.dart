@@ -70,7 +70,9 @@ class DescriptionWidget extends StatelessWidget {
           child: DropCapText(
             movie.overview.isNotEmpty
                 ? movie.overview
-                : movie.secondaryLanguageContent!.overview,
+                : movie.secondaryLanguageContent != null
+                    ? movie.secondaryLanguageContent!.overview
+                    : '',
             style: GoogleFonts.getFont('Mitr',
                 color: styleStore.textColor,
                 fontSize: 20,

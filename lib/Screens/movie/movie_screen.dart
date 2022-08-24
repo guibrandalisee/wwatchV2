@@ -179,6 +179,11 @@ class _MovieScreenState extends State<MovieScreen> {
                   if (movieStore.movie!.images != null &&
                       movieStore.movie!.images!.length > 0)
                     PostersWidget(movie: movieStore.movie!),
+                  if (!(movieStore.movie!.videos != null &&
+                      movieStore.movie!.videos!.length > 0))
+                    SizedBox(
+                      height: 16,
+                    ),
                   if (movieStore.movie!.videos != null &&
                       movieStore.movie!.videos!.length > 0)
                     TrailersWidget(

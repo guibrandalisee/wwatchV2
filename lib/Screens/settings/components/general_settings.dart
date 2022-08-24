@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wwatch/Screens/settings/components/dropdown_button_widget.dart';
+import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -114,12 +115,70 @@ class _GeneralSettingsState extends State<GeneralSettings> {
             //     icon: Icon(Icons.refresh)),
             SizedBox(
               width: double.infinity,
-              child: Text(
-                AppLocalizations.of(context)!.sContentLanguage,
-                style: GoogleFonts.getFont('Mitr',
-                    color: styleStore.textColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.sContentLanguage,
+                    style: GoogleFonts.getFont('Mitr',
+                        color: styleStore.textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300),
+                  ),
+                  IconButton(
+                    tooltip: "Info",
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: styleStore.shapeColor,
+                              title: Text(
+                                AppLocalizations.of(context)!.sContentLanguage,
+                                style: GoogleFonts.getFont('Mitr',
+                                    color: styleStore.textColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              content: Text(
+                                "Secondary content language is used to display text such as Movie/TV Show overview that is not available in primary content language",
+                                style: GoogleFonts.getFont('Mitr',
+                                    color: styleStore.textColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w100),
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              styleStore.primaryColor)),
+                                  child: Text(
+                                    'Ok',
+                                    style: GoogleFonts.getFont('Mitr',
+                                        color: AppColors.textOnPrimaries[
+                                            styleStore.colorIndex!],
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                )
+                              ],
+                            );
+                          });
+                    },
+                    icon: Icon(
+                      Icons.info,
+                      size: 16,
+                      color: styleStore.textColor,
+                    ),
+                    constraints: BoxConstraints(),
+                    padding: EdgeInsets.zero,
+                    splashRadius: 16,
+                  ),
+                ],
               ),
             ),
             SizedBox(
