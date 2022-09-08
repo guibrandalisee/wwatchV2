@@ -298,7 +298,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                     fontWeight: FontWeight.w200),
               ),
               const SizedBox(
-                height: 32,
+                height: 64,
               ),
             ],
           ),

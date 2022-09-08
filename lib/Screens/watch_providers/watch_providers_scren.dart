@@ -133,7 +133,7 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                       Container(
                         padding: EdgeInsets.all(8),
                         child: Text(
-                          'The content of this filter change depending on selected country and if you are searching for Movies or TV Shows',
+                          AppLocalizations.of(context)!.wpFilerHeading,
                           style: GoogleFonts.getFont(
                             'Mitr',
                             color: styleStore.textColor,
@@ -152,10 +152,11 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                               settingsStore.setRememberSelectedWatchPTVShows(a);
                             }
                           },
-                          title: 'Remeber Selected for ' +
-                              (settingsStore.selectedContentType == 0
-                                  ? AppLocalizations.of(context)!.movies
-                                  : AppLocalizations.of(context)!.tvShows),
+                          title:
+                              "${AppLocalizations.of(context)!.rememberSelected}" +
+                                  (settingsStore.selectedContentType == 0
+                                      ? AppLocalizations.of(context)!.movies
+                                      : AppLocalizations.of(context)!.tvShows),
                           value: settingsStore.selectedContentType == 0
                               ? settingsStore.rememberSelectedWatchPMovies
                               : settingsStore.rememberSelectedWatchPTVShows,

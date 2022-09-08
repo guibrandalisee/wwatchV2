@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -284,7 +285,6 @@ abstract class _UserStoreBase with Store {
   @action
   void getCreatedLists() {}
 
-  //!Have to test
   @action
   Future<void> getFavoriteContent(
       {required CustomContentType mediaType,
@@ -414,10 +414,76 @@ abstract class _UserStoreBase with Store {
   @action
   void rateEpisode({required num rating, bool guest = false}) {}
 
+  ObservableList<SimpleMovie> movieWatchList = ObservableList<SimpleMovie>();
+  ObservableList<SimpleMovie> tvShowWatchList = ObservableList<SimpleMovie>();
+  int movieWatchListTotalPages = 0;
+  int tvShowWatchListTotalPages = 0;
+
   //TODO
   @action
-  void getWatchList() {
-    //movies and tvShows
+  Future<void> getWatchList(
+      {required CustomContentType mediaType,
+      required int page,
+      bool reset = false}) async {
+    String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
+
+    try {
+      final response = await fetchData(
+          path: "/account/${user!.id}/watchlist/$contentType",
+          parameters: {
+            "session__id": sessionId,
+            "laguage": settingsStore.language,
+            "page": page
+          });
+
+      switch (mediaType) {
+        case CustomContentType.MOVIE:
+          if (reset) {
+            movieWatchList.clear();
+          }
+          print("Geeting Movies WatchList...");
+          movieWatchListTotalPages = response.data['total_pages'];
+          movieWatchList.addAll(response.data['results'].map<SimpleMovie>((e) {
+            return SimpleMovie(
+                genreIds: e['genre_ids'],
+                id: e['id'],
+                adult: e['adult'],
+                popularity: e['popularity'],
+                voteAverage: e['vote_average'],
+                originalLanguage: e['original_language'],
+                title: e['title'],
+                overview: e['overview'],
+                backdropPath: e['backdrop_path'],
+                posterPath: e['poster_path'],
+                releaseDate: e['release_date']);
+          }).toList());
+          break;
+        case CustomContentType.TVSHOW:
+          if (reset) {
+            tvShowWatchList.clear();
+          }
+          print("Geeting TvShow WatchList...");
+          tvShowWatchListTotalPages = response.data['total_pages'];
+
+          tvShowWatchList.addAll(response.data['results'].map<SimpleMovie>((e) {
+            return SimpleMovie(
+                genreIds: e['genre_ids'],
+                id: e['id'],
+                adult: false,
+                popularity: e['popularity'],
+                voteAverage: e['vote_average'],
+                originalLanguage: e['original_language'],
+                title: e['name'],
+                overview: e['overview'],
+                backdropPath: e['backdrop_path'],
+                posterPath: e['poster_path'],
+                releaseDate: e['first_air_date']);
+          }).toList());
+          break;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @action

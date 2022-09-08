@@ -218,7 +218,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           height: 16,
                         ),
                         Text(
-                          'Watch Providers',
+                          AppLocalizations.of(context)!.whereToWatch,
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.textColor,
                               fontSize: 22,
@@ -231,7 +231,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           height: 16,
                         ),
                         Text(
-                          'No Watch Providers information found for the selected country',
+                          AppLocalizations.of(context)!.noWPFound,
                           style: GoogleFonts.getFont('Mitr',
                               color: styleStore.textColor,
                               fontSize: 16,
@@ -252,7 +252,7 @@ class _MovieScreenState extends State<MovieScreen> {
                                     )));
                           },
                           child: Text(
-                            'View Watch Providers for all countries instead',
+                            AppLocalizations.of(context)!.wpAllCountries,
                             style: GoogleFonts.getFont('Mitr',
                                 color: styleStore.primaryColor,
                                 fontSize: 16,

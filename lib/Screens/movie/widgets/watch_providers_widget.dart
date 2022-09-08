@@ -10,6 +10,7 @@ import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum WatchProviderType { flatrate, buy, rent, ads, free }
 
@@ -105,7 +106,7 @@ class _WatchProvidersWidgetMovieScreenState
                   watchProviderType = WatchProviderType.flatrate;
                 });
               },
-              title: 'Stream',
+              title: AppLocalizations.of(context)!.stream,
             ),
           if (widget.movieStore.movie!.movieAvaliableWatchProviders!.rent !=
                   null &&
@@ -120,7 +121,7 @@ class _WatchProvidersWidgetMovieScreenState
                   watchProviderType = WatchProviderType.rent;
                 });
               },
-              title: 'Rent',
+              title: AppLocalizations.of(context)!.rent,
             ),
           if (widget.movieStore.movie!.movieAvaliableWatchProviders!.buy !=
                   null &&
@@ -135,7 +136,7 @@ class _WatchProvidersWidgetMovieScreenState
                   watchProviderType = WatchProviderType.buy;
                 });
               },
-              title: 'Buy',
+              title: AppLocalizations.of(context)!.buy,
             ),
           if (widget.movieStore.movie!.movieAvaliableWatchProviders!.ads !=
                   null &&
@@ -150,7 +151,7 @@ class _WatchProvidersWidgetMovieScreenState
                   watchProviderType = WatchProviderType.ads;
                 });
               },
-              title: 'With Ads',
+              title: AppLocalizations.of(context)!.wAds,
             ),
           if (widget.movieStore.movie!.movieAvaliableWatchProviders!.free !=
                   null &&
@@ -165,7 +166,7 @@ class _WatchProvidersWidgetMovieScreenState
                   watchProviderType = WatchProviderType.free;
                 });
               },
-              title: 'Free',
+              title: AppLocalizations.of(context)!.free,
             ),
         ],
       ),
@@ -232,21 +233,22 @@ class _WatchProvidersWidgetMovieScreenState
                       ]),
                     ),
                   );
-                return Center(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      'No Services Avaliable for the selected country',
-                      style: GoogleFonts.getFont('Mitr',
-                          color: styleStore.textColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w200),
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      maxLines: 6,
-                    ),
-                  ),
-                );
+                return Container();
+                // return Center(
+                //   child: Container(
+                //     padding: EdgeInsets.symmetric(vertical: 16),
+                //     child: Text(
+                //       'No Services Avaliable for the selected country',
+                //       style: GoogleFonts.getFont('Mitr',
+                //           color: styleStore.textColor,
+                //           fontSize: 16,
+                //           fontWeight: FontWeight.w200),
+                //       overflow: TextOverflow.ellipsis,
+                //       textAlign: TextAlign.center,
+                //       maxLines: 6,
+                //     ),
+                //   ),
+                // );
               }),
         ),
       ),
@@ -263,7 +265,7 @@ class _WatchProvidersWidgetMovieScreenState
           height: 16,
         ),
         Text(
-          'Watch Providers',
+          AppLocalizations.of(context)!.whereToWatch,
           style: GoogleFonts.getFont('Mitr',
               color: styleStore.textColor,
               fontSize: 22,
@@ -285,8 +287,6 @@ class _WatchProvidersWidgetMovieScreenState
                   ? rowWidgets
                   : rowWidgets.reversed.toList()),
         ),
-        //TODO make a screen to see in which country the movie can be watched on
-        //similiar to https://unogs.com/
         if (widget.movieStore.movie!.allWatchProviders != null)
           TextButton(
             onPressed: () {
@@ -297,7 +297,7 @@ class _WatchProvidersWidgetMovieScreenState
                       )));
             },
             child: Text(
-              'View For All Countries',
+              AppLocalizations.of(context)!.viewForAllCountries,
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.primaryColor,
                   fontSize: 16,
@@ -348,6 +348,7 @@ class WatchProviderSelector extends StatelessWidget {
           child: Center(
             child: Text(
               title,
+              textAlign: TextAlign.center,
               style: GoogleFonts.getFont('Mitr',
                   color: styleStore.textColor,
                   fontSize: 16,

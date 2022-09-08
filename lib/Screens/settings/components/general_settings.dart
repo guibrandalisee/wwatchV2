@@ -141,7 +141,8 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                                     fontWeight: FontWeight.w500),
                               ),
                               content: Text(
-                                "Secondary content language is used to display text such as Movie/TV Show overview that is not available in primary content language",
+                                AppLocalizations.of(context)!
+                                    .secondaryLanguageInfo,
                                 style: GoogleFonts.getFont('Mitr',
                                     color: styleStore.textColor,
                                     fontSize: 16,

@@ -95,5 +95,20 @@
     "episode": "Episode",
     "images": "Images",
     "videos": "Videos",
-    "watchProviders": "Watch Providers"
+    "watchProviders": "Watch Providers",
+    "secondaryLanguageInfo": "Secondary content language is used to display text such as Movie/TV Show overview that is not available in primary content language",
+    "wpFilerHeading": "The content of this filter change depending on selected country and if you are searching for Movies or TV Shows",
+    "rememberSelected": "Remember Selected for ",
+    "filterMode": "Filter Mode",
+    "genresHasAllSelected": "Has all selected genres",
+    "genresHasOneSelected": "Has one of the selected genres",
+    "whereToWatch": "Where to watch",
+    "noWPFound": "No Watch Providers information found for the selected country",
+    "wpAllCountries": "View Watch Providers for all countries instead",
+    "stream": "Streaming",
+    "buy": "Buy",
+    "rent": "Rent",
+    "wAds": "With ads",
+    "free": "Free",
+    "viewForAllCountries": "View for all countries"
 }

@@ -1038,7 +1038,7 @@ abstract class _MovieStoreBase with Store {
         try {
           name = settingsStore.avaliableRegions
               .firstWhere((element) => element.iso_3166_1 == key.toString())
-              .englishName;
+              .nativeName;
         } catch (e) {
           print(e);
         }

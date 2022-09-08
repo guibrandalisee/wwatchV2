@@ -139,13 +139,13 @@ class ContentTranslation {
 }
 
 class TranslationData {
-  final String title;
+  final String? title;
   final String overview;
   final String homepage;
   final String? tagline;
   TranslationData(
       {required this.homepage,
       required this.overview,
-      required this.title,
+      this.title,
       this.tagline});
 }

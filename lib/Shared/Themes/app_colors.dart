@@ -20,8 +20,10 @@ class AppColors {
   //Light
   static final backgroundLight = Color(0xffFFFFFF);
   static final shapeLight = Color(0xFFF3F3F3);
-  static final textLight = Color(0xff252525);
-  static final dropdownLight = Color(0xffe4e4e4);
+  // static final textLight = Color(0xff252525);
+  static final textLight = Color.fromARGB(255, 45, 45, 65);
+  // static final dropdownLight = Color(0xffe4e4e4);
+  static final dropdownLight = Color.fromARGB(255, 239, 239, 239);
 
   static List<Color> primaries = [
     Color(0xffFF8500), //primaryOrange

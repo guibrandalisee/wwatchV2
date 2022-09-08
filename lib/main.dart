@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wwatch/Screens/home/home_screen.dart';
+import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/l10n/l10n.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
@@ -19,8 +20,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "api.env");
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.transparent,
-  ));
+      systemNavigationBarColor: AppColors.background.withAlpha(100),
+      systemNavigationBarContrastEnforced: true,
+      systemStatusBarContrastEnforced: true));
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
   );

@@ -10,6 +10,7 @@ import 'package:wwatch/main.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllWatchProvidersScreen extends StatefulWidget {
   AllWatchProvidersScreen({
@@ -211,7 +212,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
                               currentWatchProvider = WatchProviderType.flatrate;
                             });
                           },
-                          title: 'Stream',
+                          title: AppLocalizations.of(context)!.stream,
                           watchProvider: WatchProviderType.flatrate),
                       WatchProviderSelector(
                           width: 100,
@@ -222,7 +223,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
                               currentWatchProvider = WatchProviderType.buy;
                             });
                           },
-                          title: 'Buy',
+                          title: AppLocalizations.of(context)!.buy,
                           watchProvider: WatchProviderType.buy),
                       WatchProviderSelector(
                           width: 100,
@@ -233,7 +234,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
                               currentWatchProvider = WatchProviderType.rent;
                             });
                           },
-                          title: 'Rent',
+                          title: AppLocalizations.of(context)!.rent,
                           watchProvider: WatchProviderType.rent),
                       WatchProviderSelector(
                           width: 100,
@@ -244,7 +245,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
                               currentWatchProvider = WatchProviderType.ads;
                             });
                           },
-                          title: 'Ads',
+                          title: AppLocalizations.of(context)!.wAds,
                           watchProvider: WatchProviderType.ads),
                       WatchProviderSelector(
                           width: 100,
@@ -255,7 +256,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
                               currentWatchProvider = WatchProviderType.free;
                             });
                           },
-                          title: 'Free',
+                          title: AppLocalizations.of(context)!.free,
                           watchProvider: WatchProviderType.free)
                     ],
                   ),

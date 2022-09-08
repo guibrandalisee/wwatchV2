@@ -299,6 +299,18 @@ mixin _$UserStore on _UserStoreBase, Store {
         rating: rating, mediaType: mediaType, mediaID: mediaID, guest: guest));
   }
 
+  late final _$getWatchListAsyncAction =
+      AsyncAction('_UserStoreBase.getWatchList', context: context);
+
+  @override
+  Future<void> getWatchList(
+      {required CustomContentType mediaType,
+      required int page,
+      bool reset = false}) {
+    return _$getWatchListAsyncAction.run(() =>
+        super.getWatchList(mediaType: mediaType, page: page, reset: reset));
+  }
+
   late final _$addToWatchListAsyncAction =
       AsyncAction('_UserStoreBase.addToWatchList', context: context);
 
@@ -376,17 +388,6 @@ mixin _$UserStore on _UserStoreBase, Store {
         name: '_UserStoreBase.rateEpisode');
     try {
       return super.rateEpisode(rating: rating, guest: guest);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void getWatchList() {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.getWatchList');
-    try {
-      return super.getWatchList();
     } finally {
       _$_UserStoreBaseActionController.endAction(_$actionInfo);
     }

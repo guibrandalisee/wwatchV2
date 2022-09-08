@@ -7,6 +7,7 @@ import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GenreModeSelector extends StatelessWidget {
   GenreModeSelector({
@@ -28,7 +29,7 @@ class GenreModeSelector extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Filter Mode",
+                    AppLocalizations.of(context)!.filterMode,
                     style: GoogleFonts.getFont(
                       'Mitr',
                       color: styleStore.textColor,
@@ -71,7 +72,7 @@ class GenreModeSelector extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Has all selected genres",
+                        AppLocalizations.of(context)!.genresHasAllSelected,
                         style: GoogleFonts.getFont(
                           'Mitr',
                           color: styleStore.textColor,
@@ -143,7 +144,7 @@ class GenreModeSelector extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Has one of the selected genres",
+                        AppLocalizations.of(context)!.genresHasOneSelected,
                         style: GoogleFonts.getFont(
                           'Mitr',
                           color: styleStore.textColor,

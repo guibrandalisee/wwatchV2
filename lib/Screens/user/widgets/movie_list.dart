@@ -13,19 +13,21 @@ import 'package:wwatch/stores/style_store.dart';
 import 'package:wwatch/stores/user_store.dart';
 
 class MovieListWidget extends StatefulWidget {
-  MovieListWidget({
-    Key? key,
-    required this.prefs,
-    required this.content,
-    required this.title,
-    required this.refresh,
-    required this.contentType,
-  }) : super(key: key);
+  MovieListWidget(
+      {Key? key,
+      required this.prefs,
+      required this.content,
+      required this.title,
+      required this.refresh,
+      required this.contentType,
+      this.first = false})
+      : super(key: key);
   final SharedPreferences prefs;
   final List<SimpleMovie> content;
   final String title;
   final Function refresh;
   final CustomContentType contentType;
+  bool first;
 
   @override
   State<MovieListWidget> createState() => _MovieListWidgetState();
@@ -47,12 +49,13 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     if (widget.content.length > 0) {
       return Column(
         children: [
-          Divider(
-            color: AppColors.divider,
-            thickness: 1,
-            endIndent: 24,
-            indent: 24,
-          ),
+          if (!widget.first)
+            Divider(
+              color: AppColors.divider,
+              thickness: 1,
+              endIndent: 24,
+              indent: 24,
+            ),
           const SizedBox(
             height: 16,
           ),
