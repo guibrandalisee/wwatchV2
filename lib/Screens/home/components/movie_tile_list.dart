@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -22,7 +23,7 @@ class MovieTileList extends StatelessWidget {
   final SimpleMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
-  final int contentType;
+  final CustomContentType contentType;
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +141,9 @@ class MovieTileList extends StatelessWidget {
                             ),
                             child: RichText(
                               text: TextSpan(
-                                text: '${(movie.voteAverage)}',
+                                text: movie.voteAverage % 1 == 0
+                                    ? '${(movie.voteAverage.toStringAsFixed(0))}'
+                                    : '${(movie.voteAverage.toStringAsFixed(1))}',
                                 style: GoogleFonts.getFont('Kodchasan',
                                     color: AppColors.text,
                                     fontSize: 12,

@@ -296,7 +296,7 @@ abstract class _UserStoreBase with Store {
         path: "/account/${user!.id}/favorite/$contentType",
         parameters: {
           "session__id": sessionId,
-          "laguage": settingsStore.language,
+          "language": settingsStore.language,
           "page": page
         });
 
@@ -373,10 +373,83 @@ abstract class _UserStoreBase with Store {
     }
   }
 
+  ObservableList<SimpleMovie> ratedMovies = ObservableList<SimpleMovie>();
+  ObservableList<SimpleMovie> ratedTvShows = ObservableList<SimpleMovie>();
+  int ratedMoviesMaxPages = 0;
+  int ratedTvShowsMaxPages = 0;
+
   //TODO
   @action
-  void getRatedContent({required CustomContentType mediaType}) {
+  Future<void> getRatedContent(
+      {required CustomContentType mediaType,
+      required int page,
+      bool reset = false}) async {
     //movies and tvShows
+
+    String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
+
+    final response = await fetchData(
+        path: "/account/${user!.id}/rated/$contentType",
+        parameters: {
+          "session__id": sessionId,
+          "language": settingsStore.language,
+          "page": page
+        });
+
+    try {
+      switch (mediaType) {
+        case CustomContentType.MOVIE:
+          ratedMoviesMaxPages = response.data['total_pages'];
+          if (reset) {
+            ratedMovies.clear();
+          }
+          print("Geeting Rated Movies...");
+          ratedMovies.addAll(response.data['results'].map<SimpleMovie>((e) {
+            return SimpleMovie(
+                genreIds: e['genre_ids'],
+                id: e['id'],
+                adult: e['adult'],
+                popularity: e['popularity'],
+                voteAverage: e['vote_average'],
+                originalLanguage: e['original_language'],
+                title: e['title'],
+                overview: e['overview'],
+                backdropPath: e['backdrop_path'],
+                posterPath: e['poster_path'],
+                releaseDate: e['release_date'],
+                rating: e['rating']);
+          }).toList());
+          print("Movies: $ratedMovies");
+          break;
+        case CustomContentType.TVSHOW:
+          ratedTvShowsMaxPages = response.data['total_pages'];
+          print("Geeting Rated TvShows...");
+          if (reset) {
+            ratedTvShows.clear();
+          }
+          ratedTvShows.addAll(response.data['results'].map<SimpleMovie>((e) {
+            return SimpleMovie(
+                genreIds: e['genre_ids'],
+                id: e['id'],
+                adult: false,
+                popularity: e['popularity'],
+                voteAverage: e['vote_average'],
+                originalLanguage: e['original_language'],
+                title: e['name'],
+                overview: e['overview'],
+                backdropPath: e['backdrop_path'],
+                posterPath: e['poster_path'],
+                releaseDate: e['first_air_date'],
+                rating: e['rating']);
+          }).toList());
+          print("TVShows: $ratedTvShows");
+
+          break;
+      }
+    } catch (e) {
+      print(e);
+      error = true;
+    }
   }
 
   //TODO
@@ -385,7 +458,6 @@ abstract class _UserStoreBase with Store {
     //need to think how this will be displayed
   }
 
-  //!Have to test
   @action
   Future<Map<String, dynamic>> rateContent(
       {required num rating,
@@ -432,7 +504,7 @@ abstract class _UserStoreBase with Store {
           path: "/account/${user!.id}/watchlist/$contentType",
           parameters: {
             "session__id": sessionId,
-            "laguage": settingsStore.language,
+            "language": settingsStore.language,
             "page": page
           });
 
@@ -517,7 +589,6 @@ abstract class _UserStoreBase with Store {
 
   //! Deletions -----------------------------
 
-  //!Have to test
   @action
   Future<Map<String, dynamic>> deleteRateContent(
       {required CustomContentType mediaType,

@@ -306,7 +306,42 @@ class _UserScreenState extends State<UserScreen> {
               ContentListTile(
                 title: "Rated Content",
                 icon: LineIcons.star,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => UserListScreen(
+                        children: [
+                          //TODO deal with multiple pages
+                          if (userStore.ratedMovies.length > 0)
+                            MovieListWidget(
+                                first: true,
+                                refresh: () async {
+                                  await userStore.getRatedContent(
+                                      reset: true,
+                                      mediaType: CustomContentType.MOVIE,
+                                      page: 1);
+                                },
+                                contentType: CustomContentType.MOVIE,
+                                title: "Rated Movies",
+                                prefs: settingsStore.prefs!,
+                                content: userStore.ratedMovies),
+                          if (userStore.ratedTvShows.length > 0)
+                            MovieListWidget(
+                                refresh: () async {
+                                  await userStore.getRatedContent(
+                                      reset: true,
+                                      mediaType: CustomContentType.TVSHOW,
+                                      page: 1);
+                                },
+                                contentType: CustomContentType.TVSHOW,
+                                title: "Rated TVShows",
+                                prefs: settingsStore.prefs!,
+                                content: userStore.ratedTvShows),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
               ContentListTile(
                 title: "WatchList",
@@ -379,5 +414,11 @@ void _getUserDetails() async {
   }
   if (userStore.tvShowWatchList.length == 0) {
     userStore.getWatchList(mediaType: CustomContentType.TVSHOW, page: 1);
+  }
+  if (userStore.ratedMovies.length == 0) {
+    userStore.getRatedContent(mediaType: CustomContentType.MOVIE, page: 1);
+  }
+  if (userStore.ratedTvShows.length == 0) {
+    userStore.getRatedContent(mediaType: CustomContentType.TVSHOW, page: 1);
   }
 }

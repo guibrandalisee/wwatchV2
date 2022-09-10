@@ -28,7 +28,7 @@ import 'package:wwatch/stores/style_store.dart';
 
 class MovieScreen extends StatefulWidget {
   final int movieId;
-  final int contentType;
+  final CustomContentType contentType;
   final SharedPreferences prefs;
   MovieScreen({
     Key? key,
@@ -74,6 +74,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 return CustomSpeedDialMovieScreen(
                   mediaId: movieStore.movie!.id,
                   movieStore: movieStore,
+                  contentType: widget.contentType,
                   customSetState: () {
                     setState(() {});
                   },

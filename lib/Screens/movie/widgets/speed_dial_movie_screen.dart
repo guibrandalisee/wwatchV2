@@ -17,13 +17,15 @@ class CustomSpeedDialMovieScreen extends StatefulWidget {
       this.rate,
       required this.customSetState,
       required this.movieStore,
-      required this.mediaId})
+      required this.mediaId,
+      required this.contentType})
       : super(key: key);
   final bool? watchlist;
   final int? rate;
   final int mediaId;
   final MovieStore movieStore;
   final VoidCallback customSetState;
+  final CustomContentType contentType;
 
   @override
   State<CustomSpeedDialMovieScreen> createState() =>
@@ -71,9 +73,7 @@ class _CustomSpeedDialMovieScreenState
         SpeedDialChild(
           onTap: () async {
             final response = await userStore.addToWatchList(
-              mediaType: settingsStore.selectedContentType == 0
-                  ? CustomContentType.MOVIE
-                  : CustomContentType.TVSHOW,
+              mediaType: widget.contentType,
               watchlist: !widget.movieStore.movie!.watchlist!,
               mediaID: widget.mediaId,
             );
@@ -127,6 +127,7 @@ class _CustomSpeedDialMovieScreenState
                   return RateItAlertDialog(
                     movieStore: widget.movieStore,
                     customSetState: widget.customSetState,
+                    contentType: widget.contentType,
                   );
                 });
           },
@@ -149,9 +150,7 @@ class _CustomSpeedDialMovieScreenState
         SpeedDialChild(
           onTap: () async {
             final response = await userStore.markContentAsFavorite(
-                mediaType: settingsStore.selectedContentType == 0
-                    ? CustomContentType.MOVIE
-                    : CustomContentType.TVSHOW,
+                mediaType: widget.contentType,
                 favorite: !widget.movieStore.movie!.favorite!,
                 mediaID: widget.mediaId);
             if (response['status_code'] != null) {
@@ -161,10 +160,10 @@ class _CustomSpeedDialMovieScreenState
                   content: Text(
                     widget.movieStore.movie!.favorite!
                         ? settingsStore.selectedContentType == 0
-                            ? "Movie" + " added to watchlist"
+                            ? "Movie" + " added to favorites"
                             : "TV Show" + " marked as favorite"
                         : settingsStore.selectedContentType == 0
-                            ? "Movie" + " removed from watchlist"
+                            ? "Movie" + " removed from favorites"
                             : "TV Show" + " removed from favorites",
                     style: TextStyle(
                         color:
@@ -205,10 +204,14 @@ class _CustomSpeedDialMovieScreenState
 
 class RateItAlertDialog extends StatefulWidget {
   RateItAlertDialog(
-      {Key? key, required this.movieStore, required this.customSetState})
+      {Key? key,
+      required this.movieStore,
+      required this.customSetState,
+      required this.contentType})
       : super(key: key);
   final MovieStore movieStore;
   final VoidCallback customSetState;
+  final contentType;
 
   @override
   State<RateItAlertDialog> createState() => _RateItAlertDialogState();
@@ -276,9 +279,7 @@ class _RateItAlertDialogState extends State<RateItAlertDialog> {
           ElevatedButton(
             onPressed: () async {
               final response = await userStore.deleteRateContent(
-                  mediaType: settingsStore.selectedContentType == 0
-                      ? CustomContentType.MOVIE
-                      : CustomContentType.TVSHOW,
+                  mediaType: widget.contentType,
                   mediaID: widget.movieStore.movie!.id);
               if (response['error'] == null) {
                 widget.movieStore.updateRate(null);
@@ -317,9 +318,7 @@ class _RateItAlertDialogState extends State<RateItAlertDialog> {
             if (rating != 0) {
               final response = await userStore.rateContent(
                 rating: rating,
-                mediaType: settingsStore.selectedContentType == 0
-                    ? CustomContentType.MOVIE
-                    : CustomContentType.TVSHOW,
+                mediaType: widget.contentType,
                 mediaID: widget.movieStore.movie!.id,
               );
 

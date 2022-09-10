@@ -361,7 +361,7 @@ mixin _$MovieStore on _MovieStoreBase, Store {
       AsyncAction('_MovieStoreBase.getSingleMovie', context: context);
 
   @override
-  Future<void> getSingleMovie(int id, int contentType) {
+  Future<void> getSingleMovie(int id, CustomContentType contentType) {
     return _$getSingleMovieAsyncAction
         .run(() => super.getSingleMovie(id, contentType));
   }

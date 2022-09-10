@@ -276,7 +276,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   prefs: widget.prefs,
                                   movie: movieStore.movies[index - 1],
                                   contentType:
-                                      settingsStore.selectedContentType);
+                                      settingsStore.selectedContentType == 0
+                                          ? CustomContentType.MOVIE
+                                          : CustomContentType.TVSHOW);
                         else if (movieStore.totalPages != null &&
                             movieStore.page < movieStore.totalPages!) {
                           movieStore.getMoreContent();

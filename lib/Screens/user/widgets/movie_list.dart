@@ -260,7 +260,7 @@ class MovieTileUserScreen extends StatelessWidget {
               builder: (context) => MovieScreen(
                 prefs: prefs,
                 movieId: movie.id,
-                contentType: contentType == CustomContentType.MOVIE ? 0 : 1,
+                contentType: contentType,
               ),
             ),
           );
@@ -328,6 +328,53 @@ class MovieTileUserScreen extends StatelessWidget {
                 ),
               ),
             ),
+            if (movie.rating != null)
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Container(
+                  width: 120,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                          alignment: Alignment.center,
+                          height: 24,
+                          width: 56,
+                          decoration: BoxDecoration(
+                            color: AppColors.shape,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                                color: styleStore.primaryColor!, width: 2),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              text: movie.rating! % 1 == 0
+                                  ? '${(movie.rating!.toStringAsFixed(0))}'
+                                  : '${(movie.rating!.toStringAsFixed(1))}',
+                              style: GoogleFonts.getFont('Kodchasan',
+                                  color: AppColors.text,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: '/10',
+                                  style: GoogleFonts.getFont(
+                                    'Kodchasan',
+                                    color: AppColors.text,
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w300,
+                                    decoration: TextDecoration.overline,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+              ),
             Positioned(
               bottom: 16,
               left: 8,

@@ -286,6 +286,18 @@ mixin _$UserStore on _UserStoreBase, Store {
             mediaType: mediaType, favorite: favorite, mediaID: mediaID));
   }
 
+  late final _$getRatedContentAsyncAction =
+      AsyncAction('_UserStoreBase.getRatedContent', context: context);
+
+  @override
+  Future<void> getRatedContent(
+      {required CustomContentType mediaType,
+      required int page,
+      bool reset = false}) {
+    return _$getRatedContentAsyncAction.run(() =>
+        super.getRatedContent(mediaType: mediaType, page: page, reset: reset));
+  }
+
   late final _$rateContentAsyncAction =
       AsyncAction('_UserStoreBase.rateContent', context: context);
 
@@ -355,17 +367,6 @@ mixin _$UserStore on _UserStoreBase, Store {
         name: '_UserStoreBase.getCreatedLists');
     try {
       return super.getCreatedLists();
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void getRatedContent({required CustomContentType mediaType}) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.getRatedContent');
-    try {
-      return super.getRatedContent(mediaType: mediaType);
     } finally {
       _$_UserStoreBaseActionController.endAction(_$actionInfo);
     }

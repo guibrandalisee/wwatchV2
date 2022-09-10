@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Screens/movie/movie_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/cast_and_crew_model.dart';
+import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
@@ -265,7 +266,9 @@ class MovieWidget extends StatelessWidget {
                 movieId: !tvShow
                     ? person.personMovieCreditCast![index].id
                     : person.personTVCreditCast![index].id,
-                contentType: !tvShow ? 0 : 1)));
+                contentType: !tvShow
+                    ? CustomContentType.MOVIE
+                    : CustomContentType.TVSHOW)));
       }, context),
       child: Container(
         height: 280,

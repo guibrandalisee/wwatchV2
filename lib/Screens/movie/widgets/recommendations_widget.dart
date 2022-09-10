@@ -174,7 +174,9 @@ class SimilarMovieTile extends StatelessWidget {
               builder: (context) => MovieScreen(
                 prefs: prefs,
                 movieId: movie.id,
-                contentType: settingsStore.selectedContentType,
+                contentType: settingsStore.selectedContentType == 0
+                    ? CustomContentType.MOVIE
+                    : CustomContentType.TVSHOW,
               ),
             ),
           );

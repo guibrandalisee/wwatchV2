@@ -433,10 +433,11 @@ abstract class _MovieStoreBase with Store {
 
 //*getSingleMovie
   @action
-  Future<void> getSingleMovie(int id, int contentType) async {
+  Future<void> getSingleMovie(int id, CustomContentType contentType) async {
     //?setup
 
-    String strContentType = contentType == 0 ? 'movie' : 'tv';
+    String strContentType =
+        contentType == CustomContentType.MOVIE ? 'movie' : 'tv';
     //?-----
     //*http requests
 

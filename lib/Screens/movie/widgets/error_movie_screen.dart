@@ -84,7 +84,10 @@ class CustomErrorMovieScreen extends StatelessWidget {
                   movieStore.error = false;
 
                   movieStore.getSingleMovie(
-                      movieId, settingsStore.selectedContentType);
+                      movieId,
+                      settingsStore.selectedContentType == 0
+                          ? CustomContentType.MOVIE
+                          : CustomContentType.TVSHOW);
                 },
                 child: Text(
                   AppLocalizations.of(context)!.homeErrorButtonText,
