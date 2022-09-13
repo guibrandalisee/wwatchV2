@@ -754,7 +754,7 @@ mixin _$SettingsStore on _SettingsStoreBase, Store {
   }
 
   @override
-  void setAdultContent(String value) {
+  void setAdultContent(bool value) {
     final _$actionInfo = _$_SettingsStoreBaseActionController.startAction(
         name: '_SettingsStoreBase.setAdultContent');
     try {

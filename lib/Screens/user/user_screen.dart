@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
+import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/user/widgets/content_list_tile.dart';
 import 'package:wwatch/Screens/user/widgets/movie_list.dart';
 import 'package:wwatch/Screens/user/widgets/user_list_screen.dart';
@@ -32,7 +33,7 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   void initState() {
-    _getUserDetails();
+    _getUserDetails(context);
     super.initState();
   }
 
@@ -160,6 +161,9 @@ class _UserScreenState extends State<UserScreen> {
         ),
       ),
       body: Observer(builder: (context) {
+        // if (userStore.sessionId == null) {
+        //   return Container();
+        // }
         if (userStore.loading)
           return LinearProgressIndicator(
             valueColor: AlwaysStoppedAnimation(
@@ -399,10 +403,18 @@ class _UserScreenState extends State<UserScreen> {
   }
 }
 
-void _getUserDetails() async {
+void _getUserDetails(BuildContext context) async {
   if (userStore.user == null) {
     await userStore.getUserDetails();
   }
+  if (userStore.sessionId == null) {
+    userStore.loading = false;
+    Navigator.of(context).pushReplacement(
+        (MaterialPageRoute(builder: (context) => LoginScreen())));
+
+    return;
+  }
+
   if (userStore.favoriteMovies.length == 0) {
     userStore.getFavoriteContent(mediaType: CustomContentType.MOVIE, page: 1);
   }

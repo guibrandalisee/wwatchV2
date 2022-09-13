@@ -5,6 +5,7 @@ import 'package:wwatch/Shared/models/configuration_models.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'settings_store.g.dart';
 
@@ -16,6 +17,8 @@ enum GenreMode { all, one }
 
 abstract class _SettingsStoreBase with Store {
   String token = dotenv.env['TOKEN']!;
+  String apiKey = dotenv.env['API_KEY']!;
+
   //Check if user has changed any settings before
   final SharedPreferences? prefs;
   _SettingsStoreBase({
@@ -71,14 +74,16 @@ abstract class _SettingsStoreBase with Store {
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
-      baseUrl: 'https://api.themoviedb.org/3',
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-    );
+        baseUrl: 'https://api.themoviedb.org/3',
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+        headers: {
+          //'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        queryParameters: {
+          "api_key": apiKey
+        });
 
     try {
       Dio dio = Dio(options);
@@ -177,14 +182,9 @@ abstract class _SettingsStoreBase with Store {
   @observable
   bool adultContent = false;
   @action
-  void setAdultContent(String value) {
-    if (value == 'No') {
-      adultContent = false;
-      prefs!.setBool('adultContent', false);
-    } else {
-      adultContent = true;
-      prefs!.setBool('adultContent', true);
-    }
+  void setAdultContent(bool value) {
+    adultContent = value;
+    prefs!.setBool('adultContent', value);
   }
 
   //WIP Change if app will diplay bad language

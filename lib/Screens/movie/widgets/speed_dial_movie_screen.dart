@@ -95,8 +95,6 @@ class _CustomSpeedDialMovieScreenState
                 backgroundColor: styleStore.primaryColor,
               ));
               widget.customSetState();
-            } else {
-              print('Status Code:' + response['status_code']);
             }
           },
           backgroundColor: styleStore.primaryColor,

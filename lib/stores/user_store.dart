@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +11,7 @@ class UserStore = _UserStoreBase with _$UserStore;
 
 abstract class _UserStoreBase with Store {
   String token = dotenv.env['TOKEN']!;
+  String apiKey = dotenv.env['API_KEY']!;
   final SharedPreferences? prefs;
 
   _UserStoreBase({required this.prefs}) {
@@ -64,14 +64,16 @@ abstract class _UserStoreBase with Store {
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
-      baseUrl: 'https://api.themoviedb.org/3',
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-    );
+        baseUrl: 'https://api.themoviedb.org/3',
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+        headers: {
+          //'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        queryParameters: {
+          "api_key": apiKey
+        });
 
     try {
       Dio dio = Dio(options);
@@ -93,13 +95,18 @@ abstract class _UserStoreBase with Store {
       {required String path,
       required Map<String, dynamic> data,
       Map<String, dynamic>? parameters}) async {
+    if (parameters != null) {
+      parameters.addAll(
+        {"api_key": apiKey},
+      );
+    }
     var options = BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
       connectTimeout: 5000,
       receiveTimeout: 3000,
-      queryParameters: parameters,
+      queryParameters: parameters != null ? parameters : {"api_key": apiKey},
       headers: {
-        'Authorization': 'Bearer $token',
+        //'Authorization': 'Bearer $token',
         'Content-Type': 'application/json;charset=utf-8'
       },
     );
@@ -122,14 +129,16 @@ abstract class _UserStoreBase with Store {
   Future deleteData(
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
-      baseUrl: 'https://api.themoviedb.org/3',
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-    );
+        baseUrl: 'https://api.themoviedb.org/3',
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+        headers: {
+          //'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        queryParameters: {
+          "api_key": apiKey
+        });
 
     try {
       Dio dio = Dio(options);
@@ -246,6 +255,9 @@ abstract class _UserStoreBase with Store {
   @action
   Future<void> getUserDetails() async {
     loading = true;
+    if (sessionId == null) {
+      return;
+    }
     final response = await fetchData(
         path: "/account", parameters: {"session_id": sessionId});
     final data = response.data;
@@ -295,7 +307,7 @@ abstract class _UserStoreBase with Store {
     final response = await fetchData(
         path: "/account/${user!.id}/favorite/$contentType",
         parameters: {
-          "session__id": sessionId,
+          "session_id": sessionId,
           "language": settingsStore.language,
           "page": page
         });
@@ -365,6 +377,8 @@ abstract class _UserStoreBase with Store {
         "media_type": mediaType == CustomContentType.MOVIE ? 'movie' : 'tv',
         'favorite': favorite,
         'media_id': mediaID,
+      }, parameters: {
+        'session_id': sessionId
       });
       return response.data;
     } catch (e) {
@@ -391,7 +405,7 @@ abstract class _UserStoreBase with Store {
     final response = await fetchData(
         path: "/account/${user!.id}/rated/$contentType",
         parameters: {
-          "session__id": sessionId,
+          "session_id": sessionId,
           "language": settingsStore.language,
           "page": page
         });
@@ -503,7 +517,7 @@ abstract class _UserStoreBase with Store {
       final response = await fetchData(
           path: "/account/${user!.id}/watchlist/$contentType",
           parameters: {
-            "session__id": sessionId,
+            "session_id": sessionId,
             "language": settingsStore.language,
             "page": page
           });
@@ -570,6 +584,8 @@ abstract class _UserStoreBase with Store {
         "media_type": mediaType == CustomContentType.MOVIE ? 'movie' : 'tv',
         'watchlist': watchlist,
         'media_id': mediaID,
+      }, parameters: {
+        'session_id': sessionId
       });
 
       return response.data;

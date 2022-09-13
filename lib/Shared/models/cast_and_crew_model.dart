@@ -8,7 +8,7 @@ class Cast {
   double popularity;
   String? profilePath;
   int? castId;
-  String character;
+  String? character;
   String creditId;
   int order;
   Cast({
@@ -21,7 +21,7 @@ class Cast {
     required this.popularity,
     this.profilePath,
     this.castId,
-    required this.character,
+    this.character,
     required this.creditId,
     required this.order,
   });
@@ -31,7 +31,7 @@ class Crew {
   bool adult;
   int? gender;
   int id;
-  String knownForFepartment;
+  String? knownForFepartment;
   String name;
   String originalName;
   double popularity;
@@ -44,7 +44,7 @@ class Crew {
     required this.adult,
     this.gender,
     required this.id,
-    required this.knownForFepartment,
+    this.knownForFepartment,
     required this.name,
     required this.originalName,
     required this.popularity,

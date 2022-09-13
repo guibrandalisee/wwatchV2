@@ -108,11 +108,14 @@ class _GeneralSettingsState extends State<GeneralSettings> {
             SizedBox(
               height: 32,
             ),
-            // IconButton(
-            //     onPressed: () {
-            //       _prefs!.clear();
-            //     },
-            //     icon: Icon(Icons.refresh)),
+            IconButton(
+                onPressed: () {
+                  _prefs!.clear();
+                },
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                )),
             SizedBox(
               width: double.infinity,
               child: Row(
@@ -232,7 +235,11 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                   : AppLocalizations.of(context)!.no,
               onChanged: (value) {
                 if (value != null) {
-                  settingsStore.setAdultContent(value);
+                  if (value == AppLocalizations.of(context)!.yes) {
+                    settingsStore.setAdultContent(true);
+                  } else {
+                    settingsStore.setAdultContent(false);
+                  }
                 }
               },
             ),

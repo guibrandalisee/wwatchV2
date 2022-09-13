@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'package:wwatch/Screens/filters_screen/filters_screen.dart';
+import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/settings/settings_screen.dart';
 import 'package:wwatch/Screens/user/user_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
@@ -151,8 +152,14 @@ class CustomSpeedDialHomeScreen extends StatelessWidget {
         ),
         SpeedDialChild(
           onTap: () async {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => UserScreen()));
+            if (userStore.sessionId != null &&
+                userStore.sessionId!.isNotEmpty) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserScreen()));
+            } else {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            }
           },
           labelWidget: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -23,7 +23,7 @@ final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 final UserStore userStore = GetIt.I<UserStore>();
 
 abstract class _MovieStoreBase with Store {
-  //String apiKey = dotenv.env['API_KEY']!;
+  String apiKey = dotenv.env['API_KEY']!;
   String token = dotenv.env['TOKEN']!;
 
   //!Global Variables ----------------------------------------------------------------------------------
@@ -82,14 +82,16 @@ abstract class _MovieStoreBase with Store {
   Future fetchData(
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
-      baseUrl: 'https://api.themoviedb.org/3',
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-    );
+        baseUrl: 'https://api.themoviedb.org/3',
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+        headers: {
+          //'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        queryParameters: {
+          "api_key": apiKey
+        });
 
     try {
       Dio dio = Dio(options);
@@ -446,8 +448,9 @@ abstract class _MovieStoreBase with Store {
     response = await fetchData(path: '/$strContentType/$id', parameters: {
       'language': language,
       'session_id': userStore.sessionId,
-      'append_to_response':
-          'videos,images,credits,watch/providers,account_states,translations',
+      'append_to_response': userStore.sessionId != null
+          ? 'videos,images,credits,watch/providers,account_states,translations'
+          : 'videos,images,credits,watch/providers,translations',
       'include_image_language':
           '${language.substring(0, 2)},${settingsStore.secondaryLanguage.substring(0, 2) != language.substring(0, 2) ? settingsStore.secondaryLanguage.substring(0, 2) : 'null'},null'
     });
@@ -613,13 +616,17 @@ abstract class _MovieStoreBase with Store {
               tagline: e['data']['tagline']),
         );
       }).toList();
-
+      final accStates = response.data['account_states'] != null;
       movie = CompleteMovie(
-          favorite: response.data['account_states']['favorite'],
-          watchlist: response.data['account_states']['watchlist'],
-          rate: response.data['account_states']['rated'] is bool
-              ? null
-              : response.data['account_states']['rated']['value'],
+          favorite:
+              accStates ? response.data['account_states']['favorite'] : null,
+          watchlist:
+              accStates ? response.data['account_states']['watchlist'] : null,
+          rate: accStates
+              ? response.data['account_states']['rated'] is bool
+                  ? null
+                  : response.data['account_states']['rated']['value']
+              : null,
           images: images,
           videos: videos,
           genres: data['genres'],

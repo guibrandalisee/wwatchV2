@@ -329,8 +329,12 @@ class CastWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      if ((isCast && cast!.character.isNotEmpty) ||
-                          (!isCast && crew!.knownForFepartment.isNotEmpty))
+                      if ((isCast &&
+                              cast!.character != null &&
+                              cast!.character!.isNotEmpty) ||
+                          (!isCast &&
+                              crew!.knownForFepartment != null &&
+                              crew!.knownForFepartment!.isNotEmpty))
                         Container(
                           width: MediaQuery.of(context).size.width - 56,
                           child: Wrap(
@@ -338,7 +342,7 @@ class CastWidget extends StatelessWidget {
                               Text(
                                 isCast
                                     ? '${AppLocalizations.of(context)!.as} ${cast!.character}'
-                                    : crew!.knownForFepartment,
+                                    : crew!.knownForFepartment!,
                                 style: GoogleFonts.getFont('Mitr',
                                     color: styleStore.textColor,
                                     fontSize: 12,
