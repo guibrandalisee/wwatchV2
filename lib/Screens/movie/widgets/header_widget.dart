@@ -63,6 +63,12 @@ class HeaderWidget extends StatelessWidget {
                 colors: [
                   styleStore.backgroundColor!,
                   Colors.transparent,
+                  Colors.transparent,
+                ],
+                stops: const [
+                  0.075,
+                  0.6,
+                  1,
                 ],
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,

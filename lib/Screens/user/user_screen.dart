@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
 import 'package:wwatch/Screens/login/login_screen.dart';
 import 'package:wwatch/Screens/user/widgets/content_list_tile.dart';
+import 'package:wwatch/Screens/user/widgets/content_list_tile_alt.dart';
 import 'package:wwatch/Screens/user/widgets/movie_list.dart';
 import 'package:wwatch/Screens/user/widgets/user_list_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
+import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/user_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:wwatch/stores/user_store.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserScreen extends StatefulWidget {
   UserScreen({Key? key}) : super(key: key);
@@ -230,7 +232,6 @@ class _UserScreenState extends State<UserScreen> {
               SizedBox(
                 height: 16,
               ),
-
               Text(
                 userStore.user!.username,
                 style: GoogleFonts.getFont('Mitr',
@@ -238,154 +239,180 @@ class _UserScreenState extends State<UserScreen> {
                     fontSize: 24,
                     fontWeight: FontWeight.w400),
               ),
-
               SizedBox(
                 height: 32,
               ),
-              // //TODO deal with multiple pages
-              // if (userStore.favoriteMovies.length > 0)
-              //   MovieListWidget(
-              //       refresh: () async {
-              //         await userStore.getFavoriteContent(
-              //             reset: true,
-              //             mediaType: CustomContentType.MOVIE,
-              //             page: 1);
-              //       },
-              //       contentType: CustomContentType.MOVIE,
-              //       title: "Favorite Movies",
-              //       prefs: settingsStore.prefs!,
-              //       content: userStore.favoriteMovies),
-              // if (userStore.favoriteTvShows.length > 0)
-              //   MovieListWidget(
-              //       refresh: () async {
-              //         await userStore.getFavoriteContent(
-              //             reset: true,
-              //             mediaType: CustomContentType.TVSHOW,
-              //             page: 1);
-              //       },
-              //       contentType: CustomContentType.TVSHOW,
-              //       title: "Favorite TVShows",
-              //       prefs: settingsStore.prefs!,
-              //       content: userStore.favoriteTvShows),
-              ContentListTile(
-                title: "Favorite Content",
+              Divider(
+                color: AppColors.divider,
+                indent: 32,
+                endIndent: 32,
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              Center(
+                child: Text(
+                  "LISTS",
+                  style: GoogleFonts.mitr(
+                    color: styleStore.textColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              ContentListTileAlt(
+                title: "Favorites",
                 icon: LineIcons.heart,
-                onTap: () {
+                onTapMovie: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => UserListScreen(
-                        children: [
-                          //TODO deal with multiple pages
-                          if (userStore.favoriteMovies.length > 0)
-                            MovieListWidget(
-                                first: true,
-                                refresh: () async {
-                                  await userStore.getFavoriteContent(
-                                      reset: true,
-                                      mediaType: CustomContentType.MOVIE,
-                                      page: 1);
-                                },
-                                contentType: CustomContentType.MOVIE,
-                                title: "Favorite Movies",
-                                prefs: settingsStore.prefs!,
-                                content: userStore.favoriteMovies),
-                          if (userStore.favoriteTvShows.length > 0)
-                            MovieListWidget(
-                                refresh: () async {
-                                  await userStore.getFavoriteContent(
-                                      reset: true,
-                                      mediaType: CustomContentType.TVSHOW,
-                                      page: 1);
-                                },
-                                contentType: CustomContentType.TVSHOW,
-                                title: "Favorite TVShows",
-                                prefs: settingsStore.prefs!,
-                                content: userStore.favoriteTvShows),
-                        ],
+                        child: MovieListWidget(
+                          contentType: CustomContentType.MOVIE,
+                          prefs: settingsStore.prefs!,
+                          getContent: () async {
+                            return await userStore.getFavoriteContent(
+                                mediaType: CustomContentType.MOVIE,
+                                page: 1,
+                                reset: true);
+                          },
+                          getMoreContent: (page) async {
+                            return await userStore.getFavoriteContent(
+                                mediaType: CustomContentType.MOVIE, page: page);
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                onTapTvShow: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => UserListScreen(
+                        child: MovieListWidget(
+                          contentType: CustomContentType.TVSHOW,
+                          prefs: settingsStore.prefs!,
+                          getContent: () async {
+                            return await userStore.getFavoriteContent(
+                                mediaType: CustomContentType.TVSHOW,
+                                page: 1,
+                                reset: true);
+                          },
+                          getMoreContent: (page) async {
+                            return await userStore.getFavoriteContent(
+                                mediaType: CustomContentType.TVSHOW,
+                                page: page);
+                          },
+                        ),
                       ),
                     ),
                   );
                 },
               ),
-              ContentListTile(
-                title: "Rated Content",
+              ContentListTileAlt(
+                title: "Rated",
                 icon: LineIcons.star,
-                onTap: () {
+                onTapMovie: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => UserListScreen(
-                        children: [
-                          //TODO deal with multiple pages
-                          if (userStore.ratedMovies.length > 0)
-                            MovieListWidget(
-                                first: true,
-                                refresh: () async {
-                                  await userStore.getRatedContent(
-                                      reset: true,
-                                      mediaType: CustomContentType.MOVIE,
-                                      page: 1);
-                                },
-                                contentType: CustomContentType.MOVIE,
-                                title: "Rated Movies",
-                                prefs: settingsStore.prefs!,
-                                content: userStore.ratedMovies),
-                          if (userStore.ratedTvShows.length > 0)
-                            MovieListWidget(
-                                refresh: () async {
-                                  await userStore.getRatedContent(
-                                      reset: true,
-                                      mediaType: CustomContentType.TVSHOW,
-                                      page: 1);
-                                },
-                                contentType: CustomContentType.TVSHOW,
-                                title: "Rated TVShows",
-                                prefs: settingsStore.prefs!,
-                                content: userStore.ratedTvShows),
-                        ],
+                        child: MovieListWidget(
+                          contentType: CustomContentType.MOVIE,
+                          prefs: settingsStore.prefs!,
+                          getContent: () async {
+                            return await userStore.getRatedContent(
+                                mediaType: CustomContentType.MOVIE,
+                                page: 1,
+                                reset: true);
+                          },
+                          getMoreContent: (page) async {
+                            return await userStore.getRatedContent(
+                                mediaType: CustomContentType.MOVIE, page: page);
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                onTapTvShow: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => UserListScreen(
+                        child: MovieListWidget(
+                          contentType: CustomContentType.TVSHOW,
+                          prefs: settingsStore.prefs!,
+                          getContent: () async {
+                            return await userStore.getRatedContent(
+                                mediaType: CustomContentType.TVSHOW,
+                                page: 1,
+                                reset: true);
+                          },
+                          getMoreContent: (page) async {
+                            return await userStore.getRatedContent(
+                                mediaType: CustomContentType.TVSHOW,
+                                page: page);
+                          },
+                        ),
                       ),
                     ),
                   );
                 },
               ),
-              ContentListTile(
+              ContentListTileAlt(
                 title: "WatchList",
                 icon: LineIcons.film,
-                onTap: () {
+                onTapMovie: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => UserListScreen(
-                        children: [
-                          //TODO deal with multiple pages
-                          if (userStore.movieWatchList.length > 0)
-                            MovieListWidget(
-                                first: true,
-                                refresh: () async {
-                                  await userStore.getWatchList(
-                                      reset: true,
-                                      mediaType: CustomContentType.MOVIE,
-                                      page: 1);
-                                },
-                                contentType: CustomContentType.MOVIE,
-                                title: "Movies WatchList",
-                                prefs: settingsStore.prefs!,
-                                content: userStore.movieWatchList),
-                          if (userStore.tvShowWatchList.length > 0)
-                            MovieListWidget(
-                                refresh: () async {
-                                  await userStore.getWatchList(
-                                      reset: true,
-                                      mediaType: CustomContentType.TVSHOW,
-                                      page: 1);
-                                },
-                                contentType: CustomContentType.TVSHOW,
-                                title: "TVShows WatchList",
-                                prefs: settingsStore.prefs!,
-                                content: userStore.tvShowWatchList),
-                        ],
+                        child: MovieListWidget(
+                          contentType: CustomContentType.MOVIE,
+                          prefs: settingsStore.prefs!,
+                          getContent: () async {
+                            return await userStore.getWatchList(
+                                mediaType: CustomContentType.MOVIE,
+                                page: 1,
+                                reset: true);
+                          },
+                          getMoreContent: (page) async {
+                            return await userStore.getWatchList(
+                                mediaType: CustomContentType.MOVIE, page: page);
+                          },
+                        ),
                       ),
                     ),
                   );
                 },
+                onTapTvShow: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => UserListScreen(
+                        child: MovieListWidget(
+                          contentType: CustomContentType.TVSHOW,
+                          prefs: settingsStore.prefs!,
+                          getContent: () async {
+                            return await userStore.getWatchList(
+                                mediaType: CustomContentType.TVSHOW,
+                                page: 1,
+                                reset: true);
+                          },
+                          getMoreContent: (page) async {
+                            return await userStore.getWatchList(
+                                mediaType: CustomContentType.TVSHOW,
+                                page: page);
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 8,
               ),
               ContentListTile(
                 title: "Custom Lists",
@@ -393,8 +420,16 @@ class _UserScreenState extends State<UserScreen> {
                 onTap: () {},
               ),
               SizedBox(
+                height: 16,
+              ),
+              Divider(
+                color: AppColors.divider,
+                indent: 32,
+                endIndent: 32,
+              ),
+              SizedBox(
                 height: 56,
-              )
+              ),
             ],
           ),
         );
@@ -413,24 +448,5 @@ void _getUserDetails(BuildContext context) async {
         (MaterialPageRoute(builder: (context) => LoginScreen())));
 
     return;
-  }
-
-  if (userStore.favoriteMovies.length == 0) {
-    userStore.getFavoriteContent(mediaType: CustomContentType.MOVIE, page: 1);
-  }
-  if (userStore.favoriteTvShows.length == 0) {
-    userStore.getFavoriteContent(mediaType: CustomContentType.TVSHOW, page: 1);
-  }
-  if (userStore.movieWatchList.length == 0) {
-    userStore.getWatchList(mediaType: CustomContentType.MOVIE, page: 1);
-  }
-  if (userStore.tvShowWatchList.length == 0) {
-    userStore.getWatchList(mediaType: CustomContentType.TVSHOW, page: 1);
-  }
-  if (userStore.ratedMovies.length == 0) {
-    userStore.getRatedContent(mediaType: CustomContentType.MOVIE, page: 1);
-  }
-  if (userStore.ratedTvShows.length == 0) {
-    userStore.getRatedContent(mediaType: CustomContentType.TVSHOW, page: 1);
   }
 }

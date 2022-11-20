@@ -265,7 +265,7 @@ mixin _$UserStore on _UserStoreBase, Store {
       AsyncAction('_UserStoreBase.getFavoriteContent', context: context);
 
   @override
-  Future<void> getFavoriteContent(
+  Future<List<SimpleMovie>> getFavoriteContent(
       {required CustomContentType mediaType,
       required int page,
       bool reset = false}) {
@@ -290,7 +290,7 @@ mixin _$UserStore on _UserStoreBase, Store {
       AsyncAction('_UserStoreBase.getRatedContent', context: context);
 
   @override
-  Future<void> getRatedContent(
+  Future<List<SimpleMovie>> getRatedContent(
       {required CustomContentType mediaType,
       required int page,
       bool reset = false}) {
@@ -315,7 +315,7 @@ mixin _$UserStore on _UserStoreBase, Store {
       AsyncAction('_UserStoreBase.getWatchList', context: context);
 
   @override
-  Future<void> getWatchList(
+  Future<List<SimpleMovie>> getWatchList(
       {required CustomContentType mediaType,
       required int page,
       bool reset = false}) {

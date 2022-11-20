@@ -17,11 +17,15 @@ class ContentListTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        // borderRadius: BorderRadius.circular(8),
         color: styleStore.shapeColor,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        border: Border.symmetric(
+            horizontal: BorderSide(color: styleStore.primaryColor!, width: 0.5),
+            vertical: BorderSide(color: styleStore.primaryColor!, width: 0.5)),
       ),
       padding: EdgeInsets.all(8),
-      height: 60,
+      height: 56,
       child: InkWell(
         onTap: onTap,
         child: Center(

@@ -14,6 +14,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum WatchProviderType { flatrate, buy, rent, ads, free }
 
+//TODO refactor this
+//A lot of useleess ifs
 class WatchProvidersWidgetMovieScreen extends StatefulWidget {
   WatchProvidersWidgetMovieScreen({
     Key? key,
@@ -28,6 +30,51 @@ class WatchProvidersWidgetMovieScreen extends StatefulWidget {
 
 class _WatchProvidersWidgetMovieScreenState
     extends State<WatchProvidersWidgetMovieScreen> {
+  @override
+  void initState() {
+    if (widget.movieStore.movie!.movieAvaliableWatchProviders!.flatrate !=
+            null &&
+        widget.movieStore.movie!.movieAvaliableWatchProviders!.flatrate!
+            .isNotEmpty) {
+      print('Flatrate');
+      watchProviderType = WatchProviderType.flatrate;
+    } else if (widget.movieStore.movie!.movieAvaliableWatchProviders!.rent !=
+            null &&
+        widget
+            .movieStore.movie!.movieAvaliableWatchProviders!.rent!.isNotEmpty) {
+      watchProviderType = WatchProviderType.rent;
+      print('Rent');
+
+      return;
+    } else if (widget.movieStore.movie!.movieAvaliableWatchProviders!.buy !=
+            null &&
+        widget
+            .movieStore.movie!.movieAvaliableWatchProviders!.buy!.isNotEmpty) {
+      watchProviderType = WatchProviderType.buy;
+      print('Buy');
+
+      return;
+    } else if (widget.movieStore.movie!.movieAvaliableWatchProviders!.free !=
+            null &&
+        widget
+            .movieStore.movie!.movieAvaliableWatchProviders!.free!.isNotEmpty) {
+      watchProviderType = WatchProviderType.free;
+      print('Free');
+
+      return;
+    } else if (widget.movieStore.movie!.movieAvaliableWatchProviders!.ads !=
+            null &&
+        widget
+            .movieStore.movie!.movieAvaliableWatchProviders!.ads!.isNotEmpty) {
+      watchProviderType = WatchProviderType.ads;
+      print('Ads');
+
+      return;
+    }
+
+    super.initState();
+  }
+
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 
   final StyleStore styleStore = GetIt.I<StyleStore>();
@@ -234,21 +281,6 @@ class _WatchProvidersWidgetMovieScreenState
                     ),
                   );
                 return Container();
-                // return Center(
-                //   child: Container(
-                //     padding: EdgeInsets.symmetric(vertical: 16),
-                //     child: Text(
-                //       'No Services Avaliable for the selected country',
-                //       style: GoogleFonts.getFont('Mitr',
-                //           color: styleStore.textColor,
-                //           fontSize: 16,
-                //           fontWeight: FontWeight.w200),
-                //       overflow: TextOverflow.ellipsis,
-                //       textAlign: TextAlign.center,
-                //       maxLines: 6,
-                //     ),
-                //   ),
-                // );
               }),
         ),
       ),

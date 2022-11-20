@@ -5,7 +5,6 @@ import 'package:wwatch/Shared/models/configuration_models.dart';
 import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wwatch/Shared/models/movie_watch_providers_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'settings_store.g.dart';
 

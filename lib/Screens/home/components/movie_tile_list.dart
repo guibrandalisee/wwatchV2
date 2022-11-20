@@ -69,10 +69,10 @@ class MovieTileList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(6),
               child: movie.posterPath != null
                   ? Container(
-                      width: 86,
+                      width: 96,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: CachedNetworkImage(
@@ -101,7 +101,7 @@ class MovieTileList extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(6),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,

@@ -241,6 +241,21 @@ abstract class _UserStoreBase with Store {
       print("Deleted session $sessionId");
       sessionId = null;
       prefs!.remove("sessionId");
+      user = null;
+      favoriteMovies = ObservableList();
+      favoriteMoviesMaxPages = 0;
+      favoriteTvShows = ObservableList();
+      favoriteTvShowsMaxPages = 0;
+      movieWatchList = ObservableList();
+      movieWatchListTotalPages = 0;
+      tvShowWatchList = ObservableList();
+      tvShowWatchListTotalPages = 0;
+      ratedMovies = ObservableList();
+      ratedMoviesMaxPages = 0;
+      ratedTvShows = ObservableList();
+      ratedTvShowsMaxPages = 0;
+      token = '';
+      requestToken = null;
       loading = false;
       return true;
     }
@@ -272,7 +287,7 @@ abstract class _UserStoreBase with Store {
       } else if (data['avatar'] != null &&
           data['avatar']['gravatar'] != null &&
           data['avatar']['gravatar']['hash'] != null) {
-        avatar = data['avatar']['gravatar']['hash'];
+        avatar = data['avatar']['gravatar']['hash'].toString();
         avatarType = AvatarType.gravatar;
       }
       user = User(
@@ -298,28 +313,31 @@ abstract class _UserStoreBase with Store {
   void getCreatedLists() {}
 
   @action
-  Future<void> getFavoriteContent(
+  Future<List<SimpleMovie>> getFavoriteContent(
       {required CustomContentType mediaType,
       required int page,
       bool reset = false}) async {
-    String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
-
-    final response = await fetchData(
-        path: "/account/${user!.id}/favorite/$contentType",
-        parameters: {
-          "session_id": sessionId,
-          "language": settingsStore.language,
-          "page": page
-        });
-
     try {
+      late final response;
       switch (mediaType) {
         case CustomContentType.MOVIE:
-          favoriteMoviesMaxPages = response.data['total_pages'];
+          if (favoriteMoviesMaxPages < 1 || page <= favoriteMoviesMaxPages) {
+            response = await fetchData(
+                path: "/account/${user!.id}/favorite/movies",
+                parameters: {
+                  "session_id": sessionId,
+                  "language": settingsStore.language,
+                  "page": page
+                });
+          } else {
+            return [];
+          }
+
           if (reset) {
             favoriteMovies.clear();
           }
           print("Geeting Favorite Movies...");
+          favoriteMoviesMaxPages = response.data['total_pages'];
           favoriteMovies.addAll(response.data['results'].map<SimpleMovie>((e) {
             return SimpleMovie(
                 genreIds: e['genre_ids'],
@@ -335,13 +353,25 @@ abstract class _UserStoreBase with Store {
                 releaseDate: e['release_date']);
           }).toList());
           print("Movies: $favoriteMovies");
-          break;
+          return favoriteMovies;
         case CustomContentType.TVSHOW:
-          favoriteTvShowsMaxPages = response.data['total_pages'];
           print("Geeting Favorite TvShows...");
           if (reset) {
             favoriteTvShows.clear();
           }
+          if (favoriteTvShowsMaxPages < 1 || page <= favoriteTvShowsMaxPages) {
+            response = await fetchData(
+                path: "/account/${user!.id}/favorite/tv",
+                parameters: {
+                  "session_id": sessionId,
+                  "language": settingsStore.language,
+                  "page": page
+                });
+          } else {
+            return [];
+          }
+          favoriteTvShowsMaxPages = response.data['total_pages'];
+
           favoriteTvShows.addAll(response.data['results'].map<SimpleMovie>((e) {
             return SimpleMovie(
                 genreIds: e['genre_ids'],
@@ -358,11 +388,12 @@ abstract class _UserStoreBase with Store {
           }).toList());
           print("TVShows: $favoriteTvShows");
 
-          break;
+          return favoriteTvShows;
       }
     } catch (e) {
       print(e);
       error = true;
+      return [];
     }
   }
 
@@ -394,7 +425,7 @@ abstract class _UserStoreBase with Store {
 
   //TODO
   @action
-  Future<void> getRatedContent(
+  Future<List<SimpleMovie>> getRatedContent(
       {required CustomContentType mediaType,
       required int page,
       bool reset = false}) async {
@@ -402,22 +433,26 @@ abstract class _UserStoreBase with Store {
 
     String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
 
-    final response = await fetchData(
-        path: "/account/${user!.id}/rated/$contentType",
-        parameters: {
-          "session_id": sessionId,
-          "language": settingsStore.language,
-          "page": page
-        });
-
     try {
+      late final response;
       switch (mediaType) {
         case CustomContentType.MOVIE:
-          ratedMoviesMaxPages = response.data['total_pages'];
           if (reset) {
             ratedMovies.clear();
           }
+          if (ratedMoviesMaxPages < 1 || page <= ratedMoviesMaxPages) {
+            response = await fetchData(
+                path: "/account/${user!.id}/rated/movies",
+                parameters: {
+                  "session_id": sessionId,
+                  "language": settingsStore.language,
+                  "page": page
+                });
+          } else {
+            return [];
+          }
           print("Geeting Rated Movies...");
+          ratedMoviesMaxPages = response.data['total_pages'];
           ratedMovies.addAll(response.data['results'].map<SimpleMovie>((e) {
             return SimpleMovie(
                 genreIds: e['genre_ids'],
@@ -434,13 +469,24 @@ abstract class _UserStoreBase with Store {
                 rating: e['rating']);
           }).toList());
           print("Movies: $ratedMovies");
-          break;
+          return ratedMovies;
         case CustomContentType.TVSHOW:
-          ratedTvShowsMaxPages = response.data['total_pages'];
           print("Geeting Rated TvShows...");
           if (reset) {
             ratedTvShows.clear();
           }
+          if (ratedTvShowsMaxPages < 1 || page <= ratedTvShowsMaxPages) {
+            response = await fetchData(
+                path: "/account/${user!.id}/rated/tv",
+                parameters: {
+                  "session_id": sessionId,
+                  "language": settingsStore.language,
+                  "page": page
+                });
+          } else {
+            return [];
+          }
+          ratedTvShowsMaxPages = response.data['total_pages'];
           ratedTvShows.addAll(response.data['results'].map<SimpleMovie>((e) {
             return SimpleMovie(
                 genreIds: e['genre_ids'],
@@ -458,11 +504,12 @@ abstract class _UserStoreBase with Store {
           }).toList());
           print("TVShows: $ratedTvShows");
 
-          break;
+          return ratedTvShows;
       }
     } catch (e) {
       print(e);
       error = true;
+      return [];
     }
   }
 
@@ -507,27 +554,30 @@ abstract class _UserStoreBase with Store {
 
   //TODO
   @action
-  Future<void> getWatchList(
+  Future<List<SimpleMovie>> getWatchList(
       {required CustomContentType mediaType,
       required int page,
       bool reset = false}) async {
-    String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
-
     try {
-      final response = await fetchData(
-          path: "/account/${user!.id}/watchlist/$contentType",
-          parameters: {
-            "session_id": sessionId,
-            "language": settingsStore.language,
-            "page": page
-          });
-
+      late final response;
       switch (mediaType) {
         case CustomContentType.MOVIE:
           if (reset) {
             movieWatchList.clear();
           }
-          print("Geeting Movies WatchList...");
+          if (movieWatchListTotalPages < 1 ||
+              page <= movieWatchListTotalPages) {
+            response = await fetchData(
+                path: "/account/${user!.id}/watchlist/movies",
+                parameters: {
+                  "session_id": sessionId,
+                  "language": settingsStore.language,
+                  "page": page
+                });
+          } else {
+            return [];
+          }
+          print("Getting Movies WatchList...");
           movieWatchListTotalPages = response.data['total_pages'];
           movieWatchList.addAll(response.data['results'].map<SimpleMovie>((e) {
             return SimpleMovie(
@@ -543,12 +593,25 @@ abstract class _UserStoreBase with Store {
                 posterPath: e['poster_path'],
                 releaseDate: e['release_date']);
           }).toList());
-          break;
+          return movieWatchList;
+
         case CustomContentType.TVSHOW:
           if (reset) {
             tvShowWatchList.clear();
           }
-          print("Geeting TvShow WatchList...");
+          if (tvShowWatchListTotalPages < 1 ||
+              page <= tvShowWatchListTotalPages) {
+            response = await fetchData(
+                path: "/account/${user!.id}/watchlist/tv",
+                parameters: {
+                  "session_id": sessionId,
+                  "language": settingsStore.language,
+                  "page": page
+                });
+          } else {
+            return [];
+          }
+          print("Getting TvShow WatchList...");
           tvShowWatchListTotalPages = response.data['total_pages'];
 
           tvShowWatchList.addAll(response.data['results'].map<SimpleMovie>((e) {
@@ -559,16 +622,17 @@ abstract class _UserStoreBase with Store {
                 popularity: e['popularity'],
                 voteAverage: e['vote_average'],
                 originalLanguage: e['original_language'],
-                title: e['name'],
+                title: e['name'] ?? "",
                 overview: e['overview'],
                 backdropPath: e['backdrop_path'],
                 posterPath: e['poster_path'],
                 releaseDate: e['first_air_date']);
           }).toList());
-          break;
+          return tvShowWatchList;
       }
     } catch (e) {
       print(e);
+      return [];
     }
   }
 

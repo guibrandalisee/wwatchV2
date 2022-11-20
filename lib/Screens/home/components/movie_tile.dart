@@ -16,7 +16,7 @@ class MovieTile extends StatelessWidget {
   final SimpleMovie movie;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final SettingsStore settingsStore = GetIt.I<SettingsStore>();
-  final int contentType;
+  final CustomContentType contentType;
   final SharedPreferences prefs;
 
   MovieTile({
@@ -59,9 +59,7 @@ class MovieTile extends StatelessWidget {
               builder: (context) => MovieScreen(
                 prefs: prefs,
                 movieId: movie.id,
-                contentType: contentType == 0
-                    ? CustomContentType.MOVIE
-                    : CustomContentType.TVSHOW,
+                contentType: contentType,
               ),
             ),
           );

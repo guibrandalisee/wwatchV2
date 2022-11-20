@@ -10,6 +10,7 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobx/mobx.dart';
 
 class WatchProvidersScreen extends StatefulWidget {
   WatchProvidersScreen({
@@ -166,8 +167,77 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                       SizedBox(
                         height: 32,
                       ),
+                      Observer(builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: SizedBox(
+                            height: 48,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.disabled))
+                                        return styleStore.shapeColor!
+                                            .withAlpha(100);
+                                      return styleStore.primaryColor!;
+                                    },
+                                  ),
+                                ),
+                                onPressed: (settingsStore.selectedContentType ==
+                                                0 &&
+                                            settingsStore
+                                                .selectedWatchProvidersMovies
+                                                .isNotEmpty) ||
+                                        settingsStore.selectedContentType ==
+                                                1 &&
+                                            settingsStore
+                                                .selectedWatchProvidersTVShows
+                                                .isNotEmpty
+                                    ? () {
+                                        if (settingsStore.selectedContentType ==
+                                            0) {
+                                          settingsStore
+                                                  .selectedWatchProvidersMovies =
+                                              ObservableList();
+                                          widget.movieStore.didChange = true;
+                                        } else {
+                                          settingsStore
+                                                  .selectedWatchProvidersTVShows =
+                                              ObservableList();
+                                          widget.movieStore.didChange = true;
+                                        }
+                                      }
+                                    : null,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.remove_from_queue_rounded,
+                                      color: styleStore.textColor,
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+                                    Text(
+                                      "Clear selections",
+                                      style: GoogleFonts.getFont(
+                                        'Mitr',
+                                        color: styleStore.textColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w100,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        );
+                      }),
                     ],
                   );
+
                 //*Shape at bottom---------------------------------------------------------------
                 if (index ==
                     (movie
@@ -242,9 +312,11 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                           .contains(watchProviders[index - 1].providerId)) {
                         settingsStore.selectedWatchProvidersMovies
                             .add(watchProviders[index - 1].providerId);
+                        widget.movieStore.didChange = true;
                       } else {
                         settingsStore.selectedWatchProvidersMovies
                             .remove(watchProviders[index - 1].providerId);
+                        widget.movieStore.didChange = true;
                       }
                     } else {
                       widget.movieStore.didChange = true;
@@ -252,9 +324,11 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                           .contains(watchProviders[index - 1].providerId)) {
                         settingsStore.selectedWatchProvidersTVShows
                             .add(watchProviders[index - 1].providerId);
+                        widget.movieStore.didChange = true;
                       } else {
                         settingsStore.selectedWatchProvidersTVShows
                             .remove(watchProviders[index - 1].providerId);
+                        widget.movieStore.didChange = true;
                       }
                     }
                   },

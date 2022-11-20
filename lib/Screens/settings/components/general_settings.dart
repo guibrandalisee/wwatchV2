@@ -108,14 +108,6 @@ class _GeneralSettingsState extends State<GeneralSettings> {
             SizedBox(
               height: 32,
             ),
-            IconButton(
-                onPressed: () {
-                  _prefs!.clear();
-                },
-                icon: Icon(
-                  Icons.refresh,
-                  color: Colors.white,
-                )),
             SizedBox(
               width: double.infinity,
               child: Row(
@@ -272,7 +264,41 @@ class _GeneralSettingsState extends State<GeneralSettings> {
               },
             ),
             SizedBox(
-              height: 16,
+              height: 64,
+            ),
+            SizedBox(
+              width: 280,
+              height: 48,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(styleStore.primaryColor!)),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        backgroundColor: styleStore.primaryColor,
+                        content: Text(
+                          "Data cleared, restart app to see the changes",
+                          style: GoogleFonts.getFont(
+                            'Mitr',
+                            color: AppColors
+                                .textOnPrimaries[styleStore.colorIndex!],
+                            fontSize: 16,
+                            fontWeight: FontWeight.w200,
+                          ),
+                          textAlign: TextAlign.center,
+                        )));
+                    _prefs!.clear();
+                  },
+                  child: Text(
+                    "Clear APP Cache",
+                    style: GoogleFonts.getFont(
+                      'Mitr',
+                      color: AppColors.textOnPrimaries[styleStore.colorIndex!],
+                      fontSize: 18,
+                      fontWeight: FontWeight.w200,
+                    ),
+                    textAlign: TextAlign.center,
+                  )),
             ),
           ],
         );

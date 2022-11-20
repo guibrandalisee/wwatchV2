@@ -337,7 +337,7 @@ class MovieWidget extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(
                           text:
-                              '${(!tvShow ? person.personMovieCreditCast![index].voteAverage : person.personTVCreditCast![index].voteAverage)}',
+                              '${(!tvShow ? person.personMovieCreditCast![index].voteAverage.toStringAsFixed(1) : person.personTVCreditCast![index].voteAverage.toStringAsFixed(1))}',
                           style: GoogleFonts.getFont('Kodchasan',
                               color: AppColors.text,
                               fontSize: 12,

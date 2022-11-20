@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wwatch/Screens/all_watch_providers/all_watch_providers_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/account_states_widget.dart';
-
 import 'package:wwatch/Screens/movie/widgets/credits_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/description_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/error_movie_screen.dart';
@@ -286,40 +285,6 @@ class _MovieScreenState extends State<MovieScreen> {
               ),
             );
           }
-          // return ListView.builder(
-          //     physics: const BouncingScrollPhysics(),
-          //     key: UniqueKey(),
-          //     itemCount: 5,
-          //     itemBuilder: (context, index) {
-          //       switch (index) {
-          //         case 0:
-          //           return Padding(
-          //             padding: const EdgeInsets.only(bottom: 16),
-          //             child: HeaderWidget(movie: movieStore.movie!),
-          //           );
-          //         case 1:
-          //           return DescriptionWidget(movie: movieStore.movie!);
-          //         case 2:
-          //           return movieStore.movie!.images != null &&
-          //                   movieStore.movie!.images!.length > 0
-          //               ? PostersWidget(movie: movieStore.movie!)
-          //               : Container();
-
-          //         case 3:
-          //           return movieStore.movie!.videos != null &&
-          //                   movieStore.movie!.videos!.length > 0
-          //               ? TrailersWidget(
-          //                   movie: movieStore.movie!,
-          //                 )
-          //               : Container();
-          //         case 4:
-          //           return const SizedBox(
-          //             height: 64,
-          //           );
-          //         default:
-          //           return Container();
-          //       }
-          //     },);
         },
       ),
     );
