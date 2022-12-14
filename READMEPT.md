@@ -1,6 +1,6 @@
 [English version of this file](https://github.com/guibrandalisee/wwatchV2#readme)
 
-[Teste a versão WEB desse APP](https://wwatch.gbrandalise.tk/)
+[Teste a versão WEB desse APP](https://wwatch.gbrandalise.dev/)
 
 # WWatch <img src="https://user-images.githubusercontent.com/41174096/164371416-2a92cf00-b958-4f16-b2d0-7adb1795767f.png" style="width:32px;">
 
