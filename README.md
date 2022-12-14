@@ -1,6 +1,6 @@
 [Versão em português desse arquivo](https://github.com/guibrandalisee/wwatchV2/blob/master/READMEPT.md)
 
-[Try the WEB version of this APP](https://wwatch.gbrandalise.tk/)
+[Try the WEB version of this APP](https://wwatch.gbrandalise.dev/)
 
 # WWatch <img src="https://user-images.githubusercontent.com/41174096/164371416-2a92cf00-b958-4f16-b2d0-7adb1795767f.png" style="width:32px;">
 
