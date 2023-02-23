@@ -28,29 +28,51 @@ class CustomLoadingScreen extends StatelessWidget {
             height: 48,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-            clipBehavior: Clip.antiAlias,
-            child: Shimmer(
-              child: Container(height: 48, width: double.infinity),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
+                    clipBehavior: Clip.antiAlias,
+                    child: Shimmer(
+                      child: Container(
+                        height: 48,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
             height: 8,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-            clipBehavior: Clip.antiAlias,
-            child: Shimmer(
-              child: Container(height: 48, width: double.infinity),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
+                    clipBehavior: Clip.antiAlias,
+                    child: Shimmer(
+                      child: Container(
+                        height: 48,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
             height: 8,
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
                 Expanded(
@@ -89,10 +111,10 @@ class CustomLoadingScreen extends StatelessWidget {
                   children: [
                     Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                          horizontal: 16, vertical: 4),
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: Shimmer(
                         child: Container(
@@ -102,10 +124,10 @@ class CustomLoadingScreen extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                          horizontal: 16, vertical: 4),
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: Shimmer(
                         child: Container(
@@ -115,10 +137,10 @@ class CustomLoadingScreen extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                          horizontal: 16, vertical: 4),
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: Shimmer(
                         child: Container(

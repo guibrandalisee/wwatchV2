@@ -9,6 +9,8 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+bool scrollInProgress = false;
+
 class PersonPhotosWidget extends StatelessWidget {
   PersonPhotosWidget({
     Key? key,
@@ -17,7 +19,7 @@ class PersonPhotosWidget extends StatelessWidget {
   final MovieStore movieStore;
   final StyleStore styleStore = GetIt.I<StyleStore>();
   final ScrollController scrollController = ScrollController();
-  bool scrollInProgress = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -14,8 +14,8 @@ import 'package:wwatch/stores/user_store.dart';
 
 part 'movie_store.g.dart';
 
-//TODO Use append to response > https://developers.themoviedb.org/3/getting-started/append-to-response
-//TODO get Account States to know if movie is on watchlist/favorite list > https://developers.themoviedb.org/3/movies/get-movie-account-states
+// Use append to response > https://developers.themoviedb.org/3/getting-started/append-to-response
+// get Account States to know if movie is on watchlist/favorite list > https://developers.themoviedb.org/3/movies/get-movie-account-states
 enum CustomContentType { TVSHOW, MOVIE }
 
 class MovieStore = _MovieStoreBase with _$MovieStore;

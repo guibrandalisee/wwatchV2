@@ -81,6 +81,12 @@ class CustomErrorScree extends StatelessWidget {
                 onPressed: () {
                   movieStore.error = false;
                   movieStore.getPopularContent();
+                  //TODO Test
+                  settingsStore.getAvaliableLanguages();
+                  settingsStore.getAvaliableRegions();
+                  settingsStore.getMovieGenres();
+                  settingsStore.getTvShowGenres();
+                  movieStore.getPopularContent();
                 },
                 child: Text(
                   AppLocalizations.of(context)!.homeErrorButtonText,

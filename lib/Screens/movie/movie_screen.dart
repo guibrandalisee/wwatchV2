@@ -169,9 +169,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           movieStore.movie!.watchlist! ||
                           movieStore.movie!.rate != null))
                     AccountStatesWidget(
-                      contentType: widget.contentType == 0
-                          ? CustomContentType.MOVIE
-                          : CustomContentType.TVSHOW,
+                      contentType: widget.contentType,
                       favorite: movieStore.movie!.favorite!,
                       watchlist: movieStore.movie!.watchlist!,
                       rate: movieStore.movie!.rate,

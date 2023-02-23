@@ -26,7 +26,6 @@ class _GenresScreenState extends State<GenresScreen> {
     super.initState();
   }
 
-//TODO make possible for the user to choose if they want to view only movies that have all selected genres
   @override
   Widget build(BuildContext context) {
     final SettingsStore settingsStore = GetIt.I<SettingsStore>();

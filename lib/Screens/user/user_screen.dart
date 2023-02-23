@@ -11,13 +11,11 @@ import 'package:wwatch/Screens/user/widgets/content_list_tile_alt.dart';
 import 'package:wwatch/Screens/user/widgets/movie_list.dart';
 import 'package:wwatch/Screens/user/widgets/user_list_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
-import 'package:wwatch/Shared/models/movie_model.dart';
 import 'package:wwatch/Shared/models/user_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 import 'package:wwatch/stores/user_store.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserScreen extends StatefulWidget {
   UserScreen({Key? key}) : super(key: key);

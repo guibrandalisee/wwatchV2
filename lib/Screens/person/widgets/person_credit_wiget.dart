@@ -12,6 +12,8 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
+bool scrollInProgress = false;
+
 class PersonCreditWidget extends StatelessWidget {
   PersonCreditWidget({
     Key? key,
@@ -24,7 +26,7 @@ class PersonCreditWidget extends StatelessWidget {
   final SharedPreferences prefs;
   final ScrollController scrollController = ScrollController();
   final ScrollController scrollController2 = ScrollController();
-  bool scrollInProgress = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(

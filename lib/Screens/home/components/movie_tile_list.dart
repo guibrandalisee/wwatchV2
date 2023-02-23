@@ -46,8 +46,8 @@ class MovieTileList extends StatelessWidget {
     }
     return Container(
       decoration: BoxDecoration(
-          color: styleStore.shapeColor, borderRadius: BorderRadius.circular(8)),
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          color: styleStore.shapeColor, borderRadius: BorderRadius.circular(4)),
+      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       height: 148,
       width: double.infinity,
       child: InkWell(
@@ -74,7 +74,7 @@ class MovieTileList extends StatelessWidget {
                   ? Container(
                       width: 96,
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(4),
                           child: CachedNetworkImage(
                             imageUrl:
                                 'https://image.tmdb.org/t/p/w154${movie.posterPath}',

@@ -12,6 +12,8 @@ import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
 import 'package:wwatch/stores/style_store.dart';
 
+bool scrollInProgress = false;
+
 class RecommendationsWidget extends StatelessWidget {
   RecommendationsWidget({
     Key? key,
@@ -22,7 +24,6 @@ class RecommendationsWidget extends StatelessWidget {
   final SharedPreferences prefs;
   final ScrollController scrollController = ScrollController();
   final StyleStore styleStore = GetIt.I<StyleStore>();
-  bool scrollInProgress = false;
   @override
   Widget build(BuildContext context) {
     if (movieStore.recommendations.length > 0) {

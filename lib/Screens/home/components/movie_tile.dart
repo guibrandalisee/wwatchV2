@@ -47,7 +47,7 @@ class MovieTile extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       width: 500,
       height: 550,
       child: InkWell(

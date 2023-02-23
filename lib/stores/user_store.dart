@@ -423,7 +423,6 @@ abstract class _UserStoreBase with Store {
   int ratedMoviesMaxPages = 0;
   int ratedTvShowsMaxPages = 0;
 
-  //TODO
   @action
   Future<List<SimpleMovie>> getRatedContent(
       {required CustomContentType mediaType,
@@ -431,7 +430,7 @@ abstract class _UserStoreBase with Store {
       bool reset = false}) async {
     //movies and tvShows
 
-    String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
+    // String contentType = mediaType == CustomContentType.MOVIE ? "movies" : "tv";
 
     try {
       late final response;
@@ -552,7 +551,6 @@ abstract class _UserStoreBase with Store {
   int movieWatchListTotalPages = 0;
   int tvShowWatchListTotalPages = 0;
 
-  //TODO
   @action
   Future<List<SimpleMovie>> getWatchList(
       {required CustomContentType mediaType,
@@ -697,5 +695,4 @@ abstract class _UserStoreBase with Store {
   //!----------------------------------------
 
   //*----------------------------------------------------
-
 }
