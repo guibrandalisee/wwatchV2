@@ -15,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wwatch/stores/user_store.dart';
 
 //TODO add routes 2.0
+//TODO adress jankines on loading screen (Movie Screen) on build APK
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -215,7 +215,21 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                                   children: [
                                     Icon(
                                       Icons.remove_from_queue_rounded,
-                                      color: styleStore.textColor,
+                                      color: (settingsStore
+                                                          .selectedContentType ==
+                                                      0 &&
+                                                  settingsStore
+                                                      .selectedWatchProvidersMovies
+                                                      .isNotEmpty) ||
+                                              (settingsStore
+                                                          .selectedContentType ==
+                                                      1 &&
+                                                  settingsStore
+                                                      .selectedWatchProvidersTVShows
+                                                      .isNotEmpty)
+                                          ? AppColors.textOnPrimaries[
+                                              styleStore.colorIndex!]
+                                          : styleStore.textColor,
                                     ),
                                     SizedBox(
                                       width: 16,
@@ -224,7 +238,21 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
                                       "Clear selections",
                                       style: GoogleFonts.getFont(
                                         'Mitr',
-                                        color: styleStore.textColor,
+                                        color: (settingsStore
+                                                            .selectedContentType ==
+                                                        0 &&
+                                                    settingsStore
+                                                        .selectedWatchProvidersMovies
+                                                        .isNotEmpty) ||
+                                                (settingsStore
+                                                            .selectedContentType ==
+                                                        1 &&
+                                                    settingsStore
+                                                        .selectedWatchProvidersTVShows
+                                                        .isNotEmpty)
+                                            ? AppColors.textOnPrimaries[
+                                                styleStore.colorIndex!]
+                                            : styleStore.textColor,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w100,
                                       ),
