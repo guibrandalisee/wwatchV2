@@ -33,6 +33,9 @@ abstract class _UserStoreBase with Store {
   bool loading = false;
 
   @observable
+  bool habilitaVidSrc = true;
+
+  @observable
   String? sessionId;
 
   @observable
@@ -65,8 +68,8 @@ abstract class _UserStoreBase with Store {
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
         baseUrl: 'https://api.themoviedb.org/3',
-        connectTimeout: 5000,
-        receiveTimeout: 3000,
+        connectTimeout: Duration(milliseconds: 5000),
+        receiveTimeout: Duration(milliseconds: 3000),
         headers: {
           //'Authorization': 'Bearer $token',
           'Content-Type': 'application/json;charset=utf-8'
@@ -102,8 +105,8 @@ abstract class _UserStoreBase with Store {
     }
     var options = BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
+      connectTimeout: Duration(milliseconds: 5000),
+      receiveTimeout: Duration(milliseconds: 3000),
       queryParameters: parameters != null ? parameters : {"api_key": apiKey},
       headers: {
         //'Authorization': 'Bearer $token',
@@ -130,8 +133,8 @@ abstract class _UserStoreBase with Store {
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
         baseUrl: 'https://api.themoviedb.org/3',
-        connectTimeout: 5000,
-        receiveTimeout: 3000,
+        connectTimeout: Duration(milliseconds: 5000),
+        receiveTimeout: Duration(milliseconds: 3000),
         headers: {
           //'Authorization': 'Bearer $token',
           'Content-Type': 'application/json;charset=utf-8'

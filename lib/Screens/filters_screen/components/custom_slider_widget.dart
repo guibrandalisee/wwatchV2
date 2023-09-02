@@ -1,4 +1,9 @@
 import 'package:another_xlider/another_xlider.dart';
+import 'package:another_xlider/models/handler.dart';
+import 'package:another_xlider/models/slider_step.dart';
+import 'package:another_xlider/models/tooltip/tooltip.dart';
+import 'package:another_xlider/models/tooltip/tooltip_position_offset.dart';
+import 'package:another_xlider/models/trackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';

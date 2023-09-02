@@ -83,8 +83,8 @@ abstract class _MovieStoreBase with Store {
       {required String path, required Map<String, dynamic> parameters}) async {
     var options = BaseOptions(
         baseUrl: 'https://api.themoviedb.org/3',
-        connectTimeout: 5000,
-        receiveTimeout: 3000,
+        connectTimeout: Duration(milliseconds: 5000),
+        receiveTimeout: Duration(milliseconds: 3000),
         headers: {
           //'Authorization': 'Bearer $token',
           'Content-Type': 'application/json;charset=utf-8'

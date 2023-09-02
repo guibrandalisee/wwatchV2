@@ -62,36 +62,6 @@ class _SettingsStateScreen extends State<SettingsScreen> {
             )
           : Container(),
       backgroundColor: styleStore.backgroundColor,
-      // appBar: AppBar(
-      //   iconTheme: IconThemeData(
-      //     color: settingsStore.brightness != CustomBrightness.amoled
-      //         ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-      //         : styleStore.primaryColor,
-      //   ),
-      //   backgroundColor: settingsStore.brightness == CustomBrightness.amoled
-      //       ? styleStore.backgroundColor
-      //       : styleStore.primaryColor,
-      //   title: Container(
-      //     child: Hero(
-      //       tag: "logo",
-      //       child: SizedBox(
-      //         height: 56,
-      //         child: Image(
-      //           image: ResizeImage(
-      //               AssetImage(
-      //                 'assets/images/WWatch2-png.png',
-      //               ),
-      //               height: 156,
-      //               width: 156),
-      //           filterQuality: FilterQuality.medium,
-      //           color: settingsStore.brightness != CustomBrightness.amoled
-      //               ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-      //               : styleStore.primaryColor,
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
       body: CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
         SliverAppBar(
             leading: Container(
@@ -123,7 +93,9 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                     MediaQuery.of(context).padding.top + kToolbarHeight;
                 return FlexibleSpaceBar(
                   expandedTitleScale: 2,
-                  background: Container(color: styleStore.backgroundColor),
+                  background: Container(
+                    color: styleStore.backgroundColor,
+                  ),
                   centerTitle: true,
                   title: Text(
                     AppLocalizations.of(context)!.settings.toUpperCase(),

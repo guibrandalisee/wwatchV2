@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wwatch/Screens/episode/widgets/episode_images_widget.dart';
 
 import 'package:wwatch/Screens/full_screen_image/full_screen_image.dart';
+import 'package:wwatch/Screens/vid_src_screen/vid_src_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/Shared/models/tv_season_model.dart';
 import 'package:wwatch/stores/movie_store.dart';
@@ -265,6 +266,43 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
                     ),
                   ],
                 ),
+                if (userStore.habilitaVidSrc)
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16, left: 64, right: 64),
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                styleStore.primaryColor)),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VidSrcScreen(
+                                    contentType: CustomContentType.TVSHOW,
+                                    movieId: widget.tvId,
+                                    epId: widget.episodeNumber,
+                                    seasonId: widget.seasonNumber,
+                                  )));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.play_arrow,
+                                color: AppColors
+                                    .textOnPrimaries[styleStore.colorIndex!],
+                              ),
+                              Text(
+                                "Assistir no VidSrc",
+                                style: TextStyle(
+                                    color: AppColors.textOnPrimaries[
+                                        styleStore.colorIndex!]),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
                 Padding(
                   padding: EdgeInsets.all(16),
                   child: Text(

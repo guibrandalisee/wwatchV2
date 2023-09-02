@@ -20,6 +20,7 @@ import 'package:wwatch/Screens/movie/widgets/speed_dial_movie_screen.dart';
 import 'package:wwatch/Screens/movie/widgets/tagline_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/trailers_widget.dart';
 import 'package:wwatch/Screens/movie/widgets/watch_providers_widget.dart';
+import 'package:wwatch/Screens/vid_src_screen/vid_src_screen.dart';
 import 'package:wwatch/Shared/Themes/app_colors.dart';
 import 'package:wwatch/stores/movie_store.dart';
 import 'package:wwatch/stores/settings_store.dart';
@@ -153,6 +154,42 @@ class _MovieScreenState extends State<MovieScreen> {
                       ],
                     ),
                   ),
+                  if (widget.contentType == CustomContentType.MOVIE &&
+                      userStore.habilitaVidSrc)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 16, left: 64, right: 64),
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  styleStore.primaryColor)),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => VidSrcScreen(
+                                      contentType: widget.contentType,
+                                      movieId: widget.movieId,
+                                    )));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.play_arrow,
+                                  color: AppColors
+                                      .textOnPrimaries[styleStore.colorIndex!],
+                                ),
+                                Text(
+                                  "Assistir no VidSrc",
+                                  style: TextStyle(
+                                      color: AppColors.textOnPrimaries[
+                                          styleStore.colorIndex!]),
+                                ),
+                              ],
+                            ),
+                          )),
+                    ),
                   if ((movieStore.movie!.tagline != null &&
                           movieStore.movie!.tagline!.isNotEmpty) ||
                       movieStore.movie!.secondaryLanguageContent != null &&
