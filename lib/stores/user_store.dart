@@ -10,8 +10,8 @@ part 'user_store.g.dart';
 class UserStore = _UserStoreBase with _$UserStore;
 
 abstract class _UserStoreBase with Store {
-  String token = dotenv.env['TOKEN']!;
-  String apiKey = dotenv.env['API_KEY']!;
+  String token = dotenv.env['TOKEN'] ?? '';
+  String apiKey = dotenv.env['API_KEY'] ?? '';
   final SharedPreferences? prefs;
 
   _UserStoreBase({required this.prefs}) {

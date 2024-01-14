@@ -133,6 +133,7 @@ class _AllWatchProvidersScreenState extends State<AllWatchProvidersScreen> {
                       initiallyExpanded: true,
                       children: widget.watchProvidersData[
                               currentWatchProviderCountries[index - 1]
+                                  // ignore: sdk_version_since
                                   .iso_3166_1][currentWatchProvider.name]
                           .map<Widget>((e) {
                         return InkWell(

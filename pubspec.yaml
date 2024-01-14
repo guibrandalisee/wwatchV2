@@ -47,7 +47,7 @@ dependencies:
   flutter_svg: ^2.0.7
   flutter_launcher_icons: ^0.13.1
   photo_view: ^0.14.0
-  device_preview: ^1.0.0
+  # device_preview: ^1.0.0
   double_back_to_close_app: ^2.1.0
   another_xlider: ^3.0.1
   flutter_dotenv: ^5.0.2

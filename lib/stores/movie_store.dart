@@ -23,8 +23,8 @@ final SettingsStore settingsStore = GetIt.I<SettingsStore>();
 final UserStore userStore = GetIt.I<UserStore>();
 
 abstract class _MovieStoreBase with Store {
-  String apiKey = dotenv.env['API_KEY']!;
-  String token = dotenv.env['TOKEN']!;
+  String apiKey = dotenv.env['API_KEY'] ?? '';
+  String token = dotenv.env['TOKEN'] ?? '';
 
   //!Global Variables ----------------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -23,7 +23,7 @@ import 'package:wwatch/stores/user_store.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isAndroid) {
+  if (!kIsWeb && Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
     var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
@@ -55,15 +55,8 @@ Future<void> main() async {
   );
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupLocators(prefs);
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(
-      DevicePreview(
-        enabled: false,
-        builder: (_) => MyApp(prefs),
-      ),
-    );
-  });
+
+  runApp(MyApp(prefs));
 }
 
 void setupLocators(SharedPreferences preferences) {
@@ -89,11 +82,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: DevicePreview.appBuilder,
-      locale: DevicePreview.locale(context),
       debugShowCheckedModeBanner: false,
       title: 'WWatch',
       theme: ThemeData(
+          useMaterial3: false,
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle(

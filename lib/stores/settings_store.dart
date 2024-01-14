@@ -15,8 +15,8 @@ enum CustomBrightness { dark, amoled, light }
 enum GenreMode { all, one }
 
 abstract class _SettingsStoreBase with Store {
-  String token = dotenv.env['TOKEN']!;
-  String apiKey = dotenv.env['API_KEY']!;
+  String token = dotenv.env['TOKEN'] ?? '';
+  String apiKey = dotenv.env['API_KEY'] ?? '';
 
   //Check if user has changed any settings before
   final SharedPreferences? prefs;

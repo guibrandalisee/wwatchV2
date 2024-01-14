@@ -64,24 +64,27 @@ class _SettingsStateScreen extends State<SettingsScreen> {
       backgroundColor: styleStore.backgroundColor,
       body: CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
         SliverAppBar(
-            leading: Container(
-              decoration: BoxDecoration(
-                  color: settingsStore.brightness == CustomBrightness.amoled
-                      ? styleStore.backgroundColor
+            // centerTitle: true,
+            leading: Builder(builder: (context) {
+              return Container(
+                decoration: BoxDecoration(
+                    color: settingsStore.brightness == CustomBrightness.amoled
+                        ? styleStore.backgroundColor
+                        : styleStore.primaryColor,
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(16),
+                    )),
+                child: IconButton(
+                  color: settingsStore.brightness != CustomBrightness.amoled
+                      ? AppColors.textOnPrimaries[styleStore.colorIndex!]
                       : styleStore.primaryColor,
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(16),
-                  )),
-              child: IconButton(
-                color: settingsStore.brightness != CustomBrightness.amoled
-                    ? AppColors.textOnPrimaries[styleStore.colorIndex!]
-                    : styleStore.primaryColor,
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              );
+            }),
             backgroundColor: settingsStore.brightness == CustomBrightness.amoled
                 ? styleStore.backgroundColor
                 : styleStore.primaryColor,
@@ -92,6 +95,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                 bool _collapsed = constraints.biggest.height ==
                     MediaQuery.of(context).padding.top + kToolbarHeight;
                 return FlexibleSpaceBar(
+                  titlePadding: EdgeInsets.only(bottom: 16),
                   expandedTitleScale: 2,
                   background: Container(
                     color: styleStore.backgroundColor,
@@ -99,7 +103,7 @@ class _SettingsStateScreen extends State<SettingsScreen> {
                   centerTitle: true,
                   title: Text(
                     AppLocalizations.of(context)!.settings.toUpperCase(),
-                    textAlign: TextAlign.center,
+                    // textAlign: TextAlign.center,
                     style: GoogleFonts.getFont('Mitr',
                         color: _collapsed
                             ? settingsStore.brightness !=
